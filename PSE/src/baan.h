@@ -14,9 +14,11 @@ private:
     string naam;
     int lengte;
 
-
-
 public:
+    // Default constructor toevoegen
+    Baan();
+
+    // Bestaande constructor behouden
     Baan(const string& naam, int lengte);
 
     string getNaam() const;

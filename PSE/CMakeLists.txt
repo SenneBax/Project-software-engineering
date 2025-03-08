@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Werror -O2")
 set(CMAKE_EXE_LINKER_FLAGS -pthread)
 # Set include dir
-include_directories(./gtest/include)
+include_directories(gtest/include)
 # Set Library dir
-link_directories(./gtest/lib)
+link_directories(gtest/lib)
 # Set source files for RELEASE target
 # Only add cpp files, no h files!
 # Only add files with functionality here, no test files!
@@ -18,7 +18,14 @@ set(RELEASE_SOURCE_FILES
         src/situatie.cpp
         src/verkeerslicht.cpp
         src/voertuig.cpp
-        src/main_debug.cpp)
+        src/main_debug.cpp
+        src/main_release.cpp
+        src/tinyxml.cpp
+        src/tinystr.cpp
+        src/tinyxmlerror.cpp
+        src/tinyxmlparser.cpp
+
+)
 # Set source files for DEBUG target
 # Only add cpp files, no h files!
 # Make sure the "main" function is in "main_debug"!
@@ -28,6 +35,13 @@ set(DEBUG_SOURCE_FILES
         src/verkeerslicht.cpp
         src/voertuig.cpp
         src/main_debug.cpp
+        src/main_release.cpp
+        src/tinyxml.cpp
+        src/tinystr.cpp
+        src/tinyxmlerror.cpp
+        src/tinyxmlparser.cpp
+
+
         )
 # Create RELEASE target
 add_executable(release_target ${RELEASE_SOURCE_FILES})

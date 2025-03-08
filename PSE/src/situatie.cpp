@@ -3,7 +3,7 @@
 //
 
 #include "situatie.h"
-#include "C:\Users\senne\Downloads\gtest-1.7.0\PSE\tinyxml.h" //moet nog aangepast worden naar een correct pad.
+#include "tinyxml.h" //moet nog aangepast worden naar een correct pad.
 
 
 using namespace std;
