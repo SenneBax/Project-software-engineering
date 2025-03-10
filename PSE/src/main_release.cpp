@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        cerr << "Gebruik: " << argv[0] << " <invoerbestand.xml>" << endl;
+        cerr << "Gebruik: " << argv[0] << " <voorbeeld1.xml>" << endl;
         return 1;
     }
 

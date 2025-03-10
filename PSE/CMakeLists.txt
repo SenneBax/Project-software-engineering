@@ -18,7 +18,6 @@ set(RELEASE_SOURCE_FILES
         src/situatie.cpp
         src/verkeerslicht.cpp
         src/voertuig.cpp
-        src/main_debug.cpp
         src/main_release.cpp
         src/tinyxml.cpp
         src/tinystr.cpp
@@ -35,7 +34,6 @@ set(DEBUG_SOURCE_FILES
         src/verkeerslicht.cpp
         src/voertuig.cpp
         src/main_debug.cpp
-        src/main_release.cpp
         src/tinyxml.cpp
         src/tinystr.cpp
         src/tinyxmlerror.cpp

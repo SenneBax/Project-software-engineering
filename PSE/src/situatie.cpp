@@ -3,8 +3,7 @@
 //
 
 #include "situatie.h"
-#include "tinyxml.h" //moet nog aangepast worden naar een correct pad.
-
+#include "tinyxml.h" // Update this path to where TinyXML is installed on your system
 
 using namespace std;
 
@@ -88,6 +87,16 @@ void VerkeersSituatie::printInfo() const {
                   << ", cyclus: " << verkeerslicht.getCyclus() << ")" << endl;
     }
 }
+
+
+/*
+ * Case 1.1: Verkeerssituatie inlezen
+ *
+ *
+ *
+ *
+ *
+ */
 
 bool leesVerkeersSituatie(const string& bestandsnaam, VerkeersSituatie& situatie) {
     // 1. Open invoerbestand
