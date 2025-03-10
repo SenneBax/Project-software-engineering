@@ -13,7 +13,7 @@
 #include "Voertuig.h"
 #include "Verkeerslicht.h"
 
-// hulp functie om tijdelijke xml te testen
+// hulp functie om tijdelijke xml-bestanden te testen
 std::string createTempXmlFile(const std::string& content) {
     std::string filename = "test_temp.xml";
     std::ofstream file(filename);
@@ -55,12 +55,17 @@ TEST(VerkeersSituatieTest, VoegBaanToe) {
     VerkeersSituatie situatie;
     Baan baan1("Teststraat", 250);
     Baan baan2("Hoofdweg", 500);
+    Baan baan3("Bermuda", 8);
 
     // eerste toevoeging van de baan hoort correct te zijn (True)
     EXPECT_TRUE(situatie.voegBaanToe(baan1));
 
+
     // 2de met een andere naam hoort correct te zijn (True)
     EXPECT_TRUE(situatie.voegBaanToe(baan2));
+
+    //3de baan moet ook bestaan (True
+    EXPECT_TRUE(situatie.voegBaanToe(baan3));
 
     // een duplicaat moet falen (False)
     EXPECT_FALSE(situatie.voegBaanToe(baan1));
@@ -101,7 +106,7 @@ TEST(VerkeersSituatieTest, VoegVerkeerslichtToe) {
     // maak eerst een correcte baan
     EXPECT_TRUE(situatie.voegBaanToe(baan));
 
-    // correct verkeerslicht moet slagen
+    // correcte plaats voor een verkeerslicht moet slagen
     Verkeerslicht verkeerslicht1("Teststraat", 100, 20);
     EXPECT_TRUE(situatie.voegVerkeerslichtToe(verkeerslicht1));
 

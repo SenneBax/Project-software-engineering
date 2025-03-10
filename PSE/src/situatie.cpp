@@ -89,13 +89,13 @@ void VerkeersSituatie::printInfo() const {
 }
 
 
-/*
- * Case 1.1: Verkeerssituatie inlezen
+/*/
+ * Case 1.1
  *
+ *het inlezen van verkeerssituaties via de gegeven xml documenten.
+ *dit volgens de stappen die gegeven waren in specificatie 1.0
  *
- *
- *
- *
+ *(de cerr kan in principe verwijderd worden voor de testen dit geeft de rode tekst om aan te geven wat er misloopt
  */
 
 bool leesVerkeersSituatie(const string& bestandsnaam, VerkeersSituatie& situatie) {

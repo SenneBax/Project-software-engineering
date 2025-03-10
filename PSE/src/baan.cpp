@@ -10,7 +10,9 @@ Baan::Baan()
     : naam(""), lengte(0) {}
 
 Baan::Baan(const std::string& naam, int lengte)
-    : naam(naam), lengte(lengte) {}
+    : naam(naam), lengte(lengte) {
+
+}
 
 std::string Baan::getNaam() const {
     return naam;
