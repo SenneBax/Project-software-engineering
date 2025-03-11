@@ -112,6 +112,13 @@ build CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__rel
   OBJECT_DIR = CMakeFiles\release_target.dir
   OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
 
+build CMakeFiles/release_target.dir/src/simulatie.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/simulatie.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\simulatie.cpp.obj.d
+  FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
+  OBJECT_DIR = CMakeFiles\release_target.dir
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target release_target
@@ -120,7 +127,7 @@ build CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__rel
 #############################################
 # Link the executable release_target.exe
 
-build release_target.exe: CXX_EXECUTABLE_LINKER__release_target_Debug CMakeFiles/release_target.dir/src/baan.cpp.obj CMakeFiles/release_target.dir/src/situatie.cpp.obj CMakeFiles/release_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/release_target.dir/src/voertuig.cpp.obj CMakeFiles/release_target.dir/src/main_release.cpp.obj CMakeFiles/release_target.dir/src/tinyxml.cpp.obj CMakeFiles/release_target.dir/src/tinystr.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj
+build release_target.exe: CXX_EXECUTABLE_LINKER__release_target_Debug CMakeFiles/release_target.dir/src/baan.cpp.obj CMakeFiles/release_target.dir/src/situatie.cpp.obj CMakeFiles/release_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/release_target.dir/src/voertuig.cpp.obj CMakeFiles/release_target.dir/src/main_release.cpp.obj CMakeFiles/release_target.dir/src/tinyxml.cpp.obj CMakeFiles/release_target.dir/src/tinystr.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj CMakeFiles/release_target.dir/src/simulatie.cpp.obj
   FLAGS = -std=c++17 -Wall -Werror -O2 -g
   LINK_FLAGS = -pthread
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -204,6 +211,13 @@ build CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__debug
   OBJECT_DIR = CMakeFiles\debug_target.dir
   OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
 
+build CMakeFiles/debug_target.dir/src/simulatie.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/simulatie.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\simulatie.cpp.obj.d
+  FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
+  OBJECT_DIR = CMakeFiles\debug_target.dir
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target debug_target
@@ -212,7 +226,7 @@ build CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__debug
 #############################################
 # Link the executable debug_target.exe
 
-build debug_target.exe: CXX_EXECUTABLE_LINKER__debug_target_Debug CMakeFiles/debug_target.dir/src/baan.cpp.obj CMakeFiles/debug_target.dir/src/situatie.cpp.obj CMakeFiles/debug_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/debug_target.dir/src/voertuig.cpp.obj CMakeFiles/debug_target.dir/src/main_debug.cpp.obj CMakeFiles/debug_target.dir/src/tinyxml.cpp.obj CMakeFiles/debug_target.dir/src/tinystr.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj
+build debug_target.exe: CXX_EXECUTABLE_LINKER__debug_target_Debug CMakeFiles/debug_target.dir/src/baan.cpp.obj CMakeFiles/debug_target.dir/src/situatie.cpp.obj CMakeFiles/debug_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/debug_target.dir/src/voertuig.cpp.obj CMakeFiles/debug_target.dir/src/main_debug.cpp.obj CMakeFiles/debug_target.dir/src/tinyxml.cpp.obj CMakeFiles/debug_target.dir/src/tinystr.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj CMakeFiles/debug_target.dir/src/simulatie.cpp.obj
   FLAGS = -std=c++17 -Wall -Werror -O2 -g
   LINK_FLAGS = -pthread
   LINK_LIBRARIES = -lgtest  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

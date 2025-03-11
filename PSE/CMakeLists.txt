@@ -23,6 +23,8 @@ set(RELEASE_SOURCE_FILES
         src/tinystr.cpp
         src/tinyxmlerror.cpp
         src/tinyxmlparser.cpp
+        src/simulatie.cpp
+        src/simulatie.h
 
 )
 # Set source files for DEBUG target
@@ -38,9 +40,11 @@ set(DEBUG_SOURCE_FILES
         src/tinystr.cpp
         src/tinyxmlerror.cpp
         src/tinyxmlparser.cpp
+        src/simulatie.cpp
+        src/simulatie.h
 
 
-        )
+)
 # Create RELEASE target
 add_executable(release_target ${RELEASE_SOURCE_FILES})
 # Create DEBUG target
