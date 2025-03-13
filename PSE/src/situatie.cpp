@@ -12,7 +12,7 @@
 bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
     // Controleer of de baan al bestaat
     if (banen.find(baan.getNaam()) != banen.end()) {
-        std::cerr << "Baan met naam '" << baan.getNaam() << "' bestaat al." << std::endl;
+
         return false;
     }
 
@@ -25,14 +25,14 @@ bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
 bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
     // Controleer of de baan bestaat
     if (banen.find(voertuig.getBaan()) == banen.end()) {
-        std::cerr << "Baan '" << voertuig.getBaan() << "' bestaat niet." << std::endl;
+
         return false;
     }
 
     // Controleer of de positie geldig is
     const Baan& baan = banen[voertuig.getBaan()];
     if (voertuig.getPositie() < 0 || voertuig.getPositie() > baan.getLengte()) {
-        std::cerr << "Voertuig positie buiten de baan." << std::endl;
+
         return false;
     }
 
@@ -45,20 +45,20 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
 bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht) {
     // Controleer of de baan bestaat
     if (banen.find(verkeerslicht.getBaan()) == banen.end()) {
-        std::cerr << "Baan '" << verkeerslicht.getBaan() << "' bestaat niet." << std::endl;
+
         return false;
     }
 
     // Controleer of de positie geldig is
     const Baan& baan = banen[verkeerslicht.getBaan()];
     if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
-        std::cerr << "Verkeerslicht positie buiten de baan." << std::endl;
+
         return false;
     }
 
     // Controleer of de cyclus geldig is
     if (verkeerslicht.getCyclus() <= 0) {
-        std::cerr << "Verkeerslicht cyclus moet groter zijn dan 0." << std::endl;
+
         return false;
     }
 
@@ -73,14 +73,14 @@ bool VerkeersSituatie::verificeerConsistentie() const {
 
     // Controleer of er banen zijn
     if (banen.empty()) {
-        std::cerr << "Waarschuwing: Geen banen in de verkeerssituatie." << std::endl;
+
         isConsistent = false;
     }
 
     // Controleer of alle voertuigen op geldige banen staan
     for (const Voertuig& voertuig : voertuigen) {
         if (banen.find(voertuig.getBaan()) == banen.end()) {
-            std::cerr << "Inconsistentie: Voertuig op niet-bestaande baan '" << voertuig.getBaan() << "'." << std::endl;
+
             isConsistent = false;
         }
     }
@@ -89,12 +89,12 @@ bool VerkeersSituatie::verificeerConsistentie() const {
     for (const Verkeerslicht& verkeerslicht : verkeerslichten) {
         auto it = banen.find(verkeerslicht.getBaan());
         if (it == banen.end()) {
-            std::cerr << "Inconsistentie: Verkeerslicht op niet-bestaande baan '" << verkeerslicht.getBaan() << "'." << std::endl;
+
             isConsistent = false;
         } else {
             const Baan& baan = it->second;
             if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
-                std::cerr << "Inconsistentie: Verkeerslicht positie buiten de baan." << std::endl;
+
                 isConsistent = false;
             }
         }
@@ -106,7 +106,7 @@ bool VerkeersSituatie::verificeerConsistentie() const {
 // Methode om een voertuig te verwijderen
 bool VerkeersSituatie::verwijderVoertuig(int index) {
     if (index < 0 || index >= static_cast<int>(voertuigen.size())) {
-        std::cerr << "Index buiten bereik: " << index << std::endl;
+
         return false;
     }
 
@@ -143,19 +143,19 @@ void VerkeersSituatie::printInfo() const {
 bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
     TiXmlDocument doc;
     if (!doc.LoadFile(bestandsnaam.c_str())) {
-        std::cerr << "Fout bij het laden van XML-bestand: " << doc.ErrorDesc() << std::endl;
+
         return false;
     }
 
     TiXmlElement* root = doc.RootElement();
     if (!root) {
-        std::cerr << "Ongeldig XML-bestand: ontbrekend root element" << std::endl;
+
         return false;
     }
 
     std::string rootName = root->Value();
     if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
-        std::cerr << "Ongeldig XML-bestand: root element moet 'VerkeersSituatie' zijn" << std::endl;
+
         return false;
     }
 
@@ -169,7 +169,7 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
             TiXmlElement* lengteElem = elem->FirstChildElement("lengte");
 
             if (!naamElem || !lengteElem || !naamElem->GetText() || !lengteElem->GetText()) {
-                std::cerr << "Ongeldige baan data in XML" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -179,13 +179,13 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
             try {
                 lengte = std::stod(lengteElem->GetText());
             } catch (const std::exception&) {
-                std::cerr << "Ongeldig lengte formaat voor baan" << std::endl;
+
                 success = false;
                 continue;
             }
 
             if (lengte <= 0) {
-                std::cerr << "Ongeldige baan lengte in XML" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -198,7 +198,7 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
             TiXmlElement* positieElem = elem->FirstChildElement("positie");
 
             if (!baanElem || !positieElem || !baanElem->GetText() || !positieElem->GetText()) {
-                std::cerr << "Ongeldige voertuig data in XML" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -208,7 +208,7 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
             try {
                 positie = std::stod(positieElem->GetText());
             } catch (const std::exception&) {
-                std::cerr << "Ongeldig positie formaat voor voertuig" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -225,7 +225,7 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
 
             if (!baanElem || !positieElem || !cyclusElem ||
                 !baanElem->GetText() || !positieElem->GetText() || !cyclusElem->GetText()) {
-                std::cerr << "Ongeldige verkeerslicht data in XML" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -237,13 +237,13 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
                 positie = std::stod(positieElem->GetText());
                 cyclus = std::stoi(cyclusElem->GetText());
             } catch (const std::exception&) {
-                std::cerr << "Ongeldig formaat voor verkeerslicht data" << std::endl;
+
                 success = false;
                 continue;
             }
 
             if (cyclus <= 0) {
-                std::cerr << "Ongeldige cyclus voor verkeerslicht" << std::endl;
+
                 success = false;
                 continue;
             }
@@ -252,9 +252,6 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
             if (!situatie.voegVerkeerslichtToe(licht)) {
                 success = false;
             }
-        }
-        else {
-            std::cerr << "Waarschuwing: Onbekend XML-element '" << elementType << "' genegeerd." << std::endl;
         }
     }
 

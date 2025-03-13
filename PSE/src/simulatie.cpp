@@ -14,7 +14,7 @@ simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
     : verkeerssituatie(situatie), tijdstap(tijdstap), huidigeSimulatieTijd(0.0) {
     // Controleer of de tijdstap geldig is
     if (tijdstap <= 0) {
-        std::cerr << "Waarschuwing: Ongeldige tijdstap. Standaardwaarde van 0.0166 wordt gebruikt." << std::endl;
+
         this->tijdstap = 0.0166;
     }
 
