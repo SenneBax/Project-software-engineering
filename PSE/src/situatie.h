@@ -23,14 +23,14 @@ public:
     bool voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht);
     bool verificeerConsistentie() const;
     void printInfo() const;
-    
+
     // methodes om de simulatie te ondersteunen
     std::vector<Voertuig>& getVoertuigen() { return voertuigen; }
     const std::vector<Voertuig>& getVoertuigen() const { return voertuigen; }
-    
+
     std::vector<Verkeerslicht>& getVerkeerslichten() { return verkeerslichten; }
     const std::vector<Verkeerslicht>& getVerkeerslichten() const { return verkeerslichten; }
-    
+
     const std::map<string, Baan>& getBanen() const { return banen; }
 
     // Methode om een voertuig te verwijderen op een bepaalde plaats

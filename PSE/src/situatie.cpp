@@ -2,143 +2,262 @@
 // Gemaakt door Senne op 11/03/2025.
 //
 
-#include "simulatie.h"
 #include "Situatie.h"
 #include <algorithm>
 #include <iostream>
+#include <fstream>
+#include "tinyxml.h"
 
-// Constructor
-simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
-    : verkeerssituatie(situatie), tijdstap(tijdstap) {}
-
-// Methode om één simulatiestap uit te voeren voor alle voertuigen
-void simulatie::stap() {
-    // Verkrijg toegang tot de voertuigen en wegen
-    std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
-    const std::map<std::string, Baan>& banen = verkeerssituatie.getBanen();
-
-    // Tijdelijke vector om voertuigen op te slaan die verwijderd moeten worden
-    std::vector<int> teVerwijderenVoertuigen;
-
-    // Verwerk elk voertuig - FIX: Veranderde int naar size_t voor de loop teller
-    for (size_t i = 0; i < voertuigen.size(); i++) {
-        Voertuig& voertuig = voertuigen[i];
-
-        // 1. Bereken de nieuwe snelheid en positie van het voertuig
-        voertuig.rijd(tijdstap);
-
-        // 2. Bereken de nieuwe versnelling (dit is meestal afhankelijk van de situatie,
-        // zoals afstand tot het volgende voertuig, verkeerslichten, etc.)
-        updateVersnelling(voertuig);
-
-        // 3 & 4. Controleer of het voertuig buiten de weg is en markeer het voor verwijdering indien nodig
-        const Baan& huidigeWeg = banen.at(voertuig.getBaan());
-        if (voertuig.getPositie() >= huidigeWeg.getLengte()) {
-            teVerwijderenVoertuigen.push_back(i);
-        }
+// Methode om een baan toe te voegen
+bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
+    // Controleer of de baan al bestaat
+    if (banen.find(baan.getNaam()) != banen.end()) {
+        std::cerr << "Baan met naam '" << baan.getNaam() << "' bestaat al." << std::endl;
+        return false;
     }
 
-    // Verwijder voertuigen die de weg hebben verlaten (in omgekeerde volgorde om indexproblemen te voorkomen)
-    std::sort(teVerwijderenVoertuigen.begin(), teVerwijderenVoertuigen.end(), std::greater<int>());
-    for (int index : teVerwijderenVoertuigen) {
-        verkeerssituatie.verwijderVoertuig(index);
-    }
+    // Voeg de baan toe
+    banen[baan.getNaam()] = baan;
+    return true;
 }
 
-// Methode om de versnelling van een voertuig bij te werken op basis van omgevingsomstandigheden
-void simulatie::updateVersnelling(Voertuig& voertuig) {
-    // Implementatie hangt af van de specifieke vereisten
-    // Voor nu gebruiken we een eenvoudig model waarbij voertuigen versnellen als ze onder de doelsnelheid zitten
-    // en vertragen als ze een obstakel naderen
-
-    const double doelSnelheid = 13.89; // Doelsnelheid: 50 km/u = 13,89 m/s
-    const double maxVersnelling = 2.0; // Maximale versnelling: 2 m/s²
-    const double maxVertraging = -4.0; // Maximale vertraging: -4 m/s²
-
-    // Controleer of er obstakels voor het voertuig zijn (bijv. verkeerslichten, voertuigen)
-    double afstandTotObstakel = afstandNaarNaastObstakel(voertuig);
-
-    // Als er geen obstakel is of het is ver weg, versnel naar de doelsnelheid
-    if (afstandTotObstakel > 100 || afstandTotObstakel < 0) {
-        if (voertuig.getSnelheid() < doelSnelheid) {
-            voertuig.setVersnelling(maxVersnelling);
-        } else {
-            voertuig.setVersnelling(0.0);
-        }
-    } else {
-        // Bereken de benodigde vertraging om voor het obstakel te stoppen
-        // Gebruik v² = v₀² + 2as -> a = (v² - v₀²)/(2s)
-        double huidigeSnelheid = voertuig.getSnelheid();
-        double vereistVertraging = -(huidigeSnelheid * huidigeSnelheid) / (2 * afstandTotObstakel);
-
-        // Pas vertraging toe indien nodig, anders behoud snelheid
-        if (vereistVertraging < 0 && vereistVertraging > maxVertraging) {
-            voertuig.setVersnelling(vereistVertraging);
-        } else if (vereistVertraging < maxVertraging) {
-            voertuig.setVersnelling(maxVertraging);
-        } else if (huidigeSnelheid < doelSnelheid) {
-            voertuig.setVersnelling(maxVersnelling);
-        } else {
-            voertuig.setVersnelling(0.0);
-        }
+// Methode om een voertuig toe te voegen
+bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
+    // Controleer of de baan bestaat
+    if (banen.find(voertuig.getBaan()) == banen.end()) {
+        std::cerr << "Baan '" << voertuig.getBaan() << "' bestaat niet." << std::endl;
+        return false;
     }
+
+    // Controleer of de positie geldig is
+    const Baan& baan = banen[voertuig.getBaan()];
+    if (voertuig.getPositie() < 0 || voertuig.getPositie() > baan.getLengte()) {
+        std::cerr << "Voertuig positie buiten de baan." << std::endl;
+        return false;
+    }
+
+    // Voeg het voertuig toe
+    voertuigen.push_back(voertuig);
+    return true;
 }
 
-// Methode om de afstand tot het dichtstbijzijnde obstakel te berekenen
-double simulatie::afstandNaarNaastObstakel(const Voertuig& voertuig) {
-    const std::vector<Voertuig>& alleVoertuigen = verkeerssituatie.getVoertuigen();
-    const std::vector<Verkeerslicht>& verkeerslichten = verkeerssituatie.getVerkeerslichten();
-    const std::map<std::string, Baan>& banen = verkeerssituatie.getBanen();
+// Methode om een verkeerslicht toe te voegen
+bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht) {
+    // Controleer of de baan bestaat
+    if (banen.find(verkeerslicht.getBaan()) == banen.end()) {
+        std::cerr << "Baan '" << verkeerslicht.getBaan() << "' bestaat niet." << std::endl;
+        return false;
+    }
 
-    double kortsteAfstand = -1; // Negatief betekent geen obstakel gevonden
+    // Controleer of de positie geldig is
+    const Baan& baan = banen[verkeerslicht.getBaan()];
+    if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
+        std::cerr << "Verkeerslicht positie buiten de baan." << std::endl;
+        return false;
+    }
 
-    // Controleer de afstand tot andere voertuigen op dezelfde weg
-    for (const Voertuig& anderVoertuig : alleVoertuigen) {
-        // Sla over als het hetzelfde voertuig is of op een andere weg rijdt
-        if (&voertuig == &anderVoertuig || voertuig.getBaan() != anderVoertuig.getBaan()) {
-            continue;
-        }
+    // Controleer of de cyclus geldig is
+    if (verkeerslicht.getCyclus() <= 0) {
+        std::cerr << "Verkeerslicht cyclus moet groter zijn dan 0." << std::endl;
+        return false;
+    }
 
-        // Bereken de afstand als het andere voertuig zich voor het huidige voertuig bevindt
-        if (anderVoertuig.getPositie() > voertuig.getPositie()) {
-            double afstand = anderVoertuig.getPositie() - voertuig.getPositie();
-            if (kortsteAfstand < 0 || afstand < kortsteAfstand) {
-                kortsteAfstand = afstand;
-            }
+    // Voeg het verkeerslicht toe
+    verkeerslichten.push_back(verkeerslicht);
+    return true;
+}
+
+// Methode om consistentie te verifiëren
+bool VerkeersSituatie::verificeerConsistentie() const {
+    bool isConsistent = true;
+
+    // Controleer of er banen zijn
+    if (banen.empty()) {
+        std::cerr << "Waarschuwing: Geen banen in de verkeerssituatie." << std::endl;
+        isConsistent = false;
+    }
+
+    // Controleer of alle voertuigen op geldige banen staan
+    for (const Voertuig& voertuig : voertuigen) {
+        if (banen.find(voertuig.getBaan()) == banen.end()) {
+            std::cerr << "Inconsistentie: Voertuig op niet-bestaande baan '" << voertuig.getBaan() << "'." << std::endl;
+            isConsistent = false;
         }
     }
 
-    // Controleer de afstand tot verkeerslichten op dezelfde weg
+    // Controleer of alle verkeerslichten op geldige banen staan
     for (const Verkeerslicht& verkeerslicht : verkeerslichten) {
-        // Sla over als het verkeerslicht op een andere weg staat
-        if (voertuig.getBaan() != verkeerslicht.getBaan()) {
-            continue;
-        }
-
-        // Bereken de afstand als het verkeerslicht rood is en zich voor het voertuig bevindt
-        if (verkeerslicht.getPositie() > voertuig.getPositie() && isVerkeerslichtRood(verkeerslicht)) {
-            double afstand = verkeerslicht.getPositie() - voertuig.getPositie();
-            if (kortsteAfstand < 0 || afstand < kortsteAfstand) {
-                kortsteAfstand = afstand;
+        auto it = banen.find(verkeerslicht.getBaan());
+        if (it == banen.end()) {
+            std::cerr << "Inconsistentie: Verkeerslicht op niet-bestaande baan '" << verkeerslicht.getBaan() << "'." << std::endl;
+            isConsistent = false;
+        } else {
+            const Baan& baan = it->second;
+            if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
+                std::cerr << "Inconsistentie: Verkeerslicht positie buiten de baan." << std::endl;
+                isConsistent = false;
             }
         }
     }
 
-    // Controleer de afstand tot het einde van de weg
-    const Baan& huidigeWeg = banen.at(voertuig.getBaan());
-    double afstandTotEinde = huidigeWeg.getLengte() - voertuig.getPositie();
-    if (kortsteAfstand < 0 || afstandTotEinde < kortsteAfstand) {
-        kortsteAfstand = afstandTotEinde;
+    return isConsistent;
+}
+
+// Methode om een voertuig te verwijderen
+bool VerkeersSituatie::verwijderVoertuig(int index) {
+    if (index < 0 || index >= static_cast<int>(voertuigen.size())) {
+        std::cerr << "Index buiten bereik: " << index << std::endl;
+        return false;
     }
 
-    return kortsteAfstand;
+    voertuigen.erase(voertuigen.begin() + index);
+    return true;
 }
 
-// Methode om te controleren of een verkeerslicht rood is (implementatie hangt af van hoe verkeerslichten worden gemodelleerd)
-bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) {
-    // Eenvoudig model: de cyclus van het verkeerslicht is verdeeld in twee gelijke delen (rood/groen)
-    // Rood als de huidige simulatie tijd modulo de cyclus kleiner is dan de helft van de cyclus
-    int cycle = verkeerslicht.getCyclus();
-    return (int(huidigeSimulatieTijd) % cycle) < (cycle / 2);
+// Methode om informatie te printen
+void VerkeersSituatie::printInfo() const {
+    std::cout << "=== Verkeerssituatie Info ===" << std::endl;
+
+    std::cout << "Banen (" << banen.size() << "):" << std::endl;
+    for (const auto& paar : banen) {
+        const Baan& baan = paar.second;
+        std::cout << " - " << baan.getNaam() << " (lengte: " << baan.getLengte() << "m)" << std::endl;
+    }
+
+    std::cout << "Voertuigen (" << voertuigen.size() << "):" << std::endl;
+    for (const auto& voertuig : voertuigen) {
+        std::cout << " - Voertuig op baan '" << voertuig.getBaan()
+                  << "' (positie: " << voertuig.getPositie()
+                  << "m, snelheid: " << voertuig.getSnelheid() << "m/s)" << std::endl;
+    }
+
+    std::cout << "Verkeerslichten (" << verkeerslichten.size() << "):" << std::endl;
+    for (const auto& licht : verkeerslichten) {
+        std::cout << " - Verkeerslicht op baan '" << licht.getBaan()
+                  << "' (positie: " << licht.getPositie()
+                  << "m, cyclus: " << licht.getCyclus() << "s)" << std::endl;
+    }
 }
 
+// Functie om een verkeerssituatie te lezen vanuit een XML-bestand
+bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
+    TiXmlDocument doc;
+    if (!doc.LoadFile(bestandsnaam.c_str())) {
+        std::cerr << "Fout bij het laden van XML-bestand: " << doc.ErrorDesc() << std::endl;
+        return false;
+    }
+
+    TiXmlElement* root = doc.RootElement();
+    if (!root) {
+        std::cerr << "Ongeldig XML-bestand: ontbrekend root element" << std::endl;
+        return false;
+    }
+
+    std::string rootName = root->Value();
+    if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
+        std::cerr << "Ongeldig XML-bestand: root element moet 'VerkeersSituatie' zijn" << std::endl;
+        return false;
+    }
+
+    bool success = true;
+
+    for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
+        std::string elementType = elem->Value();
+
+        if (elementType == "BAAN") {
+            TiXmlElement* naamElem = elem->FirstChildElement("naam");
+            TiXmlElement* lengteElem = elem->FirstChildElement("lengte");
+
+            if (!naamElem || !lengteElem || !naamElem->GetText() || !lengteElem->GetText()) {
+                std::cerr << "Ongeldige baan data in XML" << std::endl;
+                success = false;
+                continue;
+            }
+
+            std::string naam = naamElem->GetText();
+            double lengte;
+            try {
+                lengte = std::stod(lengteElem->GetText());
+            } catch (const std::exception&) {
+                std::cerr << "Ongeldig lengte formaat voor baan" << std::endl;
+                success = false;
+                continue;
+            }
+
+            if (lengte <= 0) {
+                std::cerr << "Ongeldige baan lengte in XML" << std::endl;
+                success = false;
+                continue;
+            }
+
+            Baan baan(naam, lengte);
+            situatie.voegBaanToe(baan);
+        }
+        else if (elementType == "VOERTUIG") {
+            TiXmlElement* baanElem = elem->FirstChildElement("baan");
+            TiXmlElement* positieElem = elem->FirstChildElement("positie");
+
+            if (!baanElem || !positieElem || !baanElem->GetText() || !positieElem->GetText()) {
+                std::cerr << "Ongeldige voertuig data in XML" << std::endl;
+                success = false;
+                continue;
+            }
+
+            std::string baan = baanElem->GetText();
+            double positie;
+            try {
+                positie = std::stod(positieElem->GetText());
+            } catch (const std::exception&) {
+                std::cerr << "Ongeldig positie formaat voor voertuig" << std::endl;
+                success = false;
+                continue;
+            }
+
+            Voertuig voertuig(baan, positie);
+            if (!situatie.voegVoertuigToe(voertuig)) {
+                success = false;
+            }
+        }
+        else if (elementType == "VERKEERSLICHT") {
+            TiXmlElement* baanElem = elem->FirstChildElement("baan");
+            TiXmlElement* positieElem = elem->FirstChildElement("positie");
+            TiXmlElement* cyclusElem = elem->FirstChildElement("cyclus");
+
+            if (!baanElem || !positieElem || !cyclusElem ||
+                !baanElem->GetText() || !positieElem->GetText() || !cyclusElem->GetText()) {
+                std::cerr << "Ongeldige verkeerslicht data in XML" << std::endl;
+                success = false;
+                continue;
+            }
+
+            std::string baan = baanElem->GetText();
+            double positie;
+            int cyclus;
+            try {
+                positie = std::stod(positieElem->GetText());
+                cyclus = std::stoi(cyclusElem->GetText());
+            } catch (const std::exception&) {
+                std::cerr << "Ongeldig formaat voor verkeerslicht data" << std::endl;
+                success = false;
+                continue;
+            }
+
+            if (cyclus <= 0) {
+                std::cerr << "Ongeldige cyclus voor verkeerslicht" << std::endl;
+                success = false;
+                continue;
+            }
+
+            Verkeerslicht licht(baan, positie, cyclus);
+            if (!situatie.voegVerkeerslichtToe(licht)) {
+                success = false;
+            }
+        }
+        else {
+            std::cerr << "Waarschuwing: Onbekend XML-element '" << elementType << "' genegeerd." << std::endl;
+        }
+    }
+
+    // Verifieer de consistentie alleen als er ten minste één baan is toegevoegd
+    return situatie.verificeerConsistentie() && success;
+}
