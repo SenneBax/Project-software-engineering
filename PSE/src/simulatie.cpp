@@ -222,6 +222,7 @@ bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) {
 }
 
 // Methode om periodiek nieuwe voertuigen te genereren
+// Voertuiggenerator toch wel opgeleverd
 void simulatie::genereerNieuweVoertuigen() {
     static double laatstGenereerTijd = 0.0;
     const double genereerInterval = 5.0; // Genereer een voertuig elke 5 seconden
