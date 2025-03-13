@@ -12,6 +12,7 @@
 #include "Baan.h"
 #include "Voertuig.h"
 #include "Verkeerslicht.h"
+#include "simulatie.h"
 
 // hulp functie om tijdelijke xml-bestanden te testen
 std::string createTempXmlFile(const std::string& content) {
@@ -312,7 +313,59 @@ TEST(LeesVerkeersSituatieTest, VoorbeeldXML) {
     std::remove(filename.c_str());
 }
 
+// Test voor het aanmaken van een simulatie-object
+TEST(SimulatieTest, ConstructorTest) {
+    VerkeersSituatie situatie;
+    simulatie sim(situatie, 1.0);
+    EXPECT_EQ(sim.getTijdstap(), 1.0);
+    EXPECT_EQ(sim.getHuidigeSimulatieTijd(), 0.0);
+}
 
+
+//vanaf hier zijn de testen voor de simulatie
+
+
+// Test voor het updaten van de simulatie
+TEST(SimulatieTest, StapTest) {
+    VerkeersSituatie situatie;
+    Baan baan("Teststraat", 250);
+    situatie.voegBaanToe(baan);
+
+    Voertuig voertuig("Teststraat", 0);
+    situatie.voegVoertuigToe(voertuig);
+
+    simulatie sim(situatie, 1.0);
+    sim.stap();
+
+    EXPECT_GT(sim.getHuidigeSimulatieTijd(), 0.0);
+}
+
+// Test voor automatisch genereren van voertuigen
+TEST(SimulatieTest, AutoGenereerVoertuigenTest) {
+    VerkeersSituatie situatie;
+    simulatie sim(situatie, 1.0);
+    sim.setAutoGenereerVoertuigen(true);
+
+    EXPECT_TRUE(sim.getAantalVoertuigen() >= 0);
+}
+
+// Test voor het verzamelen van statistieken
+TEST(SimulatieTest, StatistiekenTest) {
+    VerkeersSituatie situatie;
+    Baan baan("Teststraat", 250);
+    situatie.voegBaanToe(baan);
+
+    Voertuig voertuig1("Teststraat", 0);
+    Voertuig voertuig2("Teststraat", 100);
+    situatie.voegVoertuigToe(voertuig1);
+    situatie.voegVoertuigToe(voertuig2);
+
+    simulatie sim(situatie, 1.0);
+    sim.stap();
+
+    EXPECT_GE(sim.getGemiddeldeSnelheid(), 0.0);
+    EXPECT_GE(sim.getTotaalVerwijderdeVoertuigen(), 0);
+}
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
