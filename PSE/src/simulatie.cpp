@@ -215,9 +215,9 @@ const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& vo
 
 // Methode om te controleren of verkeerslicht rood is
 bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) {
-    int cycle = verkeerslicht.getCyclus();
+    int cyclus = verkeerslicht.getCyclus();
     // Berekent de huidige cyclus-status (0 = rood, 1 = groen)
-    int cyclusStatus = static_cast<int>(huidigeSimulatieTijd / (cycle / 2)) % 2;
+    int cyclusStatus = static_cast<int>(huidigeSimulatieTijd / (cyclus / 2)) % 2;
     return cyclusStatus == 0; // Rood als cyclusStatus 0 is
 }
 

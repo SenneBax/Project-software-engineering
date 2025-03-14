@@ -24,7 +24,9 @@ int main(int argc, char* argv[]) {
         cout << "Verkeerssituatie succesvol ingelezen." << endl;
         situatie.printInfo();
         return 0;
-    } else {
+    }
+
+    else {
 
         return 1;
     }

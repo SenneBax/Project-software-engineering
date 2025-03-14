@@ -225,7 +225,7 @@ bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& sit
 
             if (!baanElem || !positieElem || !cyclusElem ||
                 !baanElem->GetText() || !positieElem->GetText() || !cyclusElem->GetText()) {
-
+                
                 success = false;
                 continue;
             }
