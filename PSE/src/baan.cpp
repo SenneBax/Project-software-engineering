@@ -9,7 +9,7 @@
 Baan::Baan()
     : naam(""), lengte(0) {}
 
-Baan::Baan(const std::string& naam, int lengte)
+Baan::Baan(const std::string& naam, const int lengte)
     : naam(naam), lengte(lengte) {
 
 }

@@ -48,7 +48,7 @@ void simulatie::stap() {
 
     // Voor elke baan, sorteer de voertuigen op positie (aflopend)
     for (auto& paar : voertuigenPerBaan) {
-        std::sort(paar.second.begin(), paar.second.end(), [&voertuigen](size_t a, size_t b) {
+        std::sort(paar.second.begin(), paar.second.end(), [&voertuigen](const size_t a, const size_t b) {
             return voertuigen[a].getPositie() > voertuigen[b].getPositie();
         });
     }
@@ -68,11 +68,11 @@ void simulatie::stap() {
 
         // Verwerk voertuigen van achter naar voor (hoogste positie eerst)
         for (size_t i = 0; i < voertuigIndices.size(); i++) {
-            size_t voertuigIndex = voertuigIndices[i];
+            const size_t voertuigIndex = voertuigIndices[i];
             Voertuig& voertuig = voertuigen[voertuigIndex];
 
             // Bepaal of dit het eerste voertuig op de baan is
-            bool isEersteVoertuig = (i == 0);
+            const bool isEersteVoertuig = (i == 0);
 
             // Bepaal voorgaand voertuig (als dit niet het eerste voertuig is)
             Voertuig* voorgaandVoertuig = nullptr;
@@ -95,7 +95,7 @@ void simulatie::stap() {
 
     // Verwijder de voertuigen die niet meer op een weg staan (van hoog naar laag om indexen correct te houden)
     std::sort(teVerwijderenVoertuigen.begin(), teVerwijderenVoertuigen.end(), std::greater<int>());
-    for (int index : teVerwijderenVoertuigen) {
+    for (const int index : teVerwijderenVoertuigen) {
         verkeerssituatie.verwijderVoertuig(index);
         verhoogVerwijderdeVoertuigenTeller();
     }
@@ -113,7 +113,7 @@ void simulatie::stap() {
 }
 
 // Methode om positie en snelheid te updaten volgens formules B.2
-void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) {
+void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     double v = voertuig.getSnelheid();
     double a = voertuig.getVersnelling();
     double x = voertuig.getPositie();
@@ -135,7 +135,7 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) {
 }
 
 // Methode om voertuig versnelling te updaten volgens formules B.3-B.5
-void simulatie::updateVersnelling(Voertuig& voertuig, Voertuig* voorgaandVoertuig, bool isEersteVoertuig) {
+void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandVoertuig, const bool isEersteVoertuig) {
     double v = voertuig.getSnelheid();
     double vmax = maxSnelheid; // Standaard is dit de absolute maximum snelheid
 
@@ -169,10 +169,10 @@ void simulatie::updateVersnelling(Voertuig& voertuig, Voertuig* voorgaandVoertui
 
     if (voorgaandVoertuig != nullptr) {
         // Bereken de volgafstand
-        double deltaX = voorgaandVoertuig->getPositie() - voertuig.getPositie() - voertuigLengte;
+        const double deltaX = voorgaandVoertuig->getPositie() - voertuig.getPositie() - voertuigLengte;
 
         // Bereken het snelheidsverschil
-        double deltaV = v - voorgaandVoertuig->getSnelheid();
+        const double deltaV = v - voorgaandVoertuig->getSnelheid();
 
         // Bereken de interactieterm delta
         double s_star = minVolgafstand + std::max(0.0, v + v * deltaV / (2 * std::sqrt(maxVersnelling * maxRemFactor)));
@@ -189,7 +189,7 @@ void simulatie::updateVersnelling(Voertuig& voertuig, Voertuig* voorgaandVoertui
 }
 
 // Methode om het eerstvolgende verkeerslicht te vinden
-const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& voertuig) {
+const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& voertuig) const {
     const std::vector<Verkeerslicht>& verkeerslichten = verkeerssituatie.getVerkeerslichten();
     const Verkeerslicht* eerstvolgend = nullptr;
     double kortsteAfstand = -1;
@@ -214,18 +214,18 @@ const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& vo
 }
 
 // Methode om te controleren of verkeerslicht rood is
-bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) {
-    int cyclus = verkeerslicht.getCyclus();
+bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) const {
+    const int cyclus = verkeerslicht.getCyclus();
     // Berekent de huidige cyclus-status (0 = rood, 1 = groen)
-    int cyclusStatus = static_cast<int>(huidigeSimulatieTijd / (cyclus / 2)) % 2;
+    const int cyclusStatus = static_cast<int>(huidigeSimulatieTijd / (cyclus / 2)) % 2;
     return cyclusStatus == 0; // Rood als cyclusStatus 0 is
 }
 
 // Methode om periodiek nieuwe voertuigen te genereren
 // Voertuiggenerator toch wel opgeleverd
-void simulatie::genereerNieuweVoertuigen() {
+void simulatie::genereerNieuweVoertuigen() const {
     static double laatstGenereerTijd = 0.0;
-    const double genereerInterval = 5.0; // Genereer een voertuig elke 5 seconden
+    constexpr double genereerInterval = 5.0; // Genereer een voertuig elke 5 seconden
 
     if (huidigeSimulatieTijd - laatstGenereerTijd >= genereerInterval) {
         const std::map<std::string, Baan>& banen = verkeerssituatie.getBanen();

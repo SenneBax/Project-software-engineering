@@ -21,8 +21,8 @@ public:
     // Bestaande constructor behouden
     Baan(const string& naam, int lengte);
 
-    string getNaam() const;
-    int getLengte() const;
+    [[nodiscard]] string getNaam() const;
+    [[nodiscard]] int getLengte() const;
 };
 
 #endif // BAAN_H

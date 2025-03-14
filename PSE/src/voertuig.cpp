@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-Voertuig::Voertuig(const string& baan, int positie, double snelheid, double versnelling)
+Voertuig::Voertuig(const string& baan, const int positie, const double snelheid, const double versnelling)
     : baan(baan), positie(positie), snelheid(snelheid), versnelling(versnelling) {}
 
 string Voertuig::getBaan() const {
@@ -25,19 +25,19 @@ double Voertuig::getVersnelling() const {
     return versnelling;
 }
 
-void Voertuig::setPositie(int nieuwePositie) {
+void Voertuig::setPositie(const int nieuwePositie) {
     positie = nieuwePositie;
 }
 
-void Voertuig::setSnelheid(double nieuweSnelheid) {
+void Voertuig::setSnelheid(const double nieuweSnelheid) {
     snelheid = nieuweSnelheid;
 }
 
-void Voertuig::setVersnelling(double nieuweVersnelling) {
+void Voertuig::setVersnelling(const double nieuweVersnelling) {
     versnelling = nieuweVersnelling;
 }
 
-void Voertuig::rijd(double tijdstap) {
+void Voertuig::rijd(const double tijdstap) {
     // Update snelheid eerst: v = v0 + a * t
     double nieuweSnelheid = snelheid + versnelling * tijdstap;
 
@@ -48,8 +48,8 @@ void Voertuig::rijd(double tijdstap) {
 
     // Update positie: x = x0 + v0 * t + 0.5 * a * t²
     // gebruikt de gemiddelde snelheid: (initialSpeed + finalSpeed) / 2
-    double gemiddeldeSnelheid = (snelheid + nieuweSnelheid) / 2;
-    int nieuwePositie = positie + static_cast<int>(gemiddeldeSnelheid * tijdstap);
+    const double gemiddeldeSnelheid = (snelheid + nieuweSnelheid) / 2;
+    const int nieuwePositie = positie + static_cast<int>(gemiddeldeSnelheid * tijdstap);
 
     // Update de waardes
     snelheid = nieuweSnelheid;

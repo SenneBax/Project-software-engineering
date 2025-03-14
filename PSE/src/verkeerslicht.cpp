@@ -5,7 +5,7 @@
 #include "Verkeerslicht.h"
 #include <iostream>
 
-Verkeerslicht::Verkeerslicht(const std::string& baan, int positie, int cyclus)
+Verkeerslicht::Verkeerslicht(const std::string& baan, const int positie, const int cyclus)
     : baan(baan), positie(positie), cyclus(cyclus) {}
 
 std::string Verkeerslicht::getBaan() const {

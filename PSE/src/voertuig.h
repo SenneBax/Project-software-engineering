@@ -22,9 +22,9 @@ public:
 
     // Getters
     string getBaan() const;
-    int getPositie() const;
-    double getSnelheid() const;
-    double getVersnelling() const;
+    [[nodiscard]] int getPositie() const;
+    [[nodiscard]] double getSnelheid() const;
+    [[nodiscard]] double getVersnelling() const;
 
     // Setters
     void setPositie(int nieuwePositie);

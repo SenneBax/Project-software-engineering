@@ -32,11 +32,11 @@ private:
     double totaleTijd = 0.0;
 
     // Ondersteunende methoden
-    void updatePositieEnSnelheid(Voertuig& voertuig);
-    void updateVersnelling(Voertuig& voertuig, Voertuig* voorgaandVoertuig, bool isEersteVoertuig);
-    const Verkeerslicht* zoekEerstvolgendVerkeerslicht(const Voertuig& voertuig);
-    bool isVerkeerslichtRood(const Verkeerslicht& verkeerslicht);
-    void genereerNieuweVoertuigen();
+    void updatePositieEnSnelheid(Voertuig& voertuig) const;
+    void updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandVoertuig, bool isEersteVoertuig);
+    const Verkeerslicht* zoekEerstvolgendVerkeerslicht(const Voertuig& voertuig) const;
+    bool isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) const;
+    void genereerNieuweVoertuigen() const;
     void verhoogVerwijderdeVoertuigenTeller();
     void verzamelStatistieken();
 
@@ -47,12 +47,12 @@ public:
     void setAutoGenereerVoertuigen(bool genereer);
 
     // Getters
-    double getHuidigeSimulatieTijd() const;
-    double getTijdstap() const;
-    int getAantalVoertuigen() const;
-    double getGemiddeldeSnelheid() const;
-    int getTotaalVerwijderdeVoertuigen() const;
-    double getTotaleTijd() const;
+    [[nodiscard]] double getHuidigeSimulatieTijd() const;
+    [[nodiscard]] double getTijdstap() const;
+    [[nodiscard]] int getAantalVoertuigen() const;
+    [[nodiscard]] double getGemiddeldeSnelheid() const;
+    [[nodiscard]] int getTotaalVerwijderdeVoertuigen() const;
+    [[nodiscard]] double getTotaleTijd() const;
 };
 
 #endif //SIMULATIE_H
