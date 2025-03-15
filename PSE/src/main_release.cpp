@@ -7,6 +7,7 @@
 #include <string>
 #include "Situatie.h"
 
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -15,12 +16,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    string bestandsnaam = argv[1];
-    VerkeersSituatie situatie;
+    const string bestandsnaam = argv[1];
 
 
-
-    if (leesVerkeersSituatie(bestandsnaam, situatie)) {
+    if (VerkeersSituatie situatie; leesVerkeersSituatie(bestandsnaam, situatie)) {
         cout << "Verkeerssituatie succesvol ingelezen." << endl;
         situatie.printInfo();
         return 0;

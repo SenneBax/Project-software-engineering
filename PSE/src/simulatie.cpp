@@ -113,6 +113,7 @@ void simulatie::stap() {
 }
 
 // Methode om positie en snelheid te updaten volgens formules B.2
+// Methode om positie en snelheid te updaten volgens formules B.2
 void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     double v = voertuig.getSnelheid();
     double a = voertuig.getVersnelling();
@@ -126,7 +127,40 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     } else {
         // Normale situatie, update snelheid en dan positie
         v = v + a * tijdstap;
-        x = x + v * tijdstap + (a * tijdstap * tijdstap) / 2;
+        v = std::max(0.0, v); // Zorg ervoor dat de snelheid niet negatief wordt
+
+        // Bereken nieuwe positie
+        double nieuweX = x + v * tijdstap + (a * tijdstap * tijdstap) / 2;
+
+        // Controleer of het voertuig zich op een baan bevindt
+        const auto& banen = verkeerssituatie.getBanen();
+        auto baanIt = banen.find(voertuig.getBaan());
+
+        if (baanIt != banen.end()) {
+            const Baan& baan = baanIt->second;
+
+            // Controleer of er een verkeerslicht is vlakbij het einde van de baan
+            for (const auto& verkeerslicht : verkeerssituatie.getVerkeerslichten()) {
+                if (verkeerslicht.getBaan() == voertuig.getBaan() &&
+                    verkeerslicht.getPositie() > x &&
+                    verkeerslicht.getPositie() < baan.getLengte() &&
+                    isVerkeerslichtRood(verkeerslicht)) {
+
+                    // Als we het verkeerslicht zouden passeren met deze update, blijf ervoor staan
+                    if (nieuweX > verkeerslicht.getPositie()) {
+                        nieuweX = verkeerslicht.getPositie() - 0.1;
+                        v = 0.0; // Stop volledig
+                    }
+                }
+            }
+
+            // Zorg ervoor dat we niet voorbij het einde van de baan gaan
+            if (nieuweX >= baan.getLengte()) {
+                nieuweX = baan.getLengte() - 0.1;
+            }
+        }
+
+        x = nieuweX;
     }
 
     // Update het voertuig
@@ -134,6 +168,7 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     voertuig.setPositie(x);
 }
 
+// Methode om voertuig versnelling te updaten volgens formules B.3-B.5
 // Methode om voertuig versnelling te updaten volgens formules B.3-B.5
 void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandVoertuig, const bool isEersteVoertuig) {
     double v = voertuig.getSnelheid();
@@ -151,14 +186,18 @@ void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandV
             bool isRood = isVerkeerslichtRood(*eerstvolgendVerkeerslicht);
 
             if (isRood) {
-                if (afstandTotVerkeerslicht <= stopAfstand) {
-                    // Voertuig moet stoppen volgens B.5
-                    double a = -maxRemFactor * v / maxSnelheid;
+                // Bereken geschatte remafstand op basis van huidige snelheid
+                double geschatteRemafstand = (v * v) / (2 * maxRemFactor);
+
+                // Als we niet op tijd kunnen stoppen met normale vertraging, gebruik noodremming
+                if (afstandTotVerkeerslicht <= std::max(stopAfstand, geschatteRemafstand)) {
+                    // Sterkere vertraging voor noodremming
+                    double a = -maxRemFactor * 1.5; // Verhoog remkracht
                     voertuig.setVersnelling(a);
                     return;
                 } else if (afstandTotVerkeerslicht <= vertraagAfstand) {
-                    // Voertuig moet vertragen volgens B.4
-                    vmax = vertraagFactor * maxSnelheid;
+                    // Begin eerder/agressiever te vertragen
+                    vmax = vertraagFactor * 0.8 * maxSnelheid; // Verlaag doelsnelheid verder
                 }
             }
         }
@@ -170,6 +209,13 @@ void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandV
     if (voorgaandVoertuig != nullptr) {
         // Bereken de volgafstand
         const double deltaX = voorgaandVoertuig->getPositie() - voertuig.getPositie() - voertuigLengte;
+
+        // Voorkom negatieve of te kleine deltaX waarden die tot NaN of infinity kunnen leiden
+        if (deltaX <= 0.1) {
+            // Noodremming bij zeer kleine afstand
+            voertuig.setVersnelling(-maxRemFactor);
+            return;
+        }
 
         // Bereken het snelheidsverschil
         const double deltaV = v - voorgaandVoertuig->getSnelheid();
