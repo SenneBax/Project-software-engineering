@@ -116,6 +116,9 @@ bool VerkeersSituatie::verwijderVoertuig(int index) {
 
 // Methode om informatie te printen
 void VerkeersSituatie::printInfo() const {
+
+    //std::cout << "🚦 DEBUG: printInfo() wordt aangeroepen!" << std::endl;
+
     std::cout << "=== Verkeerssituatie Info ===" << std::endl;
 
     std::cout << "Banen (" << banen.size() << "):" << std::endl;
@@ -143,26 +146,31 @@ void VerkeersSituatie::printInfo() const {
 bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
     TiXmlDocument doc;
     if (!doc.LoadFile(bestandsnaam.c_str())) {
-
-        return false;
+        std::cerr << " ERROR: XML-bestand kon NIET worden geladen! " << bestandsnaam << std::endl;
+        std::cerr << " TinyXML Fout: " << doc.ErrorDesc() << std::endl;
+        return false;  // Hier stoppen als het bestand niet geladen kan worden.
     }
 
     TiXmlElement* root = doc.RootElement();
     if (!root) {
-
+        std::cerr << " ERROR: Root-element ontbreekt in XML!" << std::endl;
         return false;
     }
+    std::cout << " Root-element gevonden: " << root->Value() << std::endl;
+
 
     std::string rootName = root->Value();
     if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
 
         return false;
     }
+    std::cout << " Root-element gevonden: " << root->Value() << std::endl;
 
     bool success = true;
 
     for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
         std::string elementType = elem->Value();
+        std::cout << " Gevonden element: " << elementType << std::endl;
 
         if (elementType == "BAAN") {
             TiXmlElement* naamElem = elem->FirstChildElement("naam");

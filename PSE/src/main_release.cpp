@@ -11,10 +11,13 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    std::cout << " Programma gestart!" << std::endl;
     if (argc != 2) {
-
+        std::cerr << " ERROR: Geen XML-bestand opgegeven! Gebruik: ./release_target verkeer.xml" << std::endl;
         return 1;
     }
+    std::cout << " Bestandsnaam: " << argv[1] << std::endl;
+
 
     const string bestandsnaam = argv[1];
 
