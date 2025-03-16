@@ -97,6 +97,7 @@ void simulatie::stap() {
 
             // Controleer of het voertuig nog op de baan is
             if (voertuig.getPositie() >= baan.getLengte()) {
+                // Voertuig toevoegen aan de verwijder-lijst met index
                 teVerwijderenVoertuigen.push_back(voertuigIndex);
             }
         }
@@ -105,8 +106,9 @@ void simulatie::stap() {
     // Verwijder de voertuigen die niet meer op een weg staan (van hoog naar laag om indexen correct te houden)
     std::sort(teVerwijderenVoertuigen.begin(), teVerwijderenVoertuigen.end(), std::greater<int>());
     for (const int index : teVerwijderenVoertuigen) {
-        verkeerssituatie.verwijderVoertuig(index);
+        // Zorg dat we voor elke verwijdering de teller verhogen
         verhoogVerwijderdeVoertuigenTeller();
+        verkeerssituatie.verwijderVoertuig(index);
     }
 
     // Update de simulatietijd
@@ -165,10 +167,12 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
                 }
             }
 
-            // Zorg ervoor dat we niet voorbij het einde van de baan gaan
-            if (nieuweX >= baan.getLengte()) {
-                nieuweX = baan.getLengte() - 0.1;
-            }
+            // We laten het voertuig de baan verlaten (verwijderen gebeurt later)
+            // Verwijder deze check om te zorgen dat het voertuig de baan kan verlaten
+            // en later correct verwijderd kan worden
+            // if (nieuweX >= baan.getLengte()) {
+            //     nieuweX = baan.getLengte() - 0.1;
+            // }
         }
 
         x = nieuweX;
