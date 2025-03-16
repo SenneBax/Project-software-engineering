@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2024.2.3\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\debug_target.dir/objects.a
+C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\ar.exe qc CMakeFiles\debug_target.dir/objects.a @CMakeFiles\debug_target.dir\objects1.rsp
+C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\G__~1.EXE -std=c++17 -Wall -Werror -O2 -g -pthread -Wl,--whole-archive CMakeFiles\debug_target.dir/objects.a -Wl,--no-whole-archive -o debug_target.exe -Wl,--out-implib,libdebug_target.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\debug_target.dir\linkLibs.rsp
