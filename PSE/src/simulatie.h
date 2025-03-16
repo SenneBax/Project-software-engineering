@@ -8,7 +8,7 @@
 #ifndef SIMULATIE_H
 #define SIMULATIE_H
 
-#include "Situatie.h"
+#include "situatie.h"
 
 /**
  * @class simulatie

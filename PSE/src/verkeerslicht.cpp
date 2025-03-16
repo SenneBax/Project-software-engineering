@@ -5,7 +5,7 @@
  * @brief de implementatie van de verkeerslichten
  */
 
-#include "Verkeerslicht.h"
+#include "verkeerslicht.h"
 #include <iostream>
 
 /**

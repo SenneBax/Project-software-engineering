@@ -9,9 +9,9 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "Baan.h"
-#include "Voertuig.h"
-#include "Verkeerslicht.h"
+#include "baan.h"
+#include "voertuig.h"
+#include "verkeerslicht.h"
 #include <iostream>
 
 using namespace std;

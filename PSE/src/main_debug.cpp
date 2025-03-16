@@ -8,10 +8,10 @@
 
 #include <gtest/gtest.h>
 #include <fstream>
-#include "Situatie.h"
-#include "Baan.h"
-#include "Voertuig.h"
-#include "Verkeerslicht.h"
+#include "situatie.h"
+#include "baan.h"
+#include "voertuig.h"
+#include "verkeerslicht.h"
 #include "simulatie.h"
 
 // hulp functie om tijdelijke xml-bestanden te testen

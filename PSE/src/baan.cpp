@@ -5,7 +5,7 @@
  * @brief de manier hoe de klasse van de baan is geïmplementeerd
  */
 
-#include "Baan.h"
+#include "baan.h"
 #include <iostream>
 
 /**

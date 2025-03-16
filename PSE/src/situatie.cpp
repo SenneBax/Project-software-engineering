@@ -5,7 +5,7 @@
  * @brief Implementatie van de VerkeersSituatie klasse
  */
 
-#include "Situatie.h"
+#include "situatie.h"
 #include <algorithm>
 #include <iostream>
 #include <fstream>

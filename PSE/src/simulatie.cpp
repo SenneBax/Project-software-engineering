@@ -6,7 +6,7 @@
  */
 
 #include "simulatie.h"
-#include "Situatie.h"
+#include "situatie.h"
 #include <algorithm>
 #include <iostream>
 #include <cmath>

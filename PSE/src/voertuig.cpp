@@ -5,7 +5,7 @@
  * @brief implementatie van de klasse van het voertuig
  */
 
-#include "Voertuig.h"
+#include "voertuig.h"
 #include <iostream>
 using namespace std;
 

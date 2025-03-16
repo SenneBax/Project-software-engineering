@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <string>
-#include "Situatie.h"
+#include "situatie.h"
 
 
 using namespace std;
