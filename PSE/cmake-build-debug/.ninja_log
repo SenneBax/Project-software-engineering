@@ -1,6 +1,6 @@
 # ninja log v6
 11	924	7636750056595288	CMakeFiles/release_target.dir/src/baan.cpp.obj	3da05c9ccb5d0d42
-11	4166	7636759358330059	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
+6	2688	7637809223675850	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
 113	394	7631376882322000	CMakeFiles/debug_target.dir/src/tinyxmlerror.cpp.obj	e14089669a7c6433
 20	639	7633164524030187	CMakeFiles/debug_target.dir/src/main_release.cpp.obj	998a79a1c457e568
 126	1291	7631376882454962	CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj	ab6cf77ebc652d04
@@ -11,7 +11,7 @@
 89	1852	7631376882080165	CMakeFiles/debug_target.dir/src/tinyxml.cpp.obj	3b58438040426083
 74	695	7633159912998131	CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj	44e3e20e900dcf15
 24	1920	7636746734596149	CMakeFiles/debug_target.dir/src/situatie.cpp.obj	6e20f3994f4a0877
-4167	5790	7636759399883617	debug_target.exe	e6b1d61f6db2d649
+2689	3389	7637809250503864	debug_target.exe	e6b1d61f6db2d649
 64	218	7633159912910552	CMakeFiles/release_target.dir/src/tinyxmlerror.cpp.obj	98c3e998131e3cde
 56	267	7633159912824534	CMakeFiles/release_target.dir/src/tinystr.cpp.obj	60b33fd3ee843b25
 828	1114	7636751622587900	release_target.exe	c4f0e7d0b497ebce
@@ -21,16 +21,13 @@
 5	1944	7633164379435696	CMakeFiles/release_target.dir/src/main_debug.cpp.obj	c510f6243270efe3
 47	1027	7633159912743292	CMakeFiles/release_target.dir/src/tinyxml.cpp.obj	173514c2ed029c16
 27	2244	7636750056753232	CMakeFiles/release_target.dir/src/situatie.cpp.obj	980471dc8a998717
-2	422	7634929092188328	build.ninja	736d764c073c462e
-53	2085	7636746734886515	CMakeFiles/debug_target.dir/src/simulatie.cpp.obj	ac5ad7805e358522
-85	2439	7636750057339351	CMakeFiles/release_target.dir/src/simulatie.cpp.obj	9f29dfbfc56f224f
-10	4596	7636759638343816	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
-4597	6343	7636759684216125	debug_target.exe	e6b1d61f6db2d649
-8	3525	7636792471846400	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
-3526	4892	7636792507023602	debug_target.exe	e6b1d61f6db2d649
-7	2827	7637801612884241	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
-2827	3659	7637801641080333	debug_target.exe	e6b1d61f6db2d649
+2	422	7638301573272581	build.ninja	736d764c073c462e
 5	1360	7637804064048018	CMakeFiles/debug_target.dir/src/simulatie.cpp.obj	ac5ad7805e358522
-1360	2032	7637804077597590	debug_target.exe	e6b1d61f6db2d649
-6	2688	7637809223675850	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
-2689	3389	7637809250503864	debug_target.exe	e6b1d61f6db2d649
+85	2439	7636750057339351	CMakeFiles/release_target.dir/src/simulatie.cpp.obj	9f29dfbfc56f224f
+19	528	7638346531499127	CMakeFiles/debug_target.dir/src/verkeerslicht.cpp.obj	cbd56bdf7c669b2b
+5	538	7638346531368998	CMakeFiles/debug_target.dir/src/baan.cpp.obj	2375735556383300
+26	539	7638346531569334	CMakeFiles/debug_target.dir/src/voertuig.cpp.obj	d73a1a05451224e8
+14	1208	7638346531449124	CMakeFiles/debug_target.dir/src/situatie.cpp.obj	6e20f3994f4a0877
+41	1326	7638346531714625	CMakeFiles/debug_target.dir/src/simulatie.cpp.obj	ac5ad7805e358522
+34	2581	7638346531649533	CMakeFiles/debug_target.dir/src/main_debug.cpp.obj	eb489c6fdbed7e21
+2581	3435	7638346557127975	debug_target.exe	e6b1d61f6db2d649

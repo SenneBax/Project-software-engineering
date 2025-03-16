@@ -1,6 +1,9 @@
-//
-// Gemaakt door Senne op 11/03/2025.
-//
+/**
+ * @file situatie.cpp
+ * @author Senne
+ * @date 11/03/2025
+ * @brief Implementatie van de VerkeersSituatie klasse
+ */
 
 #include "Situatie.h"
 #include <algorithm>
@@ -8,7 +11,11 @@
 #include <fstream>
 #include "tinyxml.h"
 
-// Methode om een baan toe te voegen
+/**
+ * @brief Methode om een baan toe te voegen
+ * @param baan De toe te voegen baan
+ * @return true als de toevoeging succesvol was, false als de baan al bestaat
+ */
 bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
     // Controleer of de baan al bestaat
     if (banen.find(baan.getNaam()) != banen.end()) {
@@ -21,7 +28,11 @@ bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
     return true;
 }
 
-// Methode om een voertuig toe te voegen
+/**
+ * @brief Methode om een voertuig toe te voegen
+ * @param voertuig Het toe te voegen voertuig
+ * @return true als de toevoeging succesvol was, false als de baan niet bestaat of de positie ongeldig is
+ */
 bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
     // Controleer of de baan bestaat
     if (banen.find(voertuig.getBaan()) == banen.end()) {
@@ -41,7 +52,11 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
     return true;
 }
 
-// Methode om een verkeerslicht toe te voegen
+/**
+ * @brief Methode om een verkeerslicht toe te voegen
+ * @param verkeerslicht Het toe te voegen verkeerslicht
+ * @return true als de toevoeging succesvol was, false als de baan niet bestaat, de positie ongeldig is of de cyclus ongeldig is
+ */
 bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht) {
     // Controleer of de baan bestaat
     if (banen.find(verkeerslicht.getBaan()) == banen.end()) {
@@ -67,7 +82,10 @@ bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht) 
     return true;
 }
 
-// Methode om consistentie te verifiëren
+/**
+ * @brief Methode om consistentie te verifiëren
+ * @return true als de verkeerssituatie consistent is, anders false
+ */
 bool VerkeersSituatie::verificeerConsistentie() const {
     bool isConsistent = true;
 
@@ -103,7 +121,11 @@ bool VerkeersSituatie::verificeerConsistentie() const {
     return isConsistent;
 }
 
-// Methode om een voertuig te verwijderen
+/**
+ * @brief Methode om een voertuig te verwijderen
+ * @param index De index van het te verwijderen voertuig
+ * @return true als het verwijderen succesvol was, false als de index ongeldig is
+ */
 bool VerkeersSituatie::verwijderVoertuig(int index) {
     if (index < 0 || index >= static_cast<int>(voertuigen.size())) {
 
@@ -114,7 +136,9 @@ bool VerkeersSituatie::verwijderVoertuig(int index) {
     return true;
 }
 
-// Methode om informatie te printen
+/**
+ * @brief Methode om informatie te printen
+ */
 void VerkeersSituatie::printInfo() const {
     std::cout << "=== Verkeerssituatie Info ===" << std::endl;
 
@@ -139,7 +163,12 @@ void VerkeersSituatie::printInfo() const {
     }
 }
 
-// Functie om een verkeerssituatie te lezen vanuit een XML-bestand
+/**
+ * @brief Functie om een verkeerssituatie te lezen vanuit een XML-bestand
+ * @param bestandsnaam Naam van het te lezen XML-bestand
+ * @param situatie Referentie naar de verkeerssituatie waarin de gegevens worden geladen
+ * @return true als het inlezen succesvol was, anders false
+ */
 bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
     TiXmlDocument doc;
     if (!doc.LoadFile(bestandsnaam.c_str())) {

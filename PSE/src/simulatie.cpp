@@ -1,6 +1,9 @@
-//
-// Created by senne on 11/03/2025.
-//
+/**
+ * @file simulatie.cpp
+ * @author senne
+ * @date 11/03/2025
+ * @brief Implementatie van de simulatie klasse
+ */
 
 #include "simulatie.h"
 #include "Situatie.h"
@@ -9,7 +12,11 @@
 #include <cmath>
 #include <random>
 
-// Constructor
+/**
+ * @brief Constructor
+ * @param situatie Referentie naar de te simuleren verkeerssituatie
+ * @param tijdstap De tijdstap voor de simulatie in seconden
+ */
 simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
     : verkeerssituatie(situatie), tijdstap(tijdstap), huidigeSimulatieTijd(0.0) {
     // Controleer of de tijdstap geldig is
@@ -29,7 +36,9 @@ simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
     vertraagFactor = 0.4;
 }
 
-// Methode om de stap te runnen voor alles
+/**
+ * @brief Methode om de stap te runnen voor alles
+ */
 void simulatie::stap() {
     // Get access voor voertuigen en banen
     std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
@@ -112,8 +121,10 @@ void simulatie::stap() {
     verzamelStatistieken();
 }
 
-// Methode om positie en snelheid te updaten volgens formules B.2
-// Methode om positie en snelheid te updaten volgens formules B.2
+/**
+ * @brief Methode om positie en snelheid te updaten volgens formules B.2
+ * @param voertuig Het voertuig waarvan de positie en snelheid worden bijgewerkt
+ */
 void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     double v = voertuig.getSnelheid();
     double a = voertuig.getVersnelling();
@@ -168,8 +179,12 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
     voertuig.setPositie(x);
 }
 
-// Methode om voertuig versnelling te updaten volgens formules B.3-B.5
-// Methode om voertuig versnelling te updaten volgens formules B.3-B.5
+/**
+ * @brief Methode om voertuig versnelling te updaten volgens formules B.3-B.5
+ * @param voertuig Het voertuig waarvan de versnelling wordt bijgewerkt
+ * @param voorgaandVoertuig Pointer naar het voorgaande voertuig (nullptr als er geen is)
+ * @param isEersteVoertuig Boolean die aangeeft of dit het eerste voertuig op de baan is
+ */
 void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandVoertuig, const bool isEersteVoertuig) {
     double v = voertuig.getSnelheid();
     double vmax = maxSnelheid; // Standaard is dit de absolute maximum snelheid
@@ -234,7 +249,11 @@ void simulatie::updateVersnelling(Voertuig& voertuig, const Voertuig* voorgaandV
     voertuig.setVersnelling(a);
 }
 
-// Methode om het eerstvolgende verkeerslicht te vinden
+/**
+ * @brief Methode om het eerstvolgende verkeerslicht te vinden
+ * @param voertuig Het voertuig waarvoor het eerstvolgende verkeerslicht wordt gezocht
+ * @return Pointer naar het eerstvolgende verkeerslicht, of nullptr als er geen is
+ */
 const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& voertuig) const {
     const std::vector<Verkeerslicht>& verkeerslichten = verkeerssituatie.getVerkeerslichten();
     const Verkeerslicht* eerstvolgend = nullptr;
@@ -259,7 +278,11 @@ const Verkeerslicht* simulatie::zoekEerstvolgendVerkeerslicht(const Voertuig& vo
     return eerstvolgend;
 }
 
-// Methode om te controleren of verkeerslicht rood is
+/**
+ * @brief Methode om te controleren of verkeerslicht rood is
+ * @param verkeerslicht Het te controleren verkeerslicht
+ * @return true als het verkeerslicht rood is, anders false
+ */
 bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) const {
     const int cyclus = verkeerslicht.getCyclus();
     // Berekent de huidige cyclus-status (0 = rood, 1 = groen)
@@ -267,8 +290,10 @@ bool simulatie::isVerkeerslichtRood(const Verkeerslicht& verkeerslicht) const {
     return cyclusStatus == 0; // Rood als cyclusStatus 0 is
 }
 
-// Methode om periodiek nieuwe voertuigen te genereren
-// Voertuiggenerator toch wel opgeleverd
+/**
+ * @brief Methode om periodiek nieuwe voertuigen te genereren
+ * @note Voertuiggenerator toch wel opgeleverd
+ */
 void simulatie::genereerNieuweVoertuigen() const {
     static double laatstGenereerTijd = 0.0;
     constexpr double genereerInterval = 5.0; // Genereer een voertuig elke 5 seconden
@@ -293,13 +318,19 @@ void simulatie::genereerNieuweVoertuigen() const {
         }
     }
 }
+/**
+ * @brief Methode om auto-generatie van voertuigen aan/uit te zetten
+ *
+ */
 
-// Methode om auto-generatie van voertuigen aan/uit te zetten
 void simulatie::setAutoGenereerVoertuigen(bool genereer) {
     autoGenereerVoertuigen = genereer;
 }
 
-// Methode om statistieken te verzamelen
+/**
+ * @brief Methode om statistieken te bewaren
+ *
+ */
 void simulatie::verzamelStatistieken() {
     const std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
 
@@ -324,6 +355,10 @@ void simulatie::verzamelStatistieken() {
 }
 
 // Methode om de verwijderde voertuigen teller te verhogen
+/**
+ * @brief Methode om de verwijderde voertuigen te tellen
+ *
+ */
 void simulatie::verhoogVerwijderdeVoertuigenTeller() {
     verwijderdeVoertuigenTeller++;
 }
