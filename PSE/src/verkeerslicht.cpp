@@ -2,6 +2,7 @@
 * @file Verkeerslicht.cpp
  * @author senne
  * @date 27/02/2025
+ * @brief de implementatie van de verkeerslichten
  */
 
 #include "Verkeerslicht.h"

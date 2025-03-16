@@ -2,6 +2,7 @@
 * @file Verkeerslicht.h
  * @author senne
  * @date 27/02/2025
+ * @brief definitie van de verkeerslichtklasse
  */
 
 #ifndef VERKEERSLICHT_H

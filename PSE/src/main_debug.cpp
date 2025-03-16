@@ -1,10 +1,10 @@
-//
-// Created by senne on 6/03/2025.
-//
+/**
+* @file main.debug.cpp
+ * @author senne
+ * @date 6/03/2025
+ * @brief dit is de debug file waar de testen geïmplementeerd in staan. (dit is een executable)
+ */
 
-//
-// Created by senne on 6/03/2025.
-//
 
 #include <gtest/gtest.h>
 #include <fstream>
@@ -419,30 +419,30 @@ TEST(SimulatieTest, VerkeerslichtStatusTest) {
     EXPECT_NEAR(sim.getHuidigeSimulatieTijd(), 6.0, 0.001);
 }
 
-// // Test voor het verwijderen van voertuigen die het einde van de weg bereiken
-// TEST(SimulatieTest, VoertuigVerwijderenTest) {
-//     VerkeersSituatie situatie;
-//     Baan baan("Teststraat", 100);
-//     situatie.voegBaanToe(baan);
-//
-//     // Voeg een voertuig toe dat bijna aan het einde van de weg is
-//     Voertuig voertuig("Teststraat", 95, 10.0); // Positie 95, snelheid 10 m/s
-//     situatie.voegVoertuigToe(voertuig);
-//
-//     // Controleer dat we met één voertuig beginnen
-//     EXPECT_EQ(situatie.getVoertuigen().size(), static_cast<size_t>(1));
-//
-//     simulatie sim(situatie, 1.0);
-//
-//     // Na één stap moet het voertuig de weg verlaten hebben en verwijderd zijn
-//     sim.stap();
-//
-//     // Controleer of het voertuig verwijderd is
-//     EXPECT_EQ(situatie.getVoertuigen().size(), static_cast<size_t>(0));
-//
-//     // Controleer of de teller voor verwijderde voertuigen is verhoogd
-//     EXPECT_EQ(sim.getTotaalVerwijderdeVoertuigen(), 1);
-// }
+// Test voor het verwijderen van voertuigen die het einde van de weg bereiken
+TEST(SimulatieTest, VoertuigVerwijderenTest) {
+    VerkeersSituatie situatie;
+    Baan baan("Teststraat", 100);
+    situatie.voegBaanToe(baan);
+
+    // Voeg een voertuig toe dat bijna aan het einde van de weg is
+    Voertuig voertuig("Teststraat", 95, 10.0); // Positie 95, snelheid 10 m/s
+    situatie.voegVoertuigToe(voertuig);
+
+    // Controleer dat we met één voertuig beginnen
+    EXPECT_EQ(situatie.getVoertuigen().size(), static_cast<size_t>(1));
+
+    simulatie sim(situatie, 1.0);
+
+    // Na één stap moet het voertuig de weg verlaten hebben en verwijderd zijn
+    sim.stap();
+
+    // Controleer of het voertuig verwijderd is
+    EXPECT_EQ(situatie.getVoertuigen().size(), static_cast<size_t>(0));
+
+    // Controleer of de teller voor verwijderde voertuigen is verhoogd
+    EXPECT_EQ(sim.getTotaalVerwijderdeVoertuigen(), 1);
+}
 
 // Test voor het volggedrag van voertuigen
 TEST(SimulatieTest, VoertuigVolggedragTest) {

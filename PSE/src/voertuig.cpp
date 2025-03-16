@@ -2,6 +2,7 @@
  * @file Voertuig.cpp
  * @author senne
  * @date 27/02/2025
+ * @brief implementatie van de klasse van het voertuig
  */
 
 #include "Voertuig.h"

@@ -1,6 +1,9 @@
-//
-// Created by senne on 27/02/2025.
-//
+/**
+* @file main.release.cpp
+ * @author senne
+ * @date 6/03/2025
+ * @brief dit is de release file waar de die de output van het programma terecht hoort te komen. (dit is een executable).
+ */
 
 
 #include <iostream>
