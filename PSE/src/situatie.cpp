@@ -172,21 +172,25 @@ void VerkeersSituatie::printInfo() const {
 bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
     TiXmlDocument doc;
     if (!doc.LoadFile(bestandsnaam.c_str())) {
-
-        return false;
+        std::cerr << " ERROR: XML-bestand kon NIET worden geladen! " << bestandsnaam << std::endl;
+        std::cerr << " TinyXML Fout: " << doc.ErrorDesc() << std::endl;
+        return false;  // Hier stoppen als het bestand niet geladen kan worden.
     }
 
     TiXmlElement* root = doc.RootElement();
     if (!root) {
-
+        std::cerr << " ERROR: Root-element ontbreekt in XML!" << std::endl;
         return false;
     }
+    std::cout << " Root-element gevonden: " << root->Value() << std::endl;
+
 
     std::string rootName = root->Value();
     if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
 
         return false;
     }
+    std::cout << " Root-element gevonden: " << root->Value() << std::endl;
 
     bool success = true;
 

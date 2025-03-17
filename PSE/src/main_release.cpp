@@ -6,18 +6,22 @@
  */
 
 
+
 #include <iostream>
 #include <string>
-#include "situatie.h"
+#include "Situatie.h"
 
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    std::cout << " Programma gestart!" << std::endl;
     if (argc != 2) {
-
+        std::cerr << " ERROR: Geen XML-bestand opgegeven!" << std::endl;
         return 1;
     }
+    std::cout << " Bestandsnaam: " << argv[1] << std::endl;
+
 
     const string bestandsnaam = argv[1];
 
