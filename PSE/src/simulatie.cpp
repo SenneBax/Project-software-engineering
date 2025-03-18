@@ -166,13 +166,6 @@ void simulatie::updatePositieEnSnelheid(Voertuig& voertuig) const {
                     }
                 }
             }
-
-            // We laten het voertuig de baan verlaten (verwijderen gebeurt later)
-            // Verwijder deze check om te zorgen dat het voertuig de baan kan verlaten
-            // en later correct verwijderd kan worden
-            // if (nieuweX >= baan.getLengte()) {
-            //     nieuweX = baan.getLengte() - 0.1;
-            // }
         }
 
         x = nieuweX;
