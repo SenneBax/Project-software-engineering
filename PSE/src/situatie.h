@@ -1,108 +1,99 @@
 /**
- * @file Situatie.h
- * @brief Header bestand voor de VerkeersSituatie klasse
+ * @file situatie.h
+ * @author Senne
+ * @date 11/03/2025
+ * @brief Header voor de VerkeersSituatie klasse
  */
 
 #ifndef SITUATIE_H
 #define SITUATIE_H
 
-#include <map>
-#include <vector>
 #include <string>
+#include <vector>
+#include <map>
 #include "baan.h"
 #include "voertuig.h"
 #include "verkeerslicht.h"
-#include <iostream>
-
-using namespace std;
 
 /**
- * @class VerkeersSituatie
- * @brief Klasse die een verkeerssituatie representeert met banen, voertuigen en verkeerslichten
+ * @brief Klasse die een verkeerssituatie representeert
  */
 class VerkeersSituatie {
-private:
-    map<string, Baan> banen;               /**< Map van alle banen in de verkeerssituatie */
-    vector<Voertuig> voertuigen;           /**< Vector van alle voertuigen in de verkeerssituatie */
-    vector<Verkeerslicht> verkeerslichten; /**< Vector van alle verkeerslichten in de verkeerssituatie */
-
 public:
     /**
-     * @brief Voegt een baan toe aan de verkeerssituatie
+     * @brief Methode om een baan toe te voegen
      * @param baan De toe te voegen baan
-     * @return true als de baan succesvol is toegevoegd, false anders
+     * @return true als de toevoeging succesvol was, false als de baan al bestaat
      */
     bool voegBaanToe(const Baan& baan);
 
     /**
-     * @brief Voegt een voertuig toe aan de verkeerssituatie
+     * @brief Methode om een voertuig toe te voegen
      * @param voertuig Het toe te voegen voertuig
-     * @return true als het voertuig succesvol is toegevoegd, false anders
+     * @return true als de toevoeging succesvol was, false als de baan niet bestaat of de positie ongeldig is
      */
     bool voegVoertuigToe(const Voertuig& voertuig);
 
     /**
-     * @brief Voegt een verkeerslicht toe aan de verkeerssituatie
+     * @brief Methode om een verkeerslicht toe te voegen
      * @param verkeerslicht Het toe te voegen verkeerslicht
-     * @return true als het verkeerslicht succesvol is toegevoegd, false anders
+     * @return true als de toevoeging succesvol was, false als de baan niet bestaat, de positie ongeldig is of de cyclus ongeldig is
      */
     bool voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht);
 
     /**
-     * @brief Verifieert de consistentie van de verkeerssituatie
-     * @return true als de verkeerssituatie consistent is, false anders
+     * @brief Methode om consistentie te verifiëren
+     * @return true als de verkeerssituatie consistent is, anders false
      */
-    [[nodiscard]] bool verificeerConsistentie() const;
+    bool verificeerConsistentie() const;
 
     /**
-     * @brief Print informatie over de verkeerssituatie naar de console
-     */
-    void printInfo() const;
-
-    /**
-     * @brief Methodes om de simulatie te ondersteunen
-     * @return Referentie naar de vector van voertuigen
-     */
-    std::vector<Voertuig>& getVoertuigen() { return voertuigen; }
-
-    /**
-     * @brief Constant getter voor de vector van voertuigen
-     * @return Constante referentie naar de vector van voertuigen
-     */
-    [[nodiscard]] const std::vector<Voertuig>& getVoertuigen() const { return voertuigen; }
-
-    /**
-     * @brief Getter voor de vector van verkeerslichten
-     * @return Referentie naar de vector van verkeerslichten
-     */
-    std::vector<Verkeerslicht>& getVerkeerslichten() { return verkeerslichten; }
-
-    /**
-     * @brief Constant getter voor de vector van verkeerslichten
-     * @return Constante referentie naar de vector van verkeerslichten
-     */
-    [[nodiscard]] const std::vector<Verkeerslicht>& getVerkeerslichten() const { return verkeerslichten; }
-
-    /**
-     * @brief Constant getter voor de map van banen
-     * @return Constante referentie naar de map van banen
-     */
-    [[nodiscard]] const std::map<string, Baan>& getBanen() const { return banen; }
-
-    /**
-     * @brief Methode om een voertuig te verwijderen op een bepaalde plaats
+     * @brief Methode om een voertuig te verwijderen
      * @param index De index van het te verwijderen voertuig
-     * @return true als het voertuig succesvol is verwijderd, false anders
+     * @return true als het verwijderen succesvol was, false als de index ongeldig is
      */
     bool verwijderVoertuig(int index);
-};
 
-/**
- * @brief Leest een verkeerssituatie uit een bestand
- * @param bestandsnaam De naam van het bestand
- * @param situatie Referentie naar een VerkeersSituatie object dat gevuld wordt
- * @return true als het bestand succesvol is gelezen, false anders
- */
-bool leesVerkeersSituatie(const string& bestandsnaam, VerkeersSituatie& situatie);
+    /**
+     * @brief Getter voor de map met banen (const versie)
+     * @return Constante referentie naar de map met banen
+     */
+    const std::map<std::string, Baan>& getBanen() const;
+
+    /**
+     * @brief Getter voor de map met banen (non-const versie)
+     * @return Referentie naar de map met banen
+     */
+    std::map<std::string, Baan>& getBanen();
+
+    /**
+     * @brief Getter voor de vector met voertuigen (const versie)
+     * @return Constante referentie naar de vector met voertuigen
+     */
+    const std::vector<Voertuig>& getVoertuigen() const;
+
+    /**
+     * @brief Getter voor de vector met voertuigen (non-const versie)
+     * @return Referentie naar de vector met voertuigen
+     */
+    std::vector<Voertuig>& getVoertuigen();
+
+    /**
+     * @brief Getter voor de vector met verkeerslichten (const versie)
+     * @return Constante referentie naar de vector met verkeerslichten
+     */
+    const std::vector<Verkeerslicht>& getVerkeerslichten() const;
+
+    /**
+     * @brief Getter voor de vector met verkeerslichten (non-const versie)
+     * @return Referentie naar de vector met verkeerslichten
+     */
+    std::vector<Verkeerslicht>& getVerkeerslichten();
+
+private:
+    std::map<std::string, Baan> banen;              ///< Map met banen (key: naam, value: Baan object)
+    std::vector<Voertuig> voertuigen;               ///< Vector met voertuigen
+    std::vector<Verkeerslicht> verkeerslichten;     ///< Vector met verkeerslichten
+};
 
 #endif // SITUATIE_H

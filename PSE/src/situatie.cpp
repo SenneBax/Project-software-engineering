@@ -19,7 +19,6 @@
 bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
     // Controleer of de baan al bestaat
     if (banen.find(baan.getNaam()) != banen.end()) {
-
         return false;
     }
 
@@ -36,14 +35,12 @@ bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
 bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
     // Controleer of de baan bestaat
     if (banen.find(voertuig.getBaan()) == banen.end()) {
-
         return false;
     }
 
     // Controleer of de positie geldig is
     const Baan& baan = banen[voertuig.getBaan()];
     if (voertuig.getPositie() < 0 || voertuig.getPositie() > baan.getLengte()) {
-
         return false;
     }
 
@@ -60,20 +57,17 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
 bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& verkeerslicht) {
     // Controleer of de baan bestaat
     if (banen.find(verkeerslicht.getBaan()) == banen.end()) {
-
         return false;
     }
 
     // Controleer of de positie geldig is
     const Baan& baan = banen[verkeerslicht.getBaan()];
     if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
-
         return false;
     }
 
     // Controleer of de cyclus geldig is
     if (verkeerslicht.getCyclus() <= 0) {
-
         return false;
     }
 
@@ -91,14 +85,12 @@ bool VerkeersSituatie::verificeerConsistentie() const {
 
     // Controleer of er banen zijn
     if (banen.empty()) {
-
         isConsistent = false;
     }
 
     // Controleer of alle voertuigen op geldige banen staan
     for (const Voertuig& voertuig : voertuigen) {
         if (banen.find(voertuig.getBaan()) == banen.end()) {
-
             isConsistent = false;
         }
     }
@@ -107,12 +99,10 @@ bool VerkeersSituatie::verificeerConsistentie() const {
     for (const Verkeerslicht& verkeerslicht : verkeerslichten) {
         auto it = banen.find(verkeerslicht.getBaan());
         if (it == banen.end()) {
-
             isConsistent = false;
         } else {
             const Baan& baan = it->second;
             if (verkeerslicht.getPositie() < 0 || verkeerslicht.getPositie() > baan.getLengte()) {
-
                 isConsistent = false;
             }
         }
@@ -128,7 +118,6 @@ bool VerkeersSituatie::verificeerConsistentie() const {
  */
 bool VerkeersSituatie::verwijderVoertuig(int index) {
     if (index < 0 || index >= static_cast<int>(voertuigen.size())) {
-
         return false;
     }
 
@@ -137,156 +126,49 @@ bool VerkeersSituatie::verwijderVoertuig(int index) {
 }
 
 /**
- * @brief Methode om informatie te printen
+ * @brief Getter voor de map met banen (const versie)
+ * @return Constante referentie naar de map met banen
  */
-void VerkeersSituatie::printInfo() const {
-    std::cout << "=== Verkeerssituatie Info ===" << std::endl;
-
-    std::cout << "Banen (" << banen.size() << "):" << std::endl;
-    for (const auto& paar : banen) {
-        const Baan& baan = paar.second;
-        std::cout << " - " << baan.getNaam() << " (lengte: " << baan.getLengte() << "m)" << std::endl;
-    }
-
-    std::cout << "Voertuigen (" << voertuigen.size() << "):" << std::endl;
-    for (const auto& voertuig : voertuigen) {
-        std::cout << " - Voertuig op baan '" << voertuig.getBaan()
-                  << "' (positie: " << voertuig.getPositie()
-                  << "m, snelheid: " << voertuig.getSnelheid() << "m/s)" << std::endl;
-    }
-
-    std::cout << "Verkeerslichten (" << verkeerslichten.size() << "):" << std::endl;
-    for (const auto& licht : verkeerslichten) {
-        std::cout << " - Verkeerslicht op baan '" << licht.getBaan()
-                  << "' (positie: " << licht.getPositie()
-                  << "m, cyclus: " << licht.getCyclus() << "s)" << std::endl;
-    }
+const std::map<std::string, Baan>& VerkeersSituatie::getBanen() const {
+    return banen;
 }
 
 /**
- * @brief Functie om een verkeerssituatie te lezen vanuit een XML-bestand
- * @param bestandsnaam Naam van het te lezen XML-bestand
- * @param situatie Referentie naar de verkeerssituatie waarin de gegevens worden geladen
- * @return true als het inlezen succesvol was, anders false
+ * @brief Getter voor de map met banen (non-const versie)
+ * @return Referentie naar de map met banen
  */
-bool leesVerkeersSituatie(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
-    TiXmlDocument doc;
-    if (!doc.LoadFile(bestandsnaam.c_str())) {
+std::map<std::string, Baan>& VerkeersSituatie::getBanen() {
+    return banen;
+}
 
-        return false;  // Hier stoppen als het bestand niet geladen kan worden.
-    }
+/**
+ * @brief Getter voor de vector met voertuigen (const versie)
+ * @return Constante referentie naar de vector met voertuigen
+ */
+const std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() const {
+    return voertuigen;
+}
 
-    TiXmlElement* root = doc.RootElement();
-    if (!root) {
+/**
+ * @brief Getter voor de vector met voertuigen (non-const versie)
+ * @return Referentie naar de vector met voertuigen
+ */
+std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() {
+    return voertuigen;
+}
 
-        return false;
-    }
+/**
+ * @brief Getter voor de vector met verkeerslichten (const versie)
+ * @return Constante referentie naar de vector met verkeerslichten
+ */
+const std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() const {
+    return verkeerslichten;
+}
 
-
-
-    std::string rootName = root->Value();
-    if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
-
-        return false;
-    }
-
-
-    bool success = true;
-
-    for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
-        std::string elementType = elem->Value();
-
-        if (elementType == "BAAN") {
-            TiXmlElement* naamElem = elem->FirstChildElement("naam");
-            TiXmlElement* lengteElem = elem->FirstChildElement("lengte");
-
-            if (!naamElem || !lengteElem || !naamElem->GetText() || !lengteElem->GetText()) {
-
-                success = false;
-                continue;
-            }
-
-            std::string naam = naamElem->GetText();
-            double lengte;
-            try {
-                lengte = std::stod(lengteElem->GetText());
-            } catch (const std::exception&) {
-
-                success = false;
-                continue;
-            }
-
-            if (lengte <= 0) {
-
-                success = false;
-                continue;
-            }
-
-            Baan baan(naam, lengte);
-            situatie.voegBaanToe(baan);
-        }
-        else if (elementType == "VOERTUIG") {
-            TiXmlElement* baanElem = elem->FirstChildElement("baan");
-            TiXmlElement* positieElem = elem->FirstChildElement("positie");
-
-            if (!baanElem || !positieElem || !baanElem->GetText() || !positieElem->GetText()) {
-
-                success = false;
-                continue;
-            }
-
-            std::string baan = baanElem->GetText();
-            double positie;
-            try {
-                positie = std::stod(positieElem->GetText());
-            } catch (const std::exception&) {
-
-                success = false;
-                continue;
-            }
-
-            Voertuig voertuig(baan, positie);
-            if (!situatie.voegVoertuigToe(voertuig)) {
-                success = false;
-            }
-        }
-        else if (elementType == "VERKEERSLICHT") {
-            TiXmlElement* baanElem = elem->FirstChildElement("baan");
-            TiXmlElement* positieElem = elem->FirstChildElement("positie");
-            TiXmlElement* cyclusElem = elem->FirstChildElement("cyclus");
-
-            if (!baanElem || !positieElem || !cyclusElem ||
-                !baanElem->GetText() || !positieElem->GetText() || !cyclusElem->GetText()) {
-                
-                success = false;
-                continue;
-            }
-
-            std::string baan = baanElem->GetText();
-            double positie;
-            int cyclus;
-            try {
-                positie = std::stod(positieElem->GetText());
-                cyclus = std::stoi(cyclusElem->GetText());
-            } catch (const std::exception&) {
-
-                success = false;
-                continue;
-            }
-
-            if (cyclus <= 0) {
-
-                success = false;
-                continue;
-            }
-
-            Verkeerslicht licht(baan, positie, cyclus);
-            if (!situatie.voegVerkeerslichtToe(licht)) {
-                success = false;
-            }
-        }
-    }
-
-    // Verifieer de consistentie alleen als er ten minste één baan is toegevoegd
-    return situatie.verificeerConsistentie() && success;
+/**
+ * @brief Getter voor de vector met verkeerslichten (non-const versie)
+ * @return Referentie naar de vector met verkeerslichten
+ */
+std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() {
+    return verkeerslichten;
 }

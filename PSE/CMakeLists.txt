@@ -42,6 +42,10 @@ set(DEBUG_SOURCE_FILES
         src/tinyxmlparser.cpp
         src/simulatie.cpp
         src/simulatie.h
+        src/bestandslezer.cpp
+        src/bestandslezer.h
+        src/output.cpp
+        src/output.h
 
 
 )
