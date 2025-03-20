@@ -534,6 +534,7 @@ TEST(SimulatieTest, UitgebreideStatistiekenTest) {
     EXPECT_GE(sim.getGemiddeldeSnelheid(), 0.0);
     EXPECT_LE(sim.getTotaalVerwijderdeVoertuigen(), 5);
     EXPECT_NEAR(sim.getTotaleTijd(), 10.0, 0.001);
+
 }
 
 // Test voor verkeerslicht gedrag op het einde van de weg

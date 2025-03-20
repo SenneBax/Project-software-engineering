@@ -1,6 +1,6 @@
 /**
 * @file uitvoer.h
- * @author Claude
+ * @author senne
  * @date 19/03/2025
  * @brief Header voor de Uitvoer klasse
  */

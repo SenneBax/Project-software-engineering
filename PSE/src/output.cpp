@@ -1,6 +1,6 @@
 /**
  * @file output.cpp
- * @author Claude
+ * @author senne
  * @date 19/03/2025
  * @brief Implementatie van de output klasse
  */

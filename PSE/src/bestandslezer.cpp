@@ -1,6 +1,6 @@
 /**
  * @file bestandslezer.cpp
- * @author Claude
+ * @author senne
  * @date 19/03/2025
  * @brief Implementatie van de BestandsLezer klasse
  */
