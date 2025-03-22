@@ -5,12 +5,11 @@
  * @brief dit is de release file waar de die de output van het programma terecht hoort te komen. (dit is een executable).
  */
 
-
-
 #include <iostream>
 #include <string>
-#include "Situatie.h"
-
+#include "situatie.h"
+#include "bestandslezer.h"
+#include "output.h"
 
 using namespace std;
 
@@ -22,19 +21,27 @@ int main(int argc, char* argv[]) {
     }
     std::cout << " Bestandsnaam: " << argv[1] << std::endl;
 
-
     const string bestandsnaam = argv[1];
 
+    // Creëer een verkeerssituatie en een bestandslezer
+    VerkeersSituatie situatie;
+    BestandsLezer lezer;
 
-    if (VerkeersSituatie situatie; leesVerkeersSituatie(bestandsnaam, situatie)) {
+    // Probeer het bestand in te lezen
+    if (lezer.leesXmlBestand(bestandsnaam, situatie)) {
         cout << "Verkeerssituatie succesvol ingelezen." << endl;
-        situatie.printInfo();
+
+        // Creëer een output object en genereer een tekstrapport
+        output uitvoer;
+        string rapport = uitvoer.genereerTekstRapport(situatie);
+
+        // Toon het rapport op de console
+        cout << rapport << endl;
+
         return 0;
-    }
-
-    else {
-
+    } else {
+        // Toon de foutmelding als het inlezen mislukt
+        cerr << "ERROR: " << lezer.getLastFoutmelding() << endl;
         return 1;
     }
-
 }

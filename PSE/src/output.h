@@ -1,5 +1,5 @@
 /**
-* @file uitvoer.h
+* @file output.h
  * @author senne
  * @date 19/03/2025
  * @brief Header voor de Uitvoer klasse

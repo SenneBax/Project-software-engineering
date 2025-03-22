@@ -24,7 +24,8 @@ set(RELEASE_SOURCE_FILES
         src/tinyxmlerror.cpp
         src/tinyxmlparser.cpp
         src/simulatie.cpp
-        src/simulatie.h
+        src/output.cpp
+        src/bestandslezer.cpp
 
 )
 # Set source files for DEBUG target
