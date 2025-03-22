@@ -22,7 +22,7 @@ output::output() : lastFoutmelding("") {}
  * @param situatie De verkeerssituatie die moet worden weergegeven
  * @return Een string met de tekstuele weergave
  */
-std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) const {
+std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     std::stringstream ss;
     ss << "=== Verkeerssituatie Info ===" << std::endl;
 

@@ -14,6 +14,7 @@
 #include "baan.h"
 #include "voertuig.h"
 #include "verkeerslicht.h"
+#include "voertuiggenerator.h"
 
 /**
  * @brief Klasse die een verkeerssituatie representeert
@@ -53,6 +54,8 @@ public:
      * @return true als het verwijderen succesvol was, false als de index ongeldig is
      */
     bool verwijderVoertuig(int index);
+
+    bool voegVoertuigGeneratorToe(const VoertuigGenerator& voertuiggenerator);
 
     /**
      * @brief Getter voor de map met banen (const versie)

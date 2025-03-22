@@ -1,85 +1,98 @@
 /**
- * @file Voertuig.h
+ * @file voertuig.h
  * @author senne
- * @date 27/02/2025
- * @brief definitie van de voertuigklasse
+ * @date 19/03/2025
+ * @brief Header voor de Voertuig klasse
  */
 
-// Updated Voertuig.h
 #ifndef VOERTUIG_H
 #define VOERTUIG_H
 
 #include <string>
-using namespace std;
 
 /**
- * @class Voertuig
- * @brief Klasse die een voertuig representeert in de verkeerssimulatie
+ * @brief Klasse die een voertuig in een verkeerssituatie voorstelt
  */
 class Voertuig {
-private:
-    string baan;       /**< Naam van de baan waarop het voertuig zich bevindt */
-    int positie;       /**< Positie van het voertuig op de baan in meters */
-    double snelheid;   /**< Snelheid van het voertuig in m/s */
-    double versnelling; /**< Versnelling van het voertuig in m/s² */
-
 public:
     /**
-     * @brief Constructor voor een voertuig
-     * @param baan Naam van de baan
-     * @param positie Positie op de baan in meters
-     * @param snelheid Snelheid van het voertuig in m/s, standaard 0.0
-     * @param versnelling Versnelling van het voertuig in m/s², standaard 0.0
+     * @brief Constructor
+     * @param baan De naam van de baan waar het voertuig zich bevindt
+     * @param positie De positie van het voertuig op de baan
+     * @param type Het type van het voertuig (auto, bus, brandweerwagen, ziekenwagen, politiecombi)
      */
-    Voertuig(const string& baan, int positie, double snelheid = 0.0, double versnelling = 0.0);
+    Voertuig(const std::string& baan, double positie, const std::string& type = "auto");
 
     /**
-     * @brief Getter voor de baan van het voertuig
+     * @brief Copy constructor
+     * @param other Het te kopiëren voertuig
+     */
+    Voertuig(const Voertuig& other);
+
+    /**
+     * @brief Destructor
+     */
+    ~Voertuig();
+
+    /**
+     * @brief Assignment operator
+     * @param other Het voertuig waarvan de waarden worden overgenomen
+     * @return Referentie naar dit voertuig
+     */
+    Voertuig& operator=(const Voertuig& other);
+
+    /**
+     * @brief Geeft de naam van de baan terug
      * @return De naam van de baan
      */
-    string getBaan() const;
+    std::string getBaanNaam() const;
 
     /**
-     * @brief Getter voor de positie van het voertuig
-     * @return De positie in meters
+     * @brief Geeft de positie van het voertuig terug
+     * @return De positie op de baan
      */
-    [[nodiscard]] int getPositie() const;
+    double getPositie() const;
 
     /**
-     * @brief Getter voor de snelheid van het voertuig
-     * @return De snelheid in m/s
+     * @brief Zet de positie van het voertuig
+     * @param nieuwePositie De nieuwe positie
      */
-    [[nodiscard]] double getSnelheid() const;
+    void setPositie(double nieuwePositie);
 
     /**
-     * @brief Getter voor de versnelling van het voertuig
-     * @return De versnelling in m/s²
+     * @brief Geeft het type van het voertuig terug
+     * @return Het type van het voertuig
      */
-    [[nodiscard]] double getVersnelling() const;
+    std::string getType() const;
 
     /**
-     * @brief Setter voor de positie van het voertuig
-     * @param nieuwePositie De nieuwe positie in meters
-     */
-    void setPositie(int nieuwePositie);
-
-    /**
-     * @brief Setter voor de snelheid van het voertuig
-     * @param nieuweSnelheid De nieuwe snelheid in m/s
-     */
-    void setSnelheid(double nieuweSnelheid);
-
-    /**
-     * @brief Setter voor de versnelling van het voertuig
-     * @param nieuweVersnelling De nieuwe versnelling in m/s²
-     */
-    void setVersnelling(double nieuweVersnelling);
-
-    /**
-     * @brief Methode om de voertuigpositie te updaten en ook de snelheid op voorbije tijd
+     * @brief Beweegt het voertuig vooruit
      * @param tijdstap De tijdstap in seconden
+     * @param maxSnelheid De maximale snelheid in meter per seconde
+     * @param maxPositie De maximale positie op de baan
+     * @return De nieuwe positie
      */
-    void rijd(double tijdstap);
+    double beweeg(double tijdstap, double maxSnelheid, double maxPositie);
+
+    /**
+     * @brief Controleert of dit voertuig botst met een ander voertuig
+     * @param ander Het andere voertuig
+     * @param veiligheidsAfstand De minimale veiligheidsafstand tussen voertuigen
+     * @return true als er een botsing is, anders false
+     */
+    bool botst(const Voertuig& ander, double veiligheidsAfstand) const;
+
+    /**
+     * @brief Berekent de snelheid van het voertuig gebaseerd op het type
+     * @param basisSnelheid De basissnelheid voor normale voertuigen
+     * @return De aangepaste snelheid gebaseerd op het type voertuig
+     */
+    double berekenSnelheid(double basisSnelheid) const;
+
+private:
+    std::string baanNaam; ///< Naam van de baan waar het voertuig zich bevindt
+    double positie;       ///< Positie van het voertuig op de baan
+    std::string type;     ///< Type van het voertuig
 };
 
 #endif // VOERTUIG_H

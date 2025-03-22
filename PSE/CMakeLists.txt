@@ -47,6 +47,8 @@ set(DEBUG_SOURCE_FILES
         src/bestandslezer.h
         src/output.cpp
         src/output.h
+        src/voertuiggenerator.cpp
+        src/voertuiggenerator.h
 
 
 )

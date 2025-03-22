@@ -8,7 +8,10 @@
 #include "bestandslezer.h"
 #include <fstream>
 #include <algorithm>
+#include <iostream>
+
 #include "tinyxml.h"
+#include "voertuiggenerator.h"
 
 /**
  * @brief Constructor
@@ -36,7 +39,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
 
     std::string rootName = root->Value();
     if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
-        lastFoutmelding = "Root element is geen VerkeersSituatie maar: " + rootName;
+        cerr << "Root element is geen VerkeersSituatie maar: " + rootName;
         return false;
     }
 
@@ -77,14 +80,16 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         else if (elementType == "VOERTUIG") {
             TiXmlElement* baanElem = elem->FirstChildElement("baan");
             TiXmlElement* positieElem = elem->FirstChildElement("positie");
+            TiXmlElement* typeElem = elem->FirstChildElement("type");
 
-            if (!baanElem || !positieElem || !baanElem->GetText() || !positieElem->GetText()) {
-                lastFoutmelding = "Voertuig mist verplichte elementen (baan of positie)";
+            if (!baanElem || !positieElem || !typeElem || !baanElem->GetText() || !positieElem->GetText() || !typeElem->GetText()) {
+                lastFoutmelding = "Voertuig mist verplichte elementen (baan, positie of type)";
                 success = false;
                 continue;
             }
 
             std::string baan = baanElem->GetText();
+            std::string type = typeElem->GetText(); // Lees het type van het voertuig
             double positie;
             try {
                 positie = std::stod(positieElem->GetText());
@@ -94,9 +99,49 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
                 continue;
             }
 
-            Voertuig voertuig(baan, positie);
+            Voertuig voertuig(baan, positie, type); // Type doorgeven aan constructor
             if (!situatie.voegVoertuigToe(voertuig)) {
                 lastFoutmelding = "Kan voertuig niet toevoegen aan baan '" + baan + "'";
+                success = false;
+            }
+        }
+        else if (elementType == "VOERTUIGGENERATOR") {
+            TiXmlElement* baanElem = elem->FirstChildElement("baan");
+            TiXmlElement* frequentieElem = elem->FirstChildElement("frequentie");
+            TiXmlElement* typeElem = elem->FirstChildElement("type");
+
+            if (!baanElem || !frequentieElem || !baanElem->GetText() || !frequentieElem->GetText()) {
+                lastFoutmelding = "VoertuigGenerator mist verplichte elementen (baan of frequentie)";
+                success = false;
+                continue;
+            }
+
+            std::string baan = baanElem->GetText();
+            std::string type = "auto"; // Standaard type
+
+            // Type is optioneel, dus controleer of het bestaat
+            if (typeElem && typeElem->GetText()) {
+                type = typeElem->GetText();
+            }
+
+            int frequentie;
+            try {
+                frequentie = std::stoi(frequentieElem->GetText());
+            } catch (const std::exception&) {
+                lastFoutmelding = "Ongeldige frequentie voor voertuiggenerator op baan '" + baan + "'";
+                success = false;
+                continue;
+            }
+
+            if (frequentie <= 0) {
+                lastFoutmelding = "Frequentie van voertuiggenerator moet positief zijn";
+                success = false;
+                continue;
+            }
+
+            VoertuigGenerator generator(baan, frequentie, type);
+            if (!situatie.voegVoertuigGeneratorToe(generator)) {
+                lastFoutmelding = "Kan voertuiggenerator niet toevoegen aan baan '" + baan + "'";
                 success = false;
             }
         }

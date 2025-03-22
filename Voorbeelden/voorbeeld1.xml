@@ -1,37 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Verkeerssituatie>
-    <BAAN>
-        <naam>Middelheimlaan</naam>
-        <lengte>500</lengte>
-    </BAAN>
-    <BAAN>
-        <naam>Groenenborgerlaan</naam>
-        <lengte>800</lengte>
-    </BAAN>
-    <VERKEERSLICHT>
-        <baan>Middelheimlaan</baan>
-        <positie>400</positie>
-        <cyclus>20</cyclus>
-    </VERKEERSLICHT>
-    <VERKEERSLICHT>
-        <baan>Groenenborgerlaan</baan>
-        <positie>350</positie>
-        <cyclus>30</cyclus>
-    </VERKEERSLICHT>
-    <VOERTUIG>
-        <baan>Middelheimlaan</baan>
-        <positie>20</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Middelheimlaan</baan>
-        <positie>0</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Groenenborgerlaan</baan>
-        <positie>150</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Groenenborgerlaan</baan>
-        <positie>500</positie>
-    </VOERTUIG>
-</Verkeerssituatie>
+<VOERTUIGGENERATOR>
+    <baan>Middelheimlaan</baan>
+    <frequentie>5</frequentie>
+    <type>auto</type>
+</VOERTUIGGENERATOR>
+<VOERTUIG>
+<baan>Middelheimlaan</baan>
+<positie>20</positie>
+<type>bus</type>
+</VOERTUIG>
+<VOERTUIG>
+<baan>Middelheimlaan</baan>
+<positie>40</positie>
+<type>brandweerwagen</type>
+</VOERTUIG>
+<VOERTUIG>
+<baan>Middelheimlaan</baan>
+<positie>60</positie>
+<type>ziekenwagen</type>
+</VOERTUIG>
+<VOERTUIG>
+<baan>Middelheimlaan</baan>
+<positie>80</positie>
+<type>politiecombi</type>
+</VOERTUIG>

@@ -26,7 +26,7 @@ public:
      * @param situatie De verkeerssituatie die moet worden weergegeven
      * @return Een string met de tekstuele weergave
      */
-    std::string genereerTekstRapport(const VerkeersSituatie& situatie) const;
+    static std::string genereerTekstRapport(const VerkeersSituatie& situatie) ;
 
     /**
      * @brief Schrijft een verkeerssituatie naar een XML-bestand

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
         // Creëer een output object en genereer een tekstrapport
         output uitvoer;
-        string rapport = uitvoer.genereerTekstRapport(situatie);
+        const string rapport = output::genereerTekstRapport(situatie);
 
         // Toon het rapport op de console
         cout << rapport << endl;
