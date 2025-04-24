@@ -9,7 +9,7 @@
    - Roads, intersections, and bus stops manage their own data
 
 2. **Features Implementation**:
-   I Sadly can't give the original document that relates to the use cases, as it is not mine and property of the    university of Antwerp.
+   I Sadly can't give the original document that relates to the use cases, as it is not mine and property of the university of Antwerp.
    
    - Use Case 1.1: Read in traffic situation from input
    - Use Case 1.2: Support vehicle generator
@@ -19,7 +19,7 @@
    - Use Case 2.1: A simple output (containing speed, amount of roads etc.)
    - Use Case 2.2: Graphical impression (both ASCII art and HTML)
    - Use Case 3.1: Simulating vehicle behaviour
-   - Use Case 3.2: Simulation of a trafic light (only red and green)
+   - Use Case 3.2: Simulation of a traffic light (only red and green)
    - Use Case 3.3: Running the simulation automatically
    - Use Case 3.4: Running the simulation with a vehicle generator
    - Use Case 3.5: Different vehicle types with appropriate behavior
@@ -27,12 +27,12 @@
    - Use Case 3.7: Intersection simulation
    - Use Case 3.10: Orange traffic light support
 
-4. **Code Structure**:
+3. **Code Structure**:
    - File reader with dedicated methods for each element type
    - Error handling and consistency verification
    - Output options including HTML visualization
    - Interactive main program with multiple options
-   - Tests written to check if the code workes properly.
+   - Tests written to check if the code works properly.
 
 ## Class Structure
 
