@@ -1,5 +1,5 @@
 /**
-* @file main.debug.cpp
+* @file main_debug.cpp
  * @author senne
  * @date 6/03/2025
  * @brief dit is de debug file waar de testen geïmplementeerd in staan. (dit is een executable)

@@ -38,6 +38,14 @@ private:
     std::string lastFoutmelding; ///< The last error message
 
     /**
+     * @brief Process XML elements and add them to the traffic situation
+     * @param root Root element of the XML document
+     * @param situatie The traffic situation to add the elements to
+     * @return true if processing was successful, false otherwise
+     */
+    bool processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie);
+
+    /**
      * @brief Process a road element
      * @param elem XML element containing road data
      * @param situatie The traffic situation to add the road to

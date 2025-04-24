@@ -1,25 +1,20 @@
-<VOERTUIGGENERATOR>
-    <baan>Middelheimlaan</baan>
-    <frequentie>5</frequentie>
-    <type>auto</type>
-</VOERTUIGGENERATOR>
-<VOERTUIG>
-<baan>Middelheimlaan</baan>
-<positie>20</positie>
-<type>bus</type>
-</VOERTUIG>
-<VOERTUIG>
-<baan>Middelheimlaan</baan>
-<positie>40</positie>
-<type>brandweerwagen</type>
-</VOERTUIG>
-<VOERTUIG>
-<baan>Middelheimlaan</baan>
-<positie>60</positie>
-<type>ziekenwagen</type>
-</VOERTUIG>
-<VOERTUIG>
-<baan>Middelheimlaan</baan>
-<positie>80</positie>
-<type>politiecombi</type>
-</VOERTUIG>
+<BAAN>
+<naam>Middelheimlaan</naam>
+<lengte>500</lengte>
+</BAAN>
+<BAAN>
+<naam>Floralienlaan</naam>
+<lengte>750</lengte>
+</BAAN>
+<BAAN>
+<naam>Beukenlaan</naam>
+<lengte>1000</lengte>
+</BAAN>
+<KRUISPUNT>
+<baan positie="250">Middelheimlaan</baan>
+<baan positie="500">Floralienlaan</baan>
+</KRUISPUNT>
+<KRUISPUNT>
+<baan positie="500">Middelheimlaan</baan>
+<baan positie="500">Beukenlaan</baan>
+</KRUISPUNT>

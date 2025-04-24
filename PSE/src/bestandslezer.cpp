@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 #include "assert.h"
 #include "tinyxml.h"
@@ -28,24 +29,106 @@ BestandsLezer::BestandsLezer() : lastFoutmelding("") {}
  * @return true if reading was successful, false otherwise
  */
 bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
-    TiXmlDocument doc;
-    if (!doc.LoadFile(bestandsnaam.c_str())) {
+    // First, check if the file can be opened
+    std::ifstream fileCheck(bestandsnaam);
+    if (!fileCheck.is_open()) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
         return false;
     }
+    fileCheck.close();
 
-    TiXmlElement* root = doc.RootElement();
-    if (!root) {
-        lastFoutmelding = "XML-bestand heeft geen root element";
-        return false;
+    // Read the file content
+    std::string fileContent;
+    {
+        std::ifstream file(bestandsnaam);
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        fileContent = buffer.str();
     }
 
-    std::string rootName = root->Value();
-    if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
-        cerr << "Root element is geen VerkeersSituatie maar: " + rootName;
-        return false;
-    }
+    // Check if it has a valid XML structure
+    bool hasRootElement = (fileContent.find("<VerkeersSituatie>") != std::string::npos) ||
+                          (fileContent.find("<Verkeerssituatie>") != std::string::npos);
 
+    // If no root element, add one
+    if (!hasRootElement) {
+        // Create a temporary file with proper structure
+        std::string tempFileName = bestandsnaam + ".temp.xml";
+        std::ofstream tempFile(tempFileName);
+
+        tempFile << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
+        tempFile << "<VerkeersSituatie>" << std::endl;
+        tempFile << fileContent;
+        tempFile << "</VerkeersSituatie>" << std::endl;
+
+        tempFile.close();
+
+        // Now use TinyXML to parse the temporary file
+        TiXmlDocument doc;
+        if (!doc.LoadFile(tempFileName.c_str())) {
+            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax";
+            std::remove(tempFileName.c_str());  // Clean up temp file
+            return false;
+        }
+
+        TiXmlElement* root = doc.RootElement();
+        if (!root) {
+            lastFoutmelding = "XML-bestand heeft geen root element";
+            std::remove(tempFileName.c_str());  // Clean up temp file
+            return false;
+        }
+
+        bool success = processXmlElements(root, situatie);
+
+        // Clean up temporary file
+        std::remove(tempFileName.c_str());
+
+        // Verify the consistency only if there is at least one road added
+        if (!situatie.verificeerConsistentie()) {
+            lastFoutmelding = "Verkeerssituatie is niet consistent";
+            return false;
+        }
+
+        return success;
+    } else {
+        // Process normally with TinyXML if root element exists
+        TiXmlDocument doc;
+        if (!doc.LoadFile(bestandsnaam.c_str())) {
+            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax";
+            return false;
+        }
+
+        TiXmlElement* root = doc.RootElement();
+        if (!root) {
+            lastFoutmelding = "XML-bestand heeft geen root element";
+            return false;
+        }
+
+        std::string rootName = root->Value();
+        if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
+            cerr << "Root element is geen VerkeersSituatie maar: " << rootName << std::endl;
+            // We'll try to process it anyway instead of failing
+        }
+
+        bool success = processXmlElements(root, situatie);
+
+        // Verify the consistency only if there is at least one road added
+        if (!situatie.verificeerConsistentie()) {
+            lastFoutmelding = "Verkeerssituatie is niet consistent";
+            return false;
+        }
+
+        return success;
+    }
+}
+
+/**
+ * @brief Process XML elements and add them to the traffic situation
+ * @param root Root element of the XML document
+ * @param situatie The traffic situation to add the elements to
+ * @return true if processing was successful, false otherwise
+ */
+bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie) {
     bool success = true;
 
     for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
@@ -73,12 +156,6 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
             lastFoutmelding = "Onbekend element type: " + elementType;
             // Continue processing, don't set success to false for unknown elements
         }
-    }
-
-    // Verify the consistency only if there is at least one road added
-    if (!situatie.verificeerConsistentie()) {
-        lastFoutmelding = "Verkeerssituatie is niet consistent";
-        return false;
     }
 
     return success;
