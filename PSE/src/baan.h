@@ -1,7 +1,5 @@
 /**
 * @file Baan.h
- * @author senne
- * @date 27/02/2025
  * @brief definitie van de baan
  */
 

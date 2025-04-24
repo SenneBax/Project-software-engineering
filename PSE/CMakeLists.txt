@@ -26,6 +26,9 @@ set(RELEASE_SOURCE_FILES
         src/simulatie.cpp
         src/output.cpp
         src/bestandslezer.cpp
+        src/bushalte.cpp
+        src/kruispunt.cpp
+        src/voertuiggenerator.cpp
 
 )
 # Set source files for DEBUG target
@@ -47,6 +50,12 @@ set(DEBUG_SOURCE_FILES
         src/bestandslezer.h
         src/output.cpp
         src/output.h
+        src/voertuiggenerator.cpp
+        src/voertuiggenerator.h
+        src/bushalte.cpp
+        src/bushalte.h
+        src/kruispunt.cpp
+        src/kruispunt.h
 
 
 )

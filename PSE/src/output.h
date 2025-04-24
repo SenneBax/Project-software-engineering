@@ -1,8 +1,6 @@
 /**
 * @file output.h
- * @author senne
- * @date 19/03/2025
- * @brief Header voor de Uitvoer klasse
+ * @brief Header for the output class (Revised with graphical impressions)
  */
 
 #ifndef OUTPUT_H
@@ -12,7 +10,7 @@
 #include "situatie.h"
 
 /**
- * @brief Klasse voor het genereren van uitvoer van verkeerssituaties
+ * @brief Class for generating output of traffic situations
  */
 class output {
 public:
@@ -22,28 +20,43 @@ public:
     output();
 
     /**
-     * @brief Genereert een tekstuele weergave van de verkeerssituatie
-     * @param situatie De verkeerssituatie die moet worden weergegeven
-     * @return Een string met de tekstuele weergave
+     * @brief Generates a textual representation of the traffic situation
+     * @param situatie The traffic situation to be displayed
+     * @return A string with the textual representation
      */
-    std::string genereerTekstRapport(const VerkeersSituatie& situatie) const;
+    static std::string genereerTekstRapport(const VerkeersSituatie& situatie);
 
     /**
-     * @brief Schrijft een verkeerssituatie naar een XML-bestand
-     * @param situatie De verkeerssituatie die moet worden geschreven
-     * @param bestandsnaam Pad naar het XML-bestand
-     * @return true als het schrijven succesvol was, anders false
+     * @brief Generates a graphical impression of the traffic situation (ASCII art)
+     * @param situatie The traffic situation to be displayed
+     * @return A string with the graphical impression
+     */
+    static std::string genereerGrafischeImpressie(const VerkeersSituatie& situatie);
+
+    /**
+     * @brief Writes a traffic situation to an XML file
+     * @param situatie The traffic situation to be written
+     * @param bestandsnaam Path to the XML file
+     * @return true if writing was successful, false otherwise
      */
     bool schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const;
 
     /**
-     * @brief Geeft de laatste foutmelding terug
-     * @return De laatste foutmelding
+     * @brief Generates an HTML representation of the traffic situation
+     * @param situatie The traffic situation to be displayed
+     * @param bestandsnaam Path to the HTML file
+     * @return true if writing was successful, false otherwise
+     */
+    bool schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const;
+
+    /**
+     * @brief Gets the last error message
+     * @return The last error message
      */
     std::string getLastFoutmelding() const;
 
 private:
-    mutable std::string lastFoutmelding; ///< De laatste foutmelding
+    mutable std::string lastFoutmelding; ///< The last error message
 };
 
 #endif // OUTPUT_H

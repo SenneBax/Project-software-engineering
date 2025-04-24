@@ -1,42 +1,153 @@
 /**
- * @file Voertuig.cpp
- * @author senne
- * @date 27/02/2025
- * @brief implementatie van de klasse van het voertuig
+ * @file voertuig.cpp
+ * @brief Implementation of the Voertuig class (Revised with vehicle types)
  */
 
 #include "voertuig.h"
-#include <iostream>
-using namespace std;
+#include <algorithm>
+#include <cmath>
+#include <stdexcept>
+
+// Initialize static const member variable with vehicle type parameters from Appendix C
+const std::map<Voertuig::VoertuigType, Voertuig::VoertuigParams> Voertuig::typeParameters = {
+    {Voertuig::VoertuigType::AUTO, Voertuig::VoertuigParams(4.0, 16.6, 1.44, 4.61, 4.0, false)},
+    {Voertuig::VoertuigType::BUS, Voertuig::VoertuigParams(12.0, 11.4, 1.22, 4.29, 12.0, false)},
+    {Voertuig::VoertuigType::BRANDWEERWAGEN, Voertuig::VoertuigParams(10.0, 14.6, 1.33, 4.56, 10.0, true)},
+    {Voertuig::VoertuigType::ZIEKENWAGEN, Voertuig::VoertuigParams(8.0, 15.5, 1.44, 4.47, 8.0, true)},
+    {Voertuig::VoertuigType::POLITIECOMBI, Voertuig::VoertuigParams(6.0, 17.2, 1.55, 4.92, 6.0, true)}
+};
 
 /**
- * @brief Constructor voor een voertuig
- * @param baan Naam van de baan
- * @param positie Positie op de baan in meters
- * @param snelheid Snelheid van het voertuig in m/s
- * @param versnelling Versnelling van het voertuig in m/s²
+ * @brief Constructor
+ * @param baan De naam van de baan waar het voertuig zich bevindt
+ * @param positie De positie van het voertuig op de baan
+ * @param type Het type van het voertuig
  */
-Voertuig::Voertuig(const string& baan, const int positie, const double snelheid, const double versnelling)
-    : baan(baan), positie(positie), snelheid(snelheid), versnelling(versnelling) {}
-
-/**
- * @brief Getter voor de baan van het voertuig
- * @return De naam van de baan
- */
-string Voertuig::getBaan() const {
-    return baan;
+Voertuig::Voertuig(const std::string& baan, double positie, const std::string& typeStr)
+    : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0),
+      type(stringToType(typeStr)), isWaitingAtStop(false) {
 }
 
 /**
- * @brief Getter voor de positie van het voertuig
- * @return De positie in meters
+ * @brief Constructor met snelheid en versnelling
+ * @param baan De naam van de baan waar het voertuig zich bevindt
+ * @param positie De positie van het voertuig op de baan
+ * @param snelheid De snelheid van het voertuig
+ * @param versnelling De versnelling van het voertuig
+ * @param type Het type van het voertuig
  */
-int Voertuig::getPositie() const {
+Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling, const std::string& typeStr)
+    : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling),
+      type(stringToType(typeStr)), isWaitingAtStop(false) {
+}
+
+/**
+ * @brief Copy constructor
+ * @param other Het te kopiëren voertuig
+ */
+Voertuig::Voertuig(const Voertuig& other)
+    : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
+      versnelling(other.versnelling), type(other.type), isWaitingAtStop(other.isWaitingAtStop) {
+}
+
+/**
+ * @brief Destructor
+ */
+Voertuig::~Voertuig() {
+    // Geen dynamisch geheugen om vrij te geven
+}
+
+/**
+ * @brief Assignment operator
+ * @param other Het voertuig waarvan de waarden worden overgenomen
+ * @return Referentie naar dit voertuig
+ */
+Voertuig& Voertuig::operator=(const Voertuig& other) {
+    if (this != &other) {
+        baanNaam = other.baanNaam;
+        positie = other.positie;
+        snelheid = other.snelheid;
+        versnelling = other.versnelling;
+        type = other.type;
+        isWaitingAtStop = other.isWaitingAtStop;
+    }
+    return *this;
+}
+
+/**
+ * @brief Geeft de naam van de baan terug
+ * @return De naam van de baan
+ */
+std::string Voertuig::getBaanNaam() const {
+    return baanNaam;
+}
+
+/**
+ * @brief Alias voor getBaanNaam voor compatibiliteit
+ * @return De naam van de baan
+ */
+std::string Voertuig::getBaan() const {
+    return baanNaam;
+}
+
+/**
+ * @brief Sets the name of the road
+ * @param nieuweNaam The new road name
+ */
+void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
+    baanNaam = nieuweNaam;
+}
+
+/**
+ * @brief Geeft de positie van het voertuig terug
+ * @return De positie op de baan
+ */
+double Voertuig::getPositie() const {
     return positie;
 }
 
 /**
- * @brief Getter voor de snelheid van het voertuig
+ * @brief Zet de positie van het voertuig
+ * @param nieuwePositie De nieuwe positie
+ */
+void Voertuig::setPositie(double nieuwePositie) {
+    positie = nieuwePositie;
+}
+
+/**
+ * @brief Geeft het type van het voertuig terug
+ * @return Het type van het voertuig
+ */
+std::string Voertuig::getType() const {
+    return typeToString(type);
+}
+
+/**
+ * @brief Gets the vehicle type as enum
+ * @return The vehicle type enum
+ */
+Voertuig::VoertuigType Voertuig::getTypeEnum() const {
+    return type;
+}
+
+/**
+ * @brief Checks if the vehicle is a priority vehicle
+ * @return True if the vehicle is a priority vehicle (fire truck, ambulance, police)
+ */
+bool Voertuig::isPrioriteitsvoertuig() const {
+    return typeParameters.at(type).isPrioriteitsvoertuig;
+}
+
+/**
+ * @brief Checks if this vehicle is a bus
+ * @return True if the vehicle is a bus
+ */
+bool Voertuig::isBus() const {
+    return type == VoertuigType::BUS;
+}
+
+/**
+ * @brief Geeft de snelheid van het voertuig terug
  * @return De snelheid in m/s
  */
 double Voertuig::getSnelheid() const {
@@ -44,7 +155,15 @@ double Voertuig::getSnelheid() const {
 }
 
 /**
- * @brief Getter voor de versnelling van het voertuig
+ * @brief Zet de snelheid van het voertuig
+ * @param nieuweSnelheid De nieuwe snelheid
+ */
+void Voertuig::setSnelheid(double nieuweSnelheid) {
+    snelheid = std::max(0.0, nieuweSnelheid); // Prevent negative speed
+}
+
+/**
+ * @brief Geeft de versnelling van het voertuig terug
  * @return De versnelling in m/s²
  */
 double Voertuig::getVersnelling() const {
@@ -52,48 +171,185 @@ double Voertuig::getVersnelling() const {
 }
 
 /**
- * @brief Setter voor de positie van het voertuig
- * @param nieuwePositie De nieuwe positie in meters
+ * @brief Zet de versnelling van het voertuig
+ * @param nieuweVersnelling De nieuwe versnelling
  */
-void Voertuig::setPositie(const int nieuwePositie) {
-    positie = nieuwePositie;
-}
-
-/**
- * @brief Setter voor de snelheid van het voertuig
- * @param nieuweSnelheid De nieuwe snelheid in m/s
- */
-void Voertuig::setSnelheid(const double nieuweSnelheid) {
-    snelheid = nieuweSnelheid;
-}
-
-/**
- * @brief Setter voor de versnelling van het voertuig
- * @param nieuweVersnelling De nieuwe versnelling in m/s²
- */
-void Voertuig::setVersnelling(const double nieuweVersnelling) {
+void Voertuig::setVersnelling(double nieuweVersnelling) {
     versnelling = nieuweVersnelling;
 }
 
 /**
- * @brief Methode om de voertuigpositie te updaten en ook de snelheid op voorbije tijd
- * @param tijdstap De tijdstap in seconden
+ * @brief Gets the length of the vehicle
+ * @return The length in meters
  */
-void Voertuig::rijd(const double tijdstap) {
-    // Update snelheid eerst: v = v0 + a * t
-    double nieuweSnelheid = snelheid + versnelling * tijdstap;
+double Voertuig::getLengte() const {
+    return typeParameters.at(type).lengte;
+}
 
-    // Ensure speed is not negative
-    if (nieuweSnelheid < 0) {
-        nieuweSnelheid = 0;
+/**
+ * @brief Gets the maximum speed of the vehicle
+ * @return The maximum speed in m/s
+ */
+double Voertuig::getMaxSnelheid() const {
+    return typeParameters.at(type).maxSnelheid;
+}
+
+/**
+ * @brief Gets the maximum acceleration of the vehicle
+ * @return The maximum acceleration in m/s²
+ */
+double Voertuig::getMaxVersnelling() const {
+    return typeParameters.at(type).maxVersnelling;
+}
+
+/**
+ * @brief Gets the maximum braking factor of the vehicle
+ * @return The maximum braking factor in m/s²
+ */
+double Voertuig::getMaxRemFactor() const {
+    return typeParameters.at(type).maxRemFactor;
+}
+
+/**
+ * @brief Gets the minimum following distance
+ * @return The minimum following distance in meters
+ */
+double Voertuig::getMinVolgafstand() const {
+    return typeParameters.at(type).minVolgafstand;
+}
+
+/**
+ * @brief Sets the bus waiting flag
+ * @param isWaiting Whether the bus is waiting at a stop
+ */
+void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
+    isWaitingAtStop = isWaiting;
+}
+
+/**
+ * @brief Checks if the bus is waiting at a stop
+ * @return True if the bus is waiting, false otherwise
+ */
+bool Voertuig::isWaitingAtBusStop() const {
+    return isWaitingAtStop;
+}
+
+/**
+ * @brief Update the vehicle's position and speed based on the current acceleration
+ * @param tijdstap The time step for the update in seconds
+ */
+void Voertuig::updatePositieEnSnelheid(double tijdstap) {
+    // Formules uit B.2 van de specificatie
+    if (snelheid + versnelling * tijdstap < 0) {
+        // Snelheid zou negatief worden, pas positie aan en zet snelheid op 0
+        positie = positie - (snelheid * snelheid) / (2 * versnelling);
+        snelheid = 0.0;
+    } else {
+        // Normale situatie, update snelheid en dan positie
+        snelheid = snelheid + versnelling * tijdstap;
+        snelheid = std::max(0.0, snelheid); // Zorg ervoor dat de snelheid niet negatief wordt
+
+        // Bereken nieuwe positie
+        positie = positie + snelheid * tijdstap + (versnelling * tijdstap * tijdstap) / 2;
+    }
+}
+
+/**
+ * @brief Calculate the vehicle's acceleration based on preceding vehicle and other factors
+ * @param voorgaandVoertuig The preceding vehicle, nullptr if none
+ * @param isEersteVoertuig Whether this is the first vehicle on the road
+ * @param verkeersLichtVertraagFactor Slowdown factor for a traffic light (0.4 by default)
+ * @param doelSnelheid Target speed, uses vehicle's maximum speed by default
+ */
+void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
+                                 double verkeersLichtVertraagFactor, double doelSnelheid) {
+    // If this is a priority vehicle, it doesn't have to slow down for traffic lights
+    if (isPrioriteitsvoertuig() && isEersteVoertuig) {
+        // Priority vehicles use their max speed as target
+        doelSnelheid = getMaxSnelheid();
+    } else if (doelSnelheid < 0) {
+        // If no target speed is provided, use max speed
+        doelSnelheid = getMaxSnelheid();
     }
 
-    // Update positie: x = x0 + v0 * t + 0.5 * a * t²
-    // gebruikt de gemiddelde snelheid: (initialSpeed + finalSpeed) / 2
-    const double gemiddeldeSnelheid = (snelheid + nieuweSnelheid) / 2;
-    const int nieuwePositie = positie + static_cast<int>(gemiddeldeSnelheid * tijdstap);
+    // Calculate delta based on formulas in B.3
+    double delta = 0.0;
 
-    // Update de waardes
-    snelheid = nieuweSnelheid;
-    positie = nieuwePositie;
+    if (voorgaandVoertuig != nullptr) {
+        // Calculate following distance
+        const double deltaX = voorgaandVoertuig->getPositie() - positie - voorgaandVoertuig->getLengte();
+
+        // Prevent negative or too small deltaX values that could lead to NaN or infinity
+        if (deltaX <= 0.1) {
+            // Emergency braking when distance is very small
+            versnelling = -getMaxRemFactor();
+            return;
+        }
+
+        // Calculate speed difference
+        const double deltaV = snelheid - voorgaandVoertuig->getSnelheid();
+
+        // Calculate interaction term delta
+        double s_star = getMinVolgafstand() +
+                        std::max(0.0, snelheid + snelheid * deltaV /
+                        (2 * std::sqrt(getMaxVersnelling() * getMaxRemFactor())));
+        delta = pow(s_star / deltaX, 2);
+    }
+
+    // Calculate acceleration according to formula in B.3
+    double a = getMaxVersnelling() * (1 - pow(snelheid / doelSnelheid, 4) - delta);
+
+    // Limit acceleration between -maxRemFactor and maxVersnelling
+    a = std::max(-getMaxRemFactor(), std::min(getMaxVersnelling(), a));
+
+    versnelling = a;
+}
+
+/**
+ * @brief Apply emergency braking (vehicle comes to a stop)
+ */
+void Voertuig::noodStop() {
+    // Formula from B.5
+    versnelling = -getMaxRemFactor() * snelheid / getMaxSnelheid();
+}
+
+/**
+ * @brief Convert a string type to enum
+ * @param typeStr String representation of the type
+ * @return The corresponding enum value
+ */
+Voertuig::VoertuigType Voertuig::stringToType(const std::string& typeStr) {
+    if (typeStr == "auto") return VoertuigType::AUTO;
+    if (typeStr == "bus") return VoertuigType::BUS;
+    if (typeStr == "brandweerwagen") return VoertuigType::BRANDWEERWAGEN;
+    if (typeStr == "ziekenwagen") return VoertuigType::ZIEKENWAGEN;
+    if (typeStr == "politiecombi") return VoertuigType::POLITIECOMBI;
+
+    // Default to AUTO if type is not recognized
+    return VoertuigType::AUTO;
+}
+
+/**
+ * @brief Convert an enum type to string
+ * @param type The enum value
+ * @return String representation of the type
+ */
+std::string Voertuig::typeToString(VoertuigType type) {
+    switch (type) {
+        case VoertuigType::AUTO: return "auto";
+        case VoertuigType::BUS: return "bus";
+        case VoertuigType::BRANDWEERWAGEN: return "brandweerwagen";
+        case VoertuigType::ZIEKENWAGEN: return "ziekenwagen";
+        case VoertuigType::POLITIECOMBI: return "politiecombi";
+        default: return "onbekend";
+    }
+}
+
+/**
+ * @brief Get the parameters for a specific vehicle type
+ * @param type The vehicle type
+ * @return The parameters for the given type
+ */
+Voertuig::VoertuigParams Voertuig::getVoertuigParams(VoertuigType type) {
+    return typeParameters.at(type);
 }

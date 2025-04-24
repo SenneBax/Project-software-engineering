@@ -9,6 +9,7 @@
    - Roads, intersections, and bus stops manage their own data
 
 2. **Features Implementation**:
+
    I Sadly can't give the original document that relates to the use cases, as it is not mine and property of the    university of Antwerp.
    
    - Use Case 1.1: Read in traffic situation from input
@@ -27,12 +28,15 @@
    - Use Case 3.7: Intersection simulation
    - Use Case 3.10: Orange traffic light support
 
-4. **Code Structure**:
+
+3. **Code Structure**:
+4. 
    - File reader with dedicated methods for each element type
    - Error handling and consistency verification
    - Output options including HTML visualization
    - Interactive main program with multiple options
    - Tests written to check if the code workes properly.
+
 
 ## Class Structure
 

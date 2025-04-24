@@ -1,37 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Verkeerssituatie>
-    <BAAN>
-        <naam>Middelheimlaan</naam>
-        <lengte>500</lengte>
-    </BAAN>
-    <BAAN>
-        <naam>Groenenborgerlaan</naam>
-        <lengte>800</lengte>
-    </BAAN>
-    <VERKEERSLICHT>
-        <baan>Middelheimlaan</baan>
-        <positie>400</positie>
-        <cyclus>20</cyclus>
-    </VERKEERSLICHT>
-    <VERKEERSLICHT>
-        <baan>Groenenborgerlaan</baan>
-        <positie>350</positie>
-        <cyclus>30</cyclus>
-    </VERKEERSLICHT>
-    <VOERTUIG>
-        <baan>Middelheimlaan</baan>
-        <positie>20</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Middelheimlaan</baan>
-        <positie>0</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Groenenborgerlaan</baan>
-        <positie>150</positie>
-    </VOERTUIG>
-    <VOERTUIG>
-        <baan>Groenenborgerlaan</baan>
-        <positie>500</positie>
-    </VOERTUIG>
-</Verkeerssituatie>
+<BAAN>
+<naam>Middelheimlaan</naam>
+<lengte>500</lengte>
+</BAAN>
+<BAAN>
+<naam>Floralienlaan</naam>
+<lengte>750</lengte>
+</BAAN>
+<BAAN>
+<naam>Beukenlaan</naam>
+<lengte>1000</lengte>
+</BAAN>
+<KRUISPUNT>
+<baan positie="250">Middelheimlaan</baan>
+<baan positie="500">Floralienlaan</baan>
+</KRUISPUNT>
+<KRUISPUNT>
+<baan positie="500">Middelheimlaan</baan>
+<baan positie="500">Beukenlaan</baan>
+</KRUISPUNT>
