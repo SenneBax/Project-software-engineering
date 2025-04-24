@@ -49,6 +49,10 @@ set(DEBUG_SOURCE_FILES
         src/output.h
         src/voertuiggenerator.cpp
         src/voertuiggenerator.h
+        src/bushalte.cpp
+        src/bushalte.h
+        src/kruispunt.cpp
+        src/kruispunt.h
 
 
 )

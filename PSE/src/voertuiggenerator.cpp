@@ -1,9 +1,5 @@
-//
-// Created by senne on 22/03/2025.
-//
-
 /**
- * @file voertuiggenerator.cpp
+* @file voertuiggenerator.cpp
  * @brief Implementatie van de VoertuigGenerator klasse
  */
 
@@ -42,5 +38,3 @@ int VoertuigGenerator::getFrequentie() const {
 std::string VoertuigGenerator::getType() const {
     return type;
 }
-
-// Implementatie van andere methoden...

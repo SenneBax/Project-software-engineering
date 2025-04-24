@@ -1,7 +1,3 @@
-//
-// Created by senne on 22/03/2025.
-//
-
 /**
  * @file voertuiggenerator.h
  * @brief Header voor de VoertuigGenerator klasse

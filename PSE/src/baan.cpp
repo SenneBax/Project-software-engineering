@@ -1,7 +1,5 @@
 /**
-* @file Baan.cpp
- * @author senne
- * @date 27/02/2025
+ * @file Baan.cpp
  * @brief de manier hoe de klasse van de baan is geïmplementeerd
  */
 
