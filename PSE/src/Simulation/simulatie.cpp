@@ -3,8 +3,14 @@
  * @brief Implementation of the simulation class (Revised for better modularity)
  */
 
-#include "simulatie.h"
-#include "situatie.h"
+#include "../Simulation/simulatie.h"
+#include "../Situation/situatie.h"
+#include "../TraficObjects/baan.h"
+#include "../TraficObjects/voertuig.h"
+#include "../TraficObjects/verkeerslicht.h"
+#include "../TraficObjects/voertuiggenerator.h"
+#include "../TraficObjects/bushalte.h"
+#include "../TraficObjects/kruispunt.h"
 #include <algorithm>
 #include <iostream>
 #include <cmath>

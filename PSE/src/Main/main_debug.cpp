@@ -8,14 +8,14 @@
 
 #include <gtest/gtest.h>
 #include <fstream>
-#include "situatie.h"
-#include "baan.h"
-#include "voertuig.h"
-#include "verkeerslicht.h"
-#include "simulatie.h"
-#include "bestandslezer.h"
-#include "bushalte.h"
-#include "kruispunt.h"
+#include "../Situation/situatie.h"
+#include "../TraficObjects/baan.h"
+#include "../TraficObjects/voertuig.h"
+#include "../TraficObjects/verkeerslicht.h"
+#include "../Simulation/simulatie.h"
+#include "../FileReader/bestandslezer.h"
+#include "../TraficObjects/bushalte.h"
+#include "../TraficObjects/kruispunt.h"
 
 // Hulpfunctie om size_t naar int te converteren voor veilige vergelijkingen
 template<typename Container>

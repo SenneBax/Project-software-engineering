@@ -7,7 +7,7 @@
 #define OUTPUT_H
 
 #include <string>
-#include "situatie.h"
+#include "../Situation/situatie.h"
 
 /**
  * @brief Class for generating output of traffic situations

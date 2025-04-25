@@ -7,8 +7,8 @@
 #define BESTANDSLEZER_H
 
 #include <string>
-#include "situatie.h"
-#include "tinyxml.h"
+#include "../Situation/situatie.h"
+#include "../Parser/tinyxml.h"
 
 /**
  * @brief Class for reading files with traffic situations

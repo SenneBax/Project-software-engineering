@@ -7,10 +7,10 @@
 #include <string>
 #include <thread>
 #include <chrono>
-#include "situatie.h"
-#include "bestandslezer.h"
-#include "simulatie.h"
-#include "output.h"
+#include "../Situation/situatie.h"
+#include "../FileReader/bestandslezer.h"
+#include "../Simulation/simulatie.h"
+#include "../Output/output.h"
 
 using namespace std;
 

@@ -9,12 +9,12 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "baan.h"
-#include "voertuig.h"
-#include "verkeerslicht.h"
-#include "voertuiggenerator.h"
-#include "bushalte.h"
-#include "kruispunt.h"
+#include "../TraficObjects/baan.h"
+#include "../TraficObjects/voertuig.h"
+#include "../TraficObjects/verkeerslicht.h"
+#include "../TraficObjects/voertuiggenerator.h"
+#include "../TraficObjects/bushalte.h"
+#include "../TraficObjects/kruispunt.h"
 
 /**
  * @brief Class that represents a traffic situation

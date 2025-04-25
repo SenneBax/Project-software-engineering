@@ -14,50 +14,42 @@ link_directories(gtest/lib)
 # Only add files with functionality here, no test files!
 # Make sure the "main" function is in "main_release"!
 set(RELEASE_SOURCE_FILES
-        src/baan.cpp
-        src/situatie.cpp
-        src/verkeerslicht.cpp
-        src/voertuig.cpp
-        src/main_release.cpp
-        src/tinyxml.cpp
-        src/tinystr.cpp
-        src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp
-        src/simulatie.cpp
-        src/output.cpp
-        src/bestandslezer.cpp
-        src/bushalte.cpp
-        src/kruispunt.cpp
-        src/voertuiggenerator.cpp
+        src/TraficObjects/baan.cpp
+        src/Situation/situatie.cpp
+        src/TraficObjects/verkeerslicht.cpp
+        src/TraficObjects/voertuig.cpp
+        src/Main/main_release.cpp
+        src/Parser/tinyxml.cpp
+        src/Parser/tinystr.cpp
+        src/Parser/tinyxmlerror.cpp
+        src/Parser/tinyxmlparser.cpp
+        src/Simulation/simulatie.cpp
+        src/Output/output.cpp
+        src/FileReader/bestandslezer.cpp
+        src/TraficObjects/bushalte.cpp
+        src/TraficObjects/kruispunt.cpp
+        src/TraficObjects/voertuiggenerator.cpp
 
 )
 # Set source files for DEBUG target
 # Only add cpp files, no h files!
 # Make sure the "main" function is in "main_debug"!
 set(DEBUG_SOURCE_FILES
-        src/baan.cpp
-        src/situatie.cpp
-        src/verkeerslicht.cpp
-        src/voertuig.cpp
-        src/main_debug.cpp
-        src/tinyxml.cpp
-        src/tinystr.cpp
-        src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp
-        src/simulatie.cpp
-        src/simulatie.h
-        src/bestandslezer.cpp
-        src/bestandslezer.h
-        src/output.cpp
-        src/output.h
-        src/voertuiggenerator.cpp
-        src/voertuiggenerator.h
-        src/bushalte.cpp
-        src/bushalte.h
-        src/kruispunt.cpp
-        src/kruispunt.h
-
-
+        src/TraficObjects/baan.cpp
+        src/Situation/situatie.cpp
+        src/TraficObjects/verkeerslicht.cpp
+        src/TraficObjects/voertuig.cpp
+        src/Main/main_debug.cpp
+        src/Parser/tinyxml.cpp
+        src/Parser/tinystr.cpp
+        src/Parser/tinyxmlerror.cpp
+        src/Parser/tinyxmlparser.cpp
+        src/Simulation/simulatie.cpp
+        src/FileReader/bestandslezer.cpp
+        src/Output/output.cpp
+        src/TraficObjects/voertuiggenerator.cpp
+        src/TraficObjects/bushalte.cpp
+        src/TraficObjects/kruispunt.cpp
 )
 # Create RELEASE target
 add_executable(release_target ${RELEASE_SOURCE_FILES})

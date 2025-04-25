@@ -3,7 +3,7 @@
  * @brief Implementation of the VerkeersSituatie class (Revised with bus stops and intersections)
  */
 
-#include "situatie.h"
+#include "../Situation/situatie.h"
 #include <algorithm>
 #include <limits>
 

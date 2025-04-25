@@ -10,10 +10,10 @@
 #include <sstream>
 
 #include "assert.h"
-#include "tinyxml.h"
-#include "voertuiggenerator.h"
-#include "bushalte.h"
-#include "kruispunt.h"
+#include "../Parser/tinyxml.h"
+#include "../TraficObjects/voertuiggenerator.h"
+#include "../TraficObjects/bushalte.h"
+#include "../TraficObjects/kruispunt.h"
 
 using namespace std;
 

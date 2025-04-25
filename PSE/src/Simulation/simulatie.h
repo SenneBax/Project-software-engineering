@@ -6,7 +6,8 @@
 #ifndef SIMULATIE_H
 #define SIMULATIE_H
 
-#include "situatie.h"
+#include "../Situation/situatie.h"
+
 
 /**
  * @class simulatie
