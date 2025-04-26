@@ -49,110 +49,110 @@ cmake_ninja_workdir = C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-eng
 
 build cmake_object_order_depends_target_release_target: phony || .
 
-build CMakeFiles/release_target.dir/src/baan.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/baan.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\baan.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/baan.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/baan.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\baan.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
-build CMakeFiles/release_target.dir/src/situatie.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/situatie.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\situatie.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Situation/situatie.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Situation/situatie.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Situation\situatie.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Situation
 
-build CMakeFiles/release_target.dir/src/verkeerslicht.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/verkeerslicht.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\verkeerslicht.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/verkeerslicht.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/verkeerslicht.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\verkeerslicht.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
-build CMakeFiles/release_target.dir/src/voertuig.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/voertuig.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\voertuig.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/voertuig.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/voertuig.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\voertuig.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
-build CMakeFiles/release_target.dir/src/main_release.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/main_release.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\main_release.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Main/main_release.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Main/main_release.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Main\main_release.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Main
 
-build CMakeFiles/release_target.dir/src/tinyxml.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxml.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\tinyxml.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Parser/tinyxml.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxml.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Parser\tinyxml.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Parser
 
-build CMakeFiles/release_target.dir/src/tinystr.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinystr.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\tinystr.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Parser/tinystr.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinystr.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Parser\tinystr.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Parser
 
-build CMakeFiles/release_target.dir/src/tinyxmlerror.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxmlerror.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\tinyxmlerror.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Parser/tinyxmlerror.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxmlerror.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Parser\tinyxmlerror.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Parser
 
-build CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxmlparser.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\tinyxmlparser.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Parser/tinyxmlparser.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxmlparser.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Parser\tinyxmlparser.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Parser
 
-build CMakeFiles/release_target.dir/src/simulatie.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/simulatie.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\simulatie.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Simulation/simulatie.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Simulation/simulatie.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Simulation\simulatie.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Simulation
 
-build CMakeFiles/release_target.dir/src/output.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/output.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\output.cpp.obj.d
+build CMakeFiles/release_target.dir/src/Output/output.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Output/output.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\Output\output.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\Output
 
-build CMakeFiles/release_target.dir/src/bestandslezer.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/bestandslezer.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\bestandslezer.cpp.obj.d
+build CMakeFiles/release_target.dir/src/FileReader/bestandslezer.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/FileReader/bestandslezer.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\FileReader\bestandslezer.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\FileReader
 
-build CMakeFiles/release_target.dir/src/bushalte.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/bushalte.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\bushalte.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/bushalte.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/bushalte.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\bushalte.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
-build CMakeFiles/release_target.dir/src/kruispunt.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/kruispunt.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\kruispunt.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/kruispunt.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/kruispunt.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\kruispunt.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
-build CMakeFiles/release_target.dir/src/voertuiggenerator.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/voertuiggenerator.cpp || cmake_object_order_depends_target_release_target
-  DEP_FILE = CMakeFiles\release_target.dir\src\voertuiggenerator.cpp.obj.d
+build CMakeFiles/release_target.dir/src/TraficObjects/voertuiggenerator.cpp.obj: CXX_COMPILER__release_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/voertuiggenerator.cpp || cmake_object_order_depends_target_release_target
+  DEP_FILE = CMakeFiles\release_target.dir\src\TraficObjects\voertuiggenerator.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\release_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\release_target.dir\src\TraficObjects
 
 
 # =============================================================================
@@ -162,7 +162,7 @@ build CMakeFiles/release_target.dir/src/voertuiggenerator.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the executable release_target.exe
 
-build release_target.exe: CXX_EXECUTABLE_LINKER__release_target_Debug CMakeFiles/release_target.dir/src/baan.cpp.obj CMakeFiles/release_target.dir/src/situatie.cpp.obj CMakeFiles/release_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/release_target.dir/src/voertuig.cpp.obj CMakeFiles/release_target.dir/src/main_release.cpp.obj CMakeFiles/release_target.dir/src/tinyxml.cpp.obj CMakeFiles/release_target.dir/src/tinystr.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/release_target.dir/src/tinyxmlparser.cpp.obj CMakeFiles/release_target.dir/src/simulatie.cpp.obj CMakeFiles/release_target.dir/src/output.cpp.obj CMakeFiles/release_target.dir/src/bestandslezer.cpp.obj CMakeFiles/release_target.dir/src/bushalte.cpp.obj CMakeFiles/release_target.dir/src/kruispunt.cpp.obj CMakeFiles/release_target.dir/src/voertuiggenerator.cpp.obj
+build release_target.exe: CXX_EXECUTABLE_LINKER__release_target_Debug CMakeFiles/release_target.dir/src/TraficObjects/baan.cpp.obj CMakeFiles/release_target.dir/src/Situation/situatie.cpp.obj CMakeFiles/release_target.dir/src/TraficObjects/verkeerslicht.cpp.obj CMakeFiles/release_target.dir/src/TraficObjects/voertuig.cpp.obj CMakeFiles/release_target.dir/src/Main/main_release.cpp.obj CMakeFiles/release_target.dir/src/Parser/tinyxml.cpp.obj CMakeFiles/release_target.dir/src/Parser/tinystr.cpp.obj CMakeFiles/release_target.dir/src/Parser/tinyxmlerror.cpp.obj CMakeFiles/release_target.dir/src/Parser/tinyxmlparser.cpp.obj CMakeFiles/release_target.dir/src/Simulation/simulatie.cpp.obj CMakeFiles/release_target.dir/src/Output/output.cpp.obj CMakeFiles/release_target.dir/src/FileReader/bestandslezer.cpp.obj CMakeFiles/release_target.dir/src/TraficObjects/bushalte.cpp.obj CMakeFiles/release_target.dir/src/TraficObjects/kruispunt.cpp.obj CMakeFiles/release_target.dir/src/TraficObjects/voertuiggenerator.cpp.obj
   FLAGS = -std=c++17 -Wall -Werror -O2 -g
   LINK_FLAGS = -pthread
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -183,110 +183,110 @@ build release_target.exe: CXX_EXECUTABLE_LINKER__release_target_Debug CMakeFiles
 
 build cmake_object_order_depends_target_debug_target: phony || .
 
-build CMakeFiles/debug_target.dir/src/baan.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/baan.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\baan.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/baan.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/baan.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\baan.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
-build CMakeFiles/debug_target.dir/src/situatie.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/situatie.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\situatie.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Situation/situatie.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Situation/situatie.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Situation\situatie.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Situation
 
-build CMakeFiles/debug_target.dir/src/verkeerslicht.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/verkeerslicht.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\verkeerslicht.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/verkeerslicht.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/verkeerslicht.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\verkeerslicht.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
-build CMakeFiles/debug_target.dir/src/voertuig.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/voertuig.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\voertuig.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/voertuig.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/voertuig.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\voertuig.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
-build CMakeFiles/debug_target.dir/src/main_debug.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/main_debug.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\main_debug.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Main/main_debug.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Main/main_debug.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Main\main_debug.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Main
 
-build CMakeFiles/debug_target.dir/src/tinyxml.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxml.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\tinyxml.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Parser/tinyxml.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxml.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Parser\tinyxml.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Parser
 
-build CMakeFiles/debug_target.dir/src/tinystr.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinystr.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\tinystr.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Parser/tinystr.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinystr.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Parser\tinystr.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Parser
 
-build CMakeFiles/debug_target.dir/src/tinyxmlerror.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxmlerror.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\tinyxmlerror.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Parser/tinyxmlerror.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxmlerror.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Parser\tinyxmlerror.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Parser
 
-build CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/tinyxmlparser.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\tinyxmlparser.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Parser/tinyxmlparser.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Parser/tinyxmlparser.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Parser\tinyxmlparser.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Parser
 
-build CMakeFiles/debug_target.dir/src/simulatie.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/simulatie.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\simulatie.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Simulation/simulatie.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Simulation/simulatie.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Simulation\simulatie.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Simulation
 
-build CMakeFiles/debug_target.dir/src/bestandslezer.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/bestandslezer.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\bestandslezer.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/FileReader/bestandslezer.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/FileReader/bestandslezer.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\FileReader\bestandslezer.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\FileReader
 
-build CMakeFiles/debug_target.dir/src/output.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/output.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\output.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/Output/output.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/Output/output.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\Output\output.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\Output
 
-build CMakeFiles/debug_target.dir/src/voertuiggenerator.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/voertuiggenerator.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\voertuiggenerator.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/voertuiggenerator.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/voertuiggenerator.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\voertuiggenerator.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
-build CMakeFiles/debug_target.dir/src/bushalte.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/bushalte.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\bushalte.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/bushalte.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/bushalte.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\bushalte.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
-build CMakeFiles/debug_target.dir/src/kruispunt.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/kruispunt.cpp || cmake_object_order_depends_target_debug_target
-  DEP_FILE = CMakeFiles\debug_target.dir\src\kruispunt.cpp.obj.d
+build CMakeFiles/debug_target.dir/src/TraficObjects/kruispunt.cpp.obj: CXX_COMPILER__debug_target_unscanned_Debug C$:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/src/TraficObjects/kruispunt.cpp || cmake_object_order_depends_target_debug_target
+  DEP_FILE = CMakeFiles\debug_target.dir\src\TraficObjects\kruispunt.cpp.obj.d
   FLAGS = -std=c++17 -Wall -Werror -O2 -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Users/senne/Downloads/gtest-1.7.0/Project-software-engineering/PSE/gtest/include
   OBJECT_DIR = CMakeFiles\debug_target.dir
-  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\debug_target.dir\src\TraficObjects
 
 
 # =============================================================================
@@ -296,7 +296,7 @@ build CMakeFiles/debug_target.dir/src/kruispunt.cpp.obj: CXX_COMPILER__debug_tar
 #############################################
 # Link the executable debug_target.exe
 
-build debug_target.exe: CXX_EXECUTABLE_LINKER__debug_target_Debug CMakeFiles/debug_target.dir/src/baan.cpp.obj CMakeFiles/debug_target.dir/src/situatie.cpp.obj CMakeFiles/debug_target.dir/src/verkeerslicht.cpp.obj CMakeFiles/debug_target.dir/src/voertuig.cpp.obj CMakeFiles/debug_target.dir/src/main_debug.cpp.obj CMakeFiles/debug_target.dir/src/tinyxml.cpp.obj CMakeFiles/debug_target.dir/src/tinystr.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlerror.cpp.obj CMakeFiles/debug_target.dir/src/tinyxmlparser.cpp.obj CMakeFiles/debug_target.dir/src/simulatie.cpp.obj CMakeFiles/debug_target.dir/src/bestandslezer.cpp.obj CMakeFiles/debug_target.dir/src/output.cpp.obj CMakeFiles/debug_target.dir/src/voertuiggenerator.cpp.obj CMakeFiles/debug_target.dir/src/bushalte.cpp.obj CMakeFiles/debug_target.dir/src/kruispunt.cpp.obj
+build debug_target.exe: CXX_EXECUTABLE_LINKER__debug_target_Debug CMakeFiles/debug_target.dir/src/TraficObjects/baan.cpp.obj CMakeFiles/debug_target.dir/src/Situation/situatie.cpp.obj CMakeFiles/debug_target.dir/src/TraficObjects/verkeerslicht.cpp.obj CMakeFiles/debug_target.dir/src/TraficObjects/voertuig.cpp.obj CMakeFiles/debug_target.dir/src/Main/main_debug.cpp.obj CMakeFiles/debug_target.dir/src/Parser/tinyxml.cpp.obj CMakeFiles/debug_target.dir/src/Parser/tinystr.cpp.obj CMakeFiles/debug_target.dir/src/Parser/tinyxmlerror.cpp.obj CMakeFiles/debug_target.dir/src/Parser/tinyxmlparser.cpp.obj CMakeFiles/debug_target.dir/src/Simulation/simulatie.cpp.obj CMakeFiles/debug_target.dir/src/FileReader/bestandslezer.cpp.obj CMakeFiles/debug_target.dir/src/Output/output.cpp.obj CMakeFiles/debug_target.dir/src/TraficObjects/voertuiggenerator.cpp.obj CMakeFiles/debug_target.dir/src/TraficObjects/bushalte.cpp.obj CMakeFiles/debug_target.dir/src/TraficObjects/kruispunt.cpp.obj
   FLAGS = -std=c++17 -Wall -Werror -O2 -g
   LINK_FLAGS = -pthread
   LINK_LIBRARIES = -lgtest  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
