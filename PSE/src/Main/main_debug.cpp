@@ -62,7 +62,7 @@ TEST(VoertuigTest, VehicleTypes) {
     EXPECT_EQ("bus", bus1.getType());
     EXPECT_EQ("brandweerwagen", brandweer.getType());
 
-    EXPECT_FALSE(auto1.isPrioriteitsvoertuig());
+    EXPECT_FALSE(auto1.isPrioriteitgsvoertuig());
     EXPECT_FALSE(bus1.isPrioriteitsvoertuig());
     EXPECT_TRUE(brandweer.isPrioriteitsvoertuig());
 
