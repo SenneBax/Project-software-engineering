@@ -19,6 +19,8 @@ private:
     struct BaanPositie {
         std::string naam;   /**< Name of the road */
         double positie;     /**< Position on the road */
+        //kruispunt* _initCheck;
+
 
         BaanPositie(const std::string& naam, double positie) : naam(naam), positie(positie) {}
     };

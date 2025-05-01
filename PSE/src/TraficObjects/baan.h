@@ -18,6 +18,7 @@ class Baan {
 private:
     string naam;  /**< Naam van de baan */
     int lengte;   /**< Lengte van de baan in meters */
+    Baan* _initCheck;
 
 public:
     /**
@@ -43,6 +44,13 @@ public:
      * @return De lengte van de baan in meters
      */
     [[nodiscard]] int getLengte() const;
+
+
+    /**
+     * @brief Controlleren of het object goed is geïnitialiseerd
+     * @return true als _initCheck == this
+     */
+    [[nodiscard]] bool properlyInitialized() const;
 };
 
 #endif // BAAN_H

@@ -55,6 +55,7 @@ Verkeerslicht::Kleur Verkeerslicht::getKleur() const {
  * @param kleur The new color
  */
 void Verkeerslicht::setKleur(Kleur kleur) {
+
     huidigeKleur = kleur;
     tijdSindsLaatsteWissel = 0.0; // Reset timer when changing color
 }

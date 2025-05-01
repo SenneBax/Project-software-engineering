@@ -5,12 +5,17 @@
 
 #include "baan.h"
 #include <iostream>
+#include "DesignByContract.h"
 
 /**
  * @brief Implementatie van de default constructor
  */
 Baan::Baan()
-    : naam(""), lengte(0) {}
+    : naam(""), lengte(0)
+{
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "Default moet eindigen in een geldige toestand");
+}
 
 /**
  * @brief Constructor met parameters
@@ -19,14 +24,27 @@ Baan::Baan()
  */
 Baan::Baan(const std::string& naam, const int lengte)
     : naam(naam), lengte(lengte) {
+    _initCheck = this;
+    REQUIRE(!naam.empty(), "Naam van de baan mag niet leeg zijn");
+    REQUIRE(lengte>0, "Baan lengte moet groter dan 0 zijn.");
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 
 }
+
+
+bool Baan::properlyInitialized() const
+{
+    return _initCheck == this;
+}
+
+
 
 /**
  * @brief Getter voor de naam van de baan
  * @return De naam van de baan
  */
 std::string Baan::getNaam() const {
+    REQUIRE(properlyInitialized(), "Naam niet correct geïnitialiseerd bij getNaam");
     return naam;
 }
 
@@ -35,5 +53,6 @@ std::string Baan::getNaam() const {
  * @return De lengte van de baan in meters
  */
 int Baan::getLengte() const {
+    //REQUIRE(properlyInitialized(), "Baan niet correct geïnitialiseerd bij getLengte.");
     return lengte;
 }

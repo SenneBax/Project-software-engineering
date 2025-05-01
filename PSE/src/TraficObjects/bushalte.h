@@ -19,6 +19,7 @@ private:
     int wachttijd;      /**< Waiting time at the bus stop in seconds */
     double tijdSindsLaatsteStop; /**< Time since the last bus stopped here */
     bool isBusStopped;  /**< Flag indicating if a bus is currently stopped at this stop */
+    Bushalte* _initCheck;
 
 public:
     /**
@@ -74,6 +75,8 @@ public:
      * @brief Resets the waiting time
      */
     void resetWachttijd();
+
+    bool properlyInitialized() const;
 };
 
 #endif // BUSHALTE_H

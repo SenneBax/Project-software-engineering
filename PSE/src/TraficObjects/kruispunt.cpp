@@ -6,6 +6,7 @@
 #include "kruispunt.h"
 #include <algorithm>
 #include <random>
+#include <cassert>
 
 /**
  * @brief Constructor for the intersection
@@ -19,6 +20,8 @@ Kruispunt::Kruispunt() {}
  * @return True if the road was added successfully, false otherwise
  */
 bool Kruispunt::voegBaanToe(const std::string& baanNaam, double positie) {
+    assert(!baanNaam.empty());
+    assert(positie >= 0.0);
     // Check if the road is already part of this intersection
     if (bevatBaan(baanNaam)) {
         return false;
@@ -48,6 +51,7 @@ std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
  * @return True if the road is part of this intersection, false otherwise
  */
 bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
+    assert(!baanNaam.empty());
     return std::any_of(banen.begin(), banen.end(),
                        [&baanNaam](const BaanPositie& baan) {
                            return baan.naam == baanNaam;
@@ -60,6 +64,7 @@ bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
  * @return Position on the road, -1 if road is not found
  */
 double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
+    assert(!baanNaam.empty());
     for (const auto& baan : banen) {
         if (baan.naam == baanNaam) {
             return baan.positie;
@@ -75,6 +80,7 @@ double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
  * @return Name of the chosen road, empty string if no valid road exists
  */
 std::string Kruispunt::kiesRandomBaan(const std::string& huidigeWeg) const {
+    assert(!huidigeWeg.empty());
     // Collect potential roads (excluding the current one)
     std::vector<std::string> mogelijkeBanen;
 
