@@ -55,8 +55,12 @@ public:
      */
     std::string getLastFoutmelding() const;
 
+    bool properlyInitialized() const;
+
+
 private:
     mutable std::string lastFoutmelding; ///< The last error message
+    output* _initCheck;
 };
 
 #endif // OUTPUT_H

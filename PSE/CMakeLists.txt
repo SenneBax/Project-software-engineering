@@ -28,6 +28,10 @@ set(RELEASE_SOURCE_FILES
         src/TraficObjects/kruispunt.cpp
         src/TraficObjects/voertuiggenerator.cpp
         src/TraficObjects/DesignByContract.h
+        src/Situation/DesignByContract.h
+        src/Simulation/DesignByContract.h
+        src/Output/DesignByContract.h
+        src/FileReader/DesignByContract.h
 )
 
 # Set source files for DEBUG target
@@ -48,6 +52,10 @@ set(DEBUG_SOURCE_FILES
         src/TraficObjects/bushalte.cpp
         src/TraficObjects/kruispunt.cpp
         src/TraficObjects/DesignByContract.h
+        src/Situation/DesignByContract.h
+        src/Simulation/DesignByContract.h
+        src/Output/DesignByContract.h
+        src/FileReader/DesignByContract.h
 )
 
 # Create RELEASE target

@@ -4,6 +4,7 @@
  */
 
 #include "voertuiggenerator.h"
+#include "DesignByContract.h"
 
 /**
  * @brief Constructor
@@ -13,13 +14,24 @@
  */
 VoertuigGenerator::VoertuigGenerator(const std::string& baan, int frequentie, const std::string& type)
     : baanNaam(baan), frequentie(frequentie), type(type) {
+    REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
+    REQUIRE(frequentie > 0, "frequentie moet positief zijn.");
+
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+
 }
 
+
+bool VoertuigGenerator::properlyInitialized() const {
+    return _initCheck == this;
+}
 /**
  * @brief Geeft de naam van de baan terug
  * @return De naam van de baan
  */
 std::string VoertuigGenerator::getBaanNaam() const {
+    REQUIRE(properlyInitialized(), "getBaanNaam moet eindigen in een geldige toestand.");
     return baanNaam;
 }
 
@@ -28,6 +40,7 @@ std::string VoertuigGenerator::getBaanNaam() const {
  * @return De frequentie
  */
 int VoertuigGenerator::getFrequentie() const {
+    REQUIRE(properlyInitialized(), "getFrequentie moet eindigen in een geldige toestand.");
     return frequentie;
 }
 
@@ -36,5 +49,6 @@ int VoertuigGenerator::getFrequentie() const {
  * @return Het type voertuigen
  */
 std::string VoertuigGenerator::getType() const {
+    REQUIRE(properlyInitialized(), "getType moet eindigen in een geldige toestand.");
     return type;
 }

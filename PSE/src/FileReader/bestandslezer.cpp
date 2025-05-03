@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "assert.h"
+#include "DesignByContract.h"
 #include "../Parser/tinyxml.h"
 #include "../TraficObjects/voertuiggenerator.h"
 #include "../TraficObjects/bushalte.h"
@@ -20,7 +20,17 @@ using namespace std;
 /**
  * @brief Constructor
  */
-BestandsLezer::BestandsLezer() : lastFoutmelding("") {}
+BestandsLezer::BestandsLezer() : lastFoutmelding("")
+{
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
+
+}
+
+bool BestandsLezer::properlyInitialized() const
+{
+    return _initCheck == this;
+}
 
 /**
  * @brief Read a traffic situation from an XML file
@@ -29,6 +39,8 @@ BestandsLezer::BestandsLezer() : lastFoutmelding("") {}
  * @return true if reading was successful, false otherwise
  */
 bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
     // First, check if the file can be opened
     std::ifstream fileCheck(bestandsnaam);
     if (!fileCheck.is_open()) {
@@ -88,7 +100,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
             lastFoutmelding = "Verkeerssituatie is niet consistent";
             return false;
         }
-
+        ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
         return success;
     } else {
         // Process normally with TinyXML if root element exists
@@ -117,6 +129,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
             lastFoutmelding = "Verkeerssituatie is niet consistent";
             return false;
         }
+        ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
 
         return success;
     }
@@ -129,6 +142,8 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
  * @return true if processing was successful, false otherwise
  */
 bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+
     bool success = true;
 
     for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
@@ -157,6 +172,7 @@ bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& sit
             // Continue processing, don't set success to false for unknown elements
         }
     }
+    //ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
 
     return success;
 }
@@ -168,6 +184,8 @@ bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& sit
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor baan mag niet null zijn.");
     TiXmlElement* naamElem = elem->FirstChildElement("naam");
     TiXmlElement* lengteElem = elem->FirstChildElement("lengte");
 
@@ -190,6 +208,7 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
         return false;
     }
 
+
     Baan baan(naam, lengte);
     return situatie.voegBaanToe(baan);
 }
@@ -201,6 +220,8 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor Voertuig mag niet null zijn.");
     TiXmlElement* baanElem = elem->FirstChildElement("baan");
     TiXmlElement* positieElem = elem->FirstChildElement("positie");
     TiXmlElement* typeElem = elem->FirstChildElement("type");
@@ -242,6 +263,8 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor Verkeerslicht mag niet null zijn.");
     TiXmlElement* baanElem = elem->FirstChildElement("baan");
     TiXmlElement* positieElem = elem->FirstChildElement("positie");
     TiXmlElement* cyclusElem = elem->FirstChildElement("cyclus");
@@ -302,6 +325,8 @@ bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& s
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor VoertuigGenerator mag niet null zijn.");
     TiXmlElement* baanElem = elem->FirstChildElement("baan");
     TiXmlElement* frequentieElem = elem->FirstChildElement("frequentie");
     TiXmlElement* typeElem = elem->FirstChildElement("type");
@@ -348,6 +373,8 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor Bushalte mag niet null zijn.");
     TiXmlElement* baanElem = elem->FirstChildElement("baan");
     TiXmlElement* positieElem = elem->FirstChildElement("positie");
     TiXmlElement* wachttijdElem = elem->FirstChildElement("wachttijd");
@@ -391,6 +418,8 @@ bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situat
  * @return true if successful, false otherwise
  */
 bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situatie) {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+    REQUIRE(elem != nullptr, "XML-element voor Kruispunt mag niet null zijn.");
     Kruispunt kruispunt;
     bool success = true;
 
@@ -445,5 +474,6 @@ bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situa
  * @return The last error message
  */
 std::string BestandsLezer::getLastFoutmelding() const {
+    REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
     return lastFoutmelding;
 }

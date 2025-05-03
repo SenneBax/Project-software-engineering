@@ -34,8 +34,12 @@ public:
      */
     std::string getLastFoutmelding() const;
 
+    bool properlyInitialized() const;
+
+
 private:
     std::string lastFoutmelding; ///< The last error message
+    BestandsLezer* _initCheck;
 
     /**
      * @brief Process XML elements and add them to the traffic situation

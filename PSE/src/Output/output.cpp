@@ -12,11 +12,22 @@
 #include <iomanip>
 #include <algorithm>
 #include "../Parser/tinyxml.h"
+#include "DesignByContract.h"
 
 /**
  * @brief Constructor
  */
-output::output() : lastFoutmelding("") {}
+output::output() : lastFoutmelding("")
+{
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
+
+}
+
+bool output::properlyInitialized() const
+{
+    return _initCheck == this;
+}
 
 /**
  * @brief Generates a textual representation of the traffic situation
@@ -24,6 +35,7 @@ output::output() : lastFoutmelding("") {}
  * @return A string with the textual representation
  */
 std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
     std::stringstream ss;
     ss << "=== Verkeerssituatie Info ===" << std::endl;
 
@@ -80,6 +92,8 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
  * @return A string with the graphical impression
  */
 std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+
     std::stringstream ss;
 
     const auto& banen = situatie.getBanen();
@@ -249,6 +263,8 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
  * @return true if writing was successful, false otherwise
  */
 bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandsNaam mag niet leeg zijn.");
     TiXmlDocument doc;
     TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "UTF-8", "");
     doc.LinkEndChild(decl);
@@ -437,6 +453,8 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
  * @return true if writing was successful, false otherwise
  */
 bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
     std::ofstream file(bestandsnaam);
     if (!file.is_open()) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
@@ -590,5 +608,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
     * @return The last error message
     */
     std::string output::getLastFoutmelding() const {
+    REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
+
         return lastFoutmelding;
 }

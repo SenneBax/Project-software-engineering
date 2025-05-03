@@ -239,13 +239,19 @@ public:
      */
     static VoertuigParams getVoertuigParams(VoertuigType type);
 
+    bool properlyInitialized() const;
+
+
+
 private:
     std::string baanNaam; ///< Naam van de baan waar het voertuig zich bevindt
     double positie;       ///< Positie van het voertuig op de baan
     double snelheid;      ///< Snelheid van het voertuig in m/s
     double versnelling;   ///< Versnelling van het voertuig in m/s²
     VoertuigType type;    ///< Type van het voertuig
-    bool isWaitingAtStop; ///< Whether the bus is waiting at a stop
+    bool isWaitingAtStop; ///< Whether the bus is waiting at a stop\
+
+    Voertuig* _initCheck;
 
     // Standard parameters per vehicle type (according to appendix C)
     static const std::map<VoertuigType, VoertuigParams> typeParameters;

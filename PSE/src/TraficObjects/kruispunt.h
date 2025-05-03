@@ -16,10 +16,10 @@
  */
 class Kruispunt {
 private:
+    Kruispunt* _initCheck;
     struct BaanPositie {
         std::string naam;   /**< Name of the road */
         double positie;     /**< Position on the road */
-        //kruispunt* _initCheck;
 
 
         BaanPositie(const std::string& naam, double positie) : naam(naam), positie(positie) {}
@@ -67,6 +67,8 @@ public:
      * @return Name of the chosen road, empty string if no valid road exists
      */
     std::string kiesRandomBaan(const std::string& huidigeWeg) const;
+
+    bool properlyInitialized() const;
 };
 
 #endif // KRUISPUNT_H

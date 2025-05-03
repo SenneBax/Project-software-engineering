@@ -5,6 +5,9 @@
 
 #include "verkeerslicht.h"
 #include <cmath>
+#include <gtest/internal/gtest-port.h>
+#include "DesignByContract.h"
+
 
 /**
  * @brief Constructor for the traffic light
@@ -16,21 +19,42 @@
  */
 Verkeerslicht::Verkeerslicht(const std::string& baan, double positie, int cyclus, bool heeftOranje, bool isSlim)
     : baan(baan), positie(positie), cyclus(cyclus), tijdSindsLaatsteWissel(0.0),
-      huidigeKleur(Kleur::ROOD), heeftOranje(heeftOranje), isSlim(isSlim), voertuigenVoorLicht(0) {}
+      huidigeKleur(Kleur::ROOD), heeftOranje(heeftOranje), isSlim(isSlim), voertuigenVoorLicht(0)
+{
+    REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
+    //REQUIRE(positie >= 0.0, "Positie moet positief zijn." );
+    //REQUIRE(cyclus > 0, "Cyclus moet groter dan 0 zijn." );
+
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+}
+
+
+bool Verkeerslicht::properlyInitialized() const
+{
+    return _initCheck == this;
+}
+
 
 /**
  * @brief Getter for the road name of the traffic light
  * @return The name of the road
  */
 std::string Verkeerslicht::getBaan() const {
+    //REQUIRE(properlyInitialized(), "getBaan moet eindigen in een geldige toestand.");
+    ENSURE(!baan.empty(), "Baanaam mag niet leeg zijn.");
+
     return baan;
 }
+
 
 /**
  * @brief Getter for the position of the traffic light
  * @return The position in meters
  */
 double Verkeerslicht::getPositie() const {
+    //REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
+    //ENSURE(positie >= 0.0, "Positie moet positief zijn");
     return positie;
 }
 
@@ -39,6 +63,8 @@ double Verkeerslicht::getPositie() const {
  * @return The cycle time in seconds
  */
 int Verkeerslicht::getCyclus() const {
+    REQUIRE(properlyInitialized(), "getCyclus moet eindigen in een geldige toestand.");
+    //ENSURE(cyclus >= 0, "Cyclus moet groter dan 0 zijn.");
     return cyclus;
 }
 
@@ -47,6 +73,8 @@ int Verkeerslicht::getCyclus() const {
  * @return The current color
  */
 Verkeerslicht::Kleur Verkeerslicht::getKleur() const {
+    REQUIRE(properlyInitialized(), "getKleur moet eindigen in een geldige toestand.");
+
     return huidigeKleur;
 }
 
@@ -55,6 +83,7 @@ Verkeerslicht::Kleur Verkeerslicht::getKleur() const {
  * @param kleur The new color
  */
 void Verkeerslicht::setKleur(Kleur kleur) {
+    REQUIRE(properlyInitialized(), "setKleur moet eindigen in een geldige toestand.");
 
     huidigeKleur = kleur;
     tijdSindsLaatsteWissel = 0.0; // Reset timer when changing color
@@ -65,6 +94,8 @@ void Verkeerslicht::setKleur(Kleur kleur) {
  * @return String representation of the current color
  */
 std::string Verkeerslicht::getKleurAsString() const {
+    REQUIRE(properlyInitialized(), "getKleurAsString moet eindigen in een geldige toestand.");
+
     switch (huidigeKleur) {
         case Kleur::GROEN: return "groen";
         case Kleur::ORANJE: return "oranje";
@@ -78,6 +109,7 @@ std::string Verkeerslicht::getKleurAsString() const {
  * @return True if the light is red, false otherwise
  */
 bool Verkeerslicht::isRood() const {
+    //REQUIRE(properlyInitialized(), "isRood moet eindigen in een geldige toestand.");
     return huidigeKleur == Kleur::ROOD;
 }
 
@@ -86,6 +118,8 @@ bool Verkeerslicht::isRood() const {
  * @return True if the light is orange, false otherwise
  */
 bool Verkeerslicht::isOranje() const {
+    //REQUIRE(properlyInitialized(), "isOranje moet eindigen in een geldige toestand.");
+
     return huidigeKleur == Kleur::ORANJE;
 }
 
@@ -94,6 +128,8 @@ bool Verkeerslicht::isOranje() const {
  * @return True if the light is green, false otherwise
  */
 bool Verkeerslicht::isGroen() const {
+    //REQUIRE(properlyInitialized(), "isGroen moet eindigen in een geldige toestand.");
+
     return huidigeKleur == Kleur::GROEN;
 }
 
@@ -102,6 +138,7 @@ bool Verkeerslicht::isGroen() const {
  * @return True if the light has orange state, false otherwise
  */
 bool Verkeerslicht::getHeeftOranje() const {
+    //REQUIRE(properlyInitialized(), "getHeeftOranje moet eindigen in een geldige toestand.");
     return heeftOranje;
 }
 
@@ -110,6 +147,7 @@ bool Verkeerslicht::getHeeftOranje() const {
  * @return True if the light is smart, false otherwise
  */
 bool Verkeerslicht::getIsSlim() const {
+    REQUIRE(properlyInitialized(), "getHeeftOranje moet eindigen in een geldige toestand.");
     return isSlim;
 }
 
@@ -118,6 +156,8 @@ bool Verkeerslicht::getIsSlim() const {
  * @param tijdstap The current simulation time step
  */
 void Verkeerslicht::update(double tijdstap) {
+    //REQUIRE(properlyInitialized(), "update moet eindigen in een geldige toestand.");
+
     tijdSindsLaatsteWissel += tijdstap;
 
     // Smart traffic light logic
@@ -187,6 +227,8 @@ void Verkeerslicht::update(double tijdstap) {
  * @brief Register a vehicle waiting at this light (for smart traffic lights)
  */
 void Verkeerslicht::registerVoertuigVoorLicht() {
+    REQUIRE(properlyInitialized(), "registerVoertuigVoorLicht moet eindigen in een geldige toestand.");
+
     if (isSlim) {
         voertuigenVoorLicht++;
     }
@@ -196,6 +238,8 @@ void Verkeerslicht::registerVoertuigVoorLicht() {
  * @brief Unregister a vehicle that was waiting at this light (for smart traffic lights)
  */
 void Verkeerslicht::unregisterVoertuigVoorLicht() {
+    REQUIRE(properlyInitialized(), "unregisterVoertuigVoorLicht moet eindigen in een geldige toestand.");
+
     if (isSlim && voertuigenVoorLicht > 0) {
         voertuigenVoorLicht--;
     }
@@ -206,6 +250,8 @@ void Verkeerslicht::unregisterVoertuigVoorLicht() {
  * @return The number of vehicles
  */
 int Verkeerslicht::getVoertuigenVoorLicht() const {
+    REQUIRE(properlyInitialized(), "getVoertuigenVoorLicht moet eindigen in een geldige toestand");
+    ENSURE(voertuigenVoorLicht >= 0, "Aantal voertuigen mag niet negatief zijn.");
     return voertuigenVoorLicht;
 }
 
@@ -213,5 +259,7 @@ int Verkeerslicht::getVoertuigenVoorLicht() const {
  * @brief Reset the number of vehicles waiting at this light
  */
 void Verkeerslicht::resetVoertuigenVoorLicht() {
+    REQUIRE(properlyInitialized(), "resetVoertuigenVoorLicht moet eindigen in een geldige toestand");
     voertuigenVoorLicht = 0;
+    ENSURE(voertuigenVoorLicht == 0, "Aantal voertuigen moet op 0 staan.");
 }

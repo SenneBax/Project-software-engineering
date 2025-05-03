@@ -72,7 +72,7 @@ TEST(VoertuigTest, VehicleTypes) {
 
 // Tests voor de Verkeerslicht class
 TEST(VerkeerslichtTest, ConstructorAndGetters) {
-    Verkeerslicht verkeerslicht("Teststraat", 150, 30);
+    Verkeerslicht verkeerslicht("Teststraat", 150, 30, true, false);
     EXPECT_EQ("Teststraat", verkeerslicht.getBaan());
     EXPECT_EQ(150, verkeerslicht.getPositie());
     EXPECT_EQ(30, verkeerslicht.getCyclus());
@@ -80,7 +80,7 @@ TEST(VerkeerslichtTest, ConstructorAndGetters) {
 
 // Test voor verkeerslichten met oranje lichten
 TEST(VerkeerslichtTest, OrangeTrafficLight) {
-    Verkeerslicht verkeerslicht("Teststraat", 150, 30, true);
+    Verkeerslicht verkeerslicht("Teststraat", 150, 30, true, false);
     EXPECT_TRUE(verkeerslicht.getHeeftOranje());
     EXPECT_TRUE(verkeerslicht.isRood()); // Start op rood
 }
@@ -567,7 +567,7 @@ TEST(SimulatieTest, VerkeerslichtStatusTest) {
     situatie.voegBaanToe(baan);
 
     // Voeg verkeerslicht toe met een cyclus van 10 seconden
-    Verkeerslicht verkeerslicht("Teststraat", 150, 10);
+    Verkeerslicht verkeerslicht("Teststraat", 150, 10, true, false);
     situatie.voegVerkeerslichtToe(verkeerslicht);
 
     simulatie sim(situatie, 1.0);
