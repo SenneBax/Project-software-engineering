@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include "DesignByContract.h"
 
 // Initialize static const member variable with vehicle type parameters from Appendix C
 const std::map<Voertuig::VoertuigType, Voertuig::VoertuigParams> Voertuig::typeParameters = {
@@ -26,7 +27,21 @@ const std::map<Voertuig::VoertuigType, Voertuig::VoertuigParams> Voertuig::typeP
 Voertuig::Voertuig(const std::string& baan, double positie, const std::string& typeStr)
     : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0),
       type(stringToType(typeStr)), isWaitingAtStop(false) {
+
+    REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
+    //REQUIRE(positie > 0.0, "Positie moet positief zijn.");
+    REQUIRE(typeParameters.find(type) != typeParameters.end(), "Ongeldige voertuigtype.");
+
+    _initCheck = this;
+
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+
 }
+
+bool Voertuig::properlyInitialized() const {
+    return _initCheck == this;
+}
+
 
 /**
  * @brief Constructor met snelheid en versnelling
@@ -39,6 +54,13 @@ Voertuig::Voertuig(const std::string& baan, double positie, const std::string& t
 Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling, const std::string& typeStr)
     : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling),
       type(stringToType(typeStr)), isWaitingAtStop(false) {
+
+    REQUIRE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
+    REQUIRE(versnelling >= 0.0, "Versnelling mag niet negatief zijn.");
+
+    _initCheck = this;
+
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 }
 
 /**
@@ -48,6 +70,10 @@ Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, dou
 Voertuig::Voertuig(const Voertuig& other)
     : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
       versnelling(other.versnelling), type(other.type), isWaitingAtStop(other.isWaitingAtStop) {
+
+    _initCheck = this;
+
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 }
 
 /**
@@ -79,6 +105,8 @@ Voertuig& Voertuig::operator=(const Voertuig& other) {
  * @return De naam van de baan
  */
 std::string Voertuig::getBaanNaam() const {
+    REQUIRE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+
     return baanNaam;
 }
 
@@ -95,14 +123,19 @@ std::string Voertuig::getBaan() const {
  * @param nieuweNaam The new road name
  */
 void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
+    REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
+    REQUIRE(!nieuweNaam.empty(), "nieuweNaam mag niet leeg zijn.");
     baanNaam = nieuweNaam;
+    ENSURE(baanNaam == nieuweNaam, "Baannaam werd niet correct ingesteld");
 }
+
 
 /**
  * @brief Geeft de positie van het voertuig terug
  * @return De positie op de baan
  */
 double Voertuig::getPositie() const {
+    REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
     return positie;
 }
 
@@ -111,7 +144,10 @@ double Voertuig::getPositie() const {
  * @param nieuwePositie De nieuwe positie
  */
 void Voertuig::setPositie(double nieuwePositie) {
+    REQUIRE(properlyInitialized(), "setPositie moet eindigen in een geldige toestand.");
+    REQUIRE(nieuwePositie >= 0.0, "nieuwePositie mag niet negatief zijn.");
     positie = nieuwePositie;
+    ENSURE(positie == nieuwePositie, "Positie werd niet correct ingesteld.");
 }
 
 /**
@@ -119,6 +155,7 @@ void Voertuig::setPositie(double nieuwePositie) {
  * @return Het type van het voertuig
  */
 std::string Voertuig::getType() const {
+    REQUIRE(properlyInitialized(), "getType moet eindigen in een geldige toestand.");
     return typeToString(type);
 }
 
@@ -127,6 +164,8 @@ std::string Voertuig::getType() const {
  * @return The vehicle type enum
  */
 Voertuig::VoertuigType Voertuig::getTypeEnum() const {
+    REQUIRE(properlyInitialized(), "getTypeEnum moet eindigen in een geldige toestand.");
+
     return type;
 }
 
@@ -135,6 +174,7 @@ Voertuig::VoertuigType Voertuig::getTypeEnum() const {
  * @return True if the vehicle is a priority vehicle (fire truck, ambulance, police)
  */
 bool Voertuig::isPrioriteitsvoertuig() const {
+    REQUIRE(properlyInitialized(), "isPrioriteitsvoertuig moet eindigen in een geldige toestand.");
     return typeParameters.at(type).isPrioriteitsvoertuig;
 }
 
@@ -143,6 +183,8 @@ bool Voertuig::isPrioriteitsvoertuig() const {
  * @return True if the vehicle is a bus
  */
 bool Voertuig::isBus() const {
+    REQUIRE(properlyInitialized(), "isBus moet eindigen in een geldige toestand.");
+
     return type == VoertuigType::BUS;
 }
 
@@ -151,6 +193,8 @@ bool Voertuig::isBus() const {
  * @return De snelheid in m/s
  */
 double Voertuig::getSnelheid() const {
+    REQUIRE(properlyInitialized(), "getSnelheid moet eindigen in een geldige toestand.");
+
     return snelheid;
 }
 
@@ -159,7 +203,10 @@ double Voertuig::getSnelheid() const {
  * @param nieuweSnelheid De nieuwe snelheid
  */
 void Voertuig::setSnelheid(double nieuweSnelheid) {
+    REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
     snelheid = std::max(0.0, nieuweSnelheid); // Prevent negative speed
+    ENSURE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
+    ENSURE(snelheid == std::max(0.0, nieuweSnelheid), "Snelheid werd niet correct ingesteld.");
 }
 
 /**
@@ -167,6 +214,7 @@ void Voertuig::setSnelheid(double nieuweSnelheid) {
  * @return De versnelling in m/s²
  */
 double Voertuig::getVersnelling() const {
+    REQUIRE(properlyInitialized(), "getVersnelling moet eindigen in een geldige toestand.");
     return versnelling;
 }
 
@@ -175,7 +223,10 @@ double Voertuig::getVersnelling() const {
  * @param nieuweVersnelling De nieuwe versnelling
  */
 void Voertuig::setVersnelling(double nieuweVersnelling) {
+    REQUIRE(properlyInitialized(), "setVersnelling moet eindigen in een geldige toestand.");
+    REQUIRE(nieuweVersnelling >= 0.0, "nieuweVersnelling mag niet negatief zijn.");
     versnelling = nieuweVersnelling;
+    ENSURE(versnelling == nieuweVersnelling, "versnelling werd niet correct ingesteld.");
 }
 
 /**
@@ -183,6 +234,7 @@ void Voertuig::setVersnelling(double nieuweVersnelling) {
  * @return The length in meters
  */
 double Voertuig::getLengte() const {
+    REQUIRE(properlyInitialized(), "getLengte moet eindigen in een geldige toestand.");
     return typeParameters.at(type).lengte;
 }
 
@@ -191,6 +243,7 @@ double Voertuig::getLengte() const {
  * @return The maximum speed in m/s
  */
 double Voertuig::getMaxSnelheid() const {
+    REQUIRE(properlyInitialized(), "getMaxSnelheid moet eindigen in een geldige toestand.");
     return typeParameters.at(type).maxSnelheid;
 }
 
@@ -199,6 +252,7 @@ double Voertuig::getMaxSnelheid() const {
  * @return The maximum acceleration in m/s²
  */
 double Voertuig::getMaxVersnelling() const {
+    REQUIRE(properlyInitialized(), "getMaxVersnelling moet eindigen in een geldige toestand.");
     return typeParameters.at(type).maxVersnelling;
 }
 
@@ -207,6 +261,7 @@ double Voertuig::getMaxVersnelling() const {
  * @return The maximum braking factor in m/s²
  */
 double Voertuig::getMaxRemFactor() const {
+    REQUIRE(properlyInitialized(), "getMaxRemfactor moet eindigen in een geldige toestand.");
     return typeParameters.at(type).maxRemFactor;
 }
 
@@ -215,6 +270,7 @@ double Voertuig::getMaxRemFactor() const {
  * @return The minimum following distance in meters
  */
 double Voertuig::getMinVolgafstand() const {
+    REQUIRE(properlyInitialized(), "getMinVolgafstand moet eindigen in een geldige toestand.");
     return typeParameters.at(type).minVolgafstand;
 }
 
@@ -223,7 +279,9 @@ double Voertuig::getMinVolgafstand() const {
  * @param isWaiting Whether the bus is waiting at a stop
  */
 void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
+    REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
     isWaitingAtStop = isWaiting;
+    ENSURE(isWaitingAtStop == isWaiting, "isWaitingAtStop werd niet correct ingesteld.");
 }
 
 /**
@@ -231,6 +289,7 @@ void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
  * @return True if the bus is waiting, false otherwise
  */
 bool Voertuig::isWaitingAtBusStop() const {
+    REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
     return isWaitingAtStop;
 }
 
@@ -239,6 +298,8 @@ bool Voertuig::isWaitingAtBusStop() const {
  * @param tijdstap The time step for the update in seconds
  */
 void Voertuig::updatePositieEnSnelheid(double tijdstap) {
+    REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
+    REQUIRE(tijdstap >= 0.0, "tijd moet positief zijn.");
     // Formules uit B.2 van de specificatie
     if (snelheid + versnelling * tijdstap < 0) {
         // Snelheid zou negatief worden, pas positie aan en zet snelheid op 0
@@ -252,6 +313,7 @@ void Voertuig::updatePositieEnSnelheid(double tijdstap) {
         // Bereken nieuwe positie
         positie = positie + snelheid * tijdstap + (versnelling * tijdstap * tijdstap) / 2;
     }
+    ENSURE(snelheid >= 0.0, "snelheid moet positief zijn.");
 }
 
 /**
@@ -263,6 +325,9 @@ void Voertuig::updatePositieEnSnelheid(double tijdstap) {
  */
 void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
                                  double verkeersLichtVertraagFactor, double doelSnelheid) {
+    REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
+    //REQUIRE(doelSnelheid >= 0.0, "doelSnelheid mag niet negatief zijn.");
+
     // If this is a priority vehicle, it doesn't have to slow down for traffic lights
     if (isPrioriteitsvoertuig() && isEersteVoertuig) {
         // Priority vehicles use their max speed as target
@@ -303,14 +368,18 @@ void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEers
     a = std::max(-getMaxRemFactor(), std::min(getMaxVersnelling(), a));
 
     versnelling = a;
+
+    ENSURE(versnelling >= -getMaxRemFactor() && versnelling <= getMaxVersnelling(), "versnelling buiten toegelaten grenzen.");
 }
 
 /**
  * @brief Apply emergency braking (vehicle comes to a stop)
  */
 void Voertuig::noodStop() {
+    REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
     // Formula from B.5
     versnelling = -getMaxRemFactor() * snelheid / getMaxSnelheid();
+    ENSURE(versnelling <= 0, "Noodstop moet negatieve versnelling geven.");
 }
 
 /**

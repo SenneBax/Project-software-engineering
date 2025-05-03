@@ -4,6 +4,7 @@
  */
 
 #include "bushalte.h"
+#include "DesignByContract.h"
 
 /**
  * @brief Constructor for the bus stop
@@ -12,13 +13,30 @@
  * @param wachttijd Waiting time in seconds
  */
 Bushalte::Bushalte(const std::string& baan, double positie, int wachttijd)
-    : baan(baan), positie(positie), wachttijd(wachttijd), tijdSindsLaatsteStop(0.0), isBusStopped(false) {}
+    : baan(baan), positie(positie), wachttijd(wachttijd), tijdSindsLaatsteStop(0.0), isBusStopped(false)
+{
+    _initCheck = this;
+
+    REQUIRE(!baan.empty(), "naam van de baan mag niet leeg zijn.");
+    REQUIRE(positie >= 0.0, "Positie mag niet negatief zijn.");
+    REQUIRE(wachttijd >= 0, "Wachttijd mag niet negatief zijn." );
+
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+}
+
+
+bool Bushalte::properlyInitialized() const
+{
+    return _initCheck == this;
+}
+
 
 /**
  * @brief Getter for the road name of the bus stop
  * @return The name of the road
  */
 std::string Bushalte::getBaan() const {
+    //REQUIRE(properlyInitialized(), "Bushalte is niet correct geïnitialiseerd bij getBaan.");
     return baan;
 }
 
@@ -27,6 +45,7 @@ std::string Bushalte::getBaan() const {
  * @return The position in meters
  */
 double Bushalte::getPositie() const {
+    //REQUIRE(properlyInitialized(), "Positie is niet correct geïnitialiseerd bij getPositie");
     return positie;
 }
 
@@ -35,6 +54,7 @@ double Bushalte::getPositie() const {
  * @return The waiting time in seconds
  */
 int Bushalte::getWachttijd() const {
+    REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij getWachttijd.");
     return wachttijd;
 }
 
@@ -44,6 +64,8 @@ int Bushalte::getWachttijd() const {
  * @return True if waiting time is over, false otherwise
  */
 bool Bushalte::updateWachttijd(double timestep) {
+    REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
+    REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
     if (isBusStopped) {
         tijdSindsLaatsteStop += timestep;
 
@@ -59,6 +81,7 @@ bool Bushalte::updateWachttijd(double timestep) {
  * @brief Records that a bus has stopped at this stop
  */
 void Bushalte::setBusStopped() {
+    REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusStopped");
     isBusStopped = true;
     tijdSindsLaatsteStop = 0.0;
 }
@@ -67,6 +90,7 @@ void Bushalte::setBusStopped() {
  * @brief Records that a bus has left this stop
  */
 void Bushalte::setBusLeft() {
+    REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusLeft");
     isBusStopped = false;
     tijdSindsLaatsteStop = 0.0;
 }
@@ -76,6 +100,7 @@ void Bushalte::setBusLeft() {
  * @return True if a bus is stopped, false otherwise
  */
 bool Bushalte::isBusGestopt() const {
+    //REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij isBusGestopt");
     return isBusStopped;
 }
 
@@ -83,5 +108,6 @@ bool Bushalte::isBusGestopt() const {
  * @brief Resets the waiting time
  */
 void Bushalte::resetWachttijd() {
+    REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij resetWachttijd");
     tijdSindsLaatsteStop = 0.0;
 }

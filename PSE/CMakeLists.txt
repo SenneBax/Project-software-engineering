@@ -8,7 +8,7 @@ set(CMAKE_EXE_LINKER_FLAGS -pthread)
 
 # GTest - Gebruik kant en klare libraries
 include_directories(gtest/include)
-link_directories(gtest/lib)
+link_directories(gtest/include/lib)
 
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
@@ -27,6 +27,11 @@ set(RELEASE_SOURCE_FILES
         src/TraficObjects/bushalte.cpp
         src/TraficObjects/kruispunt.cpp
         src/TraficObjects/voertuiggenerator.cpp
+        src/TraficObjects/DesignByContract.h
+        src/Situation/DesignByContract.h
+        src/Simulation/DesignByContract.h
+        src/Output/DesignByContract.h
+        src/FileReader/DesignByContract.h
 )
 
 # Set source files for DEBUG target
@@ -46,6 +51,11 @@ set(DEBUG_SOURCE_FILES
         src/TraficObjects/voertuiggenerator.cpp
         src/TraficObjects/bushalte.cpp
         src/TraficObjects/kruispunt.cpp
+        src/TraficObjects/DesignByContract.h
+        src/Situation/DesignByContract.h
+        src/Simulation/DesignByContract.h
+        src/Output/DesignByContract.h
+        src/FileReader/DesignByContract.h
 )
 
 # Create RELEASE target

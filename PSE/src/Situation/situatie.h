@@ -170,6 +170,8 @@ public:
      */
     Kruispunt* zoekEerstvolgendeKruispunt(const Voertuig& voertuig);
 
+    bool properlyInitialized() const;
+
 private:
     std::map<std::string, Baan> banen;        ///< The roads in the traffic situation, indexed by name
     std::vector<Voertuig> voertuigen;         ///< The vehicles in the traffic situation
@@ -177,6 +179,7 @@ private:
     std::vector<VoertuigGenerator> generators;  ///< The vehicle generators in the traffic situation
     std::vector<Bushalte> bushaltes;          ///< The bus stops in the traffic situation
     std::vector<Kruispunt> kruispunten;       ///< The intersections in the traffic situation
+    VerkeersSituatie* _initCheck;
 };
 
 #endif // SITUATIE_H

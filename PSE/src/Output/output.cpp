@@ -12,11 +12,22 @@
 #include <iomanip>
 #include <algorithm>
 #include "../Parser/tinyxml.h"
+#include "DesignByContract.h"
 
 /**
  * @brief Constructor
  */
-output::output() : lastFoutmelding("") {}
+output::output() : lastFoutmelding("")
+{
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
+
+}
+
+bool output::properlyInitialized() const
+{
+    return _initCheck == this;
+}
 
 /**
  * @brief Generates a textual representation of the traffic situation
@@ -24,6 +35,7 @@ output::output() : lastFoutmelding("") {}
  * @return A string with the textual representation
  */
 std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
     std::stringstream ss;
     ss << "=== Verkeerssituatie Info ===" << std::endl;
 
@@ -80,6 +92,8 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
  * @return A string with the graphical impression
  */
 std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+
     std::stringstream ss;
 
     const auto& banen = situatie.getBanen();
@@ -249,6 +263,8 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
  * @return true if writing was successful, false otherwise
  */
 bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandsNaam mag niet leeg zijn.");
     TiXmlDocument doc;
     TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "UTF-8", "");
     doc.LinkEndChild(decl);
@@ -437,6 +453,8 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
  * @return true if writing was successful, false otherwise
  */
 bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
     std::ofstream file(bestandsnaam);
     if (!file.is_open()) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
@@ -466,7 +484,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        .traffic-light-orange { background-color: orange; }\n"
          << "        .traffic-light-green { background-color: green; }\n"
          << "        .bus-stop { position: absolute; width: 10px; height: 10px; top: -5px; background-color: yellow; border: 1px solid black; }\n"
-         << "        .intersection { position: absolute; width: 10px; height: 10px; top: -5px; background-color: black; border-radius: 5px; }\n"
+         << "        .intersection { position: absolute; width: 10px; height: 10px; top: 0px; background-color: black; border-radius: 5px; }\n"
          << "        .legend { margin-top: 30px; border: 1px solid #ccc; padding: 10px; }\n"
          << "        .legend-item { display: inline-block; margin-right: 20px; }\n"
          << "        .legend-color { display: inline-block; width: 15px; height: 15px; margin-right: 5px; vertical-align: middle; }\n"
@@ -563,8 +581,8 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-red\"></div> Rood licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-orange\"></div> Oranje licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-green\"></div> Groen licht</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color bus-stop\"></div> Bushalte</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color intersection\"></div> Kruispunt</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color bus-stop\" style=\"position: static;\"></div> Bushalte</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color intersection\" style=\"position: static;\"></div> Kruispunt</div>\n"
          << "    </div>\n";
 
     // Write statistics
@@ -590,5 +608,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
     * @return The last error message
     */
     std::string output::getLastFoutmelding() const {
+    REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
+
         return lastFoutmelding;
 }

@@ -32,6 +32,7 @@ private:
     int totaalVerwijderdeVoertuigen = 0;
     double totaleTijd = 0.0;
 
+    simulatie* _initCheck;
     /**
      * @brief Process all traffic lights in the simulation
      */
@@ -162,6 +163,9 @@ public:
      * @return The total time
      */
     [[nodiscard]] double getTotaleTijd() const;
+
+
+     bool properlyInitialized() const;
 };
 
 #endif //SIMULATIE_H

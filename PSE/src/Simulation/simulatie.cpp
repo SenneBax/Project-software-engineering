@@ -15,6 +15,8 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include "DesignByContract.h"
+
 
 /**
  * @brief Constructor
@@ -23,6 +25,8 @@
  */
 simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
     : verkeerssituatie(situatie), tijdstap(tijdstap), huidigeSimulatieTijd(0.0) {
+    //REQUIRE(tijdstap >= 0.0, "tijdstap mag niet negatief zijn.");
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld.");
     // Check if the time step is valid
     if (tijdstap <= 0) {
         this->tijdstap = 0.0166; // Default time step
@@ -32,12 +36,22 @@ simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
     vertraagAfstand = 50.0;
     stopAfstand = 15.0;
     vertraagFactor = 0.4;
+
+    _initCheck = this;
+    REQUIRE(properlyInitialized(), "simulatie moet eindigen in een geldige toestand.");
+}
+
+bool simulatie::properlyInitialized() const
+{
+    return _initCheck == this;
 }
 
 /**
  * @brief Perform one simulation step
  */
 void simulatie::stap() {
+    REQUIRE(properlyInitialized(), "stap moet eindigen in een geldige toestand.");
+
     // Process all traffic lights
     verwerkVerkeerslichten();
 
@@ -60,16 +74,22 @@ void simulatie::stap() {
 
     // Collect statistics
     verzamelStatistieken();
+
+    REQUIRE(properlyInitialized(), "stap moet eindigen in een geldige toestand.");
 }
 
 /**
  * @brief Process all traffic lights in the simulation
  */
 void simulatie::verwerkVerkeerslichten() {
+    REQUIRE(properlyInitialized(), "verwerkVerkeerslichten moet eindigen in een geldige toestand.");
+
     // Update all traffic lights
     for (auto& verkeerslicht : verkeerssituatie.getVerkeerslichten()) {
         verkeerslicht.update(tijdstap);
     }
+    REQUIRE(properlyInitialized(), "verwerkVerkeerslichten moet eindigen in een geldige toestand.");
+
 }
 
 /**
@@ -79,6 +99,9 @@ void simulatie::verwerkVerkeerslichten() {
  * @return Response code: 0 = no effect, 1 = slow down, 2 = stop, 3 = pass through
  */
 int simulatie::controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeerslicht& verkeerslicht) {
+    REQUIRE(properlyInitialized(), "controleerVerkeerslichtNadering moet eindigen in een geldige toestand.");
+    REQUIRE(voertuig.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
+    //REQUIRE(verkeerslicht.properlyInitialized(), "verkeerslicht moet correct ingesteld zijn.");
     // If this is a priority vehicle (fire truck, ambulance, police), it can pass through red lights
     if (voertuig.isPrioriteitsvoertuig()) {
         return 3; // Pass through
@@ -114,6 +137,8 @@ int simulatie::controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeer
  * @brief Process all vehicles in the simulation
  */
 void simulatie::verwerkVoertuigen() {
+    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
+    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
     std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
     const std::map<std::string, Baan>& banen = verkeerssituatie.getBanen();
 
@@ -243,6 +268,8 @@ void simulatie::verwerkVoertuigen() {
  * @brief Process all bus stops in the simulation
  */
 void simulatie::verwerkBushaltes() {
+    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
+    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
     std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
     std::vector<Bushalte>& bushaltes = verkeerssituatie.getBushaltes();
 
@@ -300,6 +327,8 @@ void simulatie::verwerkBushaltes() {
  * @brief Process all intersections in the simulation
  */
 void simulatie::verwerkKruispunten() {
+    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
+    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
     std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
 
     // Process each vehicle
@@ -328,6 +357,8 @@ void simulatie::verwerkKruispunten() {
  * @return true if the bus should stop at the bus stop, false otherwise
  */
 bool simulatie::moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& halte) const {
+    REQUIRE(properlyInitialized(), "moetStoppenBijHalte moet eindigen in een geldige toestand.");
+
     // Only buses should stop at bus stops
     if (!voertuig.isBus()) {
         return false;
@@ -356,6 +387,8 @@ bool simulatie::moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& ha
  * @return true if the vehicle should be moved to an intersection, false otherwise
  */
 bool simulatie::moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kruispunt) const {
+    REQUIRE(properlyInitialized(), "moetNaarKruispunt moet eindigen in een geldige toestand.");
+
     // Check if the vehicle is on a road that is part of the intersection
     if (!kruispunt.bevatBaan(voertuig.getBaanNaam())) {
         return false;
@@ -382,6 +415,9 @@ bool simulatie::moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kru
  * @return true if the vehicle was moved, false otherwise
  */
 bool simulatie::verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt& kruispunt) {
+    REQUIRE(properlyInitialized(), "verplaatsVoertuigNaKruispunt moet eindigen in een geldige toestand.");
+    REQUIRE(voertuig.properlyInitialized(), "voertuig moet eindigen in een geldige toestand.");
+
     // Choose a random road to continue on
     std::string nieuweBaan = kruispunt.kiesRandomBaan(voertuig.getBaanNaam());
 
@@ -394,13 +430,17 @@ bool simulatie::verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt
     voertuig.setBaanNaam(nieuweBaan);
     voertuig.setPositie(0);
 
+    ENSURE(!voertuig.getBaan().empty(), "voertuig moet na verplaatsing een geldige baan hebben.");
+    ENSURE(voertuig.getPositie() == 0, "voertuig moet na verplaatsing op positie 0 starten.");
     return true;
+
 }
 
 /**
  * @brief Generate new vehicles in the simulation from generators
  */
 void simulatie::genereerNieuweVoertuigen() {
+    REQUIRE(properlyInitialized(), "genereerNieuweVoertuigen moet eindigen in een geldige toestand.");
     const std::vector<VoertuigGenerator>& generators = verkeerssituatie.getVoertuigGenerators();
 
     for (const auto& generator : generators) {
@@ -416,6 +456,7 @@ void simulatie::genereerNieuweVoertuigen() {
             // Generate a new vehicle at position 0 of the road
             if (genereertVoertuig(generator.getBaanNaam(), 0.0, generator.getType())) {
                 laatsteGeneratieTijd[generator.getBaanNaam()] = huidigeSimulatieTijd;
+                ENSURE(laatsteGeneratieTijd[generator.getBaanNaam()] == huidigeSimulatieTijd, "Laatste generatie tijd moet gelijk zijn met huidige stimulatie tijd.");
             }
         }
     }
@@ -429,6 +470,10 @@ void simulatie::genereerNieuweVoertuigen() {
  * @return true if the vehicle was generated successfully
  */
 bool simulatie::genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type) {
+    REQUIRE(properlyInitialized(), "Simutaltie moet eindigen in een geldige toestand.");
+    REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
+    REQUIRE(positie >= 0.0, "positie moet positief zijn.");
+    REQUIRE(!type.empty(), "Voertuigtype mag niet leeg zijn.");
     // Check if the road exists
     auto baanIt = verkeerssituatie.getBanen().find(baanNaam);
     if (baanIt == verkeerssituatie.getBanen().end()) {
@@ -465,6 +510,8 @@ void simulatie::setAutoGenereerVoertuigen(bool genereer) {
  * @brief Collect simulation statistics
  */
 void simulatie::verzamelStatistieken() {
+    REQUIRE(properlyInitialized(), "verzamelStatistieken moet eindigen in een geldige toestand.");
+
     const std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
 
     totaleTijd += tijdstap;
@@ -487,36 +534,45 @@ void simulatie::verzamelStatistieken() {
     // Increment counter for removed vehicles
     totaalVerwijderdeVoertuigen += verwijderdeVoertuigenTeller;
     verwijderdeVoertuigenTeller = 0;
+
+    ENSURE(gemiddeldeSnelheid >= 0.0, "gemiddelde snelheid moet positief zijn.");
 }
 
 /**
  * @brief Increment the counter for removed vehicles
  */
 void simulatie::verhoogVerwijderdeVoertuigenTeller() {
+    REQUIRE(properlyInitialized(), "verhoogVerwijderdeVoertuigenTeller moet eindigen in een geldige toestand.");
     verwijderdeVoertuigenTeller++;
 }
 
 // Getters for simulation properties and statistics
 double simulatie::getHuidigeSimulatieTijd() const {
+    REQUIRE(properlyInitialized(), "getHuidigeSimulatieTijd moet eindigen in een geldige toestand.");
     return huidigeSimulatieTijd;
 }
 
 double simulatie::getTijdstap() const {
+    REQUIRE(properlyInitialized(), "getTijdstap moet eindigen in een geldige toestand.");
     return tijdstap;
 }
 
 int simulatie::getAantalVoertuigen() const {
+    REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
     return aantalVoertuigen;
 }
 
 double simulatie::getGemiddeldeSnelheid() const {
+    REQUIRE(properlyInitialized(), "getGemiddeldeSnelheid moet eindigen in een geldige toestand.");
     return gemiddeldeSnelheid;
 }
 
 int simulatie::getTotaalVerwijderdeVoertuigen() const {
+    REQUIRE(properlyInitialized(), "getTotaalVerwijderdeVoertuigen moet eindigen in een geldige toestand.");
     return totaalVerwijderdeVoertuigen;
 }
 
 double simulatie::getTotaleTijd() const {
+    REQUIRE(properlyInitialized(), "getTotaleTijd moet eindigen in een geldige toestand.");
     return totaleTijd;
 }

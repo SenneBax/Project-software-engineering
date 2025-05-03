@@ -41,10 +41,16 @@ public:
 
     // Andere methoden...
 
+    bool properlyInitialized() const;
+
+
+
 private:
     std::string baanNaam;  ///< Naam van de baan waar voertuigen gegenereerd worden
     int frequentie;        ///< Frequentie waarmee voertuigen gegenereerd worden
     std::string type;      ///< Type voertuigen dat gegenereerd wordt
+    VoertuigGenerator* _initCheck;
+
 };
 
 #endif // VOERTUIGGENERATOR_H

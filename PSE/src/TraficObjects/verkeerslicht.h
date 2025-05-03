@@ -32,6 +32,9 @@ private:
     bool heeftOranje;         /**< Whether this traffic light has orange state */
     bool isSlim;              /**< Whether this is a smart traffic light */
     int voertuigenVoorLicht;  /**< Number of vehicles waiting at the light */
+    Verkeerslicht* _initCheck;
+
+
 
 public:
     /**
@@ -48,6 +51,8 @@ public:
      * @brief Getter for the road name of the traffic light
      * @return The name of the road
      */
+    bool properlyInitialized() const;
+
     std::string getBaan() const;
 
     /**
@@ -136,6 +141,8 @@ public:
      * @brief Reset the number of vehicles waiting at this light
      */
     void resetVoertuigenVoorLicht();
+
+
 };
 
 #endif // VERKEERSLICHT_H
