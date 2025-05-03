@@ -688,43 +688,41 @@ TEST(SimulatieTest, BushalteStopTest) {
 
     // Maak een testbaan met een bushalte
     Baan baan("Teststraat", 300);
-    situatie.voegBaanToe(baan);
+    ASSERT_TRUE(situatie.voegBaanToe(baan));
 
     // Voeg een bushalte toe op positie 150
     Bushalte bushalte("Teststraat", 150, 10); // 10 seconden wachttijd
-    situatie.voegBushalteToe(bushalte);
+    ASSERT_TRUE(situatie.voegBushalteToe(bushalte));
 
     // Voeg een bus toe die richting de bushalte rijdt
-    Voertuig bus("Teststraat", 100, "bus");
-    bus.setSnelheid(10.0); // 10 m/s, zal snel bij de bushalte aankomen
-    situatie.voegVoertuigToe(bus);
+    // Positie iets voor de bushalte met constante snelheid
+    Voertuig bus("Teststraat", 145, "bus");
+    bus.setSnelheid(0.5); // Langzame snelheid om exacte stop te garanderen
+    ASSERT_TRUE(situatie.voegVoertuigToe(bus));
 
     // Voeg een auto toe achter de bus (deze hoeft niet te stoppen bij de bushalte)
-    Voertuig personenauto("Teststraat", 50, "auto");
-    personenauto.setSnelheid(10.0);
-    situatie.voegVoertuigToe(personenauto);
+    Voertuig personenauto("Teststraat", 120, "auto");
+    personenauto.setSnelheid(0.5);
+    ASSERT_TRUE(situatie.voegVoertuigToe(personenauto));
 
     simulatie sim(situatie, 0.5); // Halve seconde per stap
 
-    // Eerste ronde simulatie: bus nadert bushalte
+    // Fase 1: Bus nadert en stopt bij bushalte
     bool busIsGestopt = false;
-    bool busVertrokkenNaWachten = false;
-    double busPositieBijStop = 0.0;
+    int stopStap = -1;
 
-    // Maximaal 50 stappen om alle bushaltegedrag te kunnen observeren
-    for (int i = 0; i < 50; i++) {
+    // Simuleer tot de bus stopt (maximaal 20 stappen)
+    for (int i = 0; i < 20 && !busIsGestopt; i++) {
         sim.stap();
 
-        // Haal de bijgewerkte voertuigen op na elke stap
+        // Haal de bijgewerkte voertuigen en bushaltes op
         const auto& voertuigen = situatie.getVoertuigen();
         const auto& bushaltes = situatie.getBushaltes();
 
-        // Controleer of er nog voertuigen zijn in de simulatie
-        if (voertuigen.empty()) {
-            break;
-        }
+        // Controleer of er nog voertuigen zijn
+        ASSERT_GE(voertuigen.size(), 1) << "Er zijn geen voertuigen meer in simulatie na " << i << " stappen";
 
-        // Zoek de bus en de auto
+        // Zoek bus en auto
         Voertuig* busPtr = nullptr;
         Voertuig* autoPtr = nullptr;
 
@@ -736,58 +734,88 @@ TEST(SimulatieTest, BushalteStopTest) {
             }
         }
 
-        // Als de bus niet meer bestaat, breek de lus
-        if (!busPtr) {
-            break;
-        }
+        // Controleer of de bus nog bestaat
+        ASSERT_NE(busPtr, nullptr) << "Bus is verdwenen na " << i << " stappen";
 
-        // Controleer of de bus bij de bushalte is gestopt
-        if (!busIsGestopt && busPtr->isWaitingAtBusStop() &&
-            std::abs(busPtr->getPositie() - 150) < 1.0) {
+        // Controleer of de bus is gestopt bij de bushalte
+        if (busPtr->isWaitingAtBusStop() && std::abs(busPtr->getPositie() - 150) < 1.0) {
             busIsGestopt = true;
-            busPositieBijStop = busPtr->getPositie();
-
-            // Controleer of de bushalte ook weet dat er een bus is gestopt
-            EXPECT_TRUE(bushaltes[0].isBusGestopt());
+            stopStap = i;
 
             // Controleer of de bus stilstaat
-            EXPECT_NEAR(busPtr->getSnelheid(), 0.0, 0.1);
+            EXPECT_NEAR(busPtr->getSnelheid(), 0.0, 0.01) << "Bus staat niet stil bij bushalte";
 
-            std::cout << "Bus is gestopt bij de bushalte op positie "
-                      << busPtr->getPositie() << " na " << i << " stappen." << std::endl;
-        }
-
-        // Controleer of de bus weer vertrekt na de wachttijd
-        if (busIsGestopt && !busPtr->isWaitingAtBusStop() &&
-            busPtr->getPositie() > busPositieBijStop) {
-            busVertrokkenNaWachten = true;
-
-            // Controleer of de bushalte weet dat de bus is vertrokken
-            EXPECT_FALSE(bushaltes[0].isBusGestopt());
-
-            // Controleer of de bus weer beweegt
-            EXPECT_GT(busPtr->getSnelheid(), 0.0);
-
-            std::cout << "Bus is vertrokken van de bushalte na "
-                      << i << " stappen." << std::endl;
-            break;
-        }
-
-        // Controleer of de auto gewoon doorrijdt (hoeft niet te stoppen bij bushalte)
-        if (autoPtr && autoPtr->getPositie() > 150) {
-            EXPECT_GT(autoPtr->getSnelheid(), 0.0);
+            // Controleer of de bushalte weet dat er een bus gestopt is
+            EXPECT_TRUE(bushaltes[0].isBusGestopt()) << "Bushalte weet niet dat er een bus gestopt is";
         }
     }
 
-    // Verwacht dat de bus is gestopt en daarna weer vertrokken
-    //EXPECT_TRUE(busIsGestopt) << "De bus is niet gestopt bij de bushalte.";
-    //EXPECT_TRUE(busVertrokkenNaWachten) << "De bus is niet vertrokken na de wachttijd.";
+    // Controleer of de bus daadwerkelijk gestopt is
+    ASSERT_TRUE(busIsGestopt) << "De bus is niet gestopt bij de bushalte binnen 20 stappen";
 
-    // Extra controle: de totale simulatietijd moet groter zijn dan de wachttijd
-    // van de bushalte om te garanderen dat de bus tijd had om te wachten
-    EXPECT_GT(sim.getHuidigeSimulatieTijd(), 10.0);
+    // Fase 2: Controleer of de bus wacht bij de bushalte
+    double startWachtTijd = sim.getHuidigeSimulatieTijd();
+
+    // Simuleer totdat de wachttijd is verstreken (nog 22 stappen, ruim boven de wachttijd)
+    int wachtStappen = 22;
+    for (int i = 0; i < wachtStappen; i++) {
+        sim.stap();
+
+        // Controleer halverwege of de bus nog steeds wacht
+        if (i == wachtStappen / 2) {
+            const auto& voertuigen = situatie.getVoertuigen();
+            bool busGevonden = false;
+
+            for (const auto& voertuig : voertuigen) {
+                if (voertuig.getType() == "bus") {
+                    busGevonden = true;
+                    EXPECT_TRUE(voertuig.isWaitingAtBusStop())
+                        << "Bus zou nog moeten wachten na " << (stopStap + i) << " stappen";
+                    EXPECT_NEAR(voertuig.getSnelheid(), 0.0, 0.01)
+                        << "Bus zou stil moeten staan tijdens wachten";
+                }
+            }
+
+            ASSERT_TRUE(busGevonden) << "Bus is verdwenen tijdens het wachten";
+        }
+    }
+
+    // Fase 3: Controleer of de bus weer vertrokken is
+    const auto& voertuigen = situatie.getVoertuigen();
+    bool busVertrokken = false;
+    double eindPositie = 0.0;
+
+    for (const auto& voertuig : voertuigen) {
+        if (voertuig.getType() == "bus") {
+            busVertrokken = !voertuig.isWaitingAtBusStop() && voertuig.getSnelheid() > 0;
+            eindPositie = voertuig.getPositie();
+        }
+    }
+
+    EXPECT_TRUE(busVertrokken) << "Bus is niet vertrokken na afloop van de wachttijd";
+    EXPECT_GT(eindPositie, 150) << "Bus is niet voorbij de bushalte na vertrek";
+
+    // Controleer of de simulatietijd minstens gelijk is aan de starttijd + wachttijd
+    EXPECT_GE(sim.getHuidigeSimulatieTijd(), startWachtTijd + 10)
+        << "Simulatie heeft niet lang genoeg geduurd voor de wachttijd";
+
+    // Controleer of de auto niet is gestopt en voorbij de bushalte is gekomen
+    bool autoGevonden = false;
+    for (const auto& voertuig : voertuigen) {
+        if (voertuig.getType() == "auto") {
+            autoGevonden = true;
+            EXPECT_GT(voertuig.getPositie(), 150)
+                << "Auto is niet voorbij de bushalte gekomen";
+            EXPECT_GT(voertuig.getSnelheid(), 0)
+                << "Auto zou moeten bewegen";
+        }
+    }
+
+    // De auto kan de simulatie al hebben verlaten als die het einde van de weg heeft bereikt
+    if (autoGevonden) {
+        EXPECT_GT(voertuigen.size(), 1) << "Er zou ten minste de bus en een auto moeten zijn";
+    }
 }
-
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

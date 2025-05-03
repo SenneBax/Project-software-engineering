@@ -15,7 +15,7 @@
 class Voertuig {
 public:
     /**
-     * @brief Enumeration for different vehicle types
+     * @brief Enumeratie van de verschillende types voertuigen
      */
     enum class VoertuigType {
         AUTO,
@@ -26,15 +26,15 @@ public:
     };
 
     /**
-     * @brief Structure containing vehicle parameters based on type
+     * @brief Structuur met voertuig parameters gebaseerd op het type
      */
     struct VoertuigParams {
-        double lengte;            ///< Vehicle length in meters
-        double maxSnelheid;       ///< Max speed in m/s
-        double maxVersnelling;    ///< Max acceleration in m/s²
-        double maxRemFactor;      ///< Max braking factor in m/s²
-        double minVolgafstand;    ///< Minimum following distance in meters
-        bool isPrioriteitsvoertuig; ///< Whether this is a priority vehicle
+        double lengte;            ///< voertuig lengte in meters
+        double maxSnelheid;       ///< Max snelheid in m/s
+        double maxVersnelling;    ///< Max acceleratie in m/s²
+        double maxRemFactor;      ///< Max rem factor in m/s²
+        double minVolgafstand;    ///< Minimum volgafstand in meters
+        bool isPrioriteitsvoertuig; ///< of dit een prioriteitsvoertuig is
 
         VoertuigParams(double l, double v, double a, double b, double f, bool p = false)
             : lengte(l), maxSnelheid(v), maxVersnelling(a), maxRemFactor(b), minVolgafstand(f), isPrioriteitsvoertuig(p) {}
@@ -59,7 +59,7 @@ public:
     Voertuig(const std::string& baan, double positie, double snelheid, double versnelling, const std::string& type = "auto");
 
     /**
-     * @brief Copy constructor
+     * @brief kopiëer constructor
      * @param other Het te kopiëren voertuig
      */
     Voertuig(const Voertuig& other);
@@ -113,20 +113,20 @@ public:
     std::string getType() const;
 
     /**
-     * @brief Gets the vehicle type as enum
-     * @return The vehicle type enum
+     * @brief Gets het voertuig type als enum
+     * @return Het voertuig type enum
      */
     VoertuigType getTypeEnum() const;
 
     /**
-     * @brief Checks if the vehicle is a priority vehicle
-     * @return True if the vehicle is a priority vehicle (fire truck, ambulance, police)
+     * @brief controlleert of voertuig prioriteit heeft
+     * @return True als het een prioriteitsvoertuig is
      */
     bool isPrioriteitsvoertuig() const;
 
     /**
-     * @brief Checks if this vehicle is a bus
-     * @return True if the vehicle is a bus
+     * @brief Checks of het voertuigen een bus is
+     * @return True als voertuig bus is
      */
     bool isBus() const;
 

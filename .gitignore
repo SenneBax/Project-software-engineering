@@ -218,10 +218,10 @@ $RECYCLE.BIN/
 
 ### some extra stuff, just in case...
 # gtest files
-/gtest/lib/
-/gtest/lib/libgtest_main.a
-/gtest/lib/libgtest.a
-/gtest/lib/**/*
+/PSE/gtest/lib/
+/PSE/gtest/lib/libgtest_main.a
+/PSE/gtest/lib/libgtest.a
+/PSE/gtest/lib/**/*
 
 # technical files
 .idea
