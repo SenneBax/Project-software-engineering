@@ -484,7 +484,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        .traffic-light-orange { background-color: orange; }\n"
          << "        .traffic-light-green { background-color: green; }\n"
          << "        .bus-stop { position: absolute; width: 10px; height: 10px; top: -5px; background-color: yellow; border: 1px solid black; }\n"
-         << "        .intersection { position: absolute; width: 10px; height: 10px; top: -5px; background-color: black; border-radius: 5px; }\n"
+         << "        .intersection { position: absolute; width: 10px; height: 10px; top: 0px; background-color: black; border-radius: 5px; }\n"
          << "        .legend { margin-top: 30px; border: 1px solid #ccc; padding: 10px; }\n"
          << "        .legend-item { display: inline-block; margin-right: 20px; }\n"
          << "        .legend-color { display: inline-block; width: 15px; height: 15px; margin-right: 5px; vertical-align: middle; }\n"
@@ -581,8 +581,8 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-red\"></div> Rood licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-orange\"></div> Oranje licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-green\"></div> Groen licht</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color bus-stop\"></div> Bushalte</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color intersection\"></div> Kruispunt</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color bus-stop\" style=\"position: static;\"></div> Bushalte</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color intersection\" style=\"position: static;\"></div> Kruispunt</div>\n"
          << "    </div>\n";
 
     // Write statistics

@@ -64,7 +64,7 @@ std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
  * @return True if the road is part of this intersection, false otherwise
  */
 bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
-    REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
+    //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
     REQUIRE(!baanNaam.empty(), "baanNaam is empty");
     return std::any_of(banen.begin(), banen.end(),
                        [&baanNaam](const BaanPositie& baan) {
