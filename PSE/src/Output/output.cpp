@@ -101,6 +101,13 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
     const auto& verkeerslichten = situatie.getVerkeerslichten();
     const auto& bushaltes = situatie.getBushaltes();
 
+    // Bepaal langste baannaam voor uitlijning.
+    size_t maxBaanNaamLenghte = 0;
+    for (const auto& baanPaar : banen)
+    {
+        maxBaanNaamLenghte = std::max(maxBaanNaamLenghte, baanPaar.first.length());
+    }
+
     // Verwerk elke baan
     for (const auto& baanPaar : banen) {
         const std::string& baanNaam = baanPaar.first;
@@ -182,11 +189,11 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
         }
 
         // Print de baannaam en visualisatie
-        ss << baanNaam << " | " << baanVisualisatie << std::endl;
+        ss << std::left << std::setw(maxBaanNaamLenghte) << baanNaam << " | " << baanVisualisatie << std::endl;
 
         // Print verkeerslichtinformatie als er verkeerslichten op deze baan zijn
         if (!verkeerslichtPosities.empty()) {
-            ss << "> verkeerslichten | ";
+            ss << std::left << std::setw(maxBaanNaamLenghte) << "> Verkeerslichten" << " | ";
             for (int i = 0; i < displayLengte; i++) {
                 bool found = false;
                 for (const auto& lichtPaar : verkeerslichtPosities) {
@@ -205,7 +212,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 
         // Print bushalte-informatie als er bushaltes op deze baan zijn
         if (!bushaltePosities.empty()) {
-            ss << "> bushaltes       | ";
+            ss << std::left << std::setw(maxBaanNaamLenghte) << "> bushaltes" << " | ";
             for (int i = 0; i < displayLengte; i++) {
                 bool found = false;
                 for (int haltePositie : bushaltePosities) {
@@ -224,7 +231,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 
         // Print kruispuntinformatie als er kruispunten op deze baan zijn
         if (!kruispuntPosities.empty()) {
-            ss << "> kruispunten     | ";
+            ss << std::left << std::setw(maxBaanNaamLenghte) << "> kruispunten" << " | ";
             for (int i = 0; i < displayLengte; i++) {
                 bool found = false;
                 for (int kruisPunt : kruispuntPosities) {
