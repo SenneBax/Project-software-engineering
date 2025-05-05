@@ -22,7 +22,7 @@ private:
 
 public:
     /**
-     * @brief Default constructor toevoegen
+     * @brief Standaard constructor toevoegen
      */
     Baan();
 
@@ -47,7 +47,7 @@ public:
 
 
     /**
-     * @brief Controlleren of het object goed is geïnitialiseerd
+     * @brief Controleren of het object goed is geïnitialiseerd
      * @return true als _initCheck == this
      */
     [[nodiscard]] bool properlyInitialized() const;

@@ -1,6 +1,6 @@
 /**
  * @file voertuig.cpp
- * @brief Implementation of the Voertuig class (Revised with vehicle types)
+ * @brief Implementatie van de Voertuig klasse (Herzien met voertuigtypes)
  */
 
 #include "voertuig.h"
@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include "DesignByContract.h"
 
-// Initialize static const member variable with vehicle type parameters from Appendix C
+// Initialiseer statische const member variabele met voertuigtype parameters uit Appendix C
 const std::map<Voertuig::VoertuigType, Voertuig::VoertuigParams> Voertuig::typeParameters = {
     {Voertuig::VoertuigType::AUTO, Voertuig::VoertuigParams(4.0, 16.6, 1.44, 4.61, 4.0, false)},
     {Voertuig::VoertuigType::BUS, Voertuig::VoertuigParams(12.0, 11.4, 1.22, 4.29, 12.0, false)},
@@ -119,8 +119,8 @@ std::string Voertuig::getBaan() const {
 }
 
 /**
- * @brief Sets the name of the road
- * @param nieuweNaam The new road name
+ * @brief Stelt de naam van de baan in
+ * @param nieuweNaam De nieuwe baannaam
  */
 void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
     REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
@@ -160,8 +160,8 @@ std::string Voertuig::getType() const {
 }
 
 /**
- * @brief Gets the vehicle type as enum
- * @return The vehicle type enum
+ * @brief Krijgt het voertuigtype als enum
+ * @return Het voertuigtype enum
  */
 Voertuig::VoertuigType Voertuig::getTypeEnum() const {
     REQUIRE(properlyInitialized(), "getTypeEnum moet eindigen in een geldige toestand.");
@@ -170,8 +170,8 @@ Voertuig::VoertuigType Voertuig::getTypeEnum() const {
 }
 
 /**
- * @brief Checks if the vehicle is a priority vehicle
- * @return True if the vehicle is a priority vehicle (fire truck, ambulance, police)
+ * @brief Controleert of het voertuig een prioriteitsvoertuig is
+ * @return True als het voertuig een prioriteitsvoertuig is (brandweerwagen, ziekenwagen, politie)
  */
 bool Voertuig::isPrioriteitsvoertuig() const {
     REQUIRE(properlyInitialized(), "isPrioriteitsvoertuig moet eindigen in een geldige toestand.");
@@ -179,8 +179,8 @@ bool Voertuig::isPrioriteitsvoertuig() const {
 }
 
 /**
- * @brief Checks if this vehicle is a bus
- * @return True if the vehicle is a bus
+ * @brief Controleert of dit voertuig een bus is
+ * @return True als het voertuig een bus is
  */
 bool Voertuig::isBus() const {
     REQUIRE(properlyInitialized(), "isBus moet eindigen in een geldige toestand.");
@@ -204,7 +204,7 @@ double Voertuig::getSnelheid() const {
  */
 void Voertuig::setSnelheid(double nieuweSnelheid) {
     REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
-    snelheid = std::max(0.0, nieuweSnelheid); // Prevent negative speed
+    snelheid = std::max(0.0, nieuweSnelheid); // Voorkom negatieve snelheid
     ENSURE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
     ENSURE(snelheid == std::max(0.0, nieuweSnelheid), "Snelheid werd niet correct ingesteld.");
 }
@@ -230,8 +230,8 @@ void Voertuig::setVersnelling(double nieuweVersnelling) {
 }
 
 /**
- * @brief Gets the length of the vehicle
- * @return The length in meters
+ * @brief Haalt de lengte van het voertuig op
+ * @return De lengte in meters
  */
 double Voertuig::getLengte() const {
     REQUIRE(properlyInitialized(), "getLengte moet eindigen in een geldige toestand.");
@@ -239,8 +239,8 @@ double Voertuig::getLengte() const {
 }
 
 /**
- * @brief Gets the maximum speed of the vehicle
- * @return The maximum speed in m/s
+ * @brief Haalt de maximumsnelheid van het voertuig op
+ * @return De maximumsnelheid in m/s
  */
 double Voertuig::getMaxSnelheid() const {
     REQUIRE(properlyInitialized(), "getMaxSnelheid moet eindigen in een geldige toestand.");
@@ -248,8 +248,8 @@ double Voertuig::getMaxSnelheid() const {
 }
 
 /**
- * @brief Gets the maximum acceleration of the vehicle
- * @return The maximum acceleration in m/s²
+ * @brief Haalt de maximumversnelling van het voertuig op
+ * @return De maximumversnelling in m/s²
  */
 double Voertuig::getMaxVersnelling() const {
     REQUIRE(properlyInitialized(), "getMaxVersnelling moet eindigen in een geldige toestand.");
@@ -257,8 +257,8 @@ double Voertuig::getMaxVersnelling() const {
 }
 
 /**
- * @brief Gets the maximum braking factor of the vehicle
- * @return The maximum braking factor in m/s²
+ * @brief Haalt de maximale remfactor van het voertuig op
+ * @return De maximale remfactor in m/s²
  */
 double Voertuig::getMaxRemFactor() const {
     REQUIRE(properlyInitialized(), "getMaxRemfactor moet eindigen in een geldige toestand.");
@@ -266,8 +266,8 @@ double Voertuig::getMaxRemFactor() const {
 }
 
 /**
- * @brief Gets the minimum following distance
- * @return The minimum following distance in meters
+ * @brief Haalt de minimale volgafstand op
+ * @return De minimale volgafstand in meters
  */
 double Voertuig::getMinVolgafstand() const {
     REQUIRE(properlyInitialized(), "getMinVolgafstand moet eindigen in een geldige toestand.");
@@ -275,8 +275,8 @@ double Voertuig::getMinVolgafstand() const {
 }
 
 /**
- * @brief Sets the bus waiting flag
- * @param isWaiting Whether the bus is waiting at a stop
+ * @brief Stelt de wachtende bus vlag in
+ * @param isWaiting Of de bus wacht bij een halte
  */
 void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
     REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
@@ -285,8 +285,8 @@ void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
 }
 
 /**
- * @brief Checks if the bus is waiting at a stop
- * @return True if the bus is waiting, false otherwise
+ * @brief Controleert of de bus wacht bij een halte
+ * @return True als de bus wacht, anders false
  */
 bool Voertuig::isWaitingAtBusStop() const {
     REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
@@ -294,8 +294,8 @@ bool Voertuig::isWaitingAtBusStop() const {
 }
 
 /**
- * @brief Update the vehicle's position and speed based on the current acceleration
- * @param tijdstap The time step for the update in seconds
+ * @brief Update de positie en snelheid van het voertuig op basis van de huidige versnelling
+ * @param tijdstap De tijdstap voor de update in seconden
  */
 void Voertuig::updatePositieEnSnelheid(double tijdstap) {
     REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
@@ -317,54 +317,54 @@ void Voertuig::updatePositieEnSnelheid(double tijdstap) {
 }
 
 /**
- * @brief Calculate the vehicle's acceleration based on preceding vehicle and other factors
- * @param voorgaandVoertuig The preceding vehicle, nullptr if none
- * @param isEersteVoertuig Whether this is the first vehicle on the road
- * @param verkeersLichtVertraagFactor Slowdown factor for a traffic light (0.4 by default)
- * @param doelSnelheid Target speed, uses vehicle's maximum speed by default
+ * @brief Bereken de versnelling van het voertuig op basis van voorliggend voertuig en andere factoren
+ * @param voorgaandVoertuig Het voorliggende voertuig, nullptr als er geen is
+ * @param isEersteVoertuig Of dit het eerste voertuig op de weg is
+ * @param verkeersLichtVertraagFactor Vertragingsfactor voor een verkeerslicht (0.4 standaard)
+ * @param doelSnelheid Doelsnelheid, gebruikt voertuig's maximumsnelheid als standaard
  */
 void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
                                  double verkeersLichtVertraagFactor, double doelSnelheid) {
     REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
     //REQUIRE(doelSnelheid >= 0.0, "doelSnelheid mag niet negatief zijn.");
 
-    // If this is a priority vehicle, it doesn't have to slow down for traffic lights
+    // Als dit een prioriteitsvoertuig is, hoeft het niet af te remmen voor verkeerslichten
     if (isPrioriteitsvoertuig() && isEersteVoertuig) {
-        // Priority vehicles use their max speed as target
+        // Prioriteitsvoertuigen gebruiken hun maximumsnelheid als doel
         doelSnelheid = getMaxSnelheid();
     } else if (doelSnelheid < 0) {
-        // If no target speed is provided, use max speed
+        // Als geen doelsnelheid is opgegeven, gebruik maximumsnelheid
         doelSnelheid = getMaxSnelheid();
     }
 
-    // Calculate delta based on formulas in B.3
+    // Bereken delta op basis van formules in B.3
     double delta = 0.0;
 
     if (voorgaandVoertuig != nullptr) {
-        // Calculate following distance
+        // Bereken volgafstand
         const double deltaX = voorgaandVoertuig->getPositie() - positie - voorgaandVoertuig->getLengte();
 
-        // Prevent negative or too small deltaX values that could lead to NaN or infinity
+        // Voorkom negatieve of te kleine deltaX waarden die kunnen leiden tot NaN of oneindigheid
         if (deltaX <= 0.1) {
-            // Emergency braking when distance is very small
+            // Noodstop als afstand zeer klein is
             versnelling = -getMaxRemFactor();
             return;
         }
 
-        // Calculate speed difference
+        // Bereken snelheidsverschil
         const double deltaV = snelheid - voorgaandVoertuig->getSnelheid();
 
-        // Calculate interaction term delta
+        // Bereken interactieterm delta
         double s_star = getMinVolgafstand() +
                         std::max(0.0, snelheid + snelheid * deltaV /
                         (2 * std::sqrt(getMaxVersnelling() * getMaxRemFactor())));
         delta = pow(s_star / deltaX, 2);
     }
 
-    // Calculate acceleration according to formula in B.3
+    // Bereken versnelling volgens formule in B.3
     double a = getMaxVersnelling() * (1 - pow(snelheid / doelSnelheid, 4) - delta);
 
-    // Limit acceleration between -maxRemFactor and maxVersnelling
+    // Beperk versnelling tussen -maxRemFactor en maxVersnelling
     a = std::max(-getMaxRemFactor(), std::min(getMaxVersnelling(), a));
 
     versnelling = a;
@@ -373,19 +373,19 @@ void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEers
 }
 
 /**
- * @brief Apply emergency braking (vehicle comes to a stop)
+ * @brief Voer een noodstop uit (voertuig komt tot stilstand)
  */
 void Voertuig::noodStop() {
     REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
-    // Formula from B.5
+    // Formule uit B.5
     versnelling = -getMaxRemFactor() * snelheid / getMaxSnelheid();
     ENSURE(versnelling <= 0, "Noodstop moet negatieve versnelling geven.");
 }
 
 /**
- * @brief Convert a string type to enum
- * @param typeStr String representation of the type
- * @return The corresponding enum value
+ * @brief Converteer een stringtype naar enum
+ * @param typeStr Stringrepresentatie van het type
+ * @return De overeenkomstige enum waarde
  */
 Voertuig::VoertuigType Voertuig::stringToType(const std::string& typeStr) {
     if (typeStr == "auto") return VoertuigType::AUTO;
@@ -394,14 +394,14 @@ Voertuig::VoertuigType Voertuig::stringToType(const std::string& typeStr) {
     if (typeStr == "ziekenwagen") return VoertuigType::ZIEKENWAGEN;
     if (typeStr == "politiecombi") return VoertuigType::POLITIECOMBI;
 
-    // Default to AUTO if type is not recognized
+    // Standaard naar AUTO als type niet herkend wordt
     return VoertuigType::AUTO;
 }
 
 /**
- * @brief Convert an enum type to string
- * @param type The enum value
- * @return String representation of the type
+ * @brief Converteer een enum type naar string
+ * @param type De enum waarde
+ * @return Stringrepresentatie van het type
  */
 std::string Voertuig::typeToString(VoertuigType type) {
     switch (type) {
@@ -415,9 +415,9 @@ std::string Voertuig::typeToString(VoertuigType type) {
 }
 
 /**
- * @brief Get the parameters for a specific vehicle type
- * @param type The vehicle type
- * @return The parameters for the given type
+ * @brief Haal de parameters op voor een specifiek voertuigtype
+ * @param type Het voertuigtype
+ * @return De parameters voor het gegeven type
  */
 Voertuig::VoertuigParams Voertuig::getVoertuigParams(VoertuigType type) {
     return typeParameters.at(type);

@@ -1,6 +1,6 @@
 /**
  * @file verkeerslicht.h
- * @brief Definition of the traffic light class (Revised with orange light support)
+ * @brief Definitie van de verkeerslicht klasse (Herzien met ondersteuning voor oranje licht)
  */
 
 #ifndef VERKEERSLICHT_H
@@ -10,12 +10,12 @@
 
 /**
  * @class Verkeerslicht
- * @brief Class that represents a traffic light in the traffic simulation
+ * @brief Klasse die een verkeerslicht in de verkeerssimulatie voorstelt
  */
 class Verkeerslicht {
 public:
     /**
-     * @brief Enum for the traffic light colors
+     * @brief Enum voor de verkeerslicht kleuren
      */
     enum class Kleur {
         GROEN,
@@ -24,121 +24,121 @@ public:
     };
 
 private:
-    std::string baan;         /**< Name of the road where the traffic light is located */
-    double positie;           /**< Position of the traffic light on the road in meters */
-    int cyclus;               /**< Cycle time of the traffic light in seconds */
-    double tijdSindsLaatsteWissel; /**< Time since the last color change */
-    Kleur huidigeKleur;       /**< Current color of the traffic light */
-    bool heeftOranje;         /**< Whether this traffic light has orange state */
-    bool isSlim;              /**< Whether this is a smart traffic light */
-    int voertuigenVoorLicht;  /**< Number of vehicles waiting at the light */
+    std::string baan;         /**< Naam van de baan waar het verkeerslicht zich bevindt */
+    double positie;           /**< Positie van het verkeerslicht op de baan in meters */
+    int cyclus;               /**< Cyclustijd van het verkeerslicht in seconden */
+    double tijdSindsLaatsteWissel; /**< Tijd sinds de laatste kleurverandering */
+    Kleur huidigeKleur;       /**< Huidige kleur van het verkeerslicht */
+    bool heeftOranje;         /**< Of dit verkeerslicht een oranje status heeft */
+    bool isSlim;              /**< Of dit een slim verkeerslicht is */
+    int voertuigenVoorLicht;  /**< Aantal voertuigen wachtend voor het licht */
     Verkeerslicht* _initCheck;
 
 
 
 public:
     /**
-     * @brief Constructor for the traffic light
-     * @param baan Name of the road
-     * @param positie Position on the road in meters
-     * @param cyclus Cycle time in seconds
-     * @param heeftOranje Whether this traffic light has orange state
-     * @param isSlim Whether this is a smart traffic light
+     * @brief Constructor voor het verkeerslicht
+     * @param baan Naam van de baan
+     * @param positie Positie op de baan in meters
+     * @param cyclus Cyclustijd in seconden
+     * @param heeftOranje Of dit verkeerslicht een oranje status heeft
+     * @param isSlim Of dit een slim verkeerslicht is
      */
     Verkeerslicht(const std::string& baan, double positie, int cyclus, bool heeftOranje = false, bool isSlim = false);
 
     /**
-     * @brief Getter for the road name of the traffic light
-     * @return The name of the road
+     * @brief Getter voor de baannaam van het verkeerslicht
+     * @return De naam van de baan
      */
     bool properlyInitialized() const;
 
     std::string getBaan() const;
 
     /**
-     * @brief Getter for the position of the traffic light
-     * @return The position in meters
+     * @brief Getter voor de positie van het verkeerslicht
+     * @return De positie in meters
      */
     double getPositie() const;
 
     /**
-     * @brief Getter for the cycle time of the traffic light
-     * @return The cycle time in seconds
+     * @brief Getter voor de cyclustijd van het verkeerslicht
+     * @return De cyclustijd in seconden
      */
     int getCyclus() const;
 
     /**
-     * @brief Getter for the current color of the traffic light
-     * @return The current color
+     * @brief Getter voor de huidige kleur van het verkeerslicht
+     * @return De huidige kleur
      */
     Kleur getKleur() const;
 
     /**
-     * @brief Setter for the current color of the traffic light
-     * @param kleur The new color
+     * @brief Setter voor de huidige kleur van het verkeerslicht
+     * @param kleur De nieuwe kleur
      */
     void setKleur(Kleur kleur);
 
     /**
-     * @brief Get color as string
-     * @return String representation of the current color
+     * @brief Haal kleur op als string
+     * @return String-weergave van de huidige kleur
      */
     std::string getKleurAsString() const;
 
     /**
-     * @brief Checks if the traffic light is red
-     * @return True if the light is red, false otherwise
+     * @brief Controleert of het verkeerslicht rood is
+     * @return True als het licht rood is, false indien niet
      */
     bool isRood() const;
 
     /**
-     * @brief Checks if the traffic light is orange
-     * @return True if the light is orange, false otherwise
+     * @brief Controleert of het verkeerslicht oranje is
+     * @return True als het licht oranje is, false indien niet
      */
     bool isOranje() const;
 
     /**
-     * @brief Checks if the traffic light is green
-     * @return True if the light is green, false otherwise
+     * @brief Controleert of het verkeerslicht groen is
+     * @return True als het licht groen is, false indien niet
      */
     bool isGroen() const;
 
     /**
-     * @brief Checks if this traffic light has orange state
-     * @return True if the light has orange state, false otherwise
+     * @brief Controleert of dit verkeerslicht een oranje status heeft
+     * @return True als het licht een oranje status heeft, false indien niet
      */
     bool getHeeftOranje() const;
 
     /**
-     * @brief Checks if this is a smart traffic light
-     * @return True if the light is smart, false otherwise
+     * @brief Controleert of dit een slim verkeerslicht is
+     * @return True als het licht slim is, false indien niet
      */
     bool getIsSlim() const;
 
     /**
-     * @brief Update the traffic light based on elapsed time
-     * @param tijdstap The current simulation time step
+     * @brief Update het verkeerslicht op basis van verstreken tijd
+     * @param tijdstap De huidige simulatie-tijdstap
      */
     void update(double tijdstap);
 
     /**
-     * @brief Register a vehicle waiting at this light (for smart traffic lights)
+     * @brief Registreer een voertuig wachtend voor dit licht (voor slimme verkeerslichten)
      */
     void registerVoertuigVoorLicht();
 
     /**
-     * @brief Unregister a vehicle that was waiting at this light (for smart traffic lights)
+     * @brief Deregistreer een voertuig dat aan dit licht wachtte (voor slimme verkeerslichten)
      */
     void unregisterVoertuigVoorLicht();
 
     /**
-     * @brief Get the number of vehicles waiting at this light
-     * @return The number of vehicles
+     * @brief Haal het aantal voertuigen op dat voor dit licht wacht
+     * @return Het aantal voertuigen
      */
     int getVoertuigenVoorLicht() const;
 
     /**
-     * @brief Reset the number of vehicles waiting at this light
+     * @brief Reset het aantal voertuigen dat voor dit licht wacht
      */
     void resetVoertuigenVoorLicht();
 

@@ -1,6 +1,6 @@
 /**
  * @file bestandslezer.h
- * @brief Header for the BestandsLezer class (Revised with bus stops and intersections)
+ * @brief Header voor de BestandsLezer klasse (Herzien met bushaltes en kruispunten)
  */
 
 #ifndef BESTANDSLEZER_H
@@ -11,7 +11,7 @@
 #include "../Parser/tinyxml.h"
 
 /**
- * @brief Class for reading files with traffic situations
+ * @brief Klasse voor het lezen van bestanden met verkeerssituaties
  */
 class BestandsLezer {
 public:
@@ -21,16 +21,16 @@ public:
     BestandsLezer();
 
     /**
-     * @brief Read a traffic situation from an XML file
-     * @param bestandsnaam Path to the XML file
-     * @param situatie Reference to the traffic situation where the data will be loaded
-     * @return true if reading was successful, false otherwise
+     * @brief Lees een verkeerssituatie uit een XML-bestand
+     * @param bestandsnaam Pad naar het XML-bestand
+     * @param situatie Referentie naar de verkeerssituatie waarin de gegevens worden geladen
+     * @return true als het lezen succesvol was, false indien niet
      */
     bool leesXmlBestand(const std::string& bestandsnaam, VerkeersSituatie& situatie);
 
     /**
-     * @brief Get the last error message
-     * @return The last error message
+     * @brief Haal de laatste foutmelding op
+     * @return De laatste foutmelding
      */
     std::string getLastFoutmelding() const;
 
@@ -38,62 +38,62 @@ public:
 
 
 private:
-    std::string lastFoutmelding; ///< The last error message
+    std::string lastFoutmelding; ///< De laatste foutmelding
     BestandsLezer* _initCheck;
 
     /**
-     * @brief Process XML elements and add them to the traffic situation
-     * @param root Root element of the XML document
-     * @param situatie The traffic situation to add the elements to
-     * @return true if processing was successful, false otherwise
+     * @brief Verwerk XML-elementen en voeg ze toe aan de verkeerssituatie
+     * @param root Hoofdelement van het XML-document
+     * @param situatie De verkeerssituatie waaraan de elementen worden toegevoegd
+     * @return true als de verwerking succesvol was, false indien niet
      */
     bool processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process a road element
-     * @param elem XML element containing road data
-     * @param situatie The traffic situation to add the road to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een wegelement
+     * @param elem XML-element met weggegevens
+     * @param situatie De verkeerssituatie waaraan de weg wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process a vehicle element
-     * @param elem XML element containing vehicle data
-     * @param situatie The traffic situation to add the vehicle to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een voertuigelement
+     * @param elem XML-element met voertuiggegevens
+     * @param situatie De verkeerssituatie waaraan het voertuig wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process a traffic light element
-     * @param elem XML element containing traffic light data
-     * @param situatie The traffic situation to add the traffic light to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een verkeerslicht-element
+     * @param elem XML-element met verkeerslichtgegevens
+     * @param situatie De verkeerssituatie waaraan het verkeerslicht wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process a vehicle generator element
-     * @param elem XML element containing vehicle generator data
-     * @param situatie The traffic situation to add the generator to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een voertuiggenerator-element
+     * @param elem XML-element met voertuiggeneratorgegevens
+     * @param situatie De verkeerssituatie waaraan de generator wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process a bus stop element
-     * @param elem XML element containing bus stop data
-     * @param situatie The traffic situation to add the bus stop to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een bushalte-element
+     * @param elem XML-element met bushaltegegevens
+     * @param situatie De verkeerssituatie waaraan de bushalte wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situatie);
 
     /**
-     * @brief Process an intersection element
-     * @param elem XML element containing intersection data
-     * @param situatie The traffic situation to add the intersection to
-     * @return true if successful, false otherwise
+     * @brief Verwerk een kruispunt-element
+     * @param elem XML-element met kruispuntgegevens
+     * @param situatie De verkeerssituatie waaraan het kruispunt wordt toegevoegd
+     * @return true als succesvol, false indien niet
      */
     bool verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situatie);
 };

@@ -1,6 +1,6 @@
 /**
  * @file bestandslezer.cpp
- * @brief Implementation of the BestandsLezer class (Revised with bus stops and intersections)
+ * @brief Implementatie van de BestandsLezer klasse (Herzien met bushaltes en kruispunten)
  */
 
 #include "bestandslezer.h"
@@ -33,15 +33,15 @@ bool BestandsLezer::properlyInitialized() const
 }
 
 /**
- * @brief Read a traffic situation from an XML file
- * @param bestandsnaam Path to the XML file
- * @param situatie Reference to the traffic situation where the data will be loaded
- * @return true if reading was successful, false otherwise
+ * @brief Lees een verkeerssituatie uit een XML-bestand
+ * @param bestandsnaam Pad naar het XML-bestand
+ * @param situatie Referentie naar de verkeerssituatie waar de gegevens worden geladen
+ * @return true als het lezen succesvol was, false indien niet
  */
 bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
     REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
-    // First, check if the file can be opened
+    // Eerst controleren of het bestand kan worden geopend
     std::ifstream fileCheck(bestandsnaam);
     if (!fileCheck.is_open()) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
@@ -49,7 +49,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
     }
     fileCheck.close();
 
-    // Read the file content
+    // Lees de bestandsinhoud
     std::string fileContent;
     {
         std::ifstream file(bestandsnaam);
@@ -58,13 +58,13 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         fileContent = buffer.str();
     }
 
-    // Check if it has a valid XML structure
+    // Controleer of het een geldige XML-structuur heeft
     bool hasRootElement = (fileContent.find("<VerkeersSituatie>") != std::string::npos) ||
                           (fileContent.find("<Verkeerssituatie>") != std::string::npos);
 
-    // If no root element, add one
+    // Als er geen hoofdelement is, voeg er dan een toe
     if (!hasRootElement) {
-        // Create a temporary file with proper structure
+        // Maak een tijdelijk bestand met de juiste structuur
         std::string tempFileName = bestandsnaam + ".temp.xml";
         std::ofstream tempFile(tempFileName);
 
@@ -75,27 +75,27 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
 
         tempFile.close();
 
-        // Now use TinyXML to parse the temporary file
+        // Gebruik nu TinyXML om het tijdelijke bestand te parsen
         TiXmlDocument doc;
         if (!doc.LoadFile(tempFileName.c_str())) {
-            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax";
-            std::remove(tempFileName.c_str());  // Clean up temp file
+            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax. Er mist ergens een initialisator of deze is fout geschreven.";
+            std::remove(tempFileName.c_str());  // Tijdelijk bestand opruimen
             return false;
         }
 
         TiXmlElement* root = doc.RootElement();
         if (!root) {
             lastFoutmelding = "XML-bestand heeft geen root element";
-            std::remove(tempFileName.c_str());  // Clean up temp file
+            std::remove(tempFileName.c_str());  // Tijdelijk bestand opruimen
             return false;
         }
 
         bool success = processXmlElements(root, situatie);
 
-        // Clean up temporary file
+        // Tijdelijk bestand opruimen
         std::remove(tempFileName.c_str());
 
-        // Verify the consistency only if there is at least one road added
+        // Controleer de consistentie alleen als er ten minste één weg is toegevoegd
         if (!situatie.verificeerConsistentie()) {
             lastFoutmelding = "Verkeerssituatie is niet consistent";
             return false;
@@ -103,7 +103,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
         return success;
     } else {
-        // Process normally with TinyXML if root element exists
+        // Verwerk normaal met TinyXML als het hoofdelement bestaat
         TiXmlDocument doc;
         if (!doc.LoadFile(bestandsnaam.c_str())) {
             lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax";
@@ -119,12 +119,12 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         std::string rootName = root->Value();
         if (rootName != "VerkeersSituatie" && rootName != "Verkeerssituatie") {
             cerr << "Root element is geen VerkeersSituatie maar: " << rootName << std::endl;
-            // We'll try to process it anyway instead of failing
+            // We proberen het toch te verwerken in plaats van te mislukken
         }
 
         bool success = processXmlElements(root, situatie);
 
-        // Verify the consistency only if there is at least one road added
+        // Controleer de consistentie alleen als er ten minste één weg is toegevoegd
         if (!situatie.verificeerConsistentie()) {
             lastFoutmelding = "Verkeerssituatie is niet consistent";
             return false;
@@ -136,10 +136,10 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
 }
 
 /**
- * @brief Process XML elements and add them to the traffic situation
- * @param root Root element of the XML document
- * @param situatie The traffic situation to add the elements to
- * @return true if processing was successful, false otherwise
+ * @brief Verwerk XML-elementen en voeg ze toe aan de verkeerssituatie
+ * @param root Hoofdelement van het XML-document
+ * @param situatie De verkeerssituatie waaraan de elementen worden toegevoegd
+ * @return true als de verwerking succesvol was, false indien niet
  */
 bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -169,7 +169,7 @@ bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& sit
         }
         else {
             lastFoutmelding = "Onbekend element type: " + elementType;
-            // Continue processing, don't set success to false for unknown elements
+            // Ga door met verwerken, zet success niet op false voor onbekende elementen
         }
     }
     //ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
@@ -178,10 +178,10 @@ bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& sit
 }
 
 /**
- * @brief Process a road element
- * @param elem XML element containing road data
- * @param situatie The traffic situation to add the road to
- * @return true if successful, false otherwise
+ * @brief Verwerk een wegelement
+ * @param elem XML-element met weggegevens
+ * @param situatie De verkeerssituatie waaraan de weg moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -214,10 +214,10 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
 }
 
 /**
- * @brief Process a vehicle element
- * @param elem XML element containing vehicle data
- * @param situatie The traffic situation to add the vehicle to
- * @return true if successful, false otherwise
+ * @brief Verwerk een voertuigelement
+ * @param elem XML-element met voertuiggegevens
+ * @param situatie De verkeerssituatie waaraan het voertuig moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -232,9 +232,9 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
     }
 
     std::string baan = baanElem->GetText();
-    std::string type = "auto"; // Default type
+    std::string type = "auto"; // Standaard type
 
-    // Type is optional, so check if it exists
+    // Type is optioneel, dus controleer of het bestaat
     if (typeElem && typeElem->GetText()) {
         type = typeElem->GetText();
     }
@@ -257,10 +257,10 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
 }
 
 /**
- * @brief Process a traffic light element
- * @param elem XML element containing traffic light data
- * @param situatie The traffic situation to add the traffic light to
- * @return true if successful, false otherwise
+ * @brief Verwerk een verkeerslicht element
+ * @param elem XML-element met verkeerslichtgegevens
+ * @param situatie De verkeerssituatie waaraan het verkeerslicht moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -287,7 +287,7 @@ bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& s
         positie = std::stod(positieElem->GetText());
         cyclus = std::stoi(cyclusElem->GetText());
 
-        // Check optional attributes
+        // Controleer optionele attributen
         if (oranjeElem && oranjeElem->GetText()) {
             heeftOranje = std::string(oranjeElem->GetText()) == "true" ||
                           std::string(oranjeElem->GetText()) == "1" ||
@@ -319,10 +319,10 @@ bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& s
 }
 
 /**
- * @brief Process a vehicle generator element
- * @param elem XML element containing vehicle generator data
- * @param situatie The traffic situation to add the generator to
- * @return true if successful, false otherwise
+ * @brief Verwerk een voertuiggenerator element
+ * @param elem XML-element met voertuiggeneratorgegevens
+ * @param situatie De verkeerssituatie waaraan de generator moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -337,9 +337,9 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
     }
 
     std::string baan = baanElem->GetText();
-    std::string type = "auto"; // Default type
+    std::string type = "auto"; // Standaard type
 
-    // Type is optional, so check if it exists
+    // Type is optioneel, dus controleer of het bestaat
     if (typeElem && typeElem->GetText()) {
         type = typeElem->GetText();
     }
@@ -367,10 +367,10 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
 }
 
 /**
- * @brief Process a bus stop element
- * @param elem XML element containing bus stop data
- * @param situatie The traffic situation to add the bus stop to
- * @return true if successful, false otherwise
+ * @brief Verwerk een bushalte element
+ * @param elem XML-element met bushaltegegevens
+ * @param situatie De verkeerssituatie waaraan de bushalte moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -412,10 +412,10 @@ bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situat
 }
 
 /**
- * @brief Process an intersection element
- * @param elem XML element containing intersection data
- * @param situatie The traffic situation to add the intersection to
- * @return true if successful, false otherwise
+ * @brief Verwerk een kruispunt element
+ * @param elem XML-element met kruispuntgegevens
+ * @param situatie De verkeerssituatie waaraan het kruispunt moet worden toegevoegd
+ * @return true indien succesvol, false indien niet
  */
 bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -423,12 +423,12 @@ bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situa
     Kruispunt kruispunt;
     bool success = true;
 
-    // Process all roads that are part of this intersection
+    // Verwerk alle wegen die deel uitmaken van dit kruispunt
     for (TiXmlElement* baanElem = elem->FirstChildElement("baan");
          baanElem;
          baanElem = baanElem->NextSiblingElement("baan")) {
 
-        // Get the road position as an attribute
+        // Haal de wegpositie op als een attribuut
         const char* positieStr = baanElem->Attribute("positie");
         if (!positieStr || !baanElem->GetText()) {
             lastFoutmelding = "Kruispunt bevat een ongeldige baan (geen positie attribuut of naam)";
@@ -447,20 +447,20 @@ bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situa
             continue;
         }
 
-        // Add the road to the intersection
+        // Voeg de weg toe aan het kruispunt
         if (!kruispunt.voegBaanToe(baanNaam, positie)) {
             lastFoutmelding = "Kan baan '" + baanNaam + "' niet toevoegen aan kruispunt";
             success = false;
         }
     }
 
-    // Only add the intersection if at least one road was successfully added
+    // Voeg het kruispunt alleen toe als er ten minste één weg met succes is toegevoegd
     if (kruispunt.getBanen().empty()) {
         lastFoutmelding = "Kruispunt heeft geen geldige banen";
         return false;
     }
 
-    // Add the intersection to the traffic situation
+    // Voeg het kruispunt toe aan de verkeerssituatie
     if (!situatie.voegKruispuntToe(kruispunt)) {
         lastFoutmelding = "Kan kruispunt niet toevoegen aan de verkeerssituatie";
         return false;
@@ -470,8 +470,8 @@ bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situa
 }
 
 /**
- * @brief Get the last error message
- * @return The last error message
+ * @brief Krijg de laatste foutmelding
+ * @return De laatste foutmelding
  */
 std::string BestandsLezer::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");

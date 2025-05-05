@@ -1,6 +1,6 @@
 /**
  * @file bushalte.h
- * @brief Definition of the bus stop class
+ * @brief Definitie van de bushalte-klasse
  */
 
 #ifndef BUSHALTE_H
@@ -10,69 +10,69 @@
 
 /**
  * @class Bushalte
- * @brief Class representing a bus stop in the traffic simulation
+ * @brief Klasse die een bushalte in de verkeerssimulatie voorstelt
  */
 class Bushalte {
 private:
-    std::string baan;   /**< Name of the road where the bus stop is located */
-    double positie;     /**< Position of the bus stop on the road in meters */
-    int wachttijd;      /**< Waiting time at the bus stop in seconds */
-    double tijdSindsLaatsteStop; /**< Time since the last bus stopped here */
-    bool isBusStopped;  /**< Flag indicating if a bus is currently stopped at this stop */
+    std::string baan;   /**< Naam van de baan waar de bushalte zich bevindt */
+    double positie;     /**< Positie van de bushalte op de baan in meters */
+    int wachttijd;      /**< Wachttijd bij de bushalte in seconden */
+    double tijdSindsLaatsteStop; /**< Tijd sinds de laatste bus hier stopte */
+    bool isBusStopped;  /**< Vlag die aangeeft of er momenteel een bus gestopt is bij deze halte */
     Bushalte* _initCheck;
 
 public:
     /**
-     * @brief Constructor for the bus stop
-     * @param baan Name of the road
-     * @param positie Position on the road in meters
-     * @param wachttijd Waiting time in seconds
+     * @brief Constructor voor de bushalte
+     * @param baan Naam van de baan
+     * @param positie Positie op de baan in meters
+     * @param wachttijd Wachttijd in seconden
      */
     Bushalte(const std::string& baan, double positie, int wachttijd);
 
     /**
-     * @brief Getter for the road name of the bus stop
-     * @return The name of the road
+     * @brief Getter voor de baannaam van de bushalte
+     * @return De naam van de baan
      */
     std::string getBaan() const;
 
     /**
-     * @brief Getter for the position of the bus stop
-     * @return The position in meters
+     * @brief Getter voor de positie van de bushalte
+     * @return De positie in meters
      */
     double getPositie() const;
 
     /**
-     * @brief Getter for the waiting time of the bus stop
-     * @return The waiting time in seconds
+     * @brief Getter voor de wachttijd van de bushalte
+     * @return De wachttijd in seconden
      */
     int getWachttijd() const;
 
     /**
-     * @brief Updates the timer for a stopped bus
-     * @param timestep The current simulation time step
-     * @return True if waiting time is over, false otherwise
+     * @brief Update de timer voor een gestopte bus
+     * @param timestep De huidige simulatie-tijdstap
+     * @return True als de wachttijd voorbij is, false indien niet
      */
     bool updateWachttijd(double timestep);
 
     /**
-     * @brief Records that a bus has stopped at this stop
+     * @brief Registreert dat een bus gestopt is bij deze halte
      */
     void setBusStopped();
 
     /**
-     * @brief Records that a bus has left this stop
+     * @brief Registreert dat een bus deze halte heeft verlaten
      */
     void setBusLeft();
 
     /**
-     * @brief Checks if a bus is currently stopped at this stop
-     * @return True if a bus is stopped, false otherwise
+     * @brief Controleert of er momenteel een bus gestopt is bij deze halte
+     * @return True als er een bus gestopt is, false indien niet
      */
     bool isBusGestopt() const;
 
     /**
-     * @brief Resets the waiting time
+     * @brief Reset de wachttijd
      */
     void resetWachttijd();
 

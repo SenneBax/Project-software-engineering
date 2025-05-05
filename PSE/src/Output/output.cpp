@@ -2,7 +2,7 @@
  * @file output.cpp
  * @author senne
  * @date 24/04/2025
- * @brief Implementation of the output class (Revised with graphical impressions)
+ * @brief Implementatie van de output klasse (Herzien met grafische impressies)
  */
 
 #include "output.h"
@@ -30,9 +30,9 @@ bool output::properlyInitialized() const
 }
 
 /**
- * @brief Generates a textual representation of the traffic situation
- * @param situatie The traffic situation to be displayed
- * @return A string with the textual representation
+ * @brief Genereert een tekstuele weergave van de verkeerssituatie
+ * @param situatie De weer te geven verkeerssituatie
+ * @return Een string met de tekstuele weergave
  */
 std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -87,9 +87,9 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
 }
 
 /**
- * @brief Generates a graphical impression of the traffic situation (ASCII art)
- * @param situatie The traffic situation to be displayed
- * @return A string with the graphical impression
+ * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII kunst)
+ * @param situatie De weer te geven verkeerssituatie
+ * @return Een string met de grafische impressie
  */
 std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -101,7 +101,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
     const auto& verkeerslichten = situatie.getVerkeerslichten();
     const auto& bushaltes = situatie.getBushaltes();
 
-    // Process each road
+    // Verwerk elke baan
     for (const auto& baanPaar : banen) {
         const std::string& baanNaam = baanPaar.first;
         const Baan& baan = baanPaar.second;
@@ -116,21 +116,21 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 
         const int displayLengte = std::max(1, static_cast<int>(baanLengte * schaalfactor));
 
-        // Create a string representation of the road
+        // Maak een stringrepresentatie van de baan
         std::string baanVisualisatie(displayLengte, '=');
 
-        // Mark vehicles on the road
+        // Markeer voertuigen op de baan
         for (const auto& voertuig : voertuigen) {
             if (voertuig.getBaanNaam() == baanNaam) {
                 int positie = static_cast<int>(voertuig.getPositie() * schaalfactor);
                 if (positie >= 0 && positie < displayLengte) {
-                    // Mark different vehicle types with different characters
+                    // Markeer verschillende voertuigtypes met verschillende tekens
                     if (voertuig.getType() == "auto") {
                         baanVisualisatie[positie] = 'A';
                     } else if (voertuig.getType() == "bus") {
                         baanVisualisatie[positie] = 'B';
                     } else if (voertuig.getType() == "brandweerwagen") {
-                        baanVisualisatie[positie] = 'F'; // F for fire truck
+                        baanVisualisatie[positie] = 'F'; // F voor brandweerwagen
                     } else if (voertuig.getType() == "ziekenwagen") {
                         baanVisualisatie[positie] = 'Z';
                     } else if (voertuig.getType() == "politiecombi") {
@@ -140,7 +140,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             }
         }
 
-        // Create a list of traffic lights on this road
+        // Maak een lijst van verkeerslichten op deze baan
         std::vector<std::pair<int, char>> verkeerslichtPosities;
         for (const auto& licht : verkeerslichten) {
             if (licht.getBaan() == baanNaam) {
@@ -152,7 +152,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             }
         }
 
-        // Create a list of bus stops on this road
+        // Maak een lijst van bushaltes op deze baan
         std::vector<int> bushaltePosities;
         for (const auto& halte : bushaltes) {
             if (halte.getBaan() == baanNaam) {
@@ -163,7 +163,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             }
         }
 
-        // Create a list of intersections on this road
+        // Maak een lijst van kruispunten op deze baan
         std::vector<int> kruispuntPosities;
         for (const auto& kruispunt : situatie.getKruispunten()) {
             if (kruispunt.bevatBaan(baanNaam)) {
@@ -181,10 +181,10 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             }
         }
 
-        // Print the road name and visualization
+        // Print de baannaam en visualisatie
         ss << baanNaam << " | " << baanVisualisatie << std::endl;
 
-        // Print traffic light information if there are any on this road
+        // Print verkeerslichtinformatie als er verkeerslichten op deze baan zijn
         if (!verkeerslichtPosities.empty()) {
             ss << "> verkeerslichten | ";
             for (int i = 0; i < displayLengte; i++) {
@@ -203,7 +203,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             ss << std::endl;
         }
 
-        // Print bus stop information if there are any on this road
+        // Print bushalte-informatie als er bushaltes op deze baan zijn
         if (!bushaltePosities.empty()) {
             ss << "> bushaltes       | ";
             for (int i = 0; i < displayLengte; i++) {
@@ -222,7 +222,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             ss << std::endl;
         }
 
-        // Print intersection information if there are any on this road
+        // Print kruispuntinformatie als er kruispunten op deze baan zijn
         if (!kruispuntPosities.empty()) {
             ss << "> kruispunten     | ";
             for (int i = 0; i < displayLengte; i++) {
@@ -241,7 +241,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
             ss << std::endl;
         }
 
-        // Add a blank line between roads
+        // Voeg een lege regel toe tussen banen
         ss << std::endl;
     }
 
@@ -257,10 +257,10 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 }
 
 /**
- * @brief Writes a traffic situation to an XML file
- * @param situatie The traffic situation to be written
- * @param bestandsnaam Path to the XML file
- * @return true if writing was successful, false otherwise
+ * @brief Schrijft een verkeerssituatie naar een XML-bestand
+ * @param situatie De te schrijven verkeerssituatie
+ * @param bestandsnaam Pad naar het XML-bestand
+ * @return true als het schrijven succesvol was, false indien niet
  */
 bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -272,7 +272,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
     TiXmlElement* root = new TiXmlElement("VerkeersSituatie");
     doc.LinkEndChild(root);
 
-    // Write roads
+    // Schrijf banen
     for (const auto& paar : situatie.getBanen()) {
         const Baan& baan = paar.second;
 
@@ -293,7 +293,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(baanElement);
     }
 
-    // Write vehicles
+    // Schrijf voertuigen
     for (const auto& voertuig : situatie.getVoertuigen()) {
         TiXmlElement* voertuigElement = new TiXmlElement("VOERTUIG");
 
@@ -309,7 +309,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         positieElement->LinkEndChild(positieText);
         voertuigElement->LinkEndChild(positieElement);
 
-        // Add type if it's not the default "auto"
+        // Voeg type toe als het niet de standaard "auto" is
         if (voertuig.getType() != "auto") {
             TiXmlElement* typeElement = new TiXmlElement("type");
             TiXmlText* typeText = new TiXmlText(voertuig.getType().c_str());
@@ -320,7 +320,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(voertuigElement);
     }
 
-    // Write traffic lights
+    // Schrijf verkeerslichten
     for (const auto& licht : situatie.getVerkeerslichten()) {
         TiXmlElement* lichtElement = new TiXmlElement("VERKEERSLICHT");
 
@@ -343,7 +343,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         cyclusElement->LinkEndChild(cyclusText);
         lichtElement->LinkEndChild(cyclusElement);
 
-        // Add additional attributes if needed
+        // Voeg aanvullende attributen toe indien nodig
         if (licht.getHeeftOranje()) {
             TiXmlElement* oranjeElement = new TiXmlElement("oranje");
             TiXmlText* oranjeText = new TiXmlText("true");
@@ -361,7 +361,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(lichtElement);
     }
 
-    // Write bus stops
+    // Schrijf bushaltes
     for (const auto& halte : situatie.getBushaltes()) {
         TiXmlElement* halteElement = new TiXmlElement("BUSHALTE");
 
@@ -387,7 +387,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(halteElement);
     }
 
-    // Write vehicle generators
+    // Schrijf voertuiggenerators
     for (const auto& generator : situatie.getVoertuigGenerators()) {
         TiXmlElement* generatorElement = new TiXmlElement("VOERTUIGGENERATOR");
 
@@ -403,7 +403,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         frequentieElement->LinkEndChild(frequentieText);
         generatorElement->LinkEndChild(frequentieElement);
 
-        // Add type if it's not the default "auto"
+        // Voeg type toe als het niet de standaard "auto" is
         if (generator.getType() != "auto") {
             TiXmlElement* typeElement = new TiXmlElement("type");
             TiXmlText* typeText = new TiXmlText(generator.getType().c_str());
@@ -414,19 +414,19 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(generatorElement);
     }
 
-    // Write intersections
+    // Schrijf kruispunten
     for (const auto& kruispunt : situatie.getKruispunten()) {
         TiXmlElement* kruispuntElement = new TiXmlElement("KRUISPUNT");
 
         for (const auto& baanPaar : kruispunt.getBanen()) {
             TiXmlElement* baanElement = new TiXmlElement("baan");
 
-            // Add position as attribute
+            // Voeg positie toe als attribuut
             std::stringstream ssPos;
             ssPos << baanPaar.second;
             baanElement->SetAttribute("positie", ssPos.str().c_str());
 
-            // Add road name as text
+            // Voeg baannaam toe als tekst
             TiXmlText* baanText = new TiXmlText(baanPaar.first.c_str());
             baanElement->LinkEndChild(baanText);
 
@@ -436,7 +436,7 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         root->LinkEndChild(kruispuntElement);
     }
 
-    // Write the file
+    // Schrijf het bestand
     bool saveSuccess = doc.SaveFile(bestandsnaam.c_str());
     if (!saveSuccess) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet schrijven";
@@ -447,10 +447,10 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
 }
 
 /**
- * @brief Generates an HTML representation of the traffic situation
- * @param situatie The traffic situation to be displayed
- * @param bestandsnaam Path to the HTML file
- * @return true if writing was successful, false otherwise
+ * @brief Genereert een HTML-weergave van de verkeerssituatie
+ * @param situatie De weer te geven verkeerssituatie
+ * @param bestandsnaam Pad naar het HTML-bestand
+ * @return true als het schrijven succesvol was, false indien niet
  */
 bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -494,13 +494,13 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "<body>\n"
          << "    <h1>Verkeerssimulatie</h1>\n";
 
-    // Write roads
+    // Schrijf banen
     for (const auto& baanPaar : situatie.getBanen()) {
         const std::string& baanNaam = baanPaar.first;
         const Baan& baan = baanPaar.second;
         const int baanLengte = baan.getLengte();
 
-        // Start road div
+        // Start baan div
         file << "    <div class=\"road\">\n"
              << "        <div class=\"road-name\">" << baanNaam << " (lengte: " << baanLengte << "m)</div>\n"
              << "        <div class=\"road-line\" style=\"width: " << std::min(1000, baanLengte) << "px;\">\n";
@@ -511,7 +511,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             schaalfactor = 1000.0 / baanLengte;
         }
 
-        // Add vehicles
+        // Voeg voertuigen toe
         for (const auto& voertuig : situatie.getVoertuigen()) {
             if (voertuig.getBaanNaam() == baanNaam) {
                 int positie = static_cast<int>(voertuig.getPositie() * schaalfactor);
@@ -530,7 +530,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             }
         }
 
-        // Add traffic lights
+        // Voeg verkeerslichten toe
         for (const auto& licht : situatie.getVerkeerslichten()) {
             if (licht.getBaan() == baanNaam) {
                 int positie = static_cast<int>(licht.getPositie() * schaalfactor);
@@ -545,7 +545,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             }
         }
 
-        // Add bus stops
+        // Voeg bushaltes toe
         for (const auto& halte : situatie.getBushaltes()) {
             if (halte.getBaan() == baanNaam) {
                 int positie = static_cast<int>(halte.getPositie() * schaalfactor);
@@ -555,7 +555,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             }
         }
 
-        // Add intersections
+        // Voeg kruispunten toe
         for (const auto& kruispunt : situatie.getKruispunten()) {
             if (kruispunt.bevatBaan(baanNaam)) {
                 int positie = static_cast<int>(kruispunt.getPositieOpBaan(baanNaam) * schaalfactor);
@@ -565,12 +565,12 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             }
         }
 
-        // End road div
+        // Einde baan div
         file << "        </div>\n"
              << "    </div>\n";
     }
 
-    // Write legend
+    // Schrijf legende
     file << "    <div class=\"legend\">\n"
          << "        <h3>Legende</h3>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color auto\"></div> Auto</div>\n"
@@ -585,7 +585,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        <div class=\"legend-item\"><div class=\"legend-color intersection\" style=\"position: static;\"></div> Kruispunt</div>\n"
          << "    </div>\n";
 
-    // Write statistics
+    // Schrijf statistieken
     file << "    <div class=\"statistics\">\n"
          << "        <h3>Statistieken</h3>\n"
          << "        <p>Aantal banen: " << situatie.getBanen().size() << "</p>\n"
@@ -603,12 +603,12 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
     return true;
 }
 
-    /**
-    * @brief Get the last error message
-    * @return The last error message
-    */
-    std::string output::getLastFoutmelding() const {
+/**
+ * @brief Haal de laatste foutmelding op
+ * @return De laatste foutmelding
+ */
+std::string output::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
 
-        return lastFoutmelding;
+    return lastFoutmelding;
 }

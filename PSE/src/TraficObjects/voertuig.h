@@ -1,6 +1,6 @@
 /**
  * @file voertuig.h
- * @brief Header for the Voertuig class (Revised with vehicle types)
+ * @brief Header voor de Voertuig klasse (Herzien met voertuigtypes)
  */
 
 #ifndef VOERTUIG_H
@@ -15,7 +15,7 @@
 class Voertuig {
 public:
     /**
-     * @brief Enumeration for different vehicle types
+     * @brief Enumeratie voor verschillende voertuigtypes
      */
     enum class VoertuigType {
         AUTO,
@@ -26,15 +26,15 @@ public:
     };
 
     /**
-     * @brief Structure containing vehicle parameters based on type
+     * @brief Structuur met voertuigparameters op basis van type
      */
     struct VoertuigParams {
-        double lengte;            ///< Vehicle length in meters
-        double maxSnelheid;       ///< Max speed in m/s
-        double maxVersnelling;    ///< Max acceleration in m/s²
-        double maxRemFactor;      ///< Max braking factor in m/s²
-        double minVolgafstand;    ///< Minimum following distance in meters
-        bool isPrioriteitsvoertuig; ///< Whether this is a priority vehicle
+        double lengte;            ///< Voertuiglengte in meters
+        double maxSnelheid;       ///< Max snelheid in m/s
+        double maxVersnelling;    ///< Max versnelling in m/s²
+        double maxRemFactor;      ///< Max remfactor in m/s²
+        double minVolgafstand;    ///< Minimale volgafstand in meters
+        bool isPrioriteitsvoertuig; ///< Of dit een prioriteitsvoertuig is
 
         VoertuigParams(double l, double v, double a, double b, double f, bool p = false)
             : lengte(l), maxSnelheid(v), maxVersnelling(a), maxRemFactor(b), minVolgafstand(f), isPrioriteitsvoertuig(p) {}
@@ -89,8 +89,8 @@ public:
     std::string getBaan() const;
 
     /**
-     * @brief Sets the name of the road
-     * @param nieuweNaam The new road name
+     * @brief Stelt de naam van de baan in
+     * @param nieuweNaam De nieuwe baannaam
      */
     void setBaanNaam(const std::string& nieuweNaam);
 
@@ -113,20 +113,20 @@ public:
     std::string getType() const;
 
     /**
-     * @brief Gets the vehicle type as enum
-     * @return The vehicle type enum
+     * @brief Haalt het voertuigtype op als enum
+     * @return Het voertuigtype als enum
      */
     VoertuigType getTypeEnum() const;
 
     /**
-     * @brief Checks if the vehicle is a priority vehicle
-     * @return True if the vehicle is a priority vehicle (fire truck, ambulance, police)
+     * @brief Controleert of het voertuig een prioriteitsvoertuig is
+     * @return True als het voertuig een prioriteitsvoertuig is (brandweerwagen, ziekenwagen, politie)
      */
     bool isPrioriteitsvoertuig() const;
 
     /**
-     * @brief Checks if this vehicle is a bus
-     * @return True if the vehicle is a bus
+     * @brief Controleert of dit voertuig een bus is
+     * @return True als het voertuig een bus is
      */
     bool isBus() const;
 
@@ -155,87 +155,87 @@ public:
     void setVersnelling(double nieuweVersnelling);
 
     /**
-     * @brief Gets the length of the vehicle
-     * @return The length in meters
+     * @brief Haalt de lengte van het voertuig op
+     * @return De lengte in meters
      */
     double getLengte() const;
 
     /**
-     * @brief Gets the maximum speed of the vehicle
-     * @return The maximum speed in m/s
+     * @brief Haalt de maximale snelheid van het voertuig op
+     * @return De maximale snelheid in m/s
      */
     double getMaxSnelheid() const;
 
     /**
-     * @brief Gets the maximum acceleration of the vehicle
-     * @return The maximum acceleration in m/s²
+     * @brief Haalt de maximale versnelling van het voertuig op
+     * @return De maximale versnelling in m/s²
      */
     double getMaxVersnelling() const;
 
     /**
-     * @brief Gets the maximum braking factor of the vehicle
-     * @return The maximum braking factor in m/s²
+     * @brief Haalt de maximale remfactor van het voertuig op
+     * @return De maximale remfactor in m/s²
      */
     double getMaxRemFactor() const;
 
     /**
-     * @brief Gets the minimum following distance
-     * @return The minimum following distance in meters
+     * @brief Haalt de minimale volgafstand op
+     * @return De minimale volgafstand in meters
      */
     double getMinVolgafstand() const;
 
     /**
-     * @brief Sets the bus waiting flag
-     * @param isWaiting Whether the bus is waiting at a stop
+     * @brief Stelt de bus wachtend-vlag in
+     * @param isWaiting Of de bus wacht bij een halte
      */
     void setIsWaitingAtBusStop(bool isWaiting);
 
     /**
-     * @brief Checks if the bus is waiting at a stop
-     * @return True if the bus is waiting, false otherwise
+     * @brief Controleert of de bus wacht bij een halte
+     * @return True als de bus wacht, false indien niet
      */
     bool isWaitingAtBusStop() const;
 
     /**
-     * @brief Update the vehicle's position and speed based on the current acceleration
-     * @param tijdstap The time step for the update in seconds
+     * @brief Update de positie en snelheid van het voertuig op basis van de huidige versnelling
+     * @param tijdstap De tijdstap voor de update in seconden
      */
     void updatePositieEnSnelheid(double tijdstap);
 
     /**
-     * @brief Calculate the vehicle's acceleration based on preceding vehicle and other factors
-     * @param voorgaandVoertuig The preceding vehicle, nullptr if none
-     * @param isEersteVoertuig Whether this is the first vehicle on the road
-     * @param verkeersLichtVertraagFactor Slowdown factor for a traffic light (0.4 by default)
-     * @param doelSnelheid Target speed, uses vehicle's maximum speed by default
+     * @brief Bereken de versnelling van het voertuig op basis van voorafgaand voertuig en andere factoren
+     * @param voorgaandVoertuig Het voorafgaande voertuig, nullptr indien geen
+     * @param isEersteVoertuig Of dit het eerste voertuig op de weg is
+     * @param verkeersLichtVertraagFactor Vertraagfactor voor een verkeerslicht (0.4 standaard)
+     * @param doelSnelheid Doelsnelheid, gebruikt voertuig's maximale snelheid standaard
      */
     void berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
                             double verkeersLichtVertraagFactor = 0.4,
                             double doelSnelheid = -1.0);
 
     /**
-     * @brief Apply emergency braking (vehicle comes to a stop)
+     * @brief Pas noodstoppen toe (voertuig komt tot stilstand)
      */
     void noodStop();
 
     /**
-     * @brief Convert a string type to enum
-     * @param typeStr String representation of the type
-     * @return The corresponding enum value
+     * @brief Converteer een string type naar enum
+     * @param typeStr String-weergave van het type
+     * @return De corresponderende enumwaarde
      */
     static VoertuigType stringToType(const std::string& typeStr);
 
     /**
-     * @brief Convert an enum type to string
-     * @param type The enum value
-     * @return String representation of the type
+     * @brief Converteer een enum type naar string
+     * @param type De enumwaarde
+     * @return String-weergave van het type
      */
     static std::string typeToString(VoertuigType type);
 
     /**
-     * @brief Get the parameters for a specific vehicle type
-     * @param type The vehicle type
-     * @return The parameters for the given type
+     * @brief Haal de parameters op voor een specifiek voertuigtype
+     * @param type Het voertuigtype
+     * @return De parameters voor het gegeven type
      */
     static VoertuigParams getVoertuigParams(VoertuigType type);
 
@@ -249,11 +249,11 @@ private:
     double snelheid;      ///< Snelheid van het voertuig in m/s
     double versnelling;   ///< Versnelling van het voertuig in m/s²
     VoertuigType type;    ///< Type van het voertuig
-    bool isWaitingAtStop; ///< Whether the bus is waiting at a stop\
+    bool isWaitingAtStop; ///< Of de bus wacht bij een halte
 
     Voertuig* _initCheck;
 
-    // Standard parameters per vehicle type (according to appendix C)
+    // Standaard parameters per voertuigtype (volgens bijlage C)
     static const std::map<VoertuigType, VoertuigParams> typeParameters;
 };
 

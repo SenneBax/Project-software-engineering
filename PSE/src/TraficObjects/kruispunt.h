@@ -1,6 +1,6 @@
 /**
  * @file kruispunt.h
- * @brief Definition of the intersection class
+ * @brief Definitie van de kruispunt-klasse
  */
 
 #ifndef KRUISPUNT_H
@@ -12,59 +12,59 @@
 
 /**
  * @class Kruispunt
- * @brief Class representing an intersection in the traffic simulation
+ * @brief Klasse die een kruispunt in de verkeerssimulatie voorstelt
  */
 class Kruispunt {
 private:
     Kruispunt* _initCheck;
     struct BaanPositie {
-        std::string naam;   /**< Name of the road */
-        double positie;     /**< Position on the road */
+        std::string naam;   /**< Naam van de baan */
+        double positie;     /**< Positie op de baan */
 
 
         BaanPositie(const std::string& naam, double positie) : naam(naam), positie(positie) {}
     };
 
-    std::vector<BaanPositie> banen;  /**< List of roads connected to this intersection */
+    std::vector<BaanPositie> banen;  /**< Lijst van banen verbonden met dit kruispunt */
 
 public:
     /**
-     * @brief Constructor for the intersection
+     * @brief Constructor voor het kruispunt
      */
     Kruispunt();
 
     /**
-     * @brief Add a road to the intersection
-     * @param baanNaam Name of the road
-     * @param positie Position on the road
-     * @return True if the road was added successfully, false otherwise
+     * @brief Voeg een baan toe aan het kruispunt
+     * @param baanNaam Naam van de baan
+     * @param positie Positie op de baan
+     * @return True als de baan succesvol werd toegevoegd, false indien niet
      */
     bool voegBaanToe(const std::string& baanNaam, double positie);
 
     /**
-     * @brief Get all the roads connected to this intersection
-     * @return Vector of pairs with road names and positions
+     * @brief Haal alle banen op die verbonden zijn met dit kruispunt
+     * @return Vector van paren met baannamen en posities
      */
     std::vector<std::pair<std::string, double>> getBanen() const;
 
     /**
-     * @brief Check if a road is part of this intersection
-     * @param baanNaam Name of the road
-     * @return True if the road is part of this intersection, false otherwise
+     * @brief Controleer of een baan deel uitmaakt van dit kruispunt
+     * @param baanNaam Naam van de baan
+     * @return True als de baan deel uitmaakt van dit kruispunt, false indien niet
      */
     bool bevatBaan(const std::string& baanNaam) const;
 
     /**
-     * @brief Get position on a specific road
-     * @param baanNaam Name of the road
-     * @return Position on the road, -1 if road is not found
+     * @brief Haal positie op op een specifieke baan
+     * @param baanNaam Naam van de baan
+     * @return Positie op de baan, -1 als baan niet gevonden
      */
     double getPositieOpBaan(const std::string& baanNaam) const;
 
     /**
-     * @brief Choose a random road to continue on from the intersection
-     * @param huidigeWeg Current road name (to exclude it from possibilities)
-     * @return Name of the chosen road, empty string if no valid road exists
+     * @brief Kies een willekeurige baan om verder te gaan vanaf het kruispunt
+     * @param huidigeWeg Huidige baannaam (om uit te sluiten van mogelijkheden)
+     * @return Naam van de gekozen baan, lege string als er geen geldige baan bestaat
      */
     std::string kiesRandomBaan(const std::string& huidigeWeg) const;
 

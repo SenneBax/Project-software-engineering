@@ -1,6 +1,6 @@
 /**
  * @file kruispunt.cpp
- * @brief Implementation of the intersection class
+ * @brief Implementatie van de kruispunt klasse
  */
 
 #include "kruispunt.h"
@@ -11,15 +11,15 @@
 #include "DesignByContract.h"
 
 /**
- * @brief Constructor for the intersection
+ * @brief Constructor voor het kruispunt
  */
 Kruispunt::Kruispunt() {}
 
 /**
- * @brief Add a road to the intersection
- * @param baanNaam Name of the road
- * @param positie Position on the road
- * @return True if the road was added successfully, false otherwise
+ * @brief Voeg een weg toe aan het kruispunt
+ * @param baanNaam Naam van de weg
+ * @param positie Positie op de weg
+ * @return True als de weg succesvol werd toegevoegd, false anders
  */
 bool Kruispunt::voegBaanToe(const std::string& baanNaam, double positie) {
     _initCheck = this;
@@ -27,7 +27,7 @@ bool Kruispunt::voegBaanToe(const std::string& baanNaam, double positie) {
     REQUIRE(positie >= 0.0, "positie moet positive zijn.");
     ENSURE(properlyInitialized(),"Constructor moet eindigen in een geldige toestand.");
 
-    // Check if the road is already part of this intersection
+    // Controleer of de weg al deel uitmaakt van dit kruispunt
     if (bevatBaan(baanNaam)) {
         return false;
     }
@@ -43,8 +43,8 @@ bool Kruispunt::properlyInitialized() const
 }
 
 /**
- * @brief Get all the roads connected to this intersection
- * @return Vector of pairs with road names and positions
+ * @brief Krijg alle wegen die verbonden zijn met dit kruispunt
+ * @return Vector van paren met wegnamen en posities
  */
 std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
     //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij getBanen");
@@ -59,9 +59,9 @@ std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
 }
 
 /**
- * @brief Check if a road is part of this intersection
- * @param baanNaam Name of the road
- * @return True if the road is part of this intersection, false otherwise
+ * @brief Controleer of een weg deel uitmaakt van dit kruispunt
+ * @param baanNaam Naam van de weg
+ * @return True als de weg deel uitmaakt van dit kruispunt, false anders
  */
 bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
     //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
@@ -73,9 +73,9 @@ bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
 }
 
 /**
- * @brief Get position on a specific road
- * @param baanNaam Name of the road
- * @return Position on the road, -1 if road is not found
+ * @brief Krijg positie op een specifieke weg
+ * @param baanNaam Naam van de weg
+ * @return Positie op de weg, -1 als de weg niet gevonden wordt
  */
 double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
     REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
@@ -85,32 +85,32 @@ double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
         }
     }
 
-    return -1.0; // Road not found
+    return -1.0; // Weg niet gevonden
 }
 
 /**
- * @brief Choose a random road to continue on from the intersection
- * @param huidigeWeg Current road name (to exclude it from possibilities)
- * @return Name of the chosen road, empty string if no valid road exists
+ * @brief Kies een willekeurige weg om door te gaan vanaf het kruispunt
+ * @param huidigeWeg Huidige wegnaam (om uit te sluiten van mogelijkheden)
+ * @return Naam van de gekozen weg, lege string als er geen geldige weg bestaat
  */
 std::string Kruispunt::kiesRandomBaan(const std::string& huidigeWeg) const {
     REQUIRE(!huidigeWeg.empty(), "huidigeWeg is leeg");
-    // Collect potential roads (excluding the current one)
+    // Verzamel potentiële wegen (exclusief de huidige)
     std::vector<std::string> mogelijkeBanen;
 
     for (const auto& baan : banen) {
-        // Skip the current road and roads that end at this intersection (position equals road length)
+        // Sla de huidige weg over en wegen die eindigen bij dit kruispunt (positie is gelijk aan de weglengte)
         if (baan.naam != huidigeWeg) {
             mogelijkeBanen.push_back(baan.naam);
         }
     }
 
-    // If there are no valid roads to continue on, return empty string
+    // Als er geen geldige wegen zijn om door te gaan, retourneer een lege string
     if (mogelijkeBanen.empty()) {
         return "";
     }
 
-    // Choose a random road
+    // Kies een willekeurige weg
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distr(0, mogelijkeBanen.size() - 1);

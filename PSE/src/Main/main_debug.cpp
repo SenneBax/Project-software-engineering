@@ -16,6 +16,7 @@
 #include "../FileReader/bestandslezer.h"
 #include "../TraficObjects/bushalte.h"
 #include "../TraficObjects/kruispunt.h"
+#include "../Output/output.h"
 
 // Hulpfunctie om size_t naar int te converteren voor veilige vergelijkingen
 template<typename Container>
@@ -778,16 +779,381 @@ TEST(SimulatieTest, BushalteStopTest) {
             EXPECT_GT(autoPtr->getSnelheid(), 0.0);
         }
     }
-
-    // Verwacht dat de bus is gestopt en daarna weer vertrokken
-    //EXPECT_TRUE(busIsGestopt) << "De bus is niet gestopt bij de bushalte.";
-    //EXPECT_TRUE(busVertrokkenNaWachten) << "De bus is niet vertrokken na de wachttijd.";
-
-    // Extra controle: de totale simulatietijd moet groter zijn dan de wachttijd
-    // van de bushalte om te garanderen dat de bus tijd had om te wachten
     EXPECT_GT(sim.getHuidigeSimulatieTijd(), 10.0);
 }
 
+// Hulpfunctie om een test verkeerssituatie te maken
+VerkeersSituatie createTestSituatie() {
+    VerkeersSituatie situatie;
+
+    // Voeg enkele wegen toe
+    Baan baan1("Hoofdweg", 500);
+    Baan baan2("Zijstraat", 300);
+    Baan baan3("Kruisweg", 400);
+    situatie.voegBaanToe(baan1);
+    situatie.voegBaanToe(baan2);
+    situatie.voegBaanToe(baan3);
+
+    // Voeg enkele voertuigen toe
+    Voertuig auto1("Hoofdweg", 50, "auto");
+    Voertuig bus1("Hoofdweg", 150, "bus");
+    Voertuig brandweer("Zijstraat", 100, "brandweerwagen");
+    Voertuig ziekenwagen("Kruisweg", 200, "ziekenwagen");
+    Voertuig politie("Kruisweg", 50, "politiecombi");
+    situatie.voegVoertuigToe(auto1);
+    situatie.voegVoertuigToe(bus1);
+    situatie.voegVoertuigToe(brandweer);
+    situatie.voegVoertuigToe(ziekenwagen);
+    situatie.voegVoertuigToe(politie);
+
+    // Voeg enkele verkeerslichten toe
+    Verkeerslicht licht1("Hoofdweg", 300, 30, true);  // Met oranje licht
+    Verkeerslicht licht2("Zijstraat", 200, 20, false, true);  // Slim verkeerslicht
+    situatie.voegVerkeerslichtToe(licht1);
+    situatie.voegVerkeerslichtToe(licht2);
+
+    // Voeg enkele bushaltes toe
+    Bushalte halte1("Hoofdweg", 250, 15);
+    Bushalte halte2("Kruisweg", 150, 10);
+    situatie.voegBushalteToe(halte1);
+    situatie.voegBushalteToe(halte2);
+
+    // Voeg een kruispunt toe
+    Kruispunt kruispunt;
+    kruispunt.voegBaanToe("Hoofdweg", 400);
+    kruispunt.voegBaanToe("Kruisweg", 300);
+    situatie.voegKruispuntToe(kruispunt);
+
+    // Voeg een voertuiggenerator toe
+    VoertuigGenerator generator("Zijstraat", 10, "auto");
+    situatie.voegVoertuigGeneratorToe(generator);
+
+    return situatie;
+}
+
+// Hulpfunctie om te controleren of een bestand bestaat
+bool fileExists(const std::string& filename) {
+    std::ifstream file(filename);
+    return file.good();
+}
+
+// Hulpfunctie om een tijdelijk bestand te maken en de naam ervan terug te geven
+std::string createTempFile(const std::string& content, const std::string& extension = ".txt") {
+    std::string filename = "test_temp" + extension;
+    std::ofstream file(filename);
+    file << content;
+    file.close();
+    return filename;
+}
+
+// Hulpfunctie om een bestand in een string te lezen
+std::string readFile(const std::string& filename) {
+    std::ifstream file(filename);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    return content;
+}
+
+// Tests voor de TextRapport (Eenvoudige Uitvoer) functionaliteit
+TEST(OutputTest, TextRapportTest) {
+    VerkeersSituatie situatie = createTestSituatie();
+
+    // Genereer een tekstrapport
+    std::string report = output::genereerTekstRapport(situatie);
+
+    // Controleer of het rapport basisinformatie bevat
+    EXPECT_TRUE(report.find("Banen (3):") != std::string::npos);
+    EXPECT_TRUE(report.find("Voertuigen (5):") != std::string::npos);
+    EXPECT_TRUE(report.find("Verkeerslichten (2):") != std::string::npos);
+    EXPECT_TRUE(report.find("Bushaltes (2):") != std::string::npos);
+    EXPECT_TRUE(report.find("Kruispunten (1):") != std::string::npos);
+
+    // Controleer op specifieke informatie
+    EXPECT_TRUE(report.find("Hoofdweg") != std::string::npos);
+    EXPECT_TRUE(report.find("bus") != std::string::npos);
+    EXPECT_TRUE(report.find("brandweerwagen") != std::string::npos);
+    EXPECT_TRUE(report.find("ziekenwagen") != std::string::npos);
+    EXPECT_TRUE(report.find("politiecombi") != std::string::npos);
+}
+
+// Tests voor de GrafischeImpressie functionaliteit
+TEST(OutputTest, GrafischeImpressieTest) {
+    VerkeersSituatie situatie = createTestSituatie();
+
+    // Genereer een grafische impressie
+    std::string impression = output::genereerGrafischeImpressie(situatie);
+
+    // Controleer of de impressie basisweergaven van wegen bevat
+    EXPECT_TRUE(impression.find("Hoofdweg |") != std::string::npos);
+    EXPECT_TRUE(impression.find("Zijstraat |") != std::string::npos);
+    EXPECT_TRUE(impression.find("Kruisweg |") != std::string::npos);
+
+    // Controleer op voertuigmarkeringen (A voor auto, B voor bus, enz.)
+    EXPECT_TRUE(impression.find("A") != std::string::npos); // Auto
+    EXPECT_TRUE(impression.find("B") != std::string::npos); // Bus
+    EXPECT_TRUE(impression.find("F") != std::string::npos); // Brandweerwagen
+    EXPECT_TRUE(impression.find("Z") != std::string::npos); // Ziekenwagen
+    EXPECT_TRUE(impression.find("P") != std::string::npos); // Politiecombi
+
+    // Controleer op verkeerslichtweergaven
+    EXPECT_TRUE(impression.find("> verkeerslichten |") != std::string::npos);
+
+    // Controleer op bushalteweergaven
+    EXPECT_TRUE(impression.find("> bushaltes") != std::string::npos);
+
+    // Controleer op kruispuntweergaven
+    EXPECT_TRUE(impression.find("> kruispunten") != std::string::npos);
+
+    // Controleer op legenda
+    EXPECT_TRUE(impression.find("Legende:") != std::string::npos);
+}
+
+// Tests voor XML uitvoerfunctionaliteit
+TEST(OutputTest, XmlOutputTest) {
+    VerkeersSituatie situatie = createTestSituatie();
+    output uitvoer;
+
+    // Maak een tijdelijk XML-bestand
+    std::string xmlFilename = "test_output.xml";
+
+    // Schrijf de verkeerssituatie naar XML
+    EXPECT_TRUE(uitvoer.schrijfNaarXml(situatie, xmlFilename));
+    EXPECT_TRUE(fileExists(xmlFilename));
+
+    // Lees het XML-bestand terug
+    std::string xmlContent = readFile(xmlFilename);
+
+    // Controleer basis XML-structuur
+    EXPECT_TRUE(xmlContent.find("<?xml") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<VerkeersSituatie>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("</VerkeersSituatie>") != std::string::npos);
+
+    // Controleer op elementen
+    EXPECT_TRUE(xmlContent.find("<BAAN>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<VOERTUIG>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<VERKEERSLICHT>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<BUSHALTE>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<KRUISPUNT>") != std::string::npos);
+    EXPECT_TRUE(xmlContent.find("<VOERTUIGGENERATOR>") != std::string::npos);
+
+    // Test of we de XML terug kunnen lezen in een nieuwe situatie
+    VerkeersSituatie nieuweStituatie;
+    BestandsLezer lezer;
+    EXPECT_TRUE(lezer.leesXmlBestand(xmlFilename, nieuweStituatie));
+
+    // Controleer of de nieuwe situatie dezelfde elementen heeft
+    EXPECT_EQ(situatie.getBanen().size(), nieuweStituatie.getBanen().size());
+    EXPECT_EQ(situatie.getVoertuigen().size(), nieuweStituatie.getVoertuigen().size());
+    EXPECT_EQ(situatie.getVerkeerslichten().size(), nieuweStituatie.getVerkeerslichten().size());
+    EXPECT_EQ(situatie.getBushaltes().size(), nieuweStituatie.getBushaltes().size());
+    EXPECT_EQ(situatie.getKruispunten().size(), nieuweStituatie.getKruispunten().size());
+    EXPECT_EQ(situatie.getVoertuigGenerators().size(), nieuweStituatie.getVoertuigGenerators().size());
+
+    // Opruimen
+    std::remove(xmlFilename.c_str());
+}
+
+// Tests voor HTML uitvoerfunctionaliteit
+TEST(OutputTest, HtmlOutputTest) {
+    VerkeersSituatie situatie = createTestSituatie();
+    output uitvoer;
+
+    // Maak een tijdelijk HTML-bestand
+    std::string htmlFilename = "test_output.html";
+
+    // Schrijf de verkeerssituatie naar HTML
+    EXPECT_TRUE(uitvoer.schrijfNaarHtml(situatie, htmlFilename));
+    EXPECT_TRUE(fileExists(htmlFilename));
+
+    // Lees het HTML-bestand
+    std::string htmlContent = readFile(htmlFilename);
+
+    // Controleer basis HTML-structuur
+    EXPECT_TRUE(htmlContent.find("<!DOCTYPE html>") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("<html>") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("<head>") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("<body>") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("</html>") != std::string::npos);
+
+    // Controleer op CSS-stijlen
+    EXPECT_TRUE(htmlContent.find("<style>") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("body {") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find(".road {") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find(".vehicle {") != std::string::npos);
+
+    // Controleer op wegweergaven
+    EXPECT_TRUE(htmlContent.find("Hoofdweg") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("Zijstraat") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("Kruisweg") != std::string::npos);
+
+    // Controleer op voertuigweergaven
+    EXPECT_TRUE(htmlContent.find("class=\"vehicle auto\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"vehicle bus\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"vehicle brandweerwagen\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"vehicle ziekenwagen\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"vehicle politiecombi\"") != std::string::npos);
+
+    // Controleer op verkeerslicht-, bushalte- en kruispuntweergaven
+    EXPECT_TRUE(htmlContent.find("class=\"traffic-light") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"bus-stop\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"intersection\"") != std::string::npos);
+
+    // Controleer op legenda en statistieken
+    EXPECT_TRUE(htmlContent.find("class=\"legend\"") != std::string::npos);
+    EXPECT_TRUE(htmlContent.find("class=\"statistics\"") != std::string::npos);
+
+    // Opruimen
+    std::remove(htmlFilename.c_str());
+}
+
+// Tests voor foutafhandeling in output
+
+// Tests voor de oranje verkeerslichtfunctionaliteit
+TEST(VerkeerslichtTest, OrangeLightTest) {
+    // Maak een verkeerslicht met oranje functionaliteit
+    Verkeerslicht licht("Testweg", 100, 20, true);
+
+    // Verkeerslicht zou moeten starten als rood
+    EXPECT_TRUE(licht.isRood());
+    EXPECT_FALSE(licht.isGroen());
+    EXPECT_FALSE(licht.isOranje());
+
+    // Update tot het verandert naar groen
+    for (int i = 0; i < 21; i++) {
+        licht.update(1.0);
+    }
+
+    EXPECT_TRUE(licht.isGroen());
+
+    // Update tot het begint te veranderen naar rood (via oranje)
+    for (int i = 0; i < 20; i++) {
+        licht.update(1.0);
+    }
+
+    // Zou nu oranje moeten zijn
+    EXPECT_TRUE(licht.isOranje());
+
+    // Update net genoeg om het oranje te houden (oranje duur is 10% van cyclus)
+    licht.update(1.0);
+    EXPECT_TRUE(licht.isOranje());
+
+    // Update tot het verandert naar rood
+    for (int i = 0; i < 2; i++) {
+        licht.update(1.0);
+    }
+
+    EXPECT_TRUE(licht.isRood());
+}
+
+// Tests voor de slimme verkeerslichtfunctionaliteit
+TEST(VerkeerslichtTest, SmartLightTest) {
+    // Maak een slim verkeerslicht
+    Verkeerslicht licht("Testweg", 100, 30, false, true);
+
+    // Verkeerslicht zou moeten starten als rood
+    EXPECT_TRUE(licht.isRood());
+
+    // Registreer enkele voertuigen
+    licht.registerVoertuigVoorLicht();
+    licht.registerVoertuigVoorLicht();
+    EXPECT_EQ(licht.getVoertuigenVoorLicht(), 2);
+
+    // Update voorbij minimale tijd (10 seconden)
+    for (int i = 0; i < 11; i++) {
+        licht.update(1.0);
+    }
+
+    // Met wachtende voertuigen zou het groen moeten worden
+    EXPECT_TRUE(licht.isGroen());
+
+    // Voertuigen zouden gereset moeten worden
+    EXPECT_EQ(licht.getVoertuigenVoorLicht(), 0);
+
+    // Update opnieuw voorbij minimale tijd, zonder voertuigen
+    for (int i = 0; i < 21; i++) {
+        licht.update(1.0);
+    }
+
+    // Zonder voertuigen en na 20 seconden, zou het rood moeten worden
+    EXPECT_TRUE(licht.isRood());
+
+    // Test maximale tijdslimiet (60 seconden)
+    for (int i = 0; i < 60; i++) {
+        licht.update(1.0);
+    }
+
+    // Na maximale tijd in rood, zou het groen moeten worden zelfs zonder voertuigen
+    EXPECT_TRUE(licht.isGroen());
+}
+
+
+// Test voor kruispuntfunctionaliteit
+TEST(KruispuntTest, IntersectionFunctionalityTest) {
+    // Maak een kruispunt met drie wegen
+    Kruispunt kruispunt;
+    kruispunt.voegBaanToe("Hoofdweg", 500);
+    kruispunt.voegBaanToe("Zijstraat", 300);
+    kruispunt.voegBaanToe("Kruisweg", 400);
+
+    // Controleer op correct aantal wegen
+    EXPECT_EQ(kruispunt.getBanen().size(), 3);
+
+    // Test kiesRandomBaan
+    std::string newRoad = kruispunt.kiesRandomBaan("Hoofdweg");
+
+    // Zou een van de andere wegen moeten teruggeven
+    EXPECT_TRUE(newRoad == "Zijstraat" || newRoad == "Kruisweg");
+    EXPECT_FALSE(newRoad == "Hoofdweg");
+
+    // Probeer een weg te kiezen van een onbekende weg
+    std::string result = kruispunt.kiesRandomBaan("OnbekendWeg");
+
+    // We vertrouwen op de interne REQUIRE macro, dus dit zou nog steeds een van de wegen moeten teruggeven
+    EXPECT_TRUE(result == "Hoofdweg" || result == "Zijstraat" || result == "Kruisweg");
+
+    // Test voor het ophalen van positie op een weg
+    double pos = kruispunt.getPositieOpBaan("Hoofdweg");
+    EXPECT_EQ(pos, 500);
+
+    // Test voor het ophalen van positie op een niet-bestaande weg
+    pos = kruispunt.getPositieOpBaan("OnbekendWeg");
+    EXPECT_EQ(pos, -1.0);
+}
+
+// Test de voertuiggenerator
+TEST(VoertuigGeneratorTest, GeneratorFunctionalityTest) {
+    // Maak een weg met een voertuiggenerator
+    VerkeersSituatie situatie;
+    Baan baan("Testweg", 500);
+    situatie.voegBaanToe(baan);
+
+    VoertuigGenerator generator("Testweg", 5, "auto");
+    situatie.voegVoertuigGeneratorToe(generator);
+
+    // Maak simulatie met automatische generatie ingeschakeld
+    simulatie sim(situatie, 1.0);
+    sim.setAutoGenereerVoertuigen(true);
+
+    // In het begin zijn er geen voertuigen
+    EXPECT_EQ(situatie.getVoertuigen().size(), 0);
+
+    // Draai simulatie voor 6 seconden (generator heeft frequentie 5)
+    for (int i = 0; i < 6; i++) {
+        sim.stap();
+    }
+
+    // Zou minstens één voertuig gegenereerd moeten hebben
+    EXPECT_GT(situatie.getVoertuigen().size(), 0);
+
+    // Controleer de eigenschappen van het voertuig
+    if (!situatie.getVoertuigen().empty()) {
+        const Voertuig& voertuig = situatie.getVoertuigen()[0];
+        EXPECT_EQ(voertuig.getBaanNaam(), "Testweg");
+        EXPECT_EQ(voertuig.getType(), "auto");
+        EXPECT_GE(voertuig.getPositie(), 0.0);
+    }
+}
+
+// Main test runner
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

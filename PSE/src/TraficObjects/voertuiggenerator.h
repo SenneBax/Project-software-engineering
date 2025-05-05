@@ -1,5 +1,5 @@
 /**
- * @file voertuiggenerator.h
+* @file voertuiggenerator.h
  * @brief Header voor de VoertuigGenerator klasse
  */
 

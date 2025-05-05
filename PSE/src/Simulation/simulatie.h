@@ -1,6 +1,6 @@
 /**
  * @file simulatie.h
- * @brief Definition of the simulation class (Revised for better modularity)
+ * @brief Definitie van de simulatieklasse (Herzien voor betere modulariteit)
  */
 
 #ifndef SIMULATIE_H
@@ -11,7 +11,7 @@
 
 /**
  * @class simulatie
- * @brief Class for simulating a traffic situation
+ * @brief Klasse voor het simuleren van een verkeerssituatie
  */
 class simulatie {
 private:
@@ -20,12 +20,12 @@ private:
     double huidigeSimulatieTijd;
     bool autoGenereerVoertuigen = false;
 
-    // Default values from section B.6
-    double vertraagAfstand;      /**< Δxs - slow-down distance */
-    double stopAfstand;          /**< Δxs0 - stop distance */
-    double vertraagFactor;       /**< s - slow-down factor */
+    // Standaardwaarden uit sectie B.6
+    double vertraagAfstand;      /**< Δxs - vertraagafstand */
+    double stopAfstand;          /**< Δxs0 - stopafstand */
+    double vertraagFactor;       /**< s - vertraagfactor */
 
-    // Statistics
+    // Statistieken
     int aantalVoertuigen = 0;
     double gemiddeldeSnelheid = 0.0;
     int verwijderdeVoertuigenTeller = 0;
@@ -34,133 +34,133 @@ private:
 
     simulatie* _initCheck;
     /**
-     * @brief Process all traffic lights in the simulation
+     * @brief Verwerk alle verkeerslichten in de simulatie
      */
     void verwerkVerkeerslichten();
 
     /**
-     * @brief Check if a vehicle is approaching a traffic light
-     * @param voertuig The vehicle to check
-     * @param verkeerslicht The traffic light to check
-     * @return Response code: 0 = no effect, 1 = slow down, 2 = stop, 3 = pass through
+     * @brief Controleer of een voertuig een verkeerslicht nadert
+     * @param voertuig Het te controleren voertuig
+     * @param verkeerslicht Het te controleren verkeerslicht
+     * @return Responscode: 0 = geen effect, 1 = vertragen, 2 = stoppen, 3 = doorrijden
      */
     int controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeerslicht& verkeerslicht);
 
     /**
-     * @brief Process all vehicles in the simulation
+     * @brief Verwerk alle voertuigen in de simulatie
      */
     void verwerkVoertuigen();
 
     /**
-     * @brief Process all bus stops in the simulation
+     * @brief Verwerk alle bushaltes in de simulatie
      */
     void verwerkBushaltes();
 
     /**
-     * @brief Process all intersections in the simulation
+     * @brief Verwerk alle kruispunten in de simulatie
      */
     void verwerkKruispunten();
 
     /**
-     * @brief Generate new vehicles in the simulation from generators
+     * @brief Genereer nieuwe voertuigen in de simulatie vanaf generatoren
      */
     void genereerNieuweVoertuigen();
 
     /**
-     * @brief Generate a new vehicle on a road
-     * @param baanNaam Road name
-     * @param positie Position
-     * @param type Vehicle type
-     * @return true if the vehicle was generated successfully
+     * @brief Genereer een nieuw voertuig op een weg
+     * @param baanNaam Wegnaam
+     * @param positie Positie
+     * @param type Voertuigtype
+     * @return true als het voertuig succesvol werd gegenereerd
      */
     bool genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type = "auto");
 
     /**
-     * @brief Increment the counter for removed vehicles
+     * @brief Verhoog de teller voor verwijderde voertuigen
      */
     void verhoogVerwijderdeVoertuigenTeller();
 
     /**
-     * @brief Collect simulation statistics
+     * @brief Verzamel simulatiestatistieken
      */
     void verzamelStatistieken();
 
     /**
-     * @brief Check if a vehicle can move to an intersection
-     * @param voertuig Vehicle to check
-     * @param kruispunt Intersection to check
-     * @return true if the vehicle should be moved to an intersection, false otherwise
+     * @brief Controleer of een voertuig naar een kruispunt kan gaan
+     * @param voertuig Te controleren voertuig
+     * @param kruispunt Te controleren kruispunt
+     * @return true als het voertuig naar een kruispunt moet worden verplaatst, false indien niet
      */
     bool moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kruispunt) const;
 
     /**
-     * @brief Move a vehicle to a new road after an intersection
-     * @param voertuig The vehicle to move
-     * @param kruispunt The intersection where the vehicle is
-     * @return true if the vehicle was moved, false otherwise
+     * @brief Verplaats een voertuig naar een nieuwe weg na een kruispunt
+     * @param voertuig Het te verplaatsen voertuig
+     * @param kruispunt Het kruispunt waar het voertuig zich bevindt
+     * @return true als het voertuig werd verplaatst, false indien niet
      */
     bool verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt& kruispunt);
 
     /**
-     * @brief Check if a vehicle should stop at a bus stop
-     * @param voertuig Vehicle to check
-     * @param halte Bus stop to check
-     * @return true if the bus should stop at the bus stop, false otherwise
+     * @brief Controleer of een voertuig bij een bushalte moet stoppen
+     * @param voertuig Te controleren voertuig
+     * @param halte Te controleren bushalte
+     * @return true als de bus bij de bushalte moet stoppen, false indien niet
      */
     bool moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& halte) const;
 
 public:
     /**
      * @brief Constructor
-     * @param situatie Reference to the traffic situation to simulate
-     * @param tijdstap The time step for the simulation in seconds
+     * @param situatie Referentie naar de te simuleren verkeerssituatie
+     * @param tijdstap De tijdstap voor de simulatie in seconden
      */
     simulatie(VerkeersSituatie& situatie, double tijdstap);
 
     /**
-     * @brief Perform one simulation step
+     * @brief Voer één simulatiestap uit
      */
     void stap();
 
     /**
-     * @brief Enable or disable automatic vehicle generation
-     * @param genereer Whether to automatically generate vehicles
+     * @brief Schakel automatische voertuiggeneratie in of uit
+     * @param genereer Of voertuigen automatisch moeten worden gegenereerd
      */
     void setAutoGenereerVoertuigen(bool genereer);
 
     /**
-     * @brief Get the current simulation time
-     * @return The current simulation time
+     * @brief Haal de huidige simulatietijd op
+     * @return De huidige simulatietijd
      */
     [[nodiscard]] double getHuidigeSimulatieTijd() const;
 
     /**
-     * @brief Get the time step
-     * @return The time step
+     * @brief Haal de tijdstap op
+     * @return De tijdstap
      */
     [[nodiscard]] double getTijdstap() const;
 
     /**
-     * @brief Get the number of vehicles
-     * @return The number of vehicles
+     * @brief Haal het aantal voertuigen op
+     * @return Het aantal voertuigen
      */
     [[nodiscard]] int getAantalVoertuigen() const;
 
     /**
-     * @brief Get the average speed
-     * @return The average speed
+     * @brief Haal de gemiddelde snelheid op
+     * @return De gemiddelde snelheid
      */
     [[nodiscard]] double getGemiddeldeSnelheid() const;
 
     /**
-     * @brief Get the total number of removed vehicles
-     * @return The total number of removed vehicles
+     * @brief Haal het totale aantal verwijderde voertuigen op
+     * @return Het totale aantal verwijderde voertuigen
      */
     [[nodiscard]] int getTotaalVerwijderdeVoertuigen() const;
 
     /**
-     * @brief Get the total time
-     * @return The total time
+     * @brief Haal de totale tijd op
+     * @return De totale tijd
      */
     [[nodiscard]] double getTotaleTijd() const;
 

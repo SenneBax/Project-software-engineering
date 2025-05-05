@@ -1,5 +1,5 @@
 /**
- * @file Baan.cpp
+* @file Baan.cpp
  * @brief de manier hoe de klasse van de baan is geïmplementeerd
  */
 
