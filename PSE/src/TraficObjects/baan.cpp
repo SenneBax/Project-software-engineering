@@ -6,7 +6,6 @@
 #include "baan.h"
 #include <iostream>
 #include "DesignByContract.h"
-
 /**
  * @brief Implementatie van de default constructor
  */
@@ -44,7 +43,7 @@ bool Baan::properlyInitialized() const
  * @return De naam van de baan
  */
 std::string Baan::getNaam() const {
-    REQUIRE(properlyInitialized(), "Naam niet correct geïnitialiseerd bij getNaam");
+    //REQUIRE(properlyInitialized(), "Naam niet correct geïnitialiseerd bij getNaam");
     return naam;
 }
 

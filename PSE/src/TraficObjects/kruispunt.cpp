@@ -13,7 +13,12 @@
 /**
  * @brief Constructor voor het kruispunt
  */
-Kruispunt::Kruispunt() {}
+Kruispunt::Kruispunt()
+{
+    _initCheck = this;
+    ENSURE(properlyInitialized(),"Constructor moet eindigen in een geldige toestand.");
+
+}
 
 /**
  * @brief Voeg een weg toe aan het kruispunt
@@ -22,7 +27,6 @@ Kruispunt::Kruispunt() {}
  * @return True als de weg succesvol werd toegevoegd, false anders
  */
 bool Kruispunt::voegBaanToe(const std::string& baanNaam, double positie) {
-    _initCheck = this;
     REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
     REQUIRE(positie >= 0.0, "positie moet positive zijn.");
     ENSURE(properlyInitialized(),"Constructor moet eindigen in een geldige toestand.");
@@ -70,6 +74,8 @@ bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
                        [&baanNaam](const BaanPositie& baan) {
                            return baan.naam == baanNaam;
                        });
+
+    //ENSURE(properlyInitialized(), "Constructor moet eindigen in geen geldige staat.");
 }
 
 /**
