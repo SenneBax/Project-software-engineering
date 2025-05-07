@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['value_0',['Value',['../class_ti_xml_node.html#a3b260dd22313f310c0acb2e68ada6f5b',1,'TiXmlNode::Value()'],['../class_ti_xml_attribute.html#a0da84344b585308878ec68605f1cbb20',1,'TiXmlAttribute::Value()']]],
+  ['verificeerconsistentie_1',['verificeerConsistentie',['../class_verkeers_situatie.html#a13d2a9322ef97db5f3fecac4781a728f',1,'VerkeersSituatie']]],
+  ['verkeerslicht_2',['Verkeerslicht',['../class_verkeerslicht.html',1,'Verkeerslicht'],['../class_verkeerslicht.html#ae107084b15086e59d5598cf885772b5a',1,'Verkeerslicht::Verkeerslicht()']]],
+  ['verkeerslicht_2ecpp_3',['verkeerslicht.cpp',['../verkeerslicht_8cpp.html',1,'']]],
+  ['verkeerslicht_2eh_4',['verkeerslicht.h',['../verkeerslicht_8h.html',1,'']]],
+  ['verkeerssituatie_5',['VerkeersSituatie',['../class_verkeers_situatie.html',1,'VerkeersSituatie'],['../class_verkeers_situatie.html#aac3d7c6d80e598ac0ef5c7c0e129b29a',1,'VerkeersSituatie::VerkeersSituatie()']]],
+  ['version_6',['Version',['../class_ti_xml_declaration.html#aa4059b08504a70db291005015dcead02',1,'TiXmlDeclaration']]],
+  ['verwijdervoertuig_7',['verwijderVoertuig',['../class_verkeers_situatie.html#a6d81f05f7166dbd957e4f2850f5f4908',1,'VerkeersSituatie']]],
+  ['visit_8',['Visit',['../class_ti_xml_visitor.html#afad71c71ce6473fb9b4b64cd92de4a19',1,'TiXmlVisitor::Visit(const TiXmlDeclaration &amp;)'],['../class_ti_xml_visitor.html#a399b8ebca5cd14664974a32d2ce029e5',1,'TiXmlVisitor::Visit(const TiXmlText &amp;)'],['../class_ti_xml_visitor.html#a53a60e7a528627b31af3161972cc7fa2',1,'TiXmlVisitor::Visit(const TiXmlComment &amp;)'],['../class_ti_xml_visitor.html#a7e284d607d275c51dac1adb58159ce28',1,'TiXmlVisitor::Visit(const TiXmlUnknown &amp;)'],['../class_ti_xml_printer.html#adaf7eec4dc43ad071ff52b60361574f5',1,'TiXmlPrinter::Visit(const TiXmlDeclaration &amp;declaration)'],['../class_ti_xml_printer.html#a0857c5d32c59b9a257f9a49cb9411df5',1,'TiXmlPrinter::Visit(const TiXmlText &amp;text)'],['../class_ti_xml_printer.html#a9870423f5603630e6142f6bdb66dfb57',1,'TiXmlPrinter::Visit(const TiXmlComment &amp;comment)'],['../class_ti_xml_printer.html#a08591a15c9a07afa83c24e08b03d6358',1,'TiXmlPrinter::Visit(const TiXmlUnknown &amp;unknown)']]],
+  ['visitenter_9',['VisitEnter',['../class_ti_xml_visitor.html#a07baecb52dd7d8716ae2a48ad0956ee0',1,'TiXmlVisitor::VisitEnter(const TiXmlDocument &amp;)'],['../class_ti_xml_visitor.html#af6c6178ffa517bbdba95d70490875fff',1,'TiXmlVisitor::VisitEnter(const TiXmlElement &amp;, const TiXmlAttribute *)'],['../class_ti_xml_printer.html#a2ec73087db26ff4d2c4316c56f861db7',1,'TiXmlPrinter::VisitEnter(const TiXmlDocument &amp;doc)'],['../class_ti_xml_printer.html#a6dccaf5ee4979f13877690afe28721e8',1,'TiXmlPrinter::VisitEnter(const TiXmlElement &amp;element, const TiXmlAttribute *firstAttribute)']]],
+  ['visitexit_10',['VisitExit',['../class_ti_xml_visitor.html#aa0ade4f27087447e93974e975c3246ad',1,'TiXmlVisitor::VisitExit(const TiXmlDocument &amp;)'],['../class_ti_xml_visitor.html#aec2b1f8116226d52f3a1b95dafd3a32c',1,'TiXmlVisitor::VisitExit(const TiXmlElement &amp;)'],['../class_ti_xml_printer.html#a0a636046fa589b6d7f3e5bd025b3f33e',1,'TiXmlPrinter::VisitExit(const TiXmlDocument &amp;doc)'],['../class_ti_xml_printer.html#ae6a1df8271df4bf62d7873c38e34aa69',1,'TiXmlPrinter::VisitExit(const TiXmlElement &amp;element)']]],
+  ['voegbaantoe_11',['voegBaanToe',['../class_verkeers_situatie.html#a6a314830262cda54cf8deb3eb5b5b5bf',1,'VerkeersSituatie::voegBaanToe()'],['../class_kruispunt.html#aee4b426f6b5ddcd150bc6570beb80d58',1,'Kruispunt::voegBaanToe()']]],
+  ['voegbushaltetoe_12',['voegBushalteToe',['../class_verkeers_situatie.html#ac3e37e41005e859051ddd412229b1040',1,'VerkeersSituatie']]],
+  ['voegkruispunttoe_13',['voegKruispuntToe',['../class_verkeers_situatie.html#ae94eec6a34707feacfa3296204daf995',1,'VerkeersSituatie']]],
+  ['voegverkeerslichttoe_14',['voegVerkeerslichtToe',['../class_verkeers_situatie.html#ac9da98beb6be426da45c5de2c94c19a8',1,'VerkeersSituatie']]],
+  ['voegvoertuiggeneratortoe_15',['voegVoertuigGeneratorToe',['../class_verkeers_situatie.html#a2ec2e5db85e94c24ad646c88fd8e19d0',1,'VerkeersSituatie']]],
+  ['voegvoertuigtoe_16',['voegVoertuigToe',['../class_verkeers_situatie.html#a493ddb384706ec6e3bfd4de4d265965c',1,'VerkeersSituatie']]],
+  ['voertuig_17',['Voertuig',['../class_voertuig.html',1,'Voertuig'],['../class_voertuig.html#a8c3f520a529de9388d0b924bc7113aac',1,'Voertuig::Voertuig(const std::string &amp;baan, double positie, const std::string &amp;type=&quot;auto&quot;)'],['../class_voertuig.html#acf16ee49e45be9e830050d235b15e135',1,'Voertuig::Voertuig(const std::string &amp;baan, double positie, double snelheid, double versnelling, const std::string &amp;type=&quot;auto&quot;)'],['../class_voertuig.html#a375822d820948bb6a87173d381af2ea8',1,'Voertuig::Voertuig(const Voertuig &amp;other)']]],
+  ['voertuig_2ecpp_18',['voertuig.cpp',['../voertuig_8cpp.html',1,'']]],
+  ['voertuig_2eh_19',['voertuig.h',['../voertuig_8h.html',1,'']]],
+  ['voertuiggenerator_20',['VoertuigGenerator',['../class_voertuig_generator.html',1,'VoertuigGenerator'],['../class_voertuig_generator.html#a2253cdddde7a8ee48cfff5b12f9bf3bc',1,'VoertuigGenerator::VoertuigGenerator()']]],
+  ['voertuiggenerator_2ecpp_21',['voertuiggenerator.cpp',['../voertuiggenerator_8cpp.html',1,'']]],
+  ['voertuiggenerator_2eh_22',['voertuiggenerator.h',['../voertuiggenerator_8h.html',1,'']]],
+  ['voertuigparams_23',['VoertuigParams',['../struct_voertuig_1_1_voertuig_params.html',1,'Voertuig']]],
+  ['voertuigtype_24',['VoertuigType',['../class_voertuig.html#ad3a75b79f8bbc4e5154870615496e98e',1,'Voertuig']]]
+];

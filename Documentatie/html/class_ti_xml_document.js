@@ -1,0 +1,26 @@
+var class_ti_xml_document =
+[
+    [ "TiXmlDocument", "class_ti_xml_document.html#a9f5e84335708fde98400230f9f12659c", null ],
+    [ "TiXmlDocument", "class_ti_xml_document.html#ae4508b452d0c3061db085f3db27b8396", null ],
+    [ "Accept", "class_ti_xml_document.html#a8ddd6eec722cbd25900bbac664909bac", null ],
+    [ "ClearError", "class_ti_xml_document.html#ac66b8c28db86363315712a3574e87c35", null ],
+    [ "Clone", "class_ti_xml_document.html#a46a4dda6c56eb106d46d4046ae1e5353", null ],
+    [ "Error", "class_ti_xml_document.html#a348e68faad4a3498f413c51ee9bc321a", null ],
+    [ "ErrorCol", "class_ti_xml_document.html#adea69de889449a2587afb8ee043f43f5", null ],
+    [ "ErrorDesc", "class_ti_xml_document.html#a03d596f13b24ebae712b2c42b019a5ab", null ],
+    [ "ErrorId", "class_ti_xml_document.html#abd928b49a646c8ed53e0453c555d96a2", null ],
+    [ "ErrorRow", "class_ti_xml_document.html#a062e5257128a7da31b0b2e38cd524600", null ],
+    [ "LoadFile", "class_ti_xml_document.html#a879cdf5e981b8b2d2ef82f2546dd28fb", null ],
+    [ "LoadFile", "class_ti_xml_document.html#a41f6fe7200864d1dca663d230caf8db6", null ],
+    [ "LoadFile", "class_ti_xml_document.html#a4c852a889c02cf251117fd1d9fe1845f", null ],
+    [ "Parse", "class_ti_xml_document.html#a789ad2f06f93d52bdb5570b2f3670289", null ],
+    [ "Print", "class_ti_xml_document.html#aa4e8c1498a76dcde7191c683e1220882", null ],
+    [ "Print", "class_ti_xml_document.html#aa9e166fae51da603641380a964f21eeb", null ],
+    [ "RootElement", "class_ti_xml_document.html#ab7d8c7025dd910259f1fea16fc72cda0", null ],
+    [ "SaveFile", "class_ti_xml_document.html#ab63b96a6af5a467e289c7c75202edad9", null ],
+    [ "SaveFile", "class_ti_xml_document.html#ae641f33784381017c44e107cc2c86b5c", null ],
+    [ "SaveFile", "class_ti_xml_document.html#a8f5a1022168a5767e32becec7b6f44ee", null ],
+    [ "SetTabSize", "class_ti_xml_document.html#a51dac56316f89b35bdb7d0d433ba988e", null ],
+    [ "ToDocument", "class_ti_xml_document.html#a6df051851cd77470e372b9b8f7bd98ce", null ],
+    [ "ToDocument", "class_ti_xml_document.html#a76a8c412a77fe339918125d18708c898", null ]
+];

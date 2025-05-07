@@ -381,7 +381,7 @@ TEST(LeesVerkeersSituatieTest, InvalidRoadData) {
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <naam>Teststraat</naam>\n"
-        "        <lengte>-10</lengte>\n"
+        "        <lengte>-10</lengte>\n"  //lengte mag niet negatief zijn
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
