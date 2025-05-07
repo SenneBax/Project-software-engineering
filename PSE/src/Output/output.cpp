@@ -1,5 +1,5 @@
 /**
- * @file output.cpp
+* @file output.cpp
  * @author senne
  * @date 24/04/2025
  * @brief Implementatie van de output klasse (Herzien met grafische impressies)
@@ -21,7 +21,6 @@ output::output() : lastFoutmelding("")
 {
     _initCheck = this;
     ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
-
 }
 
 bool output::properlyInitialized() const
@@ -49,9 +48,10 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     const auto& voertuigen = situatie.getVoertuigen();
     ss << "Voertuigen (" << voertuigen.size() << "):" << std::endl;
     for (const auto& voertuig : voertuigen) {
-        ss << " - " << voertuig.getType() << " op baan '" << voertuig.getBaanNaam()
-           << "' (positie: " << voertuig.getPositie()
-           << "m, snelheid: " << voertuig.getSnelheid() << "m/s)" << std::endl;
+        // Access through pointer with -> operator
+        ss << " - " << voertuig->getType() << " op baan '" << voertuig->getBaanNaam()
+           << "' (positie: " << voertuig->getPositie()
+           << "m, snelheid: " << voertuig->getSnelheid() << "m/s)" << std::endl;
     }
 
     const auto& verkeerslichten = situatie.getVerkeerslichten();
@@ -128,19 +128,20 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 
         // Markeer voertuigen op de baan
         for (const auto& voertuig : voertuigen) {
-            if (voertuig.getBaanNaam() == baanNaam) {
-                int positie = static_cast<int>(voertuig.getPositie() * schaalfactor);
+            if (voertuig->getBaanNaam() == baanNaam) {
+                int positie = static_cast<int>(voertuig->getPositie() * schaalfactor);
                 if (positie >= 0 && positie < displayLengte) {
                     // Markeer verschillende voertuigtypes met verschillende tekens
-                    if (voertuig.getType() == "auto") {
+                    std::string type = voertuig->getType();
+                    if (type == "auto") {
                         baanVisualisatie[positie] = 'A';
-                    } else if (voertuig.getType() == "bus") {
+                    } else if (type == "bus") {
                         baanVisualisatie[positie] = 'B';
-                    } else if (voertuig.getType() == "brandweerwagen") {
+                    } else if (type == "brandweerwagen") {
                         baanVisualisatie[positie] = 'F'; // F voor brandweerwagen
-                    } else if (voertuig.getType() == "ziekenwagen") {
+                    } else if (type == "ziekenwagen") {
                         baanVisualisatie[positie] = 'Z';
-                    } else if (voertuig.getType() == "politiecombi") {
+                    } else if (type == "politiecombi") {
                         baanVisualisatie[positie] = 'P';
                     }
                 }
@@ -193,7 +194,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 
         // Print verkeerslichtinformatie als er verkeerslichten op deze baan zijn
         if (!verkeerslichtPosities.empty()) {
-            ss << std::left << std::setw(maxBaanNaamLenghte) << "> Verkeerslichten" << " | ";
+            ss << std::left << std::setw(maxBaanNaamLenghte) << "> verkeerslichten" << " | ";
             for (int i = 0; i < displayLengte; i++) {
                 bool found = false;
                 for (const auto& lichtPaar : verkeerslichtPosities) {
@@ -305,21 +306,21 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
         TiXmlElement* voertuigElement = new TiXmlElement("VOERTUIG");
 
         TiXmlElement* baanElement = new TiXmlElement("baan");
-        TiXmlText* baanText = new TiXmlText(voertuig.getBaanNaam().c_str());
+        TiXmlText* baanText = new TiXmlText(voertuig->getBaanNaam().c_str());
         baanElement->LinkEndChild(baanText);
         voertuigElement->LinkEndChild(baanElement);
 
         TiXmlElement* positieElement = new TiXmlElement("positie");
         std::stringstream ssPos;
-        ssPos << voertuig.getPositie();
+        ssPos << voertuig->getPositie();
         TiXmlText* positieText = new TiXmlText(ssPos.str().c_str());
         positieElement->LinkEndChild(positieText);
         voertuigElement->LinkEndChild(positieElement);
 
         // Voeg type toe als het niet de standaard "auto" is
-        if (voertuig.getType() != "auto") {
+        if (voertuig->getType() != "auto") {
             TiXmlElement* typeElement = new TiXmlElement("type");
-            TiXmlText* typeText = new TiXmlText(voertuig.getType().c_str());
+            TiXmlText* typeText = new TiXmlText(voertuig->getType().c_str());
             typeElement->LinkEndChild(typeText);
             voertuigElement->LinkEndChild(typeElement);
         }
@@ -520,10 +521,10 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
 
         // Voeg voertuigen toe
         for (const auto& voertuig : situatie.getVoertuigen()) {
-            if (voertuig.getBaanNaam() == baanNaam) {
-                int positie = static_cast<int>(voertuig.getPositie() * schaalfactor);
+            if (voertuig->getBaanNaam() == baanNaam) {
+                int positie = static_cast<int>(voertuig->getPositie() * schaalfactor);
                 if (positie >= 0 && positie < std::min(1000, baanLengte)) {
-                    std::string type = voertuig.getType();
+                    std::string type = voertuig->getType();
                     std::string label;
 
                     if (type == "auto") label = "A";
@@ -532,7 +533,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
                     else if (type == "ziekenwagen") label = "Z";
                     else if (type == "politiecombi") label = "P";
 
-                    file << "            <div class=\"vehicle " << type << "\" style=\"left: " << positie << "px;\" title=\"" << type << " op " << voertuig.getPositie() << "m\">" << label << "</div>\n";
+                    file << "            <div class=\"vehicle " << type << "\" style=\"left: " << positie << "px;\" title=\"" << type << " op " << voertuig->getPositie() << "m\">" << label << "</div>\n";
                 }
             }
         }
@@ -616,6 +617,5 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
  */
 std::string output::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
-
     return lastFoutmelding;
 }

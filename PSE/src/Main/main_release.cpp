@@ -126,13 +126,13 @@ int main(int argc, char* argv[]) {
             case 't': // Tekstrapport
                 cout << "Tekstrapport:\n";
                 cout << "=============\n";
-                cout << output::genereerTekstRapport(situatie) << "\n";
+                cout << uitvoer.genereerTekstRapport(situatie) << "\n";
                 break;
 
             case 'g': // Grafische impressie
                 cout << "Grafische impressie:\n";
                 cout << "===================\n";
-                cout << output::genereerGrafischeImpressie(situatie) << "\n";
+                cout << uitvoer.genereerGrafischeImpressie(situatie) << "\n";
                 break;
 
             case 'x': // Schrijf naar XML

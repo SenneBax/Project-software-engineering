@@ -247,8 +247,9 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
         return false;
     }
 
-    Voertuig voertuig(baan, positie, type);
-    if (!situatie.voegVoertuigToe(voertuig)) {
+    // Use the factory method to create a vehicle of the appropriate type
+    auto voertuig = Voertuig::maakVoertuig(baan, positie, type);
+    if (!situatie.voegVoertuigToe(std::move(voertuig))) {
         lastFoutmelding = "Kan voertuig niet toevoegen aan baan '" + baan + "'";
         return false;
     }

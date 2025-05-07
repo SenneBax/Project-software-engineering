@@ -56,12 +56,13 @@ set(DEBUG_SOURCE_FILES
         src/Simulation/DesignByContract.h
         src/Output/DesignByContract.h
         src/FileReader/DesignByContract.h
-        src/Tests/InputTest.cpp
-        src/Tests/InputTest.h
-        src/Tests/OutputTest.cpp
-        src/Tests/OutputTest.h
-        src/Tests/TraficObjectsTest.cpp
-        src/Tests/TraficObjectsTest.h
+        src/tests/test_helpers.h
+        src/tests/test_baan.cpp
+        src/tests/test_voertuig.cpp
+        src/tests/test_verkeerslicht.cpp
+        src/tests/test_bushalte.cpp
+        src/tests/test_kruispunt.cpp
+        src/tests/test_verkeerssituatie.cpp
 )
 
 # Create RELEASE target

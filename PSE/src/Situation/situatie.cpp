@@ -1,6 +1,6 @@
 /**
  * @file situatie.cpp
- * @brief Implementatie van de VerkeersSituatie klasse (Herzien met bushaltes, kruispunten en polymorfische voertuigen)
+ * @brief Implementatie van de VerkeersSituatie klasse (Herzien met bushaltes en kruispunten en polymorfische voertuigen)
  */
 
 #include "../Situation/situatie.h"
@@ -72,7 +72,7 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
         return false;
     }
 
-    // Gebruik de factory methode om een kopie van het voertuig toe te voegen
+    // Gebruik de clone-methode om een kopie van het voertuig toe te voegen
     try {
         auto nieuwVoertuig = Voertuig::maakVoertuig(voertuig.getBaanNaam(), voertuig.getPositie(),
                                  voertuig.getSnelheid(), voertuig.getVersnelling(),
@@ -448,9 +448,9 @@ const std::vector<Kruispunt>& VerkeersSituatie::getKruispunten() const {
 }
 
 /**
- * @brief Zoek bushaltes op een specifieke weg
- * @param baanNaam Naam van de weg
- * @return Vector met pointers naar bushaltes op de weg
+ * @brief Zoek bushaltes op een specifieke baan
+ * @param baanNaam Naam van de baan
+ * @return Vector met pointers naar bushaltes op de baan
  */
 std::vector<Bushalte*> VerkeersSituatie::zoekBushaltesOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekBushaltesOpBaan moet eindigen in een geldige toestand.");
@@ -530,10 +530,11 @@ Verkeerslicht* VerkeersSituatie::zoekEerstvolgendeVerkeerslicht(const Voertuig& 
     return eerstvolgend;
 }
 
+
 /**
- * @brief Zoek kruispunten die een specifieke weg omvatten
- * @param baanNaam Naam van de weg
- * @return Vector met pointers naar kruispunten die de weg bevatten
+ * @brief Zoek kruispunten die een specifieke baan omvatten
+ * @param baanNaam Naam van de baan
+ * @return Vector met pointers naar kruispunten die de baan omvatten
  */
 std::vector<Kruispunt*> VerkeersSituatie::zoekKruispuntenOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekKruispuntenOpBaan moet eindigen in een geldige toestand.");

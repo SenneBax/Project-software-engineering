@@ -1,20 +1,12 @@
-<BAAN>
-<naam>Middelheimlaan</naam>
-<lengte>500</lengte>
-</BAAN>
-<BAAN>
-<naam>Floralienlaan</naam>
-<lengte>750</lengte>
-</BAAN>
-<BAAN>
-<naam>Beukenlaan</naam>
-<lengte>1000</lengte>
-</BAAN>
-<KRUISPUNT>
-<baan positie="250">Middelheimlaan</baan>
-<baan positie="500">Floralienlaan</baan>
-</KRUISPUNT>
-<KRUISPUNT>
-<baan positie="500">Middelheimlaan</baan>
-<baan positie="500">Beukenlaan</baan>
-</KRUISPUNT>
+<?xml version="1.0" encoding="UTF-8"?>
+<VerkeersSituatie>
+    <BAAN>
+        <naam>Teststraat</naam>
+        <lengte>500</lengte>
+    </BAAN>
+    <VOERTUIG>
+        <baan>Teststraat</baan>
+        <positie>50</positie>
+        <type>auto</type>
+    </VOERTUIG>
+</VerkeersSituatie>
