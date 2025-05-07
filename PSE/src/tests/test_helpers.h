@@ -9,6 +9,8 @@
 #include <string>
 #include <fstream>
 #include <gtest/gtest.h>
+#include "../TraficObjects/voertuig.h"
+#include "../Situation/situatie.h"
 
 // Helper function to convert size_t to int for safer comparisons in tests
 template<typename Container>

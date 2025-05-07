@@ -63,6 +63,9 @@ set(DEBUG_SOURCE_FILES
         src/tests/test_bushalte.cpp
         src/tests/test_kruispunt.cpp
         src/tests/test_verkeerssituatie.cpp
+        src/tests/test_bestandlezer.cpp
+        src/tests/test_output.cpp
+        src/tests/test_simulatie.cpp
 )
 
 # Create RELEASE target

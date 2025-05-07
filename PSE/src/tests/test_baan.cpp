@@ -1,13 +1,13 @@
 /**
 * @file test_baan.cpp
- * @brief Tests for the Baan class
+ * @brief Tests voor de Baan class
  */
 
 #include <gtest/gtest.h>
 #include "./test_helpers.h"
 #include "../TraficObjects/baan.h"
 
-// Tests for the Baan class
+// Tests voor de Baan class
 TEST(BaanTest, ConstructorAndGetters) {
     Baan baan("Teststraat", 250);
     EXPECT_EQ("Teststraat", baan.getNaam());
@@ -20,12 +20,11 @@ TEST(BaanTest, DefaultConstructor) {
     EXPECT_EQ(0, baan.getLengte());
 }
 
-// Additional test to verify proper initialization
+// extra test om de initialisatie nog is na te kijken
 TEST(BaanTest, ProperlyInitialized) {
     Baan baan("Teststraat", 250);
     EXPECT_TRUE(baan.properlyInitialized());
 
-    // Test that empty name initialization fails REQUIRE in debug mode
-    // This would cause REQUIRE to fail, but we can't test assertions directly in GTest
-    // So we're just testing the positive case
 }
+// Omdat er veel REQUIRES en ENSURES zijn, valt er niet veel te testen.
+// Dit aangezien de initialisatie en de aanwezigheid van naam etc. al gecontroleerd worden.
