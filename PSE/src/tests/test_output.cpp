@@ -9,9 +9,6 @@
 #include "../Situation/situatie.h"
 #include "../FileReader/bestandslezer.h"
 
-// Helper function to create a test situation
-// We already have this in test_helpers.h, using it here
-
 // Tests for the TextRapport (Simple Output) functionality
 TEST(OutputTest, TextRapportTest) {
     VerkeersSituatie situatie = createTestSituatie();
@@ -163,21 +160,65 @@ TEST(OutputTest, HtmlOutputTest) {
 }
 
 // Tests for error handling in output
-TEST(OutputTest, ErrorHandling) {
+TEST(OutputTest, ErrorHandlingXmlOutput) {
     VerkeersSituatie situatie = createTestSituatie();
     output uitvoer;
 
-    // Try to write to an invalid location
-    EXPECT_FALSE(uitvoer.schrijfNaarXml(situatie, "/invalid/path/test.xml"));
-    EXPECT_FALSE(uitvoer.getLastFoutmelding().empty());
+    // Try to write to an invalid location (directory that doesn't exist)
+    std::string invalidPath = "/invalid/path/test.xml";
+    EXPECT_FALSE(uitvoer.schrijfNaarXml(situatie, invalidPath));
 
-    // Try to write to an invalid location (HTML)
-    EXPECT_FALSE(uitvoer.schrijfNaarHtml(situatie, "/invalid/path/test.html"));
-    EXPECT_FALSE(uitvoer.getLastFoutmelding().empty());
+    // Check the exact error message
+    std::string expectedError = "Kan bestand '" + invalidPath + "' niet schrijven";
+    EXPECT_EQ(expectedError, uitvoer.getLastFoutmelding());
+}
+
+// Test error handling for HTML output
+TEST(OutputTest, ErrorHandlingHtmlOutput) {
+    VerkeersSituatie situatie = createTestSituatie();
+    output uitvoer;
+
+    // Try to write to an invalid location (directory that doesn't exist)
+    std::string invalidPath = "/invalid/path/test.html";
+    EXPECT_FALSE(uitvoer.schrijfNaarHtml(situatie, invalidPath));
+
+    // Check the exact error message
+    std::string expectedError = "Kan bestand '" + invalidPath + "' niet openen";
+    EXPECT_EQ(expectedError, uitvoer.getLastFoutmelding());
+}
+
+// Test empty filename
+TEST(OutputTest, EmptyFilename) {
+    VerkeersSituatie situatie = createTestSituatie();
+    output uitvoer;
+
+    // Try to write to an empty filename
+    EXPECT_FALSE(uitvoer.schrijfNaarXml(situatie, ""));
+
+    // Check the exact error message - this depends on how your code handles empty filenames
+    // Adjust the expected message based on your implementation
+    EXPECT_EQ("BestandsNaam mag niet leeg zijn.", uitvoer.getLastFoutmelding());
+
+    // Test for HTML output
+    EXPECT_FALSE(uitvoer.schrijfNaarHtml(situatie, ""));
+    EXPECT_EQ("BestandNaam mag niet leeg zijn.", uitvoer.getLastFoutmelding());
 }
 
 // Test proper initialization
 TEST(OutputTest, ProperlyInitialized) {
     output uitvoer;
     EXPECT_TRUE(uitvoer.properlyInitialized());
+}
+
+// Test using an invalid situation
+TEST(OutputTest, InvalidSituation) {
+    VerkeersSituatie situatie; // Empty situation, not initialized properly
+    output uitvoer;
+
+    // These should fail if your code checks for properlyInitialized() in the situatie parameter
+    // If your code doesn't check this, these tests might need to be adjusted
+    EXPECT_ANY_THROW(uitvoer.genereerTekstRapport(situatie));
+    EXPECT_ANY_THROW(uitvoer.genereerGrafischeImpressie(situatie));
+    EXPECT_ANY_THROW(uitvoer.schrijfNaarXml(situatie, "test.xml"));
+    EXPECT_ANY_THROW(uitvoer.schrijfNaarHtml(situatie, "test.html"));
 }

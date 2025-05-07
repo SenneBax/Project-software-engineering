@@ -113,7 +113,9 @@ TEST(BestandsLezerTest, InvalidXml) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Kan XML-bestand niet parsen, controleer de syntax", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
@@ -158,7 +160,9 @@ TEST(BestandsLezerTest, MissingRequiredFields) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Baan mist verplichte elementen (naam of lengte)", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
@@ -180,20 +184,22 @@ TEST(BestandsLezerTest, MissingRoad) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Verkeerssituatie is niet consistent", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test om een XML in te lezen met ongeldige data
+// Test for reading an XML with invalid road data
 TEST(BestandsLezerTest, InvalidRoadData) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <naam>Teststraat</naam>\n"
-        "        <lengte>-10</lengte>\n"  // Lengte mag niet negatief zijn
+        "        <lengte>-10</lengte>\n"  // Length cannot be negative
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
@@ -202,13 +208,15 @@ TEST(BestandsLezerTest, InvalidRoadData) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Lengte van baan 'Teststraat' moet positief zijn", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test om een XML in te lezen met ongeldige data
+// Test for reading an XML with invalid traffic light data
 TEST(BestandsLezerTest, InvalidTrafficLightData) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -220,7 +228,7 @@ TEST(BestandsLezerTest, InvalidTrafficLightData) {
         "    <VERKEERSLICHT>\n"
         "        <baan>Teststraat</baan>\n"
         "        <positie>200</positie>\n"
-        "        <cyclus>-30</cyclus>\n" // Cycle mag niet negatief zijn
+        "        <cyclus>-30</cyclus>\n" // Cycle time cannot be negative
         "    </VERKEERSLICHT>\n"
         "</VerkeersSituatie>";
 
@@ -229,13 +237,15 @@ TEST(BestandsLezerTest, InvalidTrafficLightData) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Cyclus van verkeerslicht op baan 'Teststraat' moet positief zijn", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test om XML in te lezen met een Unknown type
+// Test for reading an XML with unknown element types
 TEST(BestandsLezerTest, UnknownElementType) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -253,15 +263,18 @@ TEST(BestandsLezerTest, UnknownElementType) {
 
     VerkeersSituatie situatie;
     BestandsLezer lezer;
-    // Moet nog altijd slagen want er is een geldige baan
+    // Should still succeed because there's a valid road
     EXPECT_TRUE(lezer.leesXmlBestand(filename, situatie));
     EXPECT_EQ(1, count(situatie.getBanen()));
+
+    // Check if the error message about the unknown element was captured
+    EXPECT_EQ("Onbekend element type: UNKNOWN_ELEMENT", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test om een XML in te lezen met een niet compleet verkeerslicht
+// Test for reading an XML with an incomplete traffic light
 TEST(BestandsLezerTest, IncompleteTrafficLight) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -281,13 +294,15 @@ TEST(BestandsLezerTest, IncompleteTrafficLight) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Verkeerslicht mist verplichte elementen (baan, positie of cyclus)", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test om een verkeerslicht in te lezen op een niet bestaande weg
+// Test for reading an XML with a traffic light on a non-existent road
 TEST(BestandsLezerTest, TrafficLightOnNonExistentRoad) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -309,21 +324,110 @@ TEST(BestandsLezerTest, TrafficLightOnNonExistentRoad) {
     BestandsLezer lezer;
     EXPECT_TRUE(lezer.leesXmlBestand(filename, situatie));
     EXPECT_EQ(1, count(situatie.getBanen()));
-    EXPECT_EQ(0, count(situatie.getVerkeerslichten())); // verkeerslicht niet toegevoegd
+    EXPECT_EQ(0, count(situatie.getVerkeerslichten())); // Traffic light not added
+
+    // Check the exact error message
+    EXPECT_EQ("Kan verkeerslicht niet toevoegen aan baan 'NonExistent'", lezer.getLastFoutmelding());
 
     // Clean up
     std::remove(filename.c_str());
 }
 
-// Test leest een niet bestaande file
+// Test reading a non-existent file
 TEST(BestandsLezerTest, NonExistentFile) {
     VerkeersSituatie situatie;
     BestandsLezer lezer;
     EXPECT_FALSE(lezer.leesXmlBestand("non_existent_file.xml", situatie));
-    EXPECT_FALSE(lezer.getLastFoutmelding().empty());
+
+    // Check the exact error message
+    EXPECT_EQ("Kan bestand 'non_existent_file.xml' niet openen", lezer.getLastFoutmelding());
 }
 
-// Test leest een complexe xml-file in
+// Test for reading an XML with invalid bushalte data
+TEST(BestandsLezerTest, InvalidBushalteData) {
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>250</lengte>\n"
+        "    </BAAN>\n"
+        "    <BUSHALTE>\n"
+        "        <baan>Teststraat</baan>\n"
+        "        <positie>150</positie>\n"
+        "        <wachttijd>0</wachttijd>\n" // Wait time cannot be zero
+        "    </BUSHALTE>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent);
+
+    VerkeersSituatie situatie;
+    BestandsLezer lezer;
+    EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
+
+    // Check the exact error message
+    EXPECT_EQ("Wachttijd van bushalte op baan 'Teststraat' moet positief zijn", lezer.getLastFoutmelding());
+
+    // Clean up
+    std::remove(filename.c_str());
+}
+
+// Test for reading an XML with invalid generator data
+TEST(BestandsLezerTest, InvalidGeneratorData) {
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>250</lengte>\n"
+        "    </BAAN>\n"
+        "    <VOERTUIGGENERATOR>\n"
+        "        <baan>Teststraat</baan>\n"
+        "        <frequentie>-5</frequentie>\n" // Frequency cannot be negative
+        "    </VOERTUIGGENERATOR>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent);
+
+    VerkeersSituatie situatie;
+    BestandsLezer lezer;
+    EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
+
+    // Check the exact error message
+    EXPECT_EQ("Frequentie van voertuiggenerator moet positief zijn", lezer.getLastFoutmelding());
+
+    // Clean up
+    std::remove(filename.c_str());
+}
+
+// Test for reading an XML with invalid kruispunt data
+TEST(BestandsLezerTest, InvalidKruispuntData) {
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>250</lengte>\n"
+        "    </BAAN>\n"
+        "    <KRUISPUNT>\n"
+        "        <baan positie=\"300\">Teststraat</baan>\n" // Position beyond road length
+        "    </KRUISPUNT>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent);
+
+    VerkeersSituatie situatie;
+    BestandsLezer lezer;
+    EXPECT_FALSE(lezer.leesXmlBestand(filename, situatie));
+
+    // Check the exact error message
+    EXPECT_EQ("Kan kruispunt niet toevoegen aan de verkeerssituatie", lezer.getLastFoutmelding());
+
+    // Clean up
+    std::remove(filename.c_str());
+}
+
+// Test reading a complex, real-world example
 TEST(BestandsLezerTest, ComplexExample) {
     std::string xmlContent =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -370,7 +474,7 @@ TEST(BestandsLezerTest, ComplexExample) {
     BestandsLezer lezer;
     EXPECT_TRUE(lezer.leesXmlBestand(filename, situatie));
 
-    //checken van de hoeveelheid elementen
+    // Check the number of elements
     EXPECT_EQ(2, count(situatie.getBanen()));
     EXPECT_EQ(4, count(situatie.getVoertuigen()));
     EXPECT_EQ(2, count(situatie.getVerkeerslichten()));
