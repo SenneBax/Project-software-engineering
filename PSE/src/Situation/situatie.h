@@ -1,6 +1,6 @@
 /**
  * @file situatie.h
- * @brief Header voor de VerkeersSituatie klasse (Herzien met bushaltes en kruispunten)
+ * @brief Header voor de VerkeersSituatie klasse (Herzien met bushaltes, kruispunten en polymorfische voertuigen)
  */
 
 #ifndef SITUATIE_H
@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 #include "../TraficObjects/baan.h"
 #include "../TraficObjects/voertuig.h"
 #include "../TraficObjects/verkeerslicht.h"
@@ -27,6 +28,11 @@ public:
     VerkeersSituatie();
 
     /**
+     * @brief Destructor
+     */
+    ~VerkeersSituatie();
+
+    /**
      * @brief Voeg een weg toe aan de verkeerssituatie
      * @param baan De toe te voegen weg
      * @return true als de weg succesvol is toegevoegd, false indien niet
@@ -39,6 +45,13 @@ public:
      * @return true als het voertuig succesvol is toegevoegd, false indien niet
      */
     bool voegVoertuigToe(const Voertuig& voertuig);
+
+    /**
+     * @brief Voeg een voertuig toe aan de verkeerssituatie
+     * @param voertuig Unieke pointer naar het toe te voegen voertuig
+     * @return true als het voertuig succesvol is toegevoegd, false indien niet
+     */
+    bool voegVoertuigToe(std::unique_ptr<Voertuig> voertuig);
 
     /**
      * @brief Voeg een verkeerslicht toe aan de verkeerssituatie
@@ -88,16 +101,28 @@ public:
     const std::map<std::string, Baan>& getBanen() const;
 
     /**
+     * @brief Haal een vector met alle voertuigen op
+     * @return Vector met kopieën van alle voertuigen
+     */
+    std::vector<std::unique_ptr<Voertuig>> kopieVoertuigen() const;
+
+    /**
      * @brief Haal een aanpasbare referentie naar alle voertuigen op
      * @return Vector met alle voertuigen
      */
-    std::vector<Voertuig>& getVoertuigen();
+    std::vector<std::unique_ptr<Voertuig>>& getVoertuigen();
 
     /**
      * @brief Haal een constante referentie naar alle voertuigen op
      * @return Vector met alle voertuigen
      */
-    const std::vector<Voertuig>& getVoertuigen() const;
+    const std::vector<std::unique_ptr<Voertuig>>& getVoertuigen() const;
+
+    /**
+     * @brief Geef het aantal voertuigen in de situatie
+     * @return Aantal voertuigen
+     */
+    size_t getAantalVoertuigen() const;
 
     /**
      * @brief Haal alle verkeerslichten op
@@ -174,7 +199,7 @@ public:
 
 private:
     std::map<std::string, Baan> banen;        ///< De wegen in de verkeerssituatie, geïndexeerd op naam
-    std::vector<Voertuig> voertuigen;         ///< De voertuigen in de verkeerssituatie
+    std::vector<std::unique_ptr<Voertuig>> voertuigen;  ///< De voertuigen in de verkeerssituatie
     std::vector<Verkeerslicht> verkeerslichten; ///< De verkeerslichten in de verkeerssituatie
     std::vector<VoertuigGenerator> generators;  ///< De voertuiggeneratoren in de verkeerssituatie
     std::vector<Bushalte> bushaltes;          ///< De bushaltes in de verkeerssituatie

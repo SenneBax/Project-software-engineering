@@ -1,6 +1,6 @@
 /**
  * @file voertuig.cpp
- * @brief Implementatie van de Voertuig klasse (Herzien met voertuigtypes)
+ * @brief Implementatie van de Voertuig klasse (Herzien met polymorfisme)
  */
 
 #include "voertuig.h"
@@ -9,119 +9,56 @@
 #include <stdexcept>
 #include "DesignByContract.h"
 
-// Initialiseer statische const member variabele met voertuigtype parameters uit Appendix C
-const std::map<Voertuig::VoertuigType, Voertuig::VoertuigParams> Voertuig::typeParameters = {
-    {Voertuig::VoertuigType::AUTO, Voertuig::VoertuigParams(4.0, 16.6, 1.44, 4.61, 4.0, false)},
-    {Voertuig::VoertuigType::BUS, Voertuig::VoertuigParams(12.0, 11.4, 1.22, 4.29, 12.0, false)},
-    {Voertuig::VoertuigType::BRANDWEERWAGEN, Voertuig::VoertuigParams(10.0, 14.6, 1.33, 4.56, 10.0, true)},
-    {Voertuig::VoertuigType::ZIEKENWAGEN, Voertuig::VoertuigParams(8.0, 15.5, 1.44, 4.47, 8.0, true)},
-    {Voertuig::VoertuigType::POLITIECOMBI, Voertuig::VoertuigParams(6.0, 17.2, 1.55, 4.92, 6.0, true)}
-};
-
-/**
- * @brief Constructor
- * @param baan De naam van de baan waar het voertuig zich bevindt
- * @param positie De positie van het voertuig op de baan
- * @param type Het type van het voertuig
- */
-Voertuig::Voertuig(const std::string& baan, double positie, const std::string& typeStr)
-    : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0),
-      type(stringToType(typeStr)), isWaitingAtStop(false) {
-
+// Basisklasse Voertuig implementatie
+Voertuig::Voertuig(const std::string& baan, double positie)
+    : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0), isWaitingAtStop(false) {
     REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
     //REQUIRE(positie > 0.0, "Positie moet positief zijn.");
-    REQUIRE(typeParameters.find(type) != typeParameters.end(), "Ongeldige voertuigtype.");
 
     _initCheck = this;
-
     ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
-
 }
 
-bool Voertuig::properlyInitialized() const {
-    return _initCheck == this;
-}
-
-
-/**
- * @brief Constructor met snelheid en versnelling
- * @param baan De naam van de baan waar het voertuig zich bevindt
- * @param positie De positie van het voertuig op de baan
- * @param snelheid De snelheid van het voertuig
- * @param versnelling De versnelling van het voertuig
- * @param type Het type van het voertuig
- */
-Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling, const std::string& typeStr)
-    : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling),
-      type(stringToType(typeStr)), isWaitingAtStop(false) {
-
+Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling)
+    : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling), isWaitingAtStop(false) {
+    REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
     REQUIRE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
-    REQUIRE(versnelling >= 0.0, "Versnelling mag niet negatief zijn.");
 
     _initCheck = this;
-
     ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 }
 
-/**
- * @brief Copy constructor
- * @param other Het te kopiëren voertuig
- */
-Voertuig::Voertuig(const Voertuig& other)
-    : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
-      versnelling(other.versnelling), type(other.type), isWaitingAtStop(other.isWaitingAtStop) {
-
-    _initCheck = this;
-
-    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
-}
-
-/**
- * @brief Destructor
- */
 Voertuig::~Voertuig() {
     // Geen dynamisch geheugen om vrij te geven
 }
 
-/**
- * @brief Assignment operator
- * @param other Het voertuig waarvan de waarden worden overgenomen
- * @return Referentie naar dit voertuig
- */
+Voertuig::Voertuig(const Voertuig& other)
+    : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
+      versnelling(other.versnelling), isWaitingAtStop(other.isWaitingAtStop) {
+    _initCheck = this;
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+}
+
 Voertuig& Voertuig::operator=(const Voertuig& other) {
     if (this != &other) {
         baanNaam = other.baanNaam;
         positie = other.positie;
         snelheid = other.snelheid;
         versnelling = other.versnelling;
-        type = other.type;
         isWaitingAtStop = other.isWaitingAtStop;
     }
     return *this;
 }
 
-/**
- * @brief Geeft de naam van de baan terug
- * @return De naam van de baan
- */
 std::string Voertuig::getBaanNaam() const {
     REQUIRE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
-
     return baanNaam;
 }
 
-/**
- * @brief Alias voor getBaanNaam voor compatibiliteit
- * @return De naam van de baan
- */
 std::string Voertuig::getBaan() const {
     return baanNaam;
 }
 
-/**
- * @brief Stelt de naam van de baan in
- * @param nieuweNaam De nieuwe baannaam
- */
 void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
     REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
     REQUIRE(!nieuweNaam.empty(), "nieuweNaam mag niet leeg zijn.");
@@ -129,20 +66,11 @@ void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
     ENSURE(baanNaam == nieuweNaam, "Baannaam werd niet correct ingesteld");
 }
 
-
-/**
- * @brief Geeft de positie van het voertuig terug
- * @return De positie op de baan
- */
 double Voertuig::getPositie() const {
     REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
     return positie;
 }
 
-/**
- * @brief Zet de positie van het voertuig
- * @param nieuwePositie De nieuwe positie
- */
 void Voertuig::setPositie(double nieuwePositie) {
     REQUIRE(properlyInitialized(), "setPositie moet eindigen in een geldige toestand.");
     REQUIRE(nieuwePositie >= 0.0, "nieuwePositie mag niet negatief zijn.");
@@ -150,58 +78,11 @@ void Voertuig::setPositie(double nieuwePositie) {
     ENSURE(positie == nieuwePositie, "Positie werd niet correct ingesteld.");
 }
 
-/**
- * @brief Geeft het type van het voertuig terug
- * @return Het type van het voertuig
- */
-std::string Voertuig::getType() const {
-    REQUIRE(properlyInitialized(), "getType moet eindigen in een geldige toestand.");
-    return typeToString(type);
-}
-
-/**
- * @brief Krijgt het voertuigtype als enum
- * @return Het voertuigtype enum
- */
-Voertuig::VoertuigType Voertuig::getTypeEnum() const {
-    REQUIRE(properlyInitialized(), "getTypeEnum moet eindigen in een geldige toestand.");
-
-    return type;
-}
-
-/**
- * @brief Controleert of het voertuig een prioriteitsvoertuig is
- * @return True als het voertuig een prioriteitsvoertuig is (brandweerwagen, ziekenwagen, politie)
- */
-bool Voertuig::isPrioriteitsvoertuig() const {
-    REQUIRE(properlyInitialized(), "isPrioriteitsvoertuig moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).isPrioriteitsvoertuig;
-}
-
-/**
- * @brief Controleert of dit voertuig een bus is
- * @return True als het voertuig een bus is
- */
-bool Voertuig::isBus() const {
-    REQUIRE(properlyInitialized(), "isBus moet eindigen in een geldige toestand.");
-
-    return type == VoertuigType::BUS;
-}
-
-/**
- * @brief Geeft de snelheid van het voertuig terug
- * @return De snelheid in m/s
- */
 double Voertuig::getSnelheid() const {
     REQUIRE(properlyInitialized(), "getSnelheid moet eindigen in een geldige toestand.");
-
     return snelheid;
 }
 
-/**
- * @brief Zet de snelheid van het voertuig
- * @param nieuweSnelheid De nieuwe snelheid
- */
 void Voertuig::setSnelheid(double nieuweSnelheid) {
     REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
     snelheid = std::max(0.0, nieuweSnelheid); // Voorkom negatieve snelheid
@@ -209,97 +90,32 @@ void Voertuig::setSnelheid(double nieuweSnelheid) {
     ENSURE(snelheid == std::max(0.0, nieuweSnelheid), "Snelheid werd niet correct ingesteld.");
 }
 
-/**
- * @brief Geeft de versnelling van het voertuig terug
- * @return De versnelling in m/s²
- */
 double Voertuig::getVersnelling() const {
     REQUIRE(properlyInitialized(), "getVersnelling moet eindigen in een geldige toestand.");
     return versnelling;
 }
 
-/**
- * @brief Zet de versnelling van het voertuig
- * @param nieuweVersnelling De nieuwe versnelling
- */
 void Voertuig::setVersnelling(double nieuweVersnelling) {
     REQUIRE(properlyInitialized(), "setVersnelling moet eindigen in een geldige toestand.");
-    REQUIRE(nieuweVersnelling >= 0.0, "nieuweVersnelling mag niet negatief zijn.");
     versnelling = nieuweVersnelling;
     ENSURE(versnelling == nieuweVersnelling, "versnelling werd niet correct ingesteld.");
 }
 
-/**
- * @brief Haalt de lengte van het voertuig op
- * @return De lengte in meters
- */
-double Voertuig::getLengte() const {
-    REQUIRE(properlyInitialized(), "getLengte moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).lengte;
-}
-
-/**
- * @brief Haalt de maximumsnelheid van het voertuig op
- * @return De maximumsnelheid in m/s
- */
-double Voertuig::getMaxSnelheid() const {
-    REQUIRE(properlyInitialized(), "getMaxSnelheid moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).maxSnelheid;
-}
-
-/**
- * @brief Haalt de maximumversnelling van het voertuig op
- * @return De maximumversnelling in m/s²
- */
-double Voertuig::getMaxVersnelling() const {
-    REQUIRE(properlyInitialized(), "getMaxVersnelling moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).maxVersnelling;
-}
-
-/**
- * @brief Haalt de maximale remfactor van het voertuig op
- * @return De maximale remfactor in m/s²
- */
-double Voertuig::getMaxRemFactor() const {
-    REQUIRE(properlyInitialized(), "getMaxRemfactor moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).maxRemFactor;
-}
-
-/**
- * @brief Haalt de minimale volgafstand op
- * @return De minimale volgafstand in meters
- */
-double Voertuig::getMinVolgafstand() const {
-    REQUIRE(properlyInitialized(), "getMinVolgafstand moet eindigen in een geldige toestand.");
-    return typeParameters.at(type).minVolgafstand;
-}
-
-/**
- * @brief Stelt de wachtende bus vlag in
- * @param isWaiting Of de bus wacht bij een halte
- */
 void Voertuig::setIsWaitingAtBusStop(bool isWaiting) {
     REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
     isWaitingAtStop = isWaiting;
     ENSURE(isWaitingAtStop == isWaiting, "isWaitingAtStop werd niet correct ingesteld.");
 }
 
-/**
- * @brief Controleert of de bus wacht bij een halte
- * @return True als de bus wacht, anders false
- */
 bool Voertuig::isWaitingAtBusStop() const {
     REQUIRE(properlyInitialized(), "setIsWaitingAtBusStop moet eindigen in een geldige toestand.");
     return isWaitingAtStop;
 }
 
-/**
- * @brief Update de positie en snelheid van het voertuig op basis van de huidige versnelling
- * @param tijdstap De tijdstap voor de update in seconden
- */
 void Voertuig::updatePositieEnSnelheid(double tijdstap) {
     REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
     REQUIRE(tijdstap >= 0.0, "tijd moet positief zijn.");
+
     // Formules uit B.2 van de specificatie
     if (snelheid + versnelling * tijdstap < 0) {
         // Snelheid zou negatief worden, pas positie aan en zet snelheid op 0
@@ -316,17 +132,9 @@ void Voertuig::updatePositieEnSnelheid(double tijdstap) {
     ENSURE(snelheid >= 0.0, "snelheid moet positief zijn.");
 }
 
-/**
- * @brief Bereken de versnelling van het voertuig op basis van voorliggend voertuig en andere factoren
- * @param voorgaandVoertuig Het voorliggende voertuig, nullptr als er geen is
- * @param isEersteVoertuig Of dit het eerste voertuig op de weg is
- * @param verkeersLichtVertraagFactor Vertragingsfactor voor een verkeerslicht (0.4 standaard)
- * @param doelSnelheid Doelsnelheid, gebruikt voertuig's maximumsnelheid als standaard
- */
 void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
                                  double verkeersLichtVertraagFactor, double doelSnelheid) {
     REQUIRE(properlyInitialized(), "updatePositieEnSnelheid moet eindigen in een geldige toestand.");
-    //REQUIRE(doelSnelheid >= 0.0, "doelSnelheid mag niet negatief zijn.");
 
     // Als dit een prioriteitsvoertuig is, hoeft het niet af te remmen voor verkeerslichten
     if (isPrioriteitsvoertuig() && isEersteVoertuig) {
@@ -372,9 +180,6 @@ void Voertuig::berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEers
     ENSURE(versnelling >= -getMaxRemFactor() && versnelling <= getMaxVersnelling(), "versnelling buiten toegelaten grenzen.");
 }
 
-/**
- * @brief Voer een noodstop uit (voertuig komt tot stilstand)
- */
 void Voertuig::noodStop() {
     REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
     // Formule uit B.5
@@ -382,43 +187,267 @@ void Voertuig::noodStop() {
     ENSURE(versnelling <= 0, "Noodstop moet negatieve versnelling geven.");
 }
 
-/**
- * @brief Converteer een stringtype naar enum
- * @param typeStr Stringrepresentatie van het type
- * @return De overeenkomstige enum waarde
- */
-Voertuig::VoertuigType Voertuig::stringToType(const std::string& typeStr) {
-    if (typeStr == "auto") return VoertuigType::AUTO;
-    if (typeStr == "bus") return VoertuigType::BUS;
-    if (typeStr == "brandweerwagen") return VoertuigType::BRANDWEERWAGEN;
-    if (typeStr == "ziekenwagen") return VoertuigType::ZIEKENWAGEN;
-    if (typeStr == "politiecombi") return VoertuigType::POLITIECOMBI;
-
-    // Standaard naar AUTO als type niet herkend wordt
-    return VoertuigType::AUTO;
+bool Voertuig::properlyInitialized() const {
+    return _initCheck == this;
 }
 
-/**
- * @brief Converteer een enum type naar string
- * @param type De enum waarde
- * @return Stringrepresentatie van het type
- */
-std::string Voertuig::typeToString(VoertuigType type) {
-    switch (type) {
-        case VoertuigType::AUTO: return "auto";
-        case VoertuigType::BUS: return "bus";
-        case VoertuigType::BRANDWEERWAGEN: return "brandweerwagen";
-        case VoertuigType::ZIEKENWAGEN: return "ziekenwagen";
-        case VoertuigType::POLITIECOMBI: return "politiecombi";
-        default: return "onbekend";
+// Factory methode implementatie
+std::unique_ptr<Voertuig> Voertuig::maakVoertuig(const std::string& baan, double positie, const std::string& type) {
+    if (type == "auto") {
+        return std::make_unique<Auto>(baan, positie);
+    } else if (type == "bus") {
+        return std::make_unique<Bus>(baan, positie);
+    } else if (type == "brandweerwagen") {
+        return std::make_unique<Brandweerwagen>(baan, positie);
+    } else if (type == "ziekenwagen") {
+        return std::make_unique<Ziekenwagen>(baan, positie);
+    } else if (type == "politiecombi") {
+        return std::make_unique<Politiecombi>(baan, positie);
+    } else {
+        // Default naar auto als type niet herkend wordt
+        return std::make_unique<Auto>(baan, positie);
     }
 }
 
-/**
- * @brief Haal de parameters op voor een specifiek voertuigtype
- * @param type Het voertuigtype
- * @return De parameters voor het gegeven type
- */
-Voertuig::VoertuigParams Voertuig::getVoertuigParams(VoertuigType type) {
-    return typeParameters.at(type);
+std::unique_ptr<Voertuig> Voertuig::maakVoertuig(const std::string& baan, double positie, double snelheid,
+                               double versnelling, const std::string& type) {
+    if (type == "auto") {
+        return std::make_unique<Auto>(baan, positie, snelheid, versnelling);
+    } else if (type == "bus") {
+        return std::make_unique<Bus>(baan, positie, snelheid, versnelling);
+    } else if (type == "brandweerwagen") {
+        return std::make_unique<Brandweerwagen>(baan, positie, snelheid, versnelling);
+    } else if (type == "ziekenwagen") {
+        return std::make_unique<Ziekenwagen>(baan, positie, snelheid, versnelling);
+    } else if (type == "politiecombi") {
+        return std::make_unique<Politiecombi>(baan, positie, snelheid, versnelling);
+    } else {
+        // Default naar auto als type niet herkend wordt
+        return std::make_unique<Auto>(baan, positie, snelheid, versnelling);
+    }
+}
+
+// Auto implementatie
+Auto::Auto(const std::string& baan, double positie)
+    : Voertuig(baan, positie) {
+}
+
+Auto::Auto(const std::string& baan, double positie, double snelheid, double versnelling)
+    : Voertuig(baan, positie, snelheid, versnelling) {
+}
+
+std::string Auto::getType() const {
+    return "auto";
+}
+
+bool Auto::isPrioriteitsvoertuig() const {
+    return false;
+}
+
+bool Auto::isBus() const {
+    return false;
+}
+
+double Auto::getLengte() const {
+    return 4.0;
+}
+
+double Auto::getMaxSnelheid() const {
+    return 16.6;
+}
+
+double Auto::getMaxVersnelling() const {
+    return 1.44;
+}
+
+double Auto::getMaxRemFactor() const {
+    return 4.61;
+}
+
+double Auto::getMinVolgafstand() const {
+    return 4.0;
+}
+
+std::unique_ptr<Voertuig> Auto::clone() const {
+    return std::make_unique<Auto>(*this);
+}
+
+// Bus implementatie
+Bus::Bus(const std::string& baan, double positie)
+    : Voertuig(baan, positie) {
+}
+
+Bus::Bus(const std::string& baan, double positie, double snelheid, double versnelling)
+    : Voertuig(baan, positie, snelheid, versnelling) {
+}
+
+std::string Bus::getType() const {
+    return "bus";
+}
+
+bool Bus::isPrioriteitsvoertuig() const {
+    return false;
+}
+
+bool Bus::isBus() const {
+    return true;
+}
+
+double Bus::getLengte() const {
+    return 12.0;
+}
+
+double Bus::getMaxSnelheid() const {
+    return 11.4;
+}
+
+double Bus::getMaxVersnelling() const {
+    return 1.22;
+}
+
+double Bus::getMaxRemFactor() const {
+    return 4.29;
+}
+
+double Bus::getMinVolgafstand() const {
+    return 12.0;
+}
+
+std::unique_ptr<Voertuig> Bus::clone() const {
+    return std::make_unique<Bus>(*this);
+}
+
+// Brandweerwagen implementatie
+Brandweerwagen::Brandweerwagen(const std::string& baan, double positie)
+    : Voertuig(baan, positie) {
+}
+
+Brandweerwagen::Brandweerwagen(const std::string& baan, double positie, double snelheid, double versnelling)
+    : Voertuig(baan, positie, snelheid, versnelling) {
+}
+
+std::string Brandweerwagen::getType() const {
+    return "brandweerwagen";
+}
+
+bool Brandweerwagen::isPrioriteitsvoertuig() const {
+    return true;
+}
+
+bool Brandweerwagen::isBus() const {
+    return false;
+}
+
+double Brandweerwagen::getLengte() const {
+    return 10.0;
+}
+
+double Brandweerwagen::getMaxSnelheid() const {
+    return 14.6;
+}
+
+double Brandweerwagen::getMaxVersnelling() const {
+    return 1.33;
+}
+
+double Brandweerwagen::getMaxRemFactor() const {
+    return 4.56;
+}
+
+double Brandweerwagen::getMinVolgafstand() const {
+    return 10.0;
+}
+
+std::unique_ptr<Voertuig> Brandweerwagen::clone() const {
+    return std::make_unique<Brandweerwagen>(*this);
+}
+
+// Ziekenwagen implementatie
+Ziekenwagen::Ziekenwagen(const std::string& baan, double positie)
+    : Voertuig(baan, positie) {
+}
+
+Ziekenwagen::Ziekenwagen(const std::string& baan, double positie, double snelheid, double versnelling)
+    : Voertuig(baan, positie, snelheid, versnelling) {
+}
+
+std::string Ziekenwagen::getType() const {
+    return "ziekenwagen";
+}
+
+bool Ziekenwagen::isPrioriteitsvoertuig() const {
+    return true;
+}
+
+bool Ziekenwagen::isBus() const {
+    return false;
+}
+
+double Ziekenwagen::getLengte() const {
+    return 8.0;
+}
+
+double Ziekenwagen::getMaxSnelheid() const {
+    return 15.5;
+}
+
+double Ziekenwagen::getMaxVersnelling() const {
+    return 1.44;
+}
+
+double Ziekenwagen::getMaxRemFactor() const {
+    return 4.47;
+}
+
+double Ziekenwagen::getMinVolgafstand() const {
+    return 8.0;
+}
+
+std::unique_ptr<Voertuig> Ziekenwagen::clone() const {
+    return std::make_unique<Ziekenwagen>(*this);
+}
+
+// Politiecombi implementatie
+Politiecombi::Politiecombi(const std::string& baan, double positie)
+    : Voertuig(baan, positie) {
+}
+
+Politiecombi::Politiecombi(const std::string& baan, double positie, double snelheid, double versnelling)
+    : Voertuig(baan, positie, snelheid, versnelling) {
+}
+
+std::string Politiecombi::getType() const {
+    return "politiecombi";
+}
+
+bool Politiecombi::isPrioriteitsvoertuig() const {
+    return true;
+}
+
+bool Politiecombi::isBus() const {
+    return false;
+}
+
+double Politiecombi::getLengte() const {
+    return 6.0;
+}
+
+double Politiecombi::getMaxSnelheid() const {
+    return 17.2;
+}
+
+double Politiecombi::getMaxVersnelling() const {
+    return 1.55;
+}
+
+double Politiecombi::getMaxRemFactor() const {
+    return 4.92;
+}
+
+double Politiecombi::getMinVolgafstand() const {
+    return 6.0;
+}
+
+std::unique_ptr<Voertuig> Politiecombi::clone() const {
+    return std::make_unique<Politiecombi>(*this);
 }

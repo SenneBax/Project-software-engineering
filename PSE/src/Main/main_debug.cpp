@@ -33,6 +33,7 @@ std::string createTempXmlFile(const std::string& content) {
     return filename;
 }
 
+
 // Tests voor de Baan class
 TEST(BaanTest, ConstructorAndGetters) {
     Baan baan("Teststraat", 250);

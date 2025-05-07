@@ -1,6 +1,6 @@
 /**
  * @file situatie.cpp
- * @brief Implementatie van de VerkeersSituatie klasse (Herzien met bushaltes en kruispunten)
+ * @brief Implementatie van de VerkeersSituatie klasse (Herzien met bushaltes, kruispunten en polymorfische voertuigen)
  */
 
 #include "../Situation/situatie.h"
@@ -14,6 +14,14 @@
 VerkeersSituatie::VerkeersSituatie()
 {
     _initCheck = this;
+}
+
+/**
+ * @brief Destructor
+ */
+VerkeersSituatie::~VerkeersSituatie()
+{
+    // Resources worden automatisch opgeruimd door unique_ptrs
 }
 
 bool VerkeersSituatie::properlyInitialized() const
@@ -64,8 +72,46 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
         return false;
     }
 
-    voertuigen.push_back(voertuig);
-    ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed." );
+    // Gebruik de factory methode om een kopie van het voertuig toe te voegen
+    try {
+        auto nieuwVoertuig = Voertuig::maakVoertuig(voertuig.getBaanNaam(), voertuig.getPositie(),
+                                 voertuig.getSnelheid(), voertuig.getVersnelling(),
+                                 voertuig.getType());
+        voertuigen.push_back(std::move(nieuwVoertuig));
+    }
+    catch (const std::exception& e) {
+        return false;
+    }
+
+    ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
+    return true;
+}
+
+/**
+ * @brief Voeg een voertuig toe aan de verkeerssituatie
+ * @param voertuig Unieke pointer naar het toe te voegen voertuig
+ * @return true als het voertuig succesvol werd toegevoegd, false indien niet
+ */
+bool VerkeersSituatie::voegVoertuigToe(std::unique_ptr<Voertuig> voertuig) {
+    REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
+
+    // Controleer of de baan bestaat
+    std::string baanNaam = voertuig->getBaanNaam();
+    auto it = banen.find(baanNaam);
+
+    if (it == banen.end()) {
+        return false;
+    }
+
+    // Controleer of de positie geldig is
+    if (voertuig->getPositie() < 0 || voertuig->getPositie() > it->second.getLengte()) {
+        return false;
+    }
+
+    // Voeg het voertuig toe aan de vector
+    voertuigen.push_back(std::move(voertuig));
+
+    ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
     return true;
 }
 
@@ -212,13 +258,13 @@ bool VerkeersSituatie::verificeerConsistentie() const {
 
     // Controleer of alle voertuigen op geldige banen zitten met geldige posities
     for (const auto& voertuig : voertuigen) {
-        std::string baanNaam = voertuig.getBaanNaam();
+        std::string baanNaam = voertuig->getBaanNaam();
         auto it = banen.find(baanNaam);
         if (it == banen.end()) {
             return false;
         }
 
-        if (voertuig.getPositie() < 0 || voertuig.getPositie() > it->second.getLengte()) {
+        if (voertuig->getPositie() < 0 || voertuig->getPositie() > it->second.getLengte()) {
             return false;
         }
     }
@@ -304,12 +350,28 @@ const std::map<std::string, Baan>& VerkeersSituatie::getBanen() const {
 }
 
 /**
+ * @brief Maak kopieën van alle voertuigen
+ * @return Vector met kopieën van alle voertuigen
+ */
+std::vector<std::unique_ptr<Voertuig>> VerkeersSituatie::kopieVoertuigen() const {
+    REQUIRE(properlyInitialized(), "kopieVoertuigen moet eindigen in een geldige toestand.");
+
+    std::vector<std::unique_ptr<Voertuig>> result;
+    result.reserve(voertuigen.size());
+
+    for (const auto& voertuig : voertuigen) {
+        result.push_back(voertuig->clone());
+    }
+
+    return result;
+}
+
+/**
  * @brief Krijg wijzigbare referentie naar alle voertuigen
  * @return Vector met alle voertuigen
  */
-std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() {
+std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() {
     REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
-
     return voertuigen;
 }
 
@@ -317,10 +379,18 @@ std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() {
  * @brief Krijg constante referentie naar alle voertuigen
  * @return Vector met alle voertuigen
  */
-const std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() const {
+const std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() const {
     REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
-
     return voertuigen;
+}
+
+/**
+ * @brief Geef het aantal voertuigen in de situatie
+ * @return Aantal voertuigen
+ */
+size_t VerkeersSituatie::getAantalVoertuigen() const {
+    REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
+    return voertuigen.size();
 }
 
 /**
@@ -329,7 +399,6 @@ const std::vector<Voertuig>& VerkeersSituatie::getVoertuigen() const {
  */
 const std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() const {
     REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
-
     return verkeerslichten;
 }
 
@@ -339,7 +408,6 @@ const std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() const {
  */
 std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() {
     REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
-
     return verkeerslichten;
 }
 
@@ -380,9 +448,9 @@ const std::vector<Kruispunt>& VerkeersSituatie::getKruispunten() const {
 }
 
 /**
- * @brief Zoek bushaltes op een specifieke baan
- * @param baanNaam Naam van de baan
- * @return Vector met pointers naar bushaltes op de baan
+ * @brief Zoek bushaltes op een specifieke weg
+ * @param baanNaam Naam van de weg
+ * @return Vector met pointers naar bushaltes op de weg
  */
 std::vector<Bushalte*> VerkeersSituatie::zoekBushaltesOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekBushaltesOpBaan moet eindigen in een geldige toestand.");
@@ -463,9 +531,9 @@ Verkeerslicht* VerkeersSituatie::zoekEerstvolgendeVerkeerslicht(const Voertuig& 
 }
 
 /**
- * @brief Zoek kruispunten die een specifieke baan omvatten
- * @param baanNaam Naam van de baan
- * @return Vector met pointers naar kruispunten die de baan omvatten
+ * @brief Zoek kruispunten die een specifieke weg omvatten
+ * @param baanNaam Naam van de weg
+ * @return Vector met pointers naar kruispunten die de weg bevatten
  */
 std::vector<Kruispunt*> VerkeersSituatie::zoekKruispuntenOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekKruispuntenOpBaan moet eindigen in een geldige toestand.");

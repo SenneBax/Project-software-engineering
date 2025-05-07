@@ -24,14 +24,14 @@ public:
      * @param situatie De weer te geven verkeerssituatie
      * @return Een string met de tekstuele weergave
      */
-    static std::string genereerTekstRapport(const VerkeersSituatie& situatie);
+    std::string genereerTekstRapport(const VerkeersSituatie& situatie);
 
     /**
      * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII-art)
      * @param situatie De weer te geven verkeerssituatie
      * @return Een string met de grafische impressie
      */
-    static std::string genereerGrafischeImpressie(const VerkeersSituatie& situatie);
+    std::string genereerGrafischeImpressie(const VerkeersSituatie& situatie);
 
     /**
      * @brief Schrijft een verkeerssituatie naar een XML-bestand
