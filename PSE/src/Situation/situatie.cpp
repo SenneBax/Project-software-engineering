@@ -74,9 +74,7 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
 
     // Gebruik de clone-methode om een kopie van het voertuig toe te voegen
     try {
-        auto nieuwVoertuig = Voertuig::maakVoertuig(voertuig.getBaanNaam(), voertuig.getPositie(),
-                                 voertuig.getSnelheid(), voertuig.getVersnelling(),
-                                 voertuig.getType());
+        auto nieuwVoertuig = voertuig.clone();
         voertuigen.push_back(std::move(nieuwVoertuig));
     }
     catch (const std::exception& e) {
@@ -185,7 +183,7 @@ bool VerkeersSituatie::voegVoertuigGeneratorToe(const VoertuigGenerator& generat
  */
 bool VerkeersSituatie::voegBushalteToe(const Bushalte& bushalte) {
     REQUIRE(properlyInitialized(), "voegBushalteToe moet eindigen in een geldige toestand.");
-    REQUIRE(bushalte.getWachttijd(), "Bushalte is niet correct ingesteld");
+    REQUIRE(bushalte.properlyInitialized(), "Bushalte is niet correct geïnitialiseerd");
 
     std::string baanNaam = bushalte.getBaan();
 
@@ -217,9 +215,15 @@ bool VerkeersSituatie::voegBushalteToe(const Bushalte& bushalte) {
  */
 bool VerkeersSituatie::voegKruispuntToe(const Kruispunt& kruispunt) {
     REQUIRE(properlyInitialized(), "voegKruispuntToe moet eindigen in een geldige toestand.");
+    REQUIRE(kruispunt.properlyInitialized(), "Kruispunt is niet correct geïnitialiseerd");
 
     // Haal alle banen in het kruispunt op
     auto baanParen = kruispunt.getBanen();
+
+    // Controleer of er tenminste één baan in het kruispunt is
+    if (baanParen.empty()) {
+        return false;
+    }
 
     // Controleer of alle banen bestaan en posities geldig zijn
     for (const auto& paar : baanParen) {
@@ -473,7 +477,7 @@ std::vector<Bushalte*> VerkeersSituatie::zoekBushaltesOpBaan(const std::string& 
 
 /**
  * @brief Zoek de volgende bushalte voor een voertuig
- * @param voertuig Het voertuig waarvoor de volgende bushalte gezocht wordt
+ * @param voertuig Het voertuig waarvoor de volgende bushalte wordt gezocht
  * @return Pointer naar de volgende bushalte, nullptr indien geen
  */
 Bushalte* VerkeersSituatie::zoekEerstvolgendeHalte(const Voertuig& voertuig) {
@@ -505,7 +509,7 @@ Bushalte* VerkeersSituatie::zoekEerstvolgendeHalte(const Voertuig& voertuig) {
 
 /**
  * @brief Zoek het volgende verkeerslicht voor een voertuig
- * @param voertuig Het voertuig waarvoor het volgende verkeerslicht gezocht wordt
+ * @param voertuig Het voertuig waarvoor het volgende verkeerslicht wordt gezocht
  * @return Pointer naar het volgende verkeerslicht, nullptr indien geen
  */
 Verkeerslicht* VerkeersSituatie::zoekEerstvolgendeVerkeerslicht(const Voertuig& voertuig) {
@@ -552,7 +556,7 @@ std::vector<Kruispunt*> VerkeersSituatie::zoekKruispuntenOpBaan(const std::strin
 
 /**
  * @brief Zoek het volgende kruispunt voor een voertuig
- * @param voertuig Het voertuig waarvoor het volgende kruispunt gezocht wordt
+ * @param voertuig Het voertuig waarvoor het volgende kruispunt wordt gezocht
  * @return Pointer naar het volgende kruispunt, nullptr indien geen
  */
 Kruispunt* VerkeersSituatie::zoekEerstvolgendeKruispunt(const Voertuig& voertuig) {

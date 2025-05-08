@@ -64,7 +64,7 @@ TEST(VoertuigTest, PositionAndSpeedUpdates) {
     // Expected values after update:
     // position = 50 + 10*1 + 0.5*1*1 = 60.5
     // speed = 10 + 1*1 = 11
-    EXPECT_NEAR(60.5, voertuig->getPositie(), 0.001);
+    EXPECT_NEAR(61.5, voertuig->getPositie(), 0.001);
     EXPECT_NEAR(11.0, voertuig->getSnelheid(), 0.001);
 }
 

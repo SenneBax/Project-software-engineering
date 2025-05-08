@@ -28,6 +28,26 @@ public:
     VerkeersSituatie();
 
     /**
+     * @brief Copy constructor - deleted omdat we unieke pointers gebruiken
+     */
+    VerkeersSituatie(const VerkeersSituatie&) = delete;
+
+    /**
+     * @brief Assignment operator - deleted omdat we unieke pointers gebruiken
+     */
+    VerkeersSituatie& operator=(const VerkeersSituatie&) = delete;
+
+    /**
+     * @brief Move constructor
+     */
+    VerkeersSituatie(VerkeersSituatie&&) = default;
+
+    /**
+     * @brief Move assignment operator
+     */
+    VerkeersSituatie& operator=(VerkeersSituatie&&) = default;
+
+    /**
      * @brief Destructor
      */
     ~VerkeersSituatie();
@@ -101,7 +121,7 @@ public:
     const std::map<std::string, Baan>& getBanen() const;
 
     /**
-     * @brief Haal een vector met alle voertuigen op
+     * @brief Haal een vector met kopieën van alle voertuigen op
      * @return Vector met kopieën van alle voertuigen
      */
     std::vector<std::unique_ptr<Voertuig>> kopieVoertuigen() const;
