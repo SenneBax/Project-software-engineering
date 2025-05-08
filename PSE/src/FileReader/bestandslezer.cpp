@@ -78,7 +78,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         // Gebruik nu TinyXML om het tijdelijke bestand te parsen
         TiXmlDocument doc;
         if (!doc.LoadFile(tempFileName.c_str())) {
-            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax. Er mist ergens een initialisator of deze is fout geschreven.";
+            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax.";
             std::remove(tempFileName.c_str());  // Tijdelijk bestand opruimen
             return false;
         }
