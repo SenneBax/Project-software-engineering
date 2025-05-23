@@ -1,8 +1,3 @@
-/**
- * @file main_release.cpp
- * @brief Hoofdprogramma voor de verkeerssimulatie (Herzien met alle functies)
- */
-
 #include <iostream>
 #include <string>
 #include <thread>
@@ -14,6 +9,12 @@
 
 using namespace std;
 
+/**
+ * @brief Toon help-informatie voor gebruikerscommando's
+ * @post Help-tekst is weergegeven op stdout
+ *
+ * Toont een overzicht van alle beschikbare commando's en hun functionaliteit.
+ */
 void displayHelp() {
     cout << "Verkeerssimulatie - Help\n";
     cout << "------------------------\n";
@@ -30,9 +31,28 @@ void displayHelp() {
     cout << "  q - Afsluiten\n";
 }
 
+/**
+ * @brief Hoofdprogramma voor de verkeerssimulatie
+ * @param argc Aantal command-line argumenten
+ * @param argv Array van command-line argumenten
+ * @return 0 bij succesvolle uitvoering, 1 bij fout
+ * @pre argc == 2 (programmanaam + XML-bestandsnaam)
+ * @pre argv[1] moet een geldig pad naar een XML-bestand zijn
+ * @post Simulatie is uitgevoerd volgens gebruikersinput
+ * @post Eindstatistieken zijn weergegeven
+ *
+ * Het programma:
+ * 1. Controleert command-line argumenten
+ * 2. Laadt de verkeerssituatie uit het XML-bestand
+ * 3. Initialiseert de simulatie met 0.1s tijdstap
+ * 4. Biedt een interactieve command-line interface
+ * 5. Verwerkt gebruikerscommando's tot 'q' (quit)
+ * 6. Toont eindstatistieken
+ */
 int main(int argc, char* argv[]) {
     std::cout << "Verkeerssimulatie v2.0 - Opstart\n";
 
+    // Controleer command-line argumenten
     if (argc != 2) {
         std::cerr << "Gebruik: " << argv[0] << " <XML-bestand>\n";
         return 1;
@@ -57,8 +77,8 @@ int main(int argc, char* argv[]) {
     simulatie sim(situatie, 0.1); // 0.1 seconde tijdstap
     output uitvoer;
 
-    bool running = false;
-    bool autoGenerate = false;
+    bool running = false;      ///< Status van continue simulatie modus
+    bool autoGenerate = false; ///< Status van automatische voertuiggeneratie
 
     // Toon help bij opstarten
     displayHelp();
@@ -97,10 +117,19 @@ int main(int argc, char* argv[]) {
         // Verwerk commando
         switch (cmd) {
             case 'h': // Help
+                /**
+                 * @brief Toon help-informatie
+                 * @post Help-tekst is weergegeven
+                 */
                 displayHelp();
                 break;
 
             case 's': // Enkele stap
+                /**
+                 * @brief Voer één simulatiestap uit
+                 * @post Simulatie is één tijdstap vooruitgegaan
+                 * @post Statistieken zijn weergegeven
+                 */
                 sim.stap();
                 cout << "Simulatiestap uitgevoerd. Nieuwe tijd: " << sim.getHuidigeSimulatieTijd() << "s\n";
                 cout << "Aantal voertuigen: " << sim.getAantalVoertuigen() << "\n";
@@ -108,6 +137,12 @@ int main(int argc, char* argv[]) {
                 break;
 
             case 'r': // Draai 10 stappen
+                /**
+                 * @brief Voer 10 simulatiestappen uit
+                 * @post Simulatie is 10 tijdstappen vooruitgegaan
+                 * @post Progress van elke stap is weergegeven
+                 * @post Eindstatistieken zijn weergegeven
+                 */
                 cout << "Uitvoeren van 10 simulatiestappen...\n";
                 for (int i = 0; i < 10; i++) {
                     sim.stap();
@@ -119,23 +154,41 @@ int main(int argc, char* argv[]) {
                 break;
 
             case 'c': // Continue simulatie
+                /**
+                 * @brief Start continue simulatie modus
+                 * @post running == true
+                 * @post Simulatie draait automatisch tot gebruiker 'c' indrukt
+                 */
                 running = true;
                 cout << "Continue simulatie gestart. Druk 'c' om te stoppen.\n";
                 break;
 
             case 't': // Tekstrapport
+                /**
+                 * @brief Genereer en toon tekstrapport
+                 * @post Tekstuele weergave van verkeerssituatie is getoond
+                 */
                 cout << "Tekstrapport:\n";
                 cout << "=============\n";
                 cout << uitvoer.genereerTekstRapport(situatie) << "\n";
                 break;
 
             case 'g': // Grafische impressie
+                /**
+                 * @brief Genereer en toon grafische impressie (ASCII-art)
+                 * @post ASCII-art weergave van verkeerssituatie is getoond
+                 */
                 cout << "Grafische impressie:\n";
                 cout << "===================\n";
                 cout << uitvoer.genereerGrafischeImpressie(situatie) << "\n";
                 break;
 
             case 'x': // Schrijf naar XML
+                /**
+                 * @brief Exporteer verkeerssituatie naar XML-bestand
+                 * @post XML-bestand "simulatie_uitvoer.xml" is aangemaakt
+                 * @post Succes/faal bericht is weergegeven
+                 */
                 {
                     string xmlBestand = "simulatie_uitvoer.xml";
                     if (uitvoer.schrijfNaarXml(situatie, xmlBestand)) {
@@ -147,6 +200,11 @@ int main(int argc, char* argv[]) {
                 break;
 
             case 'w': // Schrijf naar HTML
+                /**
+                 * @brief Exporteer verkeerssituatie naar HTML-bestand
+                 * @post HTML-bestand "simulatie_uitvoer.html" is aangemaakt
+                 * @post Succes/faal bericht is weergegeven
+                 */
                 {
                     string htmlBestand = "simulatie_uitvoer.html";
                     if (uitvoer.schrijfNaarHtml(situatie, htmlBestand)) {
@@ -158,16 +216,30 @@ int main(int argc, char* argv[]) {
                 break;
 
             case 'a': // Schakel automatisch genereren van voertuigen in/uit
+                /**
+                 * @brief Toggle automatische voertuiggeneratie
+                 * @post autoGenerate status is omgekeerd
+                 * @post Simulatie gebruikt nieuwe autoGenerate setting
+                 * @post Status is weergegeven aan gebruiker
+                 */
                 autoGenerate = !autoGenerate;
                 sim.setAutoGenereerVoertuigen(autoGenerate);
                 cout << "Automatisch voertuigen genereren: " << (autoGenerate ? "AAN" : "UIT") << "\n";
                 break;
 
             case 'q': // Afsluiten
+                /**
+                 * @brief Beëindig het programma
+                 * @post Afsluitbericht is weergegeven
+                 */
                 cout << "Programma wordt afgesloten.\n";
                 break;
 
             default:
+                /**
+                 * @brief Behandel onbekende commando's
+                 * @post Foutbericht en help-verwijzing zijn weergegeven
+                 */
                 cout << "Onbekend commando. Gebruik 'h' voor help.\n";
         }
     } while (cmd != 'q');

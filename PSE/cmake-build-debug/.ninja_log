@@ -37,3 +37,11 @@
 74	1196	7683432662451374	CMakeFiles/debug_target.dir/src/Parser/tinyxmlparser.cpp.obj	edc54e4b99a060b7
 39	1654	7683432662093028	CMakeFiles/debug_target.dir/src/Main/main_debug.cpp.obj	869bc7229181500
 46	1828	7683432662163943	CMakeFiles/debug_target.dir/src/Parser/tinyxml.cpp.obj	677b5b9eac687db8
+111	2131	7684422245987550	CMakeFiles/debug_target.dir/src/tests/test_baan.cpp.obj	d10c68b0160a2371
+142	2415	7684422246299608	CMakeFiles/debug_target.dir/src/tests/test_bushalte.cpp.obj	ba36d8206f841eef
+133	2600	7684422246207340	CMakeFiles/debug_target.dir/src/tests/test_verkeerslicht.cpp.obj	68c2d4cb44f4889a
+156	2615	7684422246440018	CMakeFiles/debug_target.dir/src/tests/test_kruispunt.cpp.obj	f833bee73ac3c03a
+180	3108	7684422246679951	CMakeFiles/debug_target.dir/src/tests/test_bestandlezer.cpp.obj	e13572c2b3e47500
+123	3128	7684422246110319	CMakeFiles/debug_target.dir/src/tests/test_voertuig.cpp.obj	f99ab641d95b5ac0
+194	3298	7684422246821816	CMakeFiles/debug_target.dir/src/tests/test_output.cpp.obj	b2a12c60a9e21e0
+167	3728	7684422246541286	CMakeFiles/debug_target.dir/src/tests/test_verkeerssituatie.cpp.obj	4132a98c20148c81

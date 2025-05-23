@@ -16,6 +16,7 @@
 
 /**
  * @brief Constructor
+ * ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
  */
 output::output() : lastFoutmelding("")
 {
@@ -32,6 +33,7 @@ bool output::properlyInitialized() const
  * @brief Genereert een tekstuele weergave van de verkeerssituatie
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de tekstuele weergave
+ * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
  */
 std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -90,6 +92,7 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
  * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII kunst)
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de grafische impressie
+ * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
  */
 std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -269,6 +272,8 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
  * @param situatie De te schrijven verkeerssituatie
  * @param bestandsnaam Pad naar het XML-bestand
  * @return true als het schrijven succesvol was, false indien niet
+ * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+ * REQUIRE(!bestandsnaam.empty(), "BestandsNaam mag niet leeg zijn.");
  */
 bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -459,6 +464,8 @@ bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string&
  * @param situatie De weer te geven verkeerssituatie
  * @param bestandsnaam Pad naar het HTML-bestand
  * @return true als het schrijven succesvol was, false indien niet
+ * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+ * REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
  */
 bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -614,6 +621,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
 /**
  * @brief Haal de laatste foutmelding op
  * @return De laatste foutmelding
+ * REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
  */
 std::string output::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(), "Output niet correct ingesteld");

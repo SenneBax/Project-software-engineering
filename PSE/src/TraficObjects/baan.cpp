@@ -8,6 +8,7 @@
 #include "DesignByContract.h"
 /**
  * @brief Implementatie van de default constructor
+ * ENSURE(properlyInitialized(), "Default moet eindigen in een geldige toestand");
  */
 Baan::Baan()
     : naam(""), lengte(0)
@@ -20,6 +21,9 @@ Baan::Baan()
  * @brief Constructor met parameters
  * @param naam Naam van de baan
  * @param lengte Lengte van de baan in meters
+ * REQUIRE(!naam.empty(), "Naam van de baan mag niet leeg zijn");
+ * REQUIRE(lengte>0, "Baan lengte moet groter dan 0 zijn.");
+ * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Baan::Baan(const std::string& naam, const int lengte)
     : naam(naam), lengte(lengte) {

@@ -12,6 +12,7 @@
 
 /**
  * @brief Constructor voor het kruispunt
+ * ENSURE(properlyInitialized(),"Constructor moet eindigen in een geldige toestand.");
  */
 Kruispunt::Kruispunt()
 {
@@ -25,6 +26,9 @@ Kruispunt::Kruispunt()
  * @param baanNaam Naam van de weg
  * @param positie Positie op de weg
  * @return True als de weg succesvol werd toegevoegd, false anders
+ * REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
+ * REQUIRE(positie >= 0.0, "positie moet positive zijn.");
+ * ENSURE(properlyInitialized(),"Constructor moet eindigen in een geldige toestand.");
  */
 bool Kruispunt::voegBaanToe(const std::string& baanNaam, double positie) {
     REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
@@ -66,6 +70,7 @@ std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
  * @brief Controleer of een weg deel uitmaakt van dit kruispunt
  * @param baanNaam Naam van de weg
  * @return True als de weg deel uitmaakt van dit kruispunt, false anders
+ * REQUIRE(!baanNaam.empty(), "baanNaam is empty");
  */
 bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
     //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
@@ -82,6 +87,7 @@ bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
  * @brief Krijg positie op een specifieke weg
  * @param baanNaam Naam van de weg
  * @return Positie op de weg, -1 als de weg niet gevonden wordt
+ * REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
  */
 double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
     REQUIRE(!baanNaam.empty(), "baanNaam is leeg");
@@ -98,6 +104,7 @@ double Kruispunt::getPositieOpBaan(const std::string& baanNaam) const {
  * @brief Kies een willekeurige weg om door te gaan vanaf het kruispunt
  * @param huidigeWeg Huidige wegnaam (om uit te sluiten van mogelijkheden)
  * @return Naam van de gekozen weg, lege string als er geen geldige weg bestaat
+ * REQUIRE(!huidigeWeg.empty(), "huidigeWeg is leeg");
  */
 std::string Kruispunt::kiesRandomBaan(const std::string& huidigeWeg) const {
     REQUIRE(!huidigeWeg.empty(), "huidigeWeg is leeg");

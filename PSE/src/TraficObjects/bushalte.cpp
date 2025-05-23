@@ -11,6 +11,10 @@
  * @param baan Naam van de baan
  * @param positie Positie op de baan in meters
  * @param wachttijd Wachttijd in seconden
+ * REQUIRE(!baan.empty(), "naam van de baan mag niet leeg zijn.");
+ * REQUIRE(positie >= 0.0, "Positie mag niet negatief zijn.");
+ * REQUIRE(wachttijd >= 0, "Wachttijd mag niet negatief zijn." );
+ * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Bushalte::Bushalte(const std::string& baan, double positie, int wachttijd)
     : baan(baan), positie(positie), wachttijd(wachttijd), tijdSindsLaatsteStop(0.0), isBusStopped(false)
@@ -52,6 +56,7 @@ double Bushalte::getPositie() const {
 /**
  * @brief Getter voor de wachttijd van de bushalte
  * @return De wachttijd in seconden
+ * REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij getWachttijd.");
  */
 int Bushalte::getWachttijd() const {
     REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij getWachttijd.");
@@ -62,6 +67,8 @@ int Bushalte::getWachttijd() const {
  * @brief Update de timer voor een gestopte bus
  * @param timestep De huidige simulatie-tijdstap
  * @return True als de wachttijd voorbij is, false indien niet
+ * REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
+ *REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
  */
 bool Bushalte::updateWachttijd(double timestep) {
     REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
@@ -79,6 +86,7 @@ bool Bushalte::updateWachttijd(double timestep) {
 
 /**
  * @brief Registreert dat een bus gestopt is bij deze halte
+ * REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusStopped");
  */
 void Bushalte::setBusStopped() {
     REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusStopped");
@@ -88,6 +96,7 @@ void Bushalte::setBusStopped() {
 
 /**
  * @brief Registreert dat een bus deze halte heeft verlaten
+ * REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusLeft");
  */
 void Bushalte::setBusLeft() {
     REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusLeft");
@@ -106,6 +115,7 @@ bool Bushalte::isBusGestopt() const {
 
 /**
  * @brief Reset de wachttijd
+ * REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij resetWachttijd");
  */
 void Bushalte::resetWachttijd() {
     REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij resetWachttijd");
