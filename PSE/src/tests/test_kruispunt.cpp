@@ -6,17 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-
-// CRITICAL: Include DesignByContract.h FIRST and redefine before any other includes
 #include "DesignByContract.h"
-
-// Completely disable all Design by Contract macros BEFORE including any classes
-#undef REQUIRE
-#undef ENSURE
-#define REQUIRE(assertion, what) do { (void)(assertion); } while(0)
-#define ENSURE(assertion, what) do { (void)(assertion); } while(0)
-
-// Now include the classes
 #include "../TraficObjects/kruispunt.h"
 #include <functional>
 
