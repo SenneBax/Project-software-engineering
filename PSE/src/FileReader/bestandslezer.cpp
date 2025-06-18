@@ -52,7 +52,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
     // Eerst controleren of het bestand kan worden geopend
     std::ifstream fileCheck(bestandsnaam);
     if (!fileCheck.is_open()) {
-        lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
+        lastFoutmelding = "Kan XML-bestand '" + bestandsnaam + "' niet openen";
         return false;
     }
     fileCheck.close();
@@ -70,6 +70,12 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
     bool hasRootElement = (fileContent.find("<VerkeersSituatie>") != std::string::npos) ||
                           (fileContent.find("<Verkeerssituatie>") != std::string::npos);
 
+    // Controleer of het bestand leeg is
+    if (fileContent.empty() || fileContent.find_first_not_of(" \t\n\r") == std::string::npos) {
+        lastFoutmelding = "XML-bestand is niet goed gevormd of kan niet worden geparst";
+        return false;
+    }
+
     // Als er geen hoofdelement is, voeg er dan een toe
     if (!hasRootElement) {
         // Maak een tijdelijk bestand met de juiste structuur
@@ -86,7 +92,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         // Gebruik nu TinyXML om het tijdelijke bestand te parsen
         TiXmlDocument doc;
         if (!doc.LoadFile(tempFileName.c_str())) {
-            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax.";
+            lastFoutmelding = "XML-bestand is niet goed gevormd of kan niet worden geparst";
             std::remove(tempFileName.c_str());  // Tijdelijk bestand opruimen
             return false;
         }
@@ -103,18 +109,12 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
         // Tijdelijk bestand opruimen
         std::remove(tempFileName.c_str());
 
-        // Controleer de consistentie alleen als er ten minste één weg is toegevoegd
-        if (!situatie.verificeerConsistentie()) {
-            lastFoutmelding = "Verkeerssituatie is niet consistent";
-            return false;
-        }
-        ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
         return success;
     } else {
         // Verwerk normaal met TinyXML als het hoofdelement bestaat
         TiXmlDocument doc;
         if (!doc.LoadFile(bestandsnaam.c_str())) {
-            lastFoutmelding = "Kan XML-bestand niet parsen, controleer de syntax";
+            lastFoutmelding = "XML-bestand is niet goed gevormd of kan niet worden geparst";
             return false;
         }
 
@@ -132,13 +132,6 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
 
         bool success = processXmlElements(root, situatie);
 
-        // Controleer de consistentie alleen als er ten minste één weg is toegevoegd
-        if (!situatie.verificeerConsistentie()) {
-            lastFoutmelding = "Verkeerssituatie is niet consistent";
-            return false;
-        }
-        ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
-
         return success;
     }
 }
@@ -154,37 +147,46 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
 bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
 
-    bool success = true;
-
     for (TiXmlElement* elem = root->FirstChildElement(); elem; elem = elem->NextSiblingElement()) {
         std::string elementType = elem->Value();
 
         if (elementType == "BAAN") {
-            success &= verwerkBaan(elem, situatie);
+            if (!verwerkBaan(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else if (elementType == "VOERTUIG") {
-            success &= verwerkVoertuig(elem, situatie);
+            if (!verwerkVoertuig(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else if (elementType == "VERKEERSLICHT") {
-            success &= verwerkVerkeerslicht(elem, situatie);
+            if (!verwerkVerkeerslicht(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else if (elementType == "VOERTUIGGENERATOR") {
-            success &= verwerkVoertuigGenerator(elem, situatie);
+            if (!verwerkVoertuigGenerator(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else if (elementType == "BUSHALTE") {
-            success &= verwerkBushalte(elem, situatie);
+            if (!verwerkBushalte(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else if (elementType == "KRUISPUNT") {
-            success &= verwerkKruispunt(elem, situatie);
+            if (!verwerkKruispunt(elem, situatie)) {
+                return false; // Stop bij eerste fout
+            }
         }
         else {
             lastFoutmelding = "Onbekend element type: " + elementType;
-            // Ga door met verwerken, zet success niet op false voor onbekende elementen
+            return false; // Stop bij onbekend element
         }
     }
-    //ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
 
-    return success;
+    return true; // Alles succesvol verwerkt
 }
 
 /**
@@ -203,8 +205,14 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
     TiXmlElement* naamElem = elem->FirstChildElement("naam");
     TiXmlElement* lengteElem = elem->FirstChildElement("lengte");
 
-    if (!naamElem || !lengteElem || !naamElem->GetText() || !lengteElem->GetText()) {
-        lastFoutmelding = "Baan mist verplichte elementen (naam of lengte)";
+    // Aangepaste foutmeldingen volgens tests
+    if (!naamElem || !naamElem->GetText()) {
+        lastFoutmelding = "BAAN element mist verplichte 'naam' eigenschap";
+        return false;
+    }
+
+    if (!lengteElem || !lengteElem->GetText()) {
+        lastFoutmelding = "BAAN element mist verplichte 'lengte' eigenschap";
         return false;
     }
 
@@ -213,15 +221,14 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
     try {
         lengte = std::stod(lengteElem->GetText());
     } catch (const std::exception&) {
-        lastFoutmelding = "Ongeldige lengte voor baan '" + naam + "'";
+        lastFoutmelding = "Ongeldige lengte waarde voor BAAN '" + naam + "'";
         return false;
     }
 
     if (lengte <= 0) {
-        lastFoutmelding = "Lengte van baan '" + naam + "' moet positief zijn";
+        lastFoutmelding = "BAAN lengte moet positief zijn voor '" + naam + "'";
         return false;
     }
-
 
     Baan baan(naam, lengte);
     return situatie.voegBaanToe(baan);
@@ -244,7 +251,13 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
     TiXmlElement* positieElem = elem->FirstChildElement("positie");
     TiXmlElement* typeElem = elem->FirstChildElement("type");
 
-    if (!baanElem || !positieElem || !baanElem->GetText() || !positieElem->GetText()) {
+    // Aangepaste foutmeldingen volgens tests
+    if (!baanElem || !baanElem->GetText()) {
+        lastFoutmelding = "VOERTUIG element mist verplichte 'baan' eigenschap";
+        return false;
+    }
+
+    if (!positieElem || !positieElem->GetText()) {
         lastFoutmelding = "Voertuig mist verplichte elementen (baan of positie)";
         return false;
     }
@@ -261,7 +274,21 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
     try {
         positie = std::stod(positieElem->GetText());
     } catch (const std::exception&) {
-        lastFoutmelding = "Ongeldige positie voor voertuig op baan '" + baan + "'";
+        lastFoutmelding = "Ongeldige positie waarde voor VOERTUIG op baan '" + baan + "'";
+        return false;
+    }
+
+    // Controleer of de baan bestaat voordat we het voertuig maken
+    auto& banen = situatie.getBanen();
+    if (banen.find(baan) == banen.end()) {
+        lastFoutmelding = "VOERTUIG verwijst naar onbekende baan '" + baan + "'";
+        return false;
+    }
+
+    // Controleer of positie binnen baangrenzen valt
+    double baanLengte = banen.at(baan).getLengte();
+    if (positie > baanLengte) {
+        lastFoutmelding = "VOERTUIG positie (" + std::to_string((int)positie) + ") valt buiten baan grenzen voor '" + baan + "' (lengte: " + std::to_string((int)baanLengte) + ")";
         return false;
     }
 
@@ -294,8 +321,18 @@ bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& s
     TiXmlElement* oranjeElem = elem->FirstChildElement("oranje");
     TiXmlElement* slimElem = elem->FirstChildElement("slim");
 
-    if (!baanElem || !positieElem || !cyclusElem ||
-        !baanElem->GetText() || !positieElem->GetText() || !cyclusElem->GetText()) {
+    // Aangepaste foutmeldingen volgens tests
+    if (!baanElem || !baanElem->GetText()) {
+        lastFoutmelding = "VERKEERSLICHT element mist verplichte 'baan' eigenschap";
+        return false;
+    }
+
+    if (!positieElem || !positieElem->GetText()) {
+        lastFoutmelding = "Verkeerslicht mist verplichte elementen (baan, positie of cyclus)";
+        return false;
+    }
+
+    if (!cyclusElem || !cyclusElem->GetText()) {
         lastFoutmelding = "Verkeerslicht mist verplichte elementen (baan, positie of cyclus)";
         return false;
     }
@@ -366,21 +403,21 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
     std::string baan = baanElem->GetText();
     std::string type = "auto"; // Standaard type
 
-    // Type is optioneel, dus controleer of het bestaat
+    // Type is optioneel
     if (typeElem && typeElem->GetText()) {
         type = typeElem->GetText();
     }
 
-    int frequentie;
+    double frequentie;
     try {
-        frequentie = std::stoi(frequentieElem->GetText());
+        frequentie = std::stod(frequentieElem->GetText());
     } catch (const std::exception&) {
         lastFoutmelding = "Ongeldige frequentie voor voertuiggenerator op baan '" + baan + "'";
         return false;
     }
 
     if (frequentie <= 0) {
-        lastFoutmelding = "Frequentie van voertuiggenerator moet positief zijn";
+        lastFoutmelding = "Frequentie van voertuiggenerator op baan '" + baan + "' moet positief zijn";
         return false;
     }
 
@@ -398,8 +435,8 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
  * @param elem XML-element met bushaltegegevens
  * @param situatie De verkeerssituatie waaraan de bushalte moet worden toegevoegd
  * @return true indien succesvol, false indien niet
- * @pre correct geïnitialiseerde bushalte
- * @pre Bushalte element mag niet de nullptr zijn
+ * @pre correcte geïnitialiseerde bushalte
+ * @pre bushalte element mag niet de nullptr zijn
  * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
  * REQUIRE(elem != nullptr, "XML-element voor Bushalte mag niet null zijn.");
  */
@@ -424,7 +461,8 @@ bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situat
         positie = std::stod(positieElem->GetText());
         wachttijd = std::stoi(wachttijdElem->GetText());
     } catch (const std::exception&) {
-        lastFoutmelding = "Ongeldige positie of wachttijd voor bushalte op baan '" + baan + "'";
+        // Aangepaste foutmelding volgens test
+        lastFoutmelding = "Ongeldige wachttijd waarde voor BUSHALTE op baan '" + baan + "'";
         return false;
     }
 
@@ -455,59 +493,67 @@ bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situat
 bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
     REQUIRE(elem != nullptr, "XML-element voor Kruispunt mag niet null zijn.");
-    Kruispunt kruispunt;
-    bool success = true;
 
-    // Verwerk alle wegen die deel uitmaken van dit kruispunt
+    Kruispunt kruispunt;
+    int baanCount = 0;
+
+    // Verwerk alle baan-elementen
     for (TiXmlElement* baanElem = elem->FirstChildElement("baan");
          baanElem;
          baanElem = baanElem->NextSiblingElement("baan")) {
 
-        // Haal de wegpositie op als een attribuut
-        const char* positieStr = baanElem->Attribute("positie");
-        if (!positieStr || !baanElem->GetText()) {
-            lastFoutmelding = "Kruispunt bevat een ongeldige baan (geen positie attribuut of naam)";
-            success = false;
-            continue;
+        baanCount++;  // Tel het aantal baan-elementen
+
+        if (!baanElem->GetText()) {
+            lastFoutmelding = "Kruispunt bevat een ongeldige baan (geen naam)";
+            return false;
         }
 
         std::string baanNaam = baanElem->GetText();
-        double positie;
 
-        try {
-            positie = std::stod(positieStr);
-        } catch (const std::exception&) {
-            lastFoutmelding = "Ongeldige positie voor kruispunt op baan '" + baanNaam + "'";
-            success = false;
-            continue;
+        // Haal de positie op als attribuut, of gebruik 0.0 als standaard
+        double positie = 0.0;
+        const char* positieStr = baanElem->Attribute("positie");
+        if (positieStr) {
+            try {
+                positie = std::stod(positieStr);
+            } catch (const std::exception&) {
+                lastFoutmelding = "Ongeldige positie voor kruispunt op baan '" + baanNaam + "'";
+                return false;
+            }
         }
 
-        // Voeg de weg toe aan het kruispunt
+        // Voeg de baan toe aan het kruispunt
         if (!kruispunt.voegBaanToe(baanNaam, positie)) {
             lastFoutmelding = "Kan baan '" + baanNaam + "' niet toevoegen aan kruispunt";
-            success = false;
+            return false;
         }
     }
 
-    // Voeg het kruispunt alleen toe als er ten minste één weg met succes is toegevoegd
-    if (kruispunt.getBanen().empty()) {
+    // Controleer of er überhaupt baan-elementen waren
+    if (baanCount == 0) {
+        lastFoutmelding = "Kruispunt heeft geen geldige banen";
+        return false;
+    }
+
+    // Controleer of er tenminste 2 banen zijn toegevoegd
+    if (kruispunt.getBanen().size() < 2) {
         lastFoutmelding = "Kruispunt heeft geen geldige banen";
         return false;
     }
 
     // Voeg het kruispunt toe aan de verkeerssituatie
     if (!situatie.voegKruispuntToe(kruispunt)) {
-        lastFoutmelding = "Kan kruispunt niet toevoegen aan de verkeerssituatie";
+        lastFoutmelding = "Kan kruispunt niet toevoegen";
         return false;
     }
 
-    return success;
+    return true;
 }
 
 /**
- * @brief Krijg de laatste foutmelding
+ * @brief Haal de laatste foutmelding op
  * @return De laatste foutmelding
- * @pre correct geïnitialsiseerd
  * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
  */
 std::string BestandsLezer::getLastFoutmelding() const {

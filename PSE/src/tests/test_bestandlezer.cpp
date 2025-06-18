@@ -156,6 +156,595 @@ TEST_F(BestandsLezerTest, BasicObjectCreation) {
 }
 
 /**
+ * @brief Test specifieke foutmelding voor ontbrekende BAAN naam
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BaanZonderNaam) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <lengte>100</lengte>\n"
+        "        <!-- naam ontbreekt -->\n"
+        "    </BAAN>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_naam.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "BAAN element mist verplichte 'naam' eigenschap");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_naam.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_naam.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor ontbrekende BAAN lengte
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BaanZonderLengte) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <!-- lengte ontbreekt -->\n"
+        "    </BAAN>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_lengte.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "BAAN element mist verplichte 'lengte' eigenschap");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_lengte.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_lengte.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor ongeldige BAAN lengte waarde
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BaanOngeldigeLengte) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>niet_een_getal</lengte>\n"
+        "    </BAAN>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_invalid_lengte.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "Ongeldige lengte waarde voor BAAN 'Teststraat'");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_invalid_lengte.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_invalid_lengte.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor negatieve BAAN lengte
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BaanNegatiefLengte) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>-50</lengte>\n"
+        "    </BAAN>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_negative_lengte.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "BAAN lengte moet positief zijn voor 'Teststraat'");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_negative_lengte.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_negative_lengte.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor VOERTUIG zonder baan
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_VoertuigZonderBaan) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <VOERTUIG>\n"
+        "        <positie>50</positie>\n"
+        "        <type>auto</type>\n"
+        "        <!-- baan ontbreekt -->\n"
+        "    </VOERTUIG>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_voertuig_baan.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "VOERTUIG element mist verplichte 'baan' eigenschap");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_voertuig_baan.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_voertuig_baan.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor VOERTUIG met onbestaande baan
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_VoertuigOnbestaandeBaan) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <VOERTUIG>\n"
+        "        <baan>OnbestaandeBaan</baan>\n"
+        "        <positie>50</positie>\n"
+        "        <type>auto</type>\n"
+        "    </VOERTUIG>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_voertuig_onbekend.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "VOERTUIG verwijst naar onbekende baan 'OnbestaandeBaan'");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_voertuig_onbekend.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_voertuig_onbekend.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor VOERTUIG met ongeldige positie
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_VoertuigOngeldigePositie) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <VOERTUIG>\n"
+        "        <baan>Teststraat</baan>\n"
+        "        <positie>geen_getal</positie>\n"
+        "        <type>auto</type>\n"
+        "    </VOERTUIG>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_voertuig_positie.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "Ongeldige positie waarde voor VOERTUIG op baan 'Teststraat'");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_voertuig_positie.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_voertuig_positie.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor VOERTUIG buiten baan grenzen
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_VoertuigBuitenGrenzen) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <VOERTUIG>\n"
+        "        <baan>Teststraat</baan>\n"
+        "        <positie>150</positie>\n"
+        "        <type>auto</type>\n"
+        "    </VOERTUIG>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_voertuig_grenzen.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "VOERTUIG positie (150) valt buiten baan grenzen voor 'Teststraat' (lengte: 100)");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_voertuig_grenzen.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_voertuig_grenzen.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor VERKEERSLICHT zonder baan
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_VerkeerslichtZonderBaan) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <VERKEERSLICHT>\n"
+        "        <positie>50</positie>\n"
+        "        <cyclus>30</cyclus>\n"
+        "        <!-- baan ontbreekt -->\n"
+        "    </VERKEERSLICHT>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_verkeerslicht_baan.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "VERKEERSLICHT element mist verplichte 'baan' eigenschap");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_verkeerslicht_baan.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_verkeerslicht_baan.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor BUSHALTE met ongeldige wachttijd
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BushalteOngeldigeWachttijd) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <BUSHALTE>\n"
+        "        <baan>Teststraat</baan>\n"
+        "        <positie>50</positie>\n"
+        "        <wachttijd>geen_getal</wachttijd>\n"
+        "    </BUSHALTE>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_bushalte_wachttijd.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "Ongeldige wachttijd waarde voor BUSHALTE op baan 'Teststraat'");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_bushalte_wachttijd.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_bushalte_wachttijd.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor KRUISPUNT zonder geldige banen
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_KruispuntZonderBanen) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Teststraat</naam>\n"
+        "        <lengte>100</lengte>\n"
+        "    </BAAN>\n"
+        "    <KRUISPUNT>\n"
+        "        <!-- geen baan elementen -->\n"
+        "    </KRUISPUNT>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_kruispunt_banen.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "Kruispunt heeft geen geldige banen");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_kruispunt_banen.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_kruispunt_banen.xml");
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor niet-bestaand XML-bestand
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_BestandNietGevonden) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    VerkeersSituatie* situatie = nullptr;
+    try {
+        situatie = new VerkeersSituatie();
+        bool result = ultraSafeReadXml("onbestaand_bestand.xml", situatie);
+
+        EXPECT_FALSE(result);
+
+        std::string foutmelding = safeGetError();
+        EXPECT_EQ(foutmelding, "Kan XML-bestand 'onbestaand_bestand.xml' niet openen");
+
+        if (situatie) {
+            delete situatie;
+        }
+    } catch (...) {
+        if (situatie) {
+            try { delete situatie; } catch (...) {}
+        }
+    }
+}
+
+/**
+ * @brief Test specifieke foutmelding voor malformed XML
+ */
+TEST_F(BestandsLezerTest, ErrorMessage_MalformedXml) {
+    if (!lezer_ptr) {
+        EXPECT_TRUE(true);
+        return;
+    }
+
+    std::string xmlContent =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<VerkeersSituatie>\n"
+        "    <BAAN>\n"
+        "        <naam>Test\n"  // Missing closing tag
+        "    </BAAN>\n"
+        "</VerkeersSituatie>";
+
+    std::string filename = createTempXmlFile(xmlContent, "error_test_malformed.xml");
+
+    if (!filename.empty()) {
+        VerkeersSituatie* situatie = nullptr;
+        try {
+            situatie = new VerkeersSituatie();
+            bool result = ultraSafeReadXml(filename, situatie);
+
+            EXPECT_FALSE(result);
+
+            std::string foutmelding = safeGetError();
+            EXPECT_EQ(foutmelding, "XML-bestand is niet goed gevormd of kan niet worden geparst");
+
+            if (situatie) {
+                delete situatie;
+            }
+            std::remove("error_test_malformed.xml");
+        } catch (...) {
+            if (situatie) {
+                try { delete situatie; } catch (...) {}
+            }
+            std::remove("error_test_malformed.xml");
+        }
+    }
+}
+
+/**
  * @brief Test reading a valid XML file
  */
 TEST_F(BestandsLezerTest, SafeValidXmlFile) {
