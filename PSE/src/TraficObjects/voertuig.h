@@ -1,6 +1,8 @@
 /**
  * @file voertuig.h
- * @brief Header voor de Voertuig klasse (Herzien met polymorfisme)
+ * @brief Header voor de Voertuig klasse met polymorfisme en verbeterde veiligheid
+ * @author Generated with fixes for segmentation faults
+ * @date 2025
  */
 
 #ifndef VOERTUIG_H
@@ -12,33 +14,73 @@
 
 /**
  * @brief Abstracte basisklasse die een voertuig in een verkeerssituatie voorstelt
+ *
+ * Deze klasse definieert de interface en gemeenschappelijke functionaliteit
+ * voor alle voertuigen in het verkeerssimulatie systeem. Voertuigen kunnen
+ * verschillende types zijn (auto, bus, brandweerwagen, etc.) en hebben
+ * verschillende eigenschappen zoals prioriteit en visuele representatie.
+ *
+ * @invariant properlyInitialized() == true
+ * @invariant !getBaanNaam().empty()
+ * @invariant getPositie() >= 0.0
+ * @invariant getSnelheid() >= 0.0
  */
 class Voertuig {
 public:
     /**
-     * @brief Constructor
+     * @brief Constructor voor voertuig met minimale parameters
      * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @param positie De positie van het voertuig op de baan (in meters)
+     *
+     * @pre !baan.empty()
+     * @pre positie >= 0.0
+     * @post properlyInitialized() == true
+     * @post getBaanNaam() == baan
+     * @post getPositie() == positie
+     * @post getSnelheid() == 0.0
+     * @post getVersnelling() == 0.0
+     * @post !isWaitingAtStop()
      */
     Voertuig(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
+     * @brief Constructor voor voertuig met alle fysische parameters
      * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @param positie De positie van het voertuig op de baan (in meters)
+     * @param snelheid De initiële snelheid van het voertuig (in m/s)
+     * @param versnelling De initiële versnelling van het voertuig (in m/s²)
+     *
+     * @pre !baan.empty()
+     * @pre positie >= 0.0
+     * @pre snelheid >= 0.0
+     * @post properlyInitialized() == true
+     * @post getBaanNaam() == baan
+     * @post getPositie() == positie
+     * @post getSnelheid() == snelheid
+     * @post getVersnelling() == versnelling
+     * @post !isWaitingAtStop()
      */
     Voertuig(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
      * @brief Virtual destructor voor correcte afhandeling van afgeleide klassen
+     *
+     * Zorgt ervoor dat destructors van afgeleide klassen correct worden
+     * aangeroepen bij polymorf gebruik.
      */
     virtual ~Voertuig();
 
     /**
      * @brief Copy constructor
      * @param other Het te kopiëren voertuig
+     *
+     * @pre other.properlyInitialized() == true
+     * @post properlyInitialized() == true
+     * @post getBaanNaam() == other.getBaanNaam()
+     * @post getPositie() == other.getPositie()
+     * @post getSnelheid() == other.getSnelheid()
+     * @post getVersnelling() == other.getVersnelling()
+     * @post isWaitingAtStop() == other.isWaitingAtStop()
      */
     Voertuig(const Voertuig& other);
 
@@ -46,566 +88,504 @@ public:
      * @brief Assignment operator
      * @param other Het voertuig waarvan de waarden worden overgenomen
      * @return Referentie naar dit voertuig
+     *
+     * @pre other.properlyInitialized() == true
+     * @post properlyInitialized() == true
+     * @post getBaanNaam() == other.getBaanNaam()
+     * @post getPositie() == other.getPositie()
+     * @post getSnelheid() == other.getSnelheid()
+     * @post getVersnelling() == other.getVersnelling()
+     * @post isWaitingAtStop() == other.isWaitingAtStop()
      */
     Voertuig& operator=(const Voertuig& other);
 
     /**
-     * @brief Geeft de naam van de baan terug
+     * @brief Controleert of het voertuig correct geïnitialiseerd is
+     * @return true als het voertuig correct geïnitialiseerd is, false anders
+     *
+     * Deze methode wordt gebruikt voor Design by Contract validatie
+     * om te verifiëren dat het object in een geldige staat verkeert.
+     */
+    bool properlyInitialized() const;
+
+    /**
+     * @brief Geeft de naam van de baan terug waar het voertuig zich bevindt
      * @return De naam van de baan
+     *
+     * @pre properlyInitialized() == true
+     * @post !result.empty()
      */
     std::string getBaanNaam() const;
 
     /**
-     * @brief Alias voor getBaanNaam voor compatibiliteit
+     * @brief Alias voor getBaanNaam voor compatibiliteit met bestaande code
      * @return De naam van de baan
+     *
+     * @pre properlyInitialized() == true
+     * @post !result.empty()
      */
     std::string getBaan() const;
 
     /**
-     * @brief Stelt de naam van de baan in
+     * @brief Stelt de naam van de baan in waar het voertuig zich bevindt
      * @param nieuweNaam De nieuwe baannaam
+     *
+     * @pre properlyInitialized() == true
+     * @pre !nieuweNaam.empty()
+     * @post getBaanNaam() == nieuweNaam
      */
     void setBaanNaam(const std::string& nieuweNaam);
 
     /**
-     * @brief Geeft de positie van het voertuig terug
-     * @return De positie op de baan
+     * @brief Geeft de huidige positie van het voertuig op de baan terug
+     * @return De positie op de baan in meters
+     *
+     * @pre properlyInitialized() == true
+     * @post result >= 0.0
      */
     double getPositie() const;
 
     /**
-     * @brief Zet de positie van het voertuig
-     * @param nieuwePositie De nieuwe positie
+     * @brief Stelt de positie van het voertuig in
+     * @param nieuwePositie De nieuwe positie op de baan in meters
+     *
+     * @pre properlyInitialized() == true
+     * @pre nieuwePositie >= 0.0
+     * @post getPositie() == nieuwePositie
      */
     void setPositie(double nieuwePositie);
 
     /**
+     * @brief Geeft de huidige snelheid van het voertuig terug
+     * @return De snelheid in m/s
+     *
+     * @pre properlyInitialized() == true
+     * @post result >= 0.0
+     */
+    double getSnelheid() const;
+
+    /**
+     * @brief Stelt de snelheid van het voertuig in
+     * @param nieuweSnelheid De nieuwe snelheid in m/s
+     *
+     * @pre properlyInitialized() == true
+     * @pre nieuweSnelheid >= 0.0
+     * @post getSnelheid() == nieuweSnelheid
+     */
+    void setSnelheid(double nieuweSnelheid);
+
+    /**
+     * @brief Geeft de huidige versnelling van het voertuig terug
+     * @return De versnelling in m/s²
+     *
+     * @pre properlyInitialized() == true
+     */
+    double getVersnelling() const;
+
+    /**
+     * @brief Stelt de versnelling van het voertuig in
+     * @param nieuweVersnelling De nieuwe versnelling in m/s²
+     *
+     * @pre properlyInitialized() == true
+     * @post getVersnelling() == nieuweVersnelling
+     */
+    void setVersnelling(double nieuweVersnelling);
+
+    /**
      * @brief Geeft het type van het voertuig terug
-     * @return Het type van het voertuig als string
+     * @return Het type van het voertuig als string (bijv. "auto", "bus", "brandweerwagen")
+     *
+     * @pre properlyInitialized() == true
+     * @post !result.empty()
+     *
+     * Pure virtual methode die door afgeleide klassen moet worden geïmplementeerd
+     * om het specifieke type voertuig aan te geven.
      */
     virtual std::string getType() const = 0;
 
     /**
      * @brief Controleert of het voertuig een prioriteitsvoertuig is
-     * @return True als het voertuig een prioriteitsvoertuig is (brandweerwagen, ziekenwagen, politie)
+     * @return true als het voertuig prioriteit heeft (hulpdiensten), false anders
+     *
+     * @pre properlyInitialized() == true
+     *
+     * Prioriteitsvoertuigen zoals brandweerwagens, ambulances en politiewagens
+     * hebben voorrang in het verkeer en kunnen verkeerslichten beïnvloeden.
      */
-    virtual bool isPrioriteitsvoertuig() const = 0;
+    virtual bool isPrioriteitsVoertuig() const = 0;
+
+    /**
+     * @brief Geeft de visuele representatie van het voertuig terug voor grafische output
+     * @return Eén karakter dat het voertuig representeert (bijv. 'A' voor auto, 'B' voor bus)
+     *
+     * @pre properlyInitialized() == true
+     * @post result.length() == 1
+     *
+     * Deze methode wordt gebruikt voor het genereren van grafische impressies
+     * van de verkeerssituatie.
+     */
+    virtual std::string getVisueleRepresentatie() const = 0;
+
+    /**
+     * @brief Controleert of het voertuig momenteel wacht bij een halte
+     * @return true als het voertuig wacht bij een bushalte of verkeerslicht, false anders
+     *
+     * @pre properlyInitialized() == true
+     */
+    bool isWaitingAtStop() const;
+
+    /**
+     * @brief Stelt in of het voertuig wacht bij een halte
+     * @param waiting true als het voertuig moet wachten, false als het kan doorrijden
+     *
+     * @pre properlyInitialized() == true
+     * @post isWaitingAtStop() == waiting
+     */
+    void setWaitingAtStop(bool waiting);
 
     /**
      * @brief Controleert of dit voertuig een bus is
-     * @return True als het voertuig een bus is
+     * @return true als het voertuig een bus is, false anders
+     *
+     * @pre properlyInitialized() == true
      */
     virtual bool isBus() const = 0;
 
     /**
-     * @brief Geeft de snelheid van het voertuig terug
-     * @return De snelheid in m/s
-     */
-    double getSnelheid() const;
-
-    /**
-     * @brief Zet de snelheid van het voertuig
-     * @param nieuweSnelheid De nieuwe snelheid
-     */
-    void setSnelheid(double nieuweSnelheid);
-
-    /**
-     * @brief Geeft de versnelling van het voertuig terug
-     * @return De versnelling in m/s²
-     */
-    double getVersnelling() const;
-
-    /**
-     * @brief Zet de versnelling van het voertuig
-     * @param nieuweVersnelling De nieuwe versnelling
-     */
-    void setVersnelling(double nieuweVersnelling);
-
-    /**
-     * @brief Haalt de lengte van het voertuig op
-     * @return De lengte in meters
-     */
-    virtual double getLengte() const = 0;
-
-    /**
-     * @brief Haalt de maximumsnelheid van het voertuig op
-     * @return De maximumsnelheid in m/s
-     */
-    virtual double getMaxSnelheid() const = 0;
-
-    /**
-     * @brief Haalt de maximumversnelling van het voertuig op
-     * @return De maximumversnelling in m/s²
-     */
-    virtual double getMaxVersnelling() const = 0;
-
-    /**
-     * @brief Haalt de maximale remfactor van het voertuig op
-     * @return De maximale remfactor in m/s²
-     */
-    virtual double getMaxRemFactor() const = 0;
-
-    /**
-     * @brief Haalt de minimale volgafstand op
-     * @return De minimale volgafstand in meters
-     */
-    virtual double getMinVolgafstand() const = 0;
-
-    /**
-     * @brief Stelt de wachtende bus vlag in
-     * @param isWaiting Of de bus wacht bij een halte
-     */
-    void setIsWaitingAtBusStop(bool isWaiting);
-
-    /**
-     * @brief Controleert of de bus wacht bij een halte
-     * @return True als de bus wacht, anders false
-     */
-    bool isWaitingAtBusStop() const;
-
-    /**
-     * @brief Update de positie en snelheid van het voertuig op basis van de huidige versnelling
-     * @param tijdstap De tijdstap voor de update in seconden
-     */
-    void updatePositieEnSnelheid(double tijdstap);
-
-    /**
-     * @brief Bereken de versnelling van het voertuig op basis van voorliggend voertuig en andere factoren
-     * @param voorgaandVoertuig Het voorliggende voertuig, nullptr als er geen is
-     * @param isEersteVoertuig Of dit het eerste voertuig op de weg is
-     * @param verkeersLichtVertraagFactor Vertragingsfactor voor een verkeerslicht (0.4 standaard)
-     * @param doelSnelheid Doelsnelheid, gebruikt voertuig's maximumsnelheid als standaard
-     */
-    void berekenVersnelling(const Voertuig* voorgaandVoertuig, bool isEersteVoertuig,
-                          double verkeersLichtVertraagFactor = 0.4,
-                          double doelSnelheid = -1.0);
-
-    /**
-     * @brief Pas noodstoppen toe (voertuig komt tot stilstand)
-     */
-    void noodStop();
-
-    /**
-     * @brief Factory method om een voertuig te maken op basis van type
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param type Het type voertuig als string
-     * @return Unieke pointer naar een nieuw voertuig
-     */
-    static std::unique_ptr<Voertuig> maakVoertuig(const std::string& baan, double positie,
-                                               const std::string& type);
-
-    /**
-     * @brief Factory method om een voertuig te maken met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
-     * @param type Het type voertuig als string
-     * @return Unieke pointer naar een nieuw voertuig
-     */
-    static std::unique_ptr<Voertuig> maakVoertuig(const std::string& baan, double positie,
-                                               double snelheid, double versnelling,
-                                               const std::string& type);
-
-    /**
-     * @brief Clone method voor het maken van een kopie van dit voertuig
-     * @return Een unieke pointer naar een nieuw voertuig met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van dit voertuig
+     *
+     * @pre properlyInitialized() == true
+     * @post result != nullptr
+     * @post result->getType() == this->getType()
      */
     virtual std::unique_ptr<Voertuig> clone() const = 0;
 
     /**
-     * @brief Controleren of het object goed is geïnitialiseerd
-     * @return true als _initCheck == this
+     * @brief Update de positie en snelheid van het voertuig gedurende een tijdstap
+     * @param deltaTime De tijdstap in seconden
+     *
+     * @pre properlyInitialized() == true
+     * @pre deltaTime > 0.0
+     * @post properlyInitialized() == true
+     * @post getSnelheid() >= 0.0
+     *
+     * Deze methode simuleert de beweging van het voertuig volgens de wetten
+     * van de fysica: nieuwe_positie = oude_positie + snelheid * tijd + 0.5 * versnelling * tijd²
+     * nieuwe_snelheid = oude_snelheid + versnelling * tijd
+     *
+     * De snelheid wordt nooit negatief - voertuigen kunnen niet achteruit rijden.
      */
-    bool properlyInitialized() const;
+    virtual void update(double deltaTime);
+
+    /**
+     * @brief Factory methode voor het creëren van voertuigen van verschillende types
+     * @param baan De naam van de baan waar het voertuig wordt geplaatst
+     * @param positie De positie op de baan waar het voertuig wordt geplaatst
+     * @param type Het type voertuig ("auto", "bus", "brandweerwagen", "ziekenwagen", "politiecombi")
+     * @return Unique pointer naar het gecreëerde voertuig, of nullptr bij onbekend type
+     *
+     * @pre !baan.empty()
+     * @pre positie >= 0.0
+     * @pre !type.empty()
+     * @post result == nullptr || result->properlyInitialized() == true
+     * @post result == nullptr || result->getBaanNaam() == baan
+     * @post result == nullptr || result->getPositie() == positie
+     * @post result == nullptr || result->getType() == type
+     *
+     * Deze factory methode creëert voertuigen van het juiste type gebaseerd
+     * op de type string. Ondersteunde types:
+     * - "auto": Gewone personenauto
+     * - "bus": Openbaar vervoer bus
+     * - "brandweerwagen": Brandweer voertuig (prioriteit)
+     * - "ziekenwagen": Ambulance (prioriteit)
+     * - "politiecombi": Politie voertuig (prioriteit)
+     */
+    static std::unique_ptr<Voertuig> maakVoertuig(const std::string& baan, double positie, const std::string& type);
 
 protected:
-    std::string baanNaam; ///< Naam van de baan waar het voertuig zich bevindt
-    double positie;       ///< Positie van het voertuig op de baan
-    double snelheid;      ///< Snelheid van het voertuig in m/s
-    double versnelling;   ///< Versnelling van het voertuig in m/s²
-    bool isWaitingAtStop; ///< Of het voertuig wacht bij een halte
+    std::string baanNaam;        ///< Naam van de baan waar het voertuig zich bevindt
+    double positie;              ///< Positie op de baan in meters
+    double snelheid;             ///< Huidige snelheid in m/s
+    double versnelling;          ///< Huidige versnelling in m/s²
+    bool waitingAtStop;          ///< Of het voertuig wacht bij een halte
+    void* _initCheck;            ///< Pointer voor Design by Contract validatie
 
-    Voertuig* _initCheck;
+private:
+    // Geen private members - alles is protected voor afgeleide klassen
 };
 
 /**
- * @brief Auto class - specifieke implementatie voor personenauto's
+ * @brief Concrete implementatie van een gewone personenauto
+ *
+ * Een auto is een standaard voertuig zonder speciale prioriteit.
+ * Het heeft normale verkeerseigenschappen en volgt alle verkeersregels.
  */
 class Auto : public Voertuig {
 public:
     /**
-     * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @brief Constructor voor een auto
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
      */
     Auto(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @brief Constructor voor een auto met snelheid en versnelling
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
+     * @param snelheid Initiële snelheid
+     * @param versnelling Initiële versnelling
      */
     Auto(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
-     * @brief Implementatie van getType voor Auto
-     * @return "auto" als string
+     * @brief Geeft het type van het voertuig terug
+     * @return "auto"
      */
     std::string getType() const override;
 
     /**
-     * @brief Implementatie van isPrioriteitsvoertuig voor Auto
-     * @return false (auto's zijn geen prioriteitsvoertuigen)
+     * @brief Controleert of dit een prioriteitsvoertuig is
+     * @return false (auto's hebben geen prioriteit)
      */
-    bool isPrioriteitsvoertuig() const override;
+    bool isPrioriteitsVoertuig() const override;
 
     /**
-     * @brief Implementatie van isBus voor Auto
-     * @return false (auto's zijn geen bussen)
+     * @brief Geeft de visuele representatie terug
+     * @return "A" voor auto
+     */
+    std::string getVisueleRepresentatie() const override;
+
+    /**
+     * @brief Controleert of dit voertuig een bus is
+     * @return false (dit is een auto)
      */
     bool isBus() const override;
 
     /**
-     * @brief Implementatie van getLengte voor Auto
-     * @return De lengte van een auto in meters
-     */
-    double getLengte() const override;
-
-    /**
-     * @brief Implementatie van getMaxSnelheid voor Auto
-     * @return De maximumsnelheid van een auto in m/s
-     */
-    double getMaxSnelheid() const override;
-
-    /**
-     * @brief Implementatie van getMaxVersnelling voor Auto
-     * @return De maximumversnelling van een auto in m/s²
-     */
-    double getMaxVersnelling() const override;
-
-    /**
-     * @brief Implementatie van getMaxRemFactor voor Auto
-     * @return De maximale remfactor van een auto in m/s²
-     */
-    double getMaxRemFactor() const override;
-
-    /**
-     * @brief Implementatie van getMinVolgafstand voor Auto
-     * @return De minimale volgafstand van een auto in meters
-     */
-    double getMinVolgafstand() const override;
-
-    /**
-     * @brief Clone method implementatie voor Auto
-     * @return Een unieke pointer naar een nieuwe Auto met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van deze auto
      */
     std::unique_ptr<Voertuig> clone() const override;
 };
 
 /**
- * @brief Bus class - specifieke implementatie voor bussen
+ * @brief Concrete implementatie van een bus voor openbaar vervoer
+ *
+ * Een bus is een groot voertuig dat bij bushaltes kan stoppen.
+ * Het heeft geen prioriteit maar kan wel speciale rijstroken gebruiken.
  */
 class Bus : public Voertuig {
 public:
     /**
-     * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @brief Constructor voor een bus
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
      */
     Bus(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @brief Constructor voor een bus met snelheid en versnelling
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
+     * @param snelheid Initiële snelheid
+     * @param versnelling Initiële versnelling
      */
     Bus(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
-     * @brief Implementatie van getType voor Bus
-     * @return "bus" als string
+     * @brief Geeft het type van het voertuig terug
+     * @return "bus"
      */
     std::string getType() const override;
 
     /**
-     * @brief Implementatie van isPrioriteitsvoertuig voor Bus
-     * @return false (bussen zijn geen prioriteitsvoertuigen)
+     * @brief Controleert of dit een prioriteitsvoertuig is
+     * @return false (bussen hebben geen prioriteit)
      */
-    bool isPrioriteitsvoertuig() const override;
+    bool isPrioriteitsVoertuig() const override;
 
     /**
-     * @brief Implementatie van isBus voor Bus
+     * @brief Geeft de visuele representatie terug
+     * @return "B" voor bus
+     */
+    std::string getVisueleRepresentatie() const override;
+
+    /**
+     * @brief Controleert of dit voertuig een bus is
      * @return true (dit is een bus)
      */
     bool isBus() const override;
 
     /**
-     * @brief Implementatie van getLengte voor Bus
-     * @return De lengte van een bus in meters
-     */
-    double getLengte() const override;
-
-    /**
-     * @brief Implementatie van getMaxSnelheid voor Bus
-     * @return De maximumsnelheid van een bus in m/s
-     */
-    double getMaxSnelheid() const override;
-
-    /**
-     * @brief Implementatie van getMaxVersnelling voor Bus
-     * @return De maximumversnelling van een bus in m/s²
-     */
-    double getMaxVersnelling() const override;
-
-    /**
-     * @brief Implementatie van getMaxRemFactor voor Bus
-     * @return De maximale remfactor van een bus in m/s²
-     */
-    double getMaxRemFactor() const override;
-
-    /**
-     * @brief Implementatie van getMinVolgafstand voor Bus
-     * @return De minimale volgafstand van een bus in meters
-     */
-    double getMinVolgafstand() const override;
-
-    /**
-     * @brief Clone method implementatie voor Bus
-     * @return Een unieke pointer naar een nieuwe Bus met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van deze bus
      */
     std::unique_ptr<Voertuig> clone() const override;
 };
 
 /**
- * @brief Brandweerwagen class - specifieke implementatie voor brandweerwagens
+ * @brief Concrete implementatie van een brandweerwagen
+ *
+ * Een brandweerwagen is een prioriteitsvoertuig dat voorrang heeft
+ * in het verkeer en verkeerslichten kan beïnvloeden.
  */
 class Brandweerwagen : public Voertuig {
 public:
     /**
-     * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @brief Constructor voor een brandweerwagen
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
      */
     Brandweerwagen(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @brief Constructor voor een brandweerwagen met snelheid en versnelling
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
+     * @param snelheid Initiële snelheid
+     * @param versnelling Initiële versnelling
      */
     Brandweerwagen(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
-     * @brief Implementatie van getType voor Brandweerwagen
-     * @return "brandweerwagen" als string
+     * @brief Geeft het type van het voertuig terug
+     * @return "brandweerwagen"
      */
     std::string getType() const override;
 
     /**
-     * @brief Implementatie van isPrioriteitsvoertuig voor Brandweerwagen
-     * @return true (brandweerwagens zijn prioriteitsvoertuigen)
+     * @brief Controleert of dit een prioriteitsvoertuig is
+     * @return true (brandweerwagens hebben prioriteit)
      */
-    bool isPrioriteitsvoertuig() const override;
+    bool isPrioriteitsVoertuig() const override;
 
     /**
-     * @brief Implementatie van isBus voor Brandweerwagen
-     * @return false (brandweerwagens zijn geen bussen)
+     * @brief Geeft de visuele representatie terug
+     * @return "F" voor fire truck (brandweerwagen)
+     */
+    std::string getVisueleRepresentatie() const override;
+
+    /**
+     * @brief Controleert of dit voertuig een bus is
+     * @return false (dit is een brandweerwagen)
      */
     bool isBus() const override;
 
     /**
-     * @brief Implementatie van getLengte voor Brandweerwagen
-     * @return De lengte van een brandweerwagen in meters
-     */
-    double getLengte() const override;
-
-    /**
-     * @brief Implementatie van getMaxSnelheid voor Brandweerwagen
-     * @return De maximumsnelheid van een brandweerwagen in m/s
-     */
-    double getMaxSnelheid() const override;
-
-    /**
-     * @brief Implementatie van getMaxVersnelling voor Brandweerwagen
-     * @return De maximumversnelling van een brandweerwagen in m/s²
-     */
-    double getMaxVersnelling() const override;
-
-    /**
-     * @brief Implementatie van getMaxRemFactor voor Brandweerwagen
-     * @return De maximale remfactor van een brandweerwagen in m/s²
-     */
-    double getMaxRemFactor() const override;
-
-    /**
-     * @brief Implementatie van getMinVolgafstand voor Brandweerwagen
-     * @return De minimale volgafstand van een brandweerwagen in meters
-     */
-    double getMinVolgafstand() const override;
-
-    /**
-     * @brief Clone method implementatie voor Brandweerwagen
-     * @return Een unieke pointer naar een nieuwe Brandweerwagen met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van deze brandweerwagen
      */
     std::unique_ptr<Voertuig> clone() const override;
 };
 
 /**
- * @brief Ziekenwagen class - specifieke implementatie voor ziekenwagens
+ * @brief Concrete implementatie van een ziekenwagen (ambulance)
+ *
+ * Een ziekenwagen is een prioriteitsvoertuig dat voorrang heeft
+ * in het verkeer en verkeerslichten kan beïnvloeden.
  */
 class Ziekenwagen : public Voertuig {
 public:
     /**
-     * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @brief Constructor voor een ziekenwagen
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
      */
     Ziekenwagen(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @brief Constructor voor een ziekenwagen met snelheid en versnelling
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
+     * @param snelheid Initiële snelheid
+     * @param versnelling Initiële versnelling
      */
     Ziekenwagen(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
-     * @brief Implementatie van getType voor Ziekenwagen
-     * @return "ziekenwagen" als string
+     * @brief Geeft het type van het voertuig terug
+     * @return "ziekenwagen"
      */
     std::string getType() const override;
 
     /**
-     * @brief Implementatie van isPrioriteitsvoertuig voor Ziekenwagen
-     * @return true (ziekenwagens zijn prioriteitsvoertuigen)
+     * @brief Controleert of dit een prioriteitsvoertuig is
+     * @return true (ziekenwagens hebben prioriteit)
      */
-    bool isPrioriteitsvoertuig() const override;
+    bool isPrioriteitsVoertuig() const override;
 
     /**
-     * @brief Implementatie van isBus voor Ziekenwagen
-     * @return false (ziekenwagens zijn geen bussen)
+     * @brief Geeft de visuele representatie terug
+     * @return "Z" voor ziekenwagen
+     */
+    std::string getVisueleRepresentatie() const override;
+
+    /**
+     * @brief Controleert of dit voertuig een bus is
+     * @return false (dit is een ziekenwagen)
      */
     bool isBus() const override;
 
     /**
-     * @brief Implementatie van getLengte voor Ziekenwagen
-     * @return De lengte van een ziekenwagen in meters
-     */
-    double getLengte() const override;
-
-    /**
-     * @brief Implementatie van getMaxSnelheid voor Ziekenwagen
-     * @return De maximumsnelheid van een ziekenwagen in m/s
-     */
-    double getMaxSnelheid() const override;
-
-    /**
-     * @brief Implementatie van getMaxVersnelling voor Ziekenwagen
-     * @return De maximumversnelling van een ziekenwagen in m/s²
-     */
-    double getMaxVersnelling() const override;
-
-    /**
-     * @brief Implementatie van getMaxRemFactor voor Ziekenwagen
-     * @return De maximale remfactor van een ziekenwagen in m/s²
-     */
-    double getMaxRemFactor() const override;
-
-    /**
-     * @brief Implementatie van getMinVolgafstand voor Ziekenwagen
-     * @return De minimale volgafstand van een ziekenwagen in meters
-     */
-    double getMinVolgafstand() const override;
-
-    /**
-     * @brief Clone method implementatie voor Ziekenwagen
-     * @return Een unieke pointer naar een nieuwe Ziekenwagen met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van deze ziekenwagen
      */
     std::unique_ptr<Voertuig> clone() const override;
 };
 
 /**
- * @brief Politiecombi class - specifieke implementatie voor politiecombis
+ * @brief Concrete implementatie van een politiecombi
+ *
+ * Een politiecombi is een prioriteitsvoertuig dat voorrang heeft
+ * in het verkeer en verkeerslichten kan beïnvloeden.
  */
 class Politiecombi : public Voertuig {
 public:
     /**
-     * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @brief Constructor voor een politiecombi
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
      */
     Politiecombi(const std::string& baan, double positie);
 
     /**
-     * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @brief Constructor voor een politiecombi met snelheid en versnelling
+     * @param baan De naam van de baan
+     * @param positie De positie op de baan
+     * @param snelheid Initiële snelheid
+     * @param versnelling Initiële versnelling
      */
     Politiecombi(const std::string& baan, double positie, double snelheid, double versnelling);
 
     /**
-     * @brief Implementatie van getType voor Politiecombi
-     * @return "politiecombi" als string
+     * @brief Geeft het type van het voertuig terug
+     * @return "politiecombi"
      */
     std::string getType() const override;
 
     /**
-     * @brief Implementatie van isPrioriteitsvoertuig voor Politiecombi
-     * @return true (politiecombis zijn prioriteitsvoertuigen)
+     * @brief Controleert of dit een prioriteitsvoertuig is
+     * @return true (politiecombi's hebben prioriteit)
      */
-    bool isPrioriteitsvoertuig() const override;
+    bool isPrioriteitsVoertuig() const override;
 
     /**
-     * @brief Implementatie van isBus voor Politiecombi
-     * @return false (politiecombis zijn geen bussen)
+     * @brief Geeft de visuele representatie terug
+     * @return "P" voor politie
+     */
+    std::string getVisueleRepresentatie() const override;
+
+    /**
+     * @brief Controleert of dit voertuig een bus is
+     * @return false (dit is een politiecombi)
      */
     bool isBus() const override;
 
     /**
-     * @brief Implementatie van getLengte voor Politiecombi
-     * @return De lengte van een politiecombi in meters
-     */
-    double getLengte() const override;
-
-    /**
-     * @brief Implementatie van getMaxSnelheid voor Politiecombi
-     * @return De maximumsnelheid van een politiecombi in m/s
-     */
-    double getMaxSnelheid() const override;
-
-    /**
-     * @brief Implementatie van getMaxVersnelling voor Politiecombi
-     * @return De maximumversnelling van een politiecombi in m/s²
-     */
-    double getMaxVersnelling() const override;
-
-    /**
-     * @brief Implementatie van getMaxRemFactor voor Politiecombi
-     * @return De maximale remfactor van een politiecombi in m/s²
-     */
-    double getMaxRemFactor() const override;
-
-    /**
-     * @brief Implementatie van getMinVolgafstand voor Politiecombi
-     * @return De minimale volgafstand van een politiecombi in meters
-     */
-    double getMinVolgafstand() const override;
-
-    /**
-     * @brief Clone method implementatie voor Politiecombi
-     * @return Een unieke pointer naar een nieuwe Politiecombi met dezelfde eigenschappen
+     * @brief Maakt een kopie van dit voertuig
+     * @return Unique pointer naar een kopie van deze politiecombi
      */
     std::unique_ptr<Voertuig> clone() const override;
 };
