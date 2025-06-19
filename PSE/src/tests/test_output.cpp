@@ -307,10 +307,7 @@ TEST_F(OutputTest, ErrorMessage_XmlOngeldigPad) {
             std::string foutmelding = uitvoer_ptr->getLastFoutmelding();
             // Test verschillende mogelijke foutmeldingen
             if (!foutmelding.empty()) {
-                bool validError = (foutmelding.find("kan niet aanmaken") != std::string::npos) ||
-                                  (foutmelding.find("Kan XML-bestand") != std::string::npos) ||
-                                  (foutmelding.find("niet openen") != std::string::npos);
-                //Todo: er moeten er nog bijkomen meer eerst moet de bestandlezer foutmeldingen correct zijn dus tot nog toe faalt het.
+                bool validError = (foutmelding.find("niet schrijven") != std::string::npos);
 
                 EXPECT_TRUE(validError);
             }
@@ -344,8 +341,7 @@ TEST_F(OutputTest, ErrorMessage_HtmlOngeldigPad) {
             std::string foutmelding = uitvoer_ptr->getLastFoutmelding();
             // Test verschillende mogelijke foutmeldingen
             if (!foutmelding.empty()) {
-                bool validError = (foutmelding.find("kan niet aanmaken") != std::string::npos) ||
-                                  (foutmelding.find("Kan HTML-bestand") != std::string::npos) ||
+                bool validError =
                                   (foutmelding.find("niet openen") != std::string::npos);
                 EXPECT_TRUE(validError);
             }
