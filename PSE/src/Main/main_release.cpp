@@ -2,12 +2,27 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <atomic>
 #include "../Situation/situatie.h"
 #include "../FileReader/bestandslezer.h"
 #include "../Simulation/simulatie.h"
 #include "../Output/output.h"
 
 using namespace std;
+
+
+// Voeg deze variabelen toe boven je main():
+std::atomic<bool> stopRequested(false);
+
+void inputThread() {
+    char input;
+    while (cin >> input) {
+        if (input == 'c' || input == 'C') {
+            stopRequested = true;
+            break;
+        }
+    }
+}
 
 /**
  * @brief Toon help-informatie voor gebruikerscommando's
@@ -86,28 +101,37 @@ int main(int argc, char* argv[]) {
     // Hoofdprogrammalus
     char cmd;
     do {
-        // Draai continue simulatie indien ingeschakeld
+        // In je main(), vervang de continue loop door:
         if (running) {
-            sim.stap();
+            static int stapTeller = 0;
+            static std::thread inputHandler;
 
-            // Toon minimale info tijdens continue run
-            cout << "Tijd: " << sim.getHuidigeSimulatieTijd()
-                 << "s, Voertuigen: " << sim.getAantalVoertuigen()
-                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\r" << flush;
-
-            // Voeg een kleine vertraging toe om de simulatie zichtbaar te maken
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-            // Controleer op gebruikersinvoer (niet-blokkerend)
-            if (cin.peek() != EOF) {
-                cin >> cmd;
-                if (cmd == 'c') {
-                    running = false;
-                    cout << "\nContinue modus gestopt.                                       \n";
-                }
+            // Start input thread als het nog niet draait
+            if (stapTeller == 0) {
+                stopRequested = false;
+                inputHandler = std::thread(inputThread);
             }
 
-            continue; // Sla de normale commandoinvoer over
+            stapTeller++;
+            sim.stap();
+
+            cout << "Stap " << stapTeller << " - Tijd: " << sim.getHuidigeSimulatieTijd()
+                 << "s, Voertuigen: " << sim.getAantalVoertuigen()
+                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+            // Check of stop is gevraagd
+            if (stopRequested) {
+                running = false;
+                stapTeller = 0;
+                if (inputHandler.joinable()) {
+                    inputHandler.join();
+                }
+                cout << "\nContinue modus gestopt.\n";
+            }
+
+            continue;
         }
 
         // Vraag om commando
@@ -154,13 +178,11 @@ int main(int argc, char* argv[]) {
                 break;
 
             case 'c': // Continue simulatie
-                /**
-                 * @brief Start continue simulatie modus
-                 * @post running == true
-                 * @post Simulatie draait automatisch tot gebruiker 'c' indrukt
-                 */
                 running = true;
                 cout << "Continue simulatie gestart. Druk 'c' om te stoppen.\n";
+                cout << "Uitvoeren van continue simulatiestappen...\n";
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
 
             case 't': // Tekstrapport

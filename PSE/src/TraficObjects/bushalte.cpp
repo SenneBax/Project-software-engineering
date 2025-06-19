@@ -68,7 +68,7 @@ int Bushalte::getWachttijd() const {
  * @param timestep De huidige simulatie-tijdstap
  * @return True als de wachttijd voorbij is, false indien niet
  * REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
- *REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
+ * REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
  */
 bool Bushalte::updateWachttijd(double timestep) {
     REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
