@@ -532,37 +532,37 @@ std::string Politiecombi::getType() const {
 
 bool Politiecombi::isPrioriteitsvoertuig() const {
     return true;
-    EXPECT_TRUE(Politiecombi::isPrioriteitsvoertuig());
+    EXPECT_TRUE(Voertuig::isPrioriteitsvoertuig());
 }
 
 bool Politiecombi::isBus() const {
     return false;
-    EXPECT_FALSE(Politiecombi::isBus());
+    EXPECT_FALSE(Voertuig::isBus());
 }
 
 double Politiecombi::getLengte() const {
     return 6.0;
-    EXPECT_DOUBLE_EQ(Politiecombi::getLengte(), 6.0);
+    EXPECT_DOUBLE_EQ(Voertuig::getLengte(), 6.0);
 }
 
 double Politiecombi::getMaxSnelheid() const {
     return 17.2;
-    EXPECT_DOUBLE_EQ(Politiecombi::getMaxSnelheid(), 17.2);
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxSnelheid(), 17.2);
 }
 
 double Politiecombi::getMaxVersnelling() const {
     return 1.55;
-    EXPECT_DOUBLE_EQ(Politiecombi::getMaxVersnelling(), 1.55);
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxVersnelling(), 1.55);
 }
 
 double Politiecombi::getMaxRemFactor() const {
     return 4.92;
-    EXPECT_DOUBLE_EQ(Politiecombi::getMaxRemFactor(), 4.92);
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxRemFactor(), 4.92);
 }
 
 double Politiecombi::getMinVolgafstand() const {
     return 6.0;
-    EXPECT_DOUBLE_EQ(Politiecombi::getMinVolgafstand(), 6.0 );
+    EXPECT_DOUBLE_EQ(Voertuig::getMinVolgafstand(), 6.0 );
 }
 
 std::string Politiecombi::getVisueleRepresentatie() const {

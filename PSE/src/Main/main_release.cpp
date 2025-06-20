@@ -65,7 +65,7 @@ void displayHelp() {
  * 6. Toont eindstatistieken
  */
 int main(int argc, char* argv[]) {
-    std::cout << "Verkeerssimulatie v2.0 - Opstart\n";
+    std::cout << "Verkeerssimulatie v2.1 - Opstart\n";
 
     // Controleer command-line argumenten
     if (argc != 2) {
