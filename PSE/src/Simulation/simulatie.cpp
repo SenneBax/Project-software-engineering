@@ -440,6 +440,7 @@ void simulatie::verzamelStatistieken() {
         gemiddeldeSnelheid = totaleSnelheid / aantalVoertuigen;
     } else {
         gemiddeldeSnelheid = 0.0;
+
     }
 }
 

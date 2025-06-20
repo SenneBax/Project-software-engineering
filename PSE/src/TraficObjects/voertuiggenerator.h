@@ -39,7 +39,6 @@ public:
      */
     std::string getType() const;
 
-    // Andere methoden...
 
     bool properlyInitialized() const;
 

@@ -8,6 +8,7 @@
 #include <cmath>
 #include <stdexcept>
 #include "DesignByContract.h"
+#include "gtest/gtest.h"
 
 // =============================================================================
 // Basisklasse Voertuig implementatie
@@ -271,30 +272,37 @@ std::string Auto::getType() const {
 
 bool Auto::isPrioriteitsvoertuig() const {
     return false;
+    EXPECT_FALSE(Auto::isPrioriteitsvoertuig());
 }
 
 bool Auto::isBus() const {
     return false;
+    EXPECT_FALSE(Auto::isBus());
 }
 
 double Auto::getLengte() const {
     return 4.0;
+    EXPECT_DOUBLE_EQ(Auto::getLengte(), 4.0);
 }
 
 double Auto::getMaxSnelheid() const {
     return 16.6;
+    EXPECT_DOUBLE_EQ(Auto::getMaxSnelheid(), 16.6);
 }
 
 double Auto::getMaxVersnelling() const {
     return 1.44;
+    EXPECT_DOUBLE_EQ(Auto::getMaxVersnelling(), 1.44);
 }
 
 double Auto::getMaxRemFactor() const {
     return 4.61;
+    EXPECT_DOUBLE_EQ(Auto::getMaxRemFactor(), 4.61);
 }
 
 double Auto::getMinVolgafstand() const {
     return 4.0;
+    EXPECT_DOUBLE_EQ(Auto::getMinVolgafstand(), 4.0);
 }
 
 std::string Auto::getVisueleRepresentatie() const {
@@ -329,30 +337,37 @@ std::string Bus::getType() const {
 
 bool Bus::isPrioriteitsvoertuig() const {
     return false;
+    EXPECT_FALSE(Voertuig::isPrioriteitsvoertuig());
 }
 
 bool Bus::isBus() const {
     return true;
+    EXPECT_TRUE(Voertuig::isBus());
 }
 
 double Bus::getLengte() const {
     return 12.0;
+    EXPECT_DOUBLE_EQ(Voertuig::getLengte(), 12.0);
 }
 
 double Bus::getMaxSnelheid() const {
     return 11.4;
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxSnelheid(), 11.4);
 }
 
 double Bus::getMaxVersnelling() const {
     return 1.22;
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxVersnelling(), 1.22);
 }
 
 double Bus::getMaxRemFactor() const {
     return 4.29;
+    EXPECT_DOUBLE_EQ(Voertuig::getMaxRemFactor(), 4.29);
 }
 
 double Bus::getMinVolgafstand() const {
     return 12.0;
+    EXPECT_DOUBLE_EQ(Bus::getMinVolgafstand(), 12.0);
 }
 
 std::string Bus::getVisueleRepresentatie() const {
@@ -387,30 +402,37 @@ std::string Brandweerwagen::getType() const {
 
 bool Brandweerwagen::isPrioriteitsvoertuig() const {
     return true;
+    EXPECT_TRUE(Brandweerwagen::isPrioriteitsvoertuig());
 }
 
 bool Brandweerwagen::isBus() const {
     return false;
+    EXPECT_FALSE(Brandweerwagen::isBus());
 }
 
 double Brandweerwagen::getLengte() const {
     return 10.0;
+    EXPECT_DOUBLE_EQ(Brandweerwagen::getLengte(), 10.0);
 }
 
 double Brandweerwagen::getMaxSnelheid() const {
     return 14.6;
+    EXPECT_DOUBLE_EQ(Brandweerwagen::getMaxSnelheid(), 14.6);
 }
 
 double Brandweerwagen::getMaxVersnelling() const {
     return 1.33;
+    EXPECT_DOUBLE_EQ(Brandweerwagen::getMaxVersnelling(), 1.33);
 }
 
 double Brandweerwagen::getMaxRemFactor() const {
     return 4.56;
+    EXPECT_DOUBLE_EQ(Brandweerwagen::getMaxRemFactor(), 4.56);
 }
 
 double Brandweerwagen::getMinVolgafstand() const {
     return 10.0;
+    EXPECT_DOUBLE_EQ(Brandweerwagen::getMinVolgafstand(), 10.0);
 }
 
 std::string Brandweerwagen::getVisueleRepresentatie() const {
@@ -445,30 +467,37 @@ std::string Ziekenwagen::getType() const {
 
 bool Ziekenwagen::isPrioriteitsvoertuig() const {
     return true;
+    EXPECT_TRUE(Ziekenwagen::isPrioriteitsvoertuig());
 }
 
 bool Ziekenwagen::isBus() const {
     return false;
+    EXPECT_FALSE(Ziekenwagen::isBus());
 }
 
 double Ziekenwagen::getLengte() const {
     return 8.0;
+    EXPECT_DOUBLE_EQ(Ziekenwagen::getLengte(), 8.0);
 }
 
 double Ziekenwagen::getMaxSnelheid() const {
     return 15.5;
+    EXPECT_DOUBLE_EQ(Ziekenwagen::getMaxSnelheid(), 15.5);
 }
 
 double Ziekenwagen::getMaxVersnelling() const {
     return 1.44;
+    EXPECT_DOUBLE_EQ(Ziekenwagen::getMaxVersnelling(), 1.44);
 }
 
 double Ziekenwagen::getMaxRemFactor() const {
     return 4.47;
+    EXPECT_DOUBLE_EQ(Ziekenwagen::getMaxRemFactor(), 4.47 );
 }
 
 double Ziekenwagen::getMinVolgafstand() const {
     return 8.0;
+    EXPECT_DOUBLE_EQ(Ziekenwagen::getMinVolgafstand(), 8.0 );
 }
 
 std::string Ziekenwagen::getVisueleRepresentatie() const {
@@ -503,30 +532,37 @@ std::string Politiecombi::getType() const {
 
 bool Politiecombi::isPrioriteitsvoertuig() const {
     return true;
+    EXPECT_TRUE(Politiecombi::isPrioriteitsvoertuig());
 }
 
 bool Politiecombi::isBus() const {
     return false;
+    EXPECT_FALSE(Politiecombi::isBus());
 }
 
 double Politiecombi::getLengte() const {
     return 6.0;
+    EXPECT_DOUBLE_EQ(Politiecombi::getLengte(), 6.0);
 }
 
 double Politiecombi::getMaxSnelheid() const {
     return 17.2;
+    EXPECT_DOUBLE_EQ(Politiecombi::getMaxSnelheid(), 17.2);
 }
 
 double Politiecombi::getMaxVersnelling() const {
     return 1.55;
+    EXPECT_DOUBLE_EQ(Politiecombi::getMaxVersnelling(), 1.55);
 }
 
 double Politiecombi::getMaxRemFactor() const {
     return 4.92;
+    EXPECT_DOUBLE_EQ(Politiecombi::getMaxRemFactor(), 4.92);
 }
 
 double Politiecombi::getMinVolgafstand() const {
     return 6.0;
+    EXPECT_DOUBLE_EQ(Politiecombi::getMinVolgafstand(), 6.0 );
 }
 
 std::string Politiecombi::getVisueleRepresentatie() const {

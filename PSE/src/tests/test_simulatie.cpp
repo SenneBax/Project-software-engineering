@@ -176,7 +176,7 @@ TEST_F(SimulatieTest, BasicSimulationCreation) {
 /**
  * @brief Test simulation constructor with different time steps
  */
-TEST_F(SimulatieTest, SafeTimeStepValidation) {
+TEST_F(SimulatieTest, TimeStepValidation) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -223,7 +223,7 @@ TEST_F(SimulatieTest, SafeTimeStepValidation) {
 /**
  * @brief Test simulation step functionality
  */
-TEST_F(SimulatieTest, SafeSimulationStep) {
+TEST_F(SimulatieTest, SimulationStep) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -261,7 +261,7 @@ TEST_F(SimulatieTest, SafeSimulationStep) {
 /**
  * @brief Test simulation with vehicles
  */
-TEST_F(SimulatieTest, SafeVehicleMovement) {
+TEST_F(SimulatieTest, VehicleMovement) {
     // Create situation with specific vehicle setup
     VerkeersSituatie* situatie = nullptr;
     try {
@@ -310,7 +310,7 @@ TEST_F(SimulatieTest, SafeVehicleMovement) {
 /**
  * @brief Test simulation statistics
  */
-TEST_F(SimulatieTest, SafeStatistics) {
+TEST_F(SimulatieTest, Statistics) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -350,7 +350,7 @@ TEST_F(SimulatieTest, SafeStatistics) {
 /**
  * @brief Test simulation with traffic lights
  */
-TEST_F(SimulatieTest, SafeTrafficLights) {
+TEST_F(SimulatieTest, TrafficLights) {
     // Create situation with traffic light
     VerkeersSituatie* situatie = nullptr;
     try {
@@ -401,7 +401,7 @@ TEST_F(SimulatieTest, SafeTrafficLights) {
 /**
  * @brief Test simulation time management
  */
-TEST_F(SimulatieTest, SafeTimeManagement) {
+TEST_F(SimulatieTest, TimeManagement) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -441,7 +441,7 @@ TEST_F(SimulatieTest, SafeTimeManagement) {
 /**
  * @brief Test simulation error handling and recovery
  */
-TEST_F(SimulatieTest, SafeErrorHandling) {
+TEST_F(SimulatieTest, ErrorHandling) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -478,7 +478,7 @@ TEST_F(SimulatieTest, SafeErrorHandling) {
 /**
  * @brief Test multiple simulations
  */
-TEST_F(SimulatieTest, SafeMultipleSimulations) {
+TEST_F(SimulatieTest, MultipleSimulations) {
     if (!testSituatie_ptr) {
         EXPECT_TRUE(true); // Skip if situation creation failed
         return;
@@ -506,7 +506,7 @@ TEST_F(SimulatieTest, SafeMultipleSimulations) {
 /**
  * @brief Stress test with complex situations
  */
-TEST_F(SimulatieTest, SafeStressTest) {
+TEST_F(SimulatieTest, StressTest) {
     // Create complex situations and simulate them
     for (int i = 0; i < 3; i++) {
         VerkeersSituatie* stressSituatie = nullptr;

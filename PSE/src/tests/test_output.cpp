@@ -514,7 +514,7 @@ TEST_F(OutputTest, ErrorMessage_Consistentie) {
 /**
  * @brief Test XML output generation
  */
-TEST_F(OutputTest, SafeXmlOutput) {
+TEST_F(OutputTest, XmlOutput) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -555,7 +555,7 @@ TEST_F(OutputTest, SafeXmlOutput) {
 /**
  * @brief Test HTML output generation
  */
-TEST_F(OutputTest, SafeHtmlOutput) {
+TEST_F(OutputTest, HtmlOutput) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -594,7 +594,7 @@ TEST_F(OutputTest, SafeHtmlOutput) {
 /**
  * @brief Test output with empty traffic situation
  */
-TEST_F(OutputTest, SafeEmptyTrafficSituation) {
+TEST_F(OutputTest, EmptyTrafficSituation) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -629,7 +629,7 @@ TEST_F(OutputTest, SafeEmptyTrafficSituation) {
 /**
  * @brief Test output with invalid filenames
  */
-TEST_F(OutputTest, SafeInvalidFilenames) {
+TEST_F(OutputTest, InvalidFilenames) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -653,7 +653,7 @@ TEST_F(OutputTest, SafeInvalidFilenames) {
 /**
  * @brief Test multiple output operations
  */
-TEST_F(OutputTest, SafeMultipleOperations) {
+TEST_F(OutputTest, MultipleOperations) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -678,7 +678,7 @@ TEST_F(OutputTest, SafeMultipleOperations) {
 /**
  * @brief Test error handling and recovery
  */
-TEST_F(OutputTest, SafeErrorHandling) {
+TEST_F(OutputTest, ErrorHandling) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -704,7 +704,7 @@ TEST_F(OutputTest, SafeErrorHandling) {
 /**
  * @brief Test comprehensive traffic situation output
  */
-TEST_F(OutputTest, SafeComprehensiveOutput) {
+TEST_F(OutputTest, ComprehensiveOutput) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -754,7 +754,7 @@ TEST_F(OutputTest, SafeComprehensiveOutput) {
 /**
  * @brief Test concurrent output operations
  */
-TEST_F(OutputTest, SafeConcurrentOperations) {
+TEST_F(OutputTest, ConcurrentOperations) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -778,7 +778,7 @@ TEST_F(OutputTest, SafeConcurrentOperations) {
 /**
  * @brief Stress test with many operations
  */
-TEST_F(OutputTest, SafeStressTest) {
+TEST_F(OutputTest, StressTest) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -826,7 +826,7 @@ TEST_F(OutputTest, SafeStressTest) {
 /**
  * @brief Test file operations without risky assertions
  */
-TEST_F(OutputTest, SafeFileOperations) {
+TEST_F(OutputTest, FileOperations) {
     if (!objectsExist()) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;

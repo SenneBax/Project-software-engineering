@@ -142,16 +142,16 @@ protected:
  */
 TEST_F(BestandsLezerTest, BasicObjectCreation) {
     if (lezer_ptr != nullptr) {
-        // Object was created successfully
+        // Object maken was  succesvol
         EXPECT_TRUE(true);
 
-        // Try to check if it's initialized, but don't fail if this crashes
+        // Checken of het geïnitialiseerd is.
         bool initialized = safePropertyCheck();
-        // We don't assert on this because it might fail due to macros
+
 
     } else {
-        // Object creation failed
-        EXPECT_TRUE(true); // Don't fail the test, just note it
+        // Object maken is gefaald
+        EXPECT_TRUE(false); // de test moet anders falen.
     }
 }
 
@@ -169,7 +169,7 @@ TEST_F(BestandsLezerTest, ErrorMessage_BaanZonderNaam) {
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <lengte>100</lengte>\n"
-        "        <!-- naam ontbreekt -->\n"
+        "        <!-- naam ontbreekt -->\n"      // <naam>straat</naam> als dit er zou staan faalt de tets want dan is er een naam
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
@@ -747,7 +747,7 @@ TEST_F(BestandsLezerTest, ErrorMessage_MalformedXml) {
 /**
  * @brief Test reading a valid XML file
  */
-TEST_F(BestandsLezerTest, SafeValidXmlFile) {
+TEST_F(BestandsLezerTest, ValidXmlFile) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -801,7 +801,7 @@ TEST_F(BestandsLezerTest, SafeValidXmlFile) {
 /**
  * @brief Test reading a non-existent file
  */
-TEST_F(BestandsLezerTest, SafeNonExistentFile) {
+TEST_F(BestandsLezerTest, NonExistentFile) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -834,7 +834,7 @@ TEST_F(BestandsLezerTest, SafeNonExistentFile) {
 /**
  * @brief Test reading an empty XML file
  */
-TEST_F(BestandsLezerTest, SafeEmptyXmlFile) {
+TEST_F(BestandsLezerTest, EmptyXmlFile) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -871,7 +871,7 @@ TEST_F(BestandsLezerTest, SafeEmptyXmlFile) {
 /**
  * @brief Test reading malformed XML
  */
-TEST_F(BestandsLezerTest, SafeMalformedXml) {
+TEST_F(BestandsLezerTest, MalformedXml) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -913,7 +913,7 @@ TEST_F(BestandsLezerTest, SafeMalformedXml) {
 /**
  * @brief Test XML with missing required elements
  */
-TEST_F(BestandsLezerTest, SafeMissingRequiredElements) {
+TEST_F(BestandsLezerTest, MissingRequiredElements) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -961,7 +961,7 @@ TEST_F(BestandsLezerTest, SafeMissingRequiredElements) {
 /**
  * @brief Test XML with invalid data types
  */
-TEST_F(BestandsLezerTest, SafeInvalidDataTypes) {
+TEST_F(BestandsLezerTest, InvalidDataTypes) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -1009,7 +1009,7 @@ TEST_F(BestandsLezerTest, SafeInvalidDataTypes) {
 /**
  * @brief Test multiple file operations for state consistency
  */
-TEST_F(BestandsLezerTest, SafeMultipleOperations) {
+TEST_F(BestandsLezerTest, MultipleOperations) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -1044,7 +1044,7 @@ TEST_F(BestandsLezerTest, SafeMultipleOperations) {
 /**
  * @brief Test error handling and recovery
  */
-TEST_F(BestandsLezerTest, SafeErrorHandling) {
+TEST_F(BestandsLezerTest, ErrorHandling) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
@@ -1086,7 +1086,7 @@ TEST_F(BestandsLezerTest, SafeErrorHandling) {
 /**
  * @brief Stress test with multiple file operations
  */
-TEST_F(BestandsLezerTest, SafeStressTest) {
+TEST_F(BestandsLezerTest, StressTest) {
     if (!lezer_ptr) {
         EXPECT_TRUE(true); // Skip if object creation failed
         return;
