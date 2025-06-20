@@ -2,7 +2,10 @@
 #include <string>
 #include <thread>
 #include <chrono>
-#include <atomic>
+#include <iomanip>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "../Situation/situatie.h"
 #include "../FileReader/bestandslezer.h"
 #include "../Simulation/simulatie.h"
@@ -10,18 +13,33 @@
 
 using namespace std;
 
+/**
+ * @brief Check for non-blocking keyboard input
+ * @return true if key was pressed, false otherwise
+ */
+bool kbhit() {
+    struct termios oldt, newt;
+    int ch;
+    int oldf;
 
-// Voeg deze variabelen toe boven je main():
-std::atomic<bool> stopRequested(false);
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
-void inputThread() {
-    char input;
-    while (cin >> input) {
-        if (input == 'c' || input == 'C') {
-            stopRequested = true;
-            break;
-        }
+    ch = getchar();
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+    if(ch != EOF) {
+        ungetc(ch, stdin);
+        return true;
     }
+
+    return false;
 }
 
 /**
@@ -65,7 +83,7 @@ void displayHelp() {
  * 6. Toont eindstatistieken
  */
 int main(int argc, char* argv[]) {
-    std::cout << "Verkeerssimulatie v2.1 - Opstart\n";
+    std::cout << "Verkeerssimulatie v2.0 - Opstart\n";
 
     // Controleer command-line argumenten
     if (argc != 2) {
@@ -101,37 +119,41 @@ int main(int argc, char* argv[]) {
     // Hoofdprogrammalus
     char cmd;
     do {
-        // In je main(), vervang de continue loop door:
+        // Draai continue simulatie indien ingeschakeld
         if (running) {
-            static int stapTeller = 0;
-            static std::thread inputHandler;
-
-            // Start input thread als het nog niet draait
-            if (stapTeller == 0) {
-                stopRequested = false;
-                inputHandler = std::thread(inputThread);
-            }
-
-            stapTeller++;
             sim.stap();
 
-            cout << "Stap " << stapTeller << " - Tijd: " << sim.getHuidigeSimulatieTijd()
+            // Toon uitgebreide info tijdens continue run inclusief voertuigposities
+            cout << "Tijd: " << sim.getHuidigeSimulatieTijd()
                  << "s, Voertuigen: " << sim.getAantalVoertuigen()
-                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s" << endl;
 
+            // Toon posities van alle voertuigen
+            const auto& voertuigen = situatie.getVoertuigen();
+            for (const auto& voertuig : voertuigen) {
+                cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                     << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                     << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+            }
+            cout << "-------------------" << endl;
+
+            // Voeg een kleine vertraging toe om de simulatie zichtbaar te maken
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-            // Check of stop is gevraagd
-            if (stopRequested) {
-                running = false;
-                stapTeller = 0;
-                if (inputHandler.joinable()) {
-                    inputHandler.join();
+            // Check voor keyboard input ZONDER te wachten
+            if (kbhit()) {
+                char input = getchar();
+                if (input == 'c' || input == 'C') {
+                    running = false;
+                    cout << "\nContinue modus gestopt.\n";
+                    // Clear any remaining input
+                    while (kbhit()) {
+                        getchar();
+                    }
                 }
-                cout << "\nContinue modus gestopt.\n";
             }
 
-            continue;
+            continue; // Blijf in de continue loop
         }
 
         // Vraag om commando
@@ -154,10 +176,21 @@ int main(int argc, char* argv[]) {
                  * @post Simulatie is één tijdstap vooruitgegaan
                  * @post Statistieken zijn weergegeven
                  */
-                sim.stap();
-                cout << "Simulatiestap uitgevoerd. Nieuwe tijd: " << sim.getHuidigeSimulatieTijd() << "s\n";
-                cout << "Aantal voertuigen: " << sim.getAantalVoertuigen() << "\n";
-                cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+                {
+                    sim.stap();
+                    cout << "Simulatiestap uitgevoerd. Nieuwe tijd: " << sim.getHuidigeSimulatieTijd() << "s\n";
+                    cout << "Aantal voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                    cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+                    // Toon ook voertuigposities na enkele stap
+                    const auto& voertuigen = situatie.getVoertuigen();
+                    cout << "Voertuigposities:\n";
+                    for (const auto& voertuig : voertuigen) {
+                        cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                             << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                             << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+                    }
+                }
                 break;
 
             case 'r': // Draai 10 stappen
@@ -167,22 +200,35 @@ int main(int argc, char* argv[]) {
                  * @post Progress van elke stap is weergegeven
                  * @post Eindstatistieken zijn weergegeven
                  */
-                cout << "Uitvoeren van 10 simulatiestappen...\n";
-                for (int i = 0; i < 10; i++) {
-                    sim.stap();
-                    cout << "Stap " << i+1 << " - Tijd: " << sim.getHuidigeSimulatieTijd()
-                         << "s, Voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                {
+                    cout << "Uitvoeren van 10 simulatiestappen...\n";
+                    for (int i = 0; i < 10; i++) {
+                        sim.stap();
+                        cout << "Stap " << i+1 << " - Tijd: " << sim.getHuidigeSimulatieTijd()
+                             << "s, Voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                    }
+                    cout << "10 stappen voltooid. Gemiddelde snelheid: "
+                         << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+                    // Toon eindposities na 10 stappen
+                    const auto& voertuigenNa10 = situatie.getVoertuigen();
+                    cout << "Voertuigposities na 10 stappen:\n";
+                    for (const auto& voertuig : voertuigenNa10) {
+                        cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                             << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                             << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+                    }
                 }
-                cout << "10 stappen voltooid. Gemiddelde snelheid: "
-                     << sim.getGemiddeldeSnelheid() << " m/s\n";
                 break;
 
             case 'c': // Continue simulatie
+                /**
+                 * @brief Start continue simulatie modus
+                 * @post running == true
+                 * @post Simulatie draait automatisch tot gebruiker 'c' indrukt
+                 */
                 running = true;
-                cout << "Continue simulatie gestart. Druk 'c' om te stoppen.\n";
-                cout << "Uitvoeren van continue simulatiestappen...\n";
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Continue simulatie gestart. Typ 'c' om te stoppen.\n";
                 break;
 
             case 't': // Tekstrapport
@@ -272,6 +318,17 @@ int main(int argc, char* argv[]) {
     cout << "Totaal aantal voertuigen verwerkt: " << sim.getTotaalVerwijderdeVoertuigen() + sim.getAantalVoertuigen() << "\n";
     cout << "Aantal voertuigen verwijderd: " << sim.getTotaalVerwijderdeVoertuigen() << "\n";
     cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+    // Toon finale voertuigposities
+    {
+        const auto& finaleVoertuigen = situatie.getVoertuigen();
+        cout << "\nFinale voertuigposities:\n";
+        for (const auto& voertuig : finaleVoertuigen) {
+            cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                 << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                 << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+        }
+    }
 
     return 0;
 }
