@@ -192,6 +192,12 @@ public:
     bool getIsWaitingAtStop() const;
 
     /**
+     * @brief Alias voor getIsWaitingAtStop() voor test compatibiliteit
+     * @return True als het voertuig wacht bij een bushalte
+     */
+    bool isWaitingAtStop() const;
+
+    /**
      * @brief Voert een noodstop uit
      */
     void noodStop();
@@ -234,7 +240,6 @@ private:
     double positie;                 ///< Positie van het voertuig op de baan
     double snelheid;                ///< Snelheid van het voertuig
     double versnelling;             ///< Versnelling van het voertuig
-    bool isWaitingAtStop;           ///< Of het voertuig wacht bij een bushalte
 
     Voertuig* _initCheck;
 };

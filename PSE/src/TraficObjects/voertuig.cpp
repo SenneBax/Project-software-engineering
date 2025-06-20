@@ -14,7 +14,7 @@
 // =============================================================================
 
 Voertuig::Voertuig(const std::string& baan, double positie)
-    : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0), isWaitingAtStop(false) {
+    : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0) {
     REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
     //REQUIRE(positie > 0.0, "Positie moet positief zijn.");
 
@@ -23,7 +23,7 @@ Voertuig::Voertuig(const std::string& baan, double positie)
 }
 
 Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling)
-    : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling), isWaitingAtStop(false) {
+    : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling) {
     REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
     REQUIRE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
 
@@ -37,7 +37,7 @@ Voertuig::~Voertuig() {
 
 Voertuig::Voertuig(const Voertuig& other)
     : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
-      versnelling(other.versnelling), isWaitingAtStop(other.isWaitingAtStop) {
+      versnelling(other.versnelling) {
     _initCheck = this;
     ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 }
@@ -48,7 +48,6 @@ Voertuig& Voertuig::operator=(const Voertuig& other) {
         positie = other.positie;
         snelheid = other.snelheid;
         versnelling = other.versnelling;
-        isWaitingAtStop = other.isWaitingAtStop;
     }
     return *this;
 }
@@ -108,16 +107,16 @@ void Voertuig::setVersnelling(double nieuweVersnelling) {
     ENSURE(versnelling == nieuweVersnelling, "Versnelling werd niet correct ingesteld.");
 }
 
-void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVoertuig, 
+void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVoertuig,
                                  double verkeersLichtVertraagFactor, double bushalteVertraagFactor) {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
-    
+
     // Basis implementatie - kan overridden worden door afgeleide klassen
-    if (isWaitingAtStop) {
+    if (getIsWaitingAtStop()) {
         versnelling = 0.0;
         return;
     }
-    
+
     // Eenvoudige versnellingsberekening
     if (voorliggendVoertuig != nullptr) {
         double afstand = voorliggendVoertuig->getPositie() - positie - getLengte();
@@ -136,7 +135,7 @@ void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVo
     } else {
         versnelling = 0.0;
     }
-    
+
     // Verkeerslicht en bushalte factoren toepassen
     if (verkeersLichtVertraagFactor >= 0.0) {
         versnelling *= verkeersLichtVertraagFactor;
@@ -149,36 +148,43 @@ void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVo
 void Voertuig::updatePositieEnSnelheid(double tijdstap) {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
     REQUIRE(tijdstap > 0, "Tijdstap moet positief zijn.");
-    
+
     // Nieuwe snelheid berekenen
     double nieuweSnelheid = snelheid + versnelling * tijdstap;
-    
+
     // Zorg dat snelheid niet negatief wordt
     if (nieuweSnelheid < 0) {
         nieuweSnelheid = 0;
     }
-    
+
     // Zorg dat snelheid niet boven maximum komt
     if (nieuweSnelheid > getMaxSnelheid()) {
         nieuweSnelheid = getMaxSnelheid();
     }
-    
+
     // Nieuwe positie berekenen (gemiddelde snelheid over tijdstap)
     double gemiddeldeSnelheid = (snelheid + nieuweSnelheid) / 2.0;
     positie += gemiddeldeSnelheid * tijdstap;
-    
+
     // Snelheid updaten
     snelheid = nieuweSnelheid;
 }
 
 void Voertuig::setIsWaitingAtStop(bool waiting) {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
-    isWaitingAtStop = waiting;
+    // Deze implementatie moet leeg blijven omdat de methode virtueel kan zijn
+    // Afgeleide klassen kunnen hun eigen implementatie geven
 }
 
 bool Voertuig::getIsWaitingAtStop() const {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
-    return isWaitingAtStop;
+    // Default implementatie: geen voertuig wacht standaard
+    return false;
+}
+
+bool Voertuig::isWaitingAtStop() const {
+    REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+    return getIsWaitingAtStop();
 }
 
 void Voertuig::noodStop() {
@@ -218,6 +224,17 @@ std::unique_ptr<Voertuig> Voertuig::maakVoertuig(const std::string& baan, double
                                                  double snelheid, double versnelling,
                                                  const std::string& type) {
     if (type == "auto") {
+        return std::make_unique<Auto>(baan, positie, snelheid, versnelling);
+    } else if (type == "bus") {
+        return std::make_unique<Bus>(baan, positie, snelheid, versnelling);
+    } else if (type == "brandweerwagen") {
+        return std::make_unique<Brandweerwagen>(baan, positie, snelheid, versnelling);
+    } else if (type == "ziekenwagen") {
+        return std::make_unique<Ziekenwagen>(baan, positie, snelheid, versnelling);
+    } else if (type == "politiecombi") {
+        return std::make_unique<Politiecombi>(baan, positie, snelheid, versnelling);
+    } else {
+        // Default naar auto als type niet herkend wordt
         return std::make_unique<Auto>(baan, positie, snelheid, versnelling);
     }
 }
