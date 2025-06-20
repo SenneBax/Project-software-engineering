@@ -7,6 +7,6 @@
     <VOERTUIG>
         <baan>Teststraat</baan>
         <positie>50</positie>
-        <type>politiecombi</type>
+        <type>auto</type>   //Kan als vb ook politiecombi of andere gebruiken indien nodig
     </VOERTUIG>
 </VerkeersSituatie>
