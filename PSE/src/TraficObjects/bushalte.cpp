@@ -70,21 +70,27 @@ int Bushalte::getWachttijd() const {
  * @return True als de wachttijd voorbij is, false indien niet
  * @pre REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
  * @pre REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
+ * @post ENSURE(tijdSindsLaatsteStop >= oudeTijd, "Tijd mag niet teruglopen");
+ * @post ENSURE(tijdSindsLaatsteStop >= oudeTijd + timestep, "Tijd moet met timestep toenemen");*/
  */
+
+
 bool Bushalte::updateWachttijd(double timestep) {
-    REQUIRE(properlyInitialized(), "Wachttijd is niet correct geïnitialiseerd bij updateWachttijd.");
-    REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
-    if (isBusStopped) {
-        tijdSindsLaatsteStop += timestep;
+    REQUIRE(properlyInitialized(), "Bushalte niet geïnitialiseerd");
+    REQUIRE(timestep >= 0.0, "Timestep moet positief zijn");
 
-        // Controleer of de wachttijd voorbij is
-        if (tijdSindsLaatsteStop >= wachttijd) {
-            return true;
-        }
+    if (!isBusStopped) {
+        return false; // Geen actie nodig als bus niet gestopt is
     }
-    return false;
-    ENSURE(tijdSindsLaatsteStop >= timestep, "Tijd mag niet teruglopen");
 
+    double oudeTijd = tijdSindsLaatsteStop; // Sla oude waarde op voor ENSURE
+    tijdSindsLaatsteStop += timestep;
+
+    // Postcondities
+    ENSURE(tijdSindsLaatsteStop >= oudeTijd, "Tijd mag niet teruglopen");
+    ENSURE(tijdSindsLaatsteStop >= oudeTijd + timestep, "Tijd moet met timestep toenemen");
+
+    return (tijdSindsLaatsteStop >= wachttijd);
 }
 /**
  * @brief Registreert dat een bus gestopt is bij deze halte
