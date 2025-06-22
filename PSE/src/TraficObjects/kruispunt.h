@@ -1,6 +1,6 @@
 /**
  * @file kruispunt.h
- * @brief Definitie van de kruispunt-klasse
+ * @brief Definitie van de kruispunt-klasse - Gecorrigeerde versie
  */
 
 #ifndef KRUISPUNT_H
@@ -14,18 +14,20 @@
  * @class Kruispunt
  * @brief Klasse die een kruispunt in de verkeerssimulatie voorstelt
  *
- * Kruispunten bevatten meerdere banen met een specifieke positie
- * biedt een functionaliteit om iets op te vragen of toe tevoegen.
+ * Gecorrigeerde versie die segmentatiefouten voorkomt door:
+ * - Consistente DBC checks
+ * - Veilige geheugenoperaties
+ * - Robuste error handling
  */
 class Kruispunt {
 private:
     Kruispunt* _initCheck;
+
     struct BaanPositie {
         std::string naam;   /**< Naam van de baan */
         double positie;     /**< Positie op de baan */
 
-
-        BaanPositie(const std::string& naam, double positie) : naam(naam), positie(positie) {}
+        BaanPositie(const std::string& n, double p) : naam(n), positie(p) {}
     };
 
     std::vector<BaanPositie> banen;  /**< Lijst van banen verbonden met dit kruispunt */
@@ -36,6 +38,21 @@ public:
      * @post properlyInitialized() == true
      */
     Kruispunt();
+
+    /**
+     * @brief Copy constructor
+     */
+    Kruispunt(const Kruispunt& other);
+
+    /**
+     * @brief Assignment operator
+     */
+    Kruispunt& operator=(const Kruispunt& other);
+
+    /**
+     * @brief Destructor
+     */
+    ~Kruispunt();
 
     /**
      * @brief Voeg een baan toe aan het kruispunt
@@ -89,12 +106,9 @@ public:
     std::string kiesRandomBaan(const std::string& huidigeWeg) const;
 
     /**
-     * @brief Controleer of het VerkeersSituatie object correct is geïnitialiseerd
+     * @brief Controleer of het object correct is geïnitialiseerd
      * @return true als het object correct is geïnitialiseerd, false anders
      * @post return waarde geeft aan of object in geldige toestand verkeert
-     *
-     * Design by Contract verificatie methode om object integriteit
-     * te controleren.
      */
     bool properlyInitialized() const;
 };

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerkeersSituatie>
+
+    <BAAN>
+        <naam>Middelheimlaan</naam>
+        <lengte>500</lengte>
+    </BAAN>
+
+    <BAAN>
+        <naam>Floralienlaan</naam>
+        <lengte>750</lengte>
+    </BAAN>
+
+    <BAAN>
+        <naam>Beukenlaan</naam>
+        <lengte>1000</lengte>
+    </BAAN>
+
+    <VOERTUIG>
+        <baan>Middelheimlaan</baan>
+        <positie>20</positie>
+        <type>auto</type>
+    </VOERTUIG>
+
+    <VOERTUIG>
+        <baan>Middelheimlaan</baan>
+        <positie>40</positie>
+        <type>bus</type>
+    </VOERTUIG>
+
+    <VOERTUIG>
+        <baan>Floralienlaan</baan>
+        <positie>60</positie>
+        <type>brandweerwagen</type>
+    </VOERTUIG>
+
+    <VOERTUIG>
+        <baan>Beukenlaan</baan>
+        <positie>80</positie>
+        <type>ziekenwagen</type>
+    </VOERTUIG>
+
+    <VOERTUIG>
+        <baan>Beukenlaan</baan>
+        <positie>100</positie>
+        <type>politiecombi</type>
+    </VOERTUIG>
+
+    <VOERTUIGGENERATOR>
+        <baan>Middelheimlaan</baan>
+        <frequentie>5</frequentie>
+        <type>auto</type>
+    </VOERTUIGGENERATOR>
+
+    <VOERTUIGGENERATOR>
+        <baan>Floralienlaan</baan>
+        <frequentie>8</frequentie>
+        <type>bus</type>
+    </VOERTUIGGENERATOR>
+
+
+    <VERKEERSLICHT>
+        <baan>Middelheimlaan</baan>
+        <positie>400</positie>
+        <cyclus>20</cyclus>
+    </VERKEERSLICHT>
+
+    <VERKEERSLICHT>
+        <baan>Floralienlaan</baan>
+        <positie>350</positie>
+        <cyclus>25</cyclus>
+        <oranje>true</oranje>
+    </VERKEERSLICHT>
+
+    <VERKEERSLICHT>
+        <baan>Beukenlaan</baan>
+        <positie>600</positie>
+        <cyclus>30</cyclus>
+        <oranje>true</oranje>
+        <slim>true</slim>
+    </VERKEERSLICHT>
+
+</VerkeersSituatie>

@@ -72,7 +72,6 @@ int Bushalte::getWachttijd() const {
  * @pre REQUIRE(timestep >= 0.0, "timestep moet positief zijn.");
  * @post ENSURE(tijdSindsLaatsteStop >= oudeTijd, "Tijd mag niet teruglopen");
  * @post ENSURE(tijdSindsLaatsteStop >= oudeTijd + timestep, "Tijd moet met timestep toenemen");*/
- */
 
 
 bool Bushalte::updateWachttijd(double timestep) {

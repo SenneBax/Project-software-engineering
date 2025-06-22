@@ -5,7 +5,7 @@
 
 /**
  * @class Verkeerslicht
- * @brief Klasse die een verkeerslicht in de verkeerssimulatie voorstelt
+ * @brief Klasse die een verkeerslicht in de verkeerssimulatie voorstelt - Gecorrigeerde versie
  *
  * Een Verkeerslicht regelt het verkeer op een specifieke positie op een baan.
  * Het kan verschillende kleuren hebben (groen, oranje, rood) en schakelt
@@ -43,6 +43,7 @@ private:
     bool heeftOranje;         /**< Of dit verkeerslicht een oranje status heeft */
     bool isSlim;              /**< Of dit een slim verkeerslicht is */
     int voertuigenVoorLicht;  /**< Aantal voertuigen wachtend voor het licht (alleen slim) */
+    int prioriteitsVoertuigenVoorLicht; /**< Aantal prioriteitsvoertuigen wachtend (alleen slim) */
     Verkeerslicht* _initCheck; /**< Pointer voor Design by Contract verificatie */
 
 public:
@@ -72,7 +73,30 @@ public:
     Verkeerslicht(const std::string& baan, double positie, int cyclus, bool heeftOranje = false, bool isSlim = false);
 
     /**
-     * @brief Controleer of het BestandsLezer object correct is geïnitialiseerd
+     * @brief Copy constructor
+     * @param other Het te kopiëren verkeerslicht
+     * @pre other.properlyInitialized() == true
+     * @post properlyInitialized() == true
+     */
+    Verkeerslicht(const Verkeerslicht& other);
+
+    /**
+     * @brief Assignment operator
+     * @param other Het toe te wijzen verkeerslicht
+     * @return Referentie naar dit object
+     * @pre properlyInitialized() == true
+     * @pre other.properlyInitialized() == true
+     * @post properlyInitialized() == true
+     */
+    Verkeerslicht& operator=(const Verkeerslicht& other);
+
+    /**
+     * @brief Destructor
+     */
+    ~Verkeerslicht();
+
+    /**
+     * @brief Controleer of het object correct is geïnitialiseerd
      * @return true als het object correct is geïnitialiseerd, false anders
      * @post return waarde geeft aan of object in geldige toestand verkeert
      *
@@ -232,9 +256,22 @@ public:
      * @post Als !isSlim(): geen effect
      *
      * Registreert een voertuig dat voor dit slimme verkeerslicht wacht.
-     * Alleen van toepassing op slimme verkeerslichten. Om te controleren op prioriteitsvoertuigen.
+     * Alleen van toepassing op slimme verkeerslichten.
      */
     void registerVoertuigVoorLicht();
+
+    /**
+     * @brief Registreer een prioriteitsvoertuig wachtend voor dit licht (voor slimme verkeerslichten)
+     * @param isPrioriteit true als het een prioriteitsvoertuig is (brandweer, ziekenwagen, politie)
+     * @pre properlyInitialized() == true
+     * @post Als isSlim() && isPrioriteit: prioriteitsVoertuigenVoorLicht is verhoogd met 1
+     * @post Als isSlim() && !isPrioriteit: voertuigenVoorLicht is verhoogd met 1
+     * @post Als !isSlim(): geen effect
+     *
+     * Registreert een voertuig dat voor dit slimme verkeerslicht wacht.
+     * Prioriteitsvoertuigen worden apart geteld en krijgen voorrang.
+     */
+    void registerVoertuigVoorLicht(bool isPrioriteit);
 
     /**
      * @brief Deregistreer een voertuig dat aan dit licht wachtte (voor slimme verkeerslichten)
@@ -247,6 +284,19 @@ public:
      * Voorkomt dat de teller negatief wordt.
      */
     void unregisterVoertuigVoorLicht();
+
+    /**
+     * @brief Deregistreer een prioriteitsvoertuig dat aan dit licht wachtte (voor slimme verkeerslichten)
+     * @param isPrioriteit true als het een prioriteitsvoertuig is
+     * @pre properlyInitialized() == true
+     * @post Als isSlim() && isPrioriteit && prioriteitsVoertuigenVoorLicht > 0: prioriteitsVoertuigenVoorLicht verminderd met 1
+     * @post Als isSlim() && !isPrioriteit && voertuigenVoorLicht > 0: voertuigenVoorLicht verminderd met 1
+     * @post prioriteitsVoertuigenVoorLicht >= 0 && voertuigenVoorLicht >= 0
+     *
+     * Deregistreert een voertuig dat niet meer wacht voor dit licht.
+     * Houdt rekening met type voertuig (prioriteit of normaal).
+     */
+    void unregisterVoertuigVoorLicht(bool isPrioriteit);
 
     /**
      * @brief Haal het aantal voertuigen op dat voor dit licht wacht
@@ -262,11 +312,36 @@ public:
     int getVoertuigenVoorLicht() const;
 
     /**
+     * @brief Haal het aantal prioriteitsvoertuigen op dat voor dit licht wacht
+     * @return Het aantal geregistreerde wachtende prioriteitsvoertuigen
+     * @pre properlyInitialized() == true
+     * @post return waarde >= 0
+     * @post Voor slimme lichten: actueel aantal wachtende prioriteitsvoertuigen
+     * @post Voor normale lichten: altijd 0
+     *
+     * Geeft het aantal prioriteitsvoertuigen dat geregistreerd staat als wachtend
+     * voor dit verkeerslicht. Alleen relevant voor slimme lichten.
+     */
+    int getPrioriteitsVoertuigenVoorLicht() const;
+
+    /**
+     * @brief Haal totaal aantal voertuigen op dat voor dit licht wacht
+     * @return Het totaal aantal (normale + prioriteits) wachtende voertuigen
+     * @pre properlyInitialized() == true
+     * @post return waarde >= 0
+     * @post return waarde == getVoertuigenVoorLicht() + getPrioriteitsVoertuigenVoorLicht()
+     *
+     * Geeft het totaal aantal voertuigen (normale + prioriteits) dat wacht.
+     */
+    int getTotaalVoertuigenVoorLicht() const;
+
+    /**
      * @brief Reset het aantal voertuigen dat voor dit licht wacht
      * @pre properlyInitialized() == true
      * @post getVoertuigenVoorLicht() == 0
+     * @post getPrioriteitsVoertuigenVoorLicht() == 0
      *
-     * Reset de teller van wachtende voertuigen naar nul.
+     * Reset beide tellers van wachtende voertuigen naar nul.
      * Wordt typisch gebruikt wanneer het licht groen wordt.
      */
     void resetVoertuigenVoorLicht();

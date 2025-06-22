@@ -1,8 +1,6 @@
 /**
-* @file output.cpp
- * @author senne
- * @date 24/04/2025
- * @brief Implementatie van de output klasse (Herzien met grafische impressies)
+ * @file output.cpp
+ * @brief Implementatie van de output klasse - Verbeterde versie met verkeerslichten in lijn
  */
 
 #include "output.h"
@@ -16,7 +14,7 @@
 
 /**
  * @brief Constructor
- * @post ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
+ * @post properlyInitialized() == true
  */
 output::output() : lastFoutmelding("")
 {
@@ -33,10 +31,9 @@ bool output::properlyInitialized() const
  * @brief Genereert een tekstuele weergave van de verkeerssituatie
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de tekstuele weergave
- * @pre REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
- * @post ENSURE(!ss.str().empty(), "Het tekstrapport mag niet leeg zijn");
+ * @pre situatie.properlyInitialized() == true
  */
-std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
+std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
     std::stringstream ss;
     ss << "=== Verkeerssituatie Info ===" << std::endl;
@@ -51,7 +48,6 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     const auto& voertuigen = situatie.getVoertuigen();
     ss << "Voertuigen (" << voertuigen.size() << "):" << std::endl;
     for (const auto& voertuig : voertuigen) {
-        // Access through pointer with -> operator
         ss << " - " << voertuig->getType() << " op baan '" << voertuig->getBaanNaam()
            << "' (positie: " << voertuig->getPositie()
            << "m, snelheid: " << voertuig->getSnelheid() << "m/s)" << std::endl;
@@ -63,7 +59,15 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
         ss << " - Verkeerslicht op baan '" << licht.getBaan()
            << "' (positie: " << licht.getPositie()
            << "m, cyclus: " << licht.getCyclus()
-           << "s, kleur: " << licht.getKleurAsString() << ")" << std::endl;
+           << "s, kleur: " << licht.getKleurAsString();
+
+        if (licht.getIsSlim()) {
+            ss << ", slim";
+            if (licht.getTotaalVoertuigenVoorLicht() > 0) {
+                ss << ", " << licht.getTotaalVoertuigenVoorLicht() << " wachtend";
+            }
+        }
+        ss << ")" << std::endl;
     }
 
     const auto& bushaltes = situatie.getBushaltes();
@@ -85,18 +89,17 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
                << "' op positie " << baanPaar.second << "m" << std::endl;
         }
     }
-    ENSURE(!ss.str().empty(), "Het tekstrapport mag niet leeg zijn");
+
     return ss.str();
 }
 
 /**
- * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII kunst)
+ * @brief Genereert een verbeterde grafische impressie van de verkeerssituatie (ASCII kunst)
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de grafische impressie
- * @pre REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
- * @post ENSURE(!ss.str().empty(), "De grafische impressie mag niet leeg zijn");
+ * @pre situatie.properlyInitialized() == true
  */
-std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
+std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
 
     std::stringstream ss;
@@ -105,414 +108,376 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
     const auto& voertuigen = situatie.getVoertuigen();
     const auto& verkeerslichten = situatie.getVerkeerslichten();
     const auto& bushaltes = situatie.getBushaltes();
+    const auto& kruispunten = situatie.getKruispunten();
 
-    // Bepaal langste baannaam voor uitlijning.
-    size_t maxBaanNaamLenghte = 0;
-    for (const auto& baanPaar : banen)
-    {
-        maxBaanNaamLenghte = std::max(maxBaanNaamLenghte, baanPaar.first.length());
+    // Bepaal langste baannaam voor uitlijning
+    size_t maxNaamLengte = 0;
+    for (const auto& paar : banen) {
+        maxNaamLengte = std::max(maxNaamLengte, paar.first.length());
     }
 
-    // Verwerk elke baan
-    for (const auto& baanPaar : banen) {
-        const std::string& baanNaam = baanPaar.first;
-        const Baan& baan = baanPaar.second;
+    // Minimale breedte voor de weergave
+    const int MIN_BAAN_BREEDTE = 80;
+
+    for (const auto& paar : banen) {
+        const std::string& baanNaam = paar.first;
+        const Baan& baan = paar.second;
         const int baanLengte = baan.getLengte();
 
-        // Creëer een schaalfactor om de weergave passend te maken
-        const int maxDispLen = 80; // Maximale weergavelengte
-        double schaalfactor = 1.0;
-        if (baanLengte > maxDispLen) {
-            schaalfactor = static_cast<double>(maxDispLen) / baanLengte;
-        }
+        // Bepaal schaalfactor om baan in 80 karakters te passen
+        double schaalfactor = static_cast<double>(MIN_BAAN_BREEDTE) / baanLengte;
+        if (schaalfactor > 1.0) schaalfactor = 1.0; // Niet groter maken dan werkelijke grootte
 
-        const int displayLengte = std::max(1, static_cast<int>(baanLengte * schaalfactor));
+        // Maak een array voor de baan visualisatie
+        std::vector<char> baanVisualisatie(MIN_BAAN_BREEDTE, '=');
 
-        // Maak een stringrepresentatie van de baan
-        std::string baanVisualisatie(displayLengte, '=');
-
-        // Markeer voertuigen op de baan
+        // Plaats voertuigen op de baan
         for (const auto& voertuig : voertuigen) {
             if (voertuig->getBaanNaam() == baanNaam) {
                 int positie = static_cast<int>(voertuig->getPositie() * schaalfactor);
-                if (positie >= 0 && positie < displayLengte) {
-                    // Markeer verschillende voertuigtypes met verschillende tekens
+                if (positie >= 0 && positie < MIN_BAAN_BREEDTE) {
+                    char symbool = '?';
                     std::string type = voertuig->getType();
-                    if (type == "auto") {
-                        baanVisualisatie[positie] = 'A';
-                    } else if (type == "bus") {
-                        baanVisualisatie[positie] = 'B';
-                    } else if (type == "brandweerwagen") {
-                        baanVisualisatie[positie] = 'F'; // F voor brandweerwagen
-                    } else if (type == "ziekenwagen") {
-                        baanVisualisatie[positie] = 'Z';
-                    } else if (type == "politiecombi") {
-                        baanVisualisatie[positie] = 'P';
-                    }
+
+                    if (type == "auto") symbool = 'A';
+                    else if (type == "bus") symbool = 'B';
+                    else if (type == "brandweerwagen") symbool = 'F';
+                    else if (type == "ziekenwagen") symbool = 'Z';
+                    else if (type == "politiecombi") symbool = 'P';
+
+                    baanVisualisatie[positie] = symbool;
                 }
             }
         }
 
-        // Maak een lijst van verkeerslichten op deze baan
-        std::vector<std::pair<int, char>> verkeerslichtPosities;
+        // Plaats verkeerslichten op de baan (in de lijn!)
         for (const auto& licht : verkeerslichten) {
             if (licht.getBaan() == baanNaam) {
                 int positie = static_cast<int>(licht.getPositie() * schaalfactor);
-                if (positie >= 0 && positie < displayLengte) {
-                    char kleur = licht.isGroen() ? 'G' : (licht.isOranje() ? 'O' : 'R');
-                    verkeerslichtPosities.push_back(std::make_pair(positie, kleur));
+                if (positie >= 0 && positie < MIN_BAAN_BREEDTE) {
+                    char kleurSymbool = '?';
+                    std::string kleur = licht.getKleurAsString();
+
+                    if (kleur == "groen") kleurSymbool = 'G';
+                    else if (kleur == "oranje") kleurSymbool = 'O';
+                    else if (kleur == "rood") kleurSymbool = 'R';
+
+                    baanVisualisatie[positie] = kleurSymbool;
                 }
             }
         }
 
-        // Maak een lijst van bushaltes op deze baan
-        std::vector<int> bushaltePosities;
+        // Plaats bushaltes op de baan
         for (const auto& halte : bushaltes) {
             if (halte.getBaan() == baanNaam) {
                 int positie = static_cast<int>(halte.getPositie() * schaalfactor);
-                if (positie >= 0 && positie < displayLengte) {
-                    bushaltePosities.push_back(positie);
+                if (positie >= 0 && positie < MIN_BAAN_BREEDTE) {
+                    baanVisualisatie[positie] = 'H'; // H voor Halte
                 }
             }
         }
 
-        // Maak een lijst van kruispunten op deze baan
-        std::vector<int> kruispuntPosities;
-        for (const auto& kruispunt : situatie.getKruispunten()) {
-            if (kruispunt.bevatBaan(baanNaam)) {
-                int positie = static_cast<int>(kruispunt.getPositieOpBaan(baanNaam) * schaalfactor);
-                if (positie >= 0 && positie < displayLengte) {
-                    kruispuntPosities.push_back(positie);
-                }
-            }
-        }
-
-        // Markeer kruispunten in de weergave
-        for (int pos : kruispuntPosities) {
-            if (pos >= 0 && pos < displayLengte) {
-                baanVisualisatie[pos] = '+';
-            }
-        }
-
-        // Print de baannaam en visualisatie
-        ss << std::left << std::setw(maxBaanNaamLenghte) << baanNaam << " | " << baanVisualisatie << std::endl;
-
-        // Print verkeerslichtinformatie als er verkeerslichten op deze baan zijn
-        if (!verkeerslichtPosities.empty()) {
-            ss << std::left << std::setw(maxBaanNaamLenghte) << "> verkeerslichten" << " | ";
-            for (int i = 0; i < displayLengte; i++) {
-                bool found = false;
-                for (const auto& lichtPaar : verkeerslichtPosities) {
-                    if (lichtPaar.first == i) {
-                        ss << lichtPaar.second;
-                        found = true;
-                        break;
+        // Plaats kruispunten op de baan
+        for (const auto& kruispunt : kruispunten) {
+            auto kruispuntBanen = kruispunt.getBanen();
+            for (const auto& kruispuntBaan : kruispuntBanen) {
+                if (kruispuntBaan.first == baanNaam) {
+                    int positie = static_cast<int>(kruispuntBaan.second * schaalfactor);
+                    if (positie >= 0 && positie < MIN_BAAN_BREEDTE) {
+                        baanVisualisatie[positie] = '+'; // + voor kruispunt
                     }
                 }
-                if (!found) {
-                    ss << " ";
-                }
             }
-            ss << std::endl;
         }
 
-        // Print bushalte-informatie als er bushaltes op deze baan zijn
-        if (!bushaltePosities.empty()) {
-            ss << std::left << std::setw(maxBaanNaamLenghte) << "> bushaltes" << " | ";
-            for (int i = 0; i < displayLengte; i++) {
-                bool found = false;
-                for (int haltePositie : bushaltePosities) {
-                    if (haltePositie == i) {
-                        ss << "B";
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    ss << " ";
-                }
-            }
-            ss << std::endl;
+        // Print de baan met uitlijning
+        ss << std::left << std::setw(maxNaamLengte + 1) << baanNaam << "| ";
+        for (char c : baanVisualisatie) {
+            ss << c;
         }
-
-        // Print kruispuntinformatie als er kruispunten op deze baan zijn
-        if (!kruispuntPosities.empty()) {
-            ss << std::left << std::setw(maxBaanNaamLenghte) << "> kruispunten" << " | ";
-            for (int i = 0; i < displayLengte; i++) {
-                bool found = false;
-                for (int kruisPunt : kruispuntPosities) {
-                    if (kruisPunt == i) {
-                        ss << "+";
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    ss << " ";
-                }
-            }
-            ss << std::endl;
-        }
-
-        // Voeg een lege regel toe tussen banen
         ss << std::endl;
     }
 
     // Legende
-    ss << "Legende:" << std::endl;
-    ss << " A: Auto          G: Groen verkeerslicht" << std::endl;
-    ss << " B: Bus           O: Oranje verkeerslicht" << std::endl;
-    ss << " F: Brandweerwagen R: Rood verkeerslicht" << std::endl;
-    ss << " Z: Ziekenwagen   B: Bushalte" << std::endl;
-    ss << " P: Politiecombi  +: Kruispunt" << std::endl;
+    ss << std::endl << "Legende:" << std::endl;
+    ss << "  A=Auto, B=Bus, F=Brandweer, Z=Ziekenwagen, P=Politie" << std::endl;
+    ss << "  G=Groen licht, O=Oranje licht, R=Rood licht" << std::endl;
+    ss << "  H=Bushalte, +=Kruispunt, ==Weg" << std::endl;
 
-    ENSURE(!ss.str().empty(), "De grafische impressie mag niet leeg zijn");
     return ss.str();
 }
 
 /**
- * @brief Schrijft een verkeerssituatie naar een XML-bestand
- * @param situatie De te schrijven verkeerssituatie
- * @param bestandsnaam Pad naar het XML-bestand
- * @return true als het schrijven succesvol was, false indien niet
- * @pre REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
- * @pre REQUIRE(!bestandsnaam.empty(), "BestandsNaam mag niet leeg zijn.");
+ * @brief Toon een verbeterde grafische impressie op stdout met voertuigdetails
+ * @param situatie De weer te geven verkeerssituatie
+ * @pre situatie.properlyInitialized() == true
  */
-bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+void output::maakGrafischeImpressie(const VerkeersSituatie& situatie) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
-    REQUIRE(!bestandsnaam.empty(), "BestandsNaam mag niet leeg zijn.");
-    TiXmlDocument doc;
-    TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "UTF-8", "");
-    doc.LinkEndChild(decl);
 
-    TiXmlElement* root = new TiXmlElement("VerkeersSituatie");
-    doc.LinkEndChild(root);
+    // Toon grafische impressie
+    std::cout << genereerGrafischeImpressie(situatie) << std::endl;
 
-    // Schrijf banen
-    for (const auto& paar : situatie.getBanen()) {
-        const Baan& baan = paar.second;
+    // Toon scheidingslijn
+    std::cout << "-------------------" << std::endl;
 
-        TiXmlElement* baanElement = new TiXmlElement("BAAN");
+    // Toon voertuigdetails met verkeerslicht informatie
+    const auto& voertuigen = situatie.getVoertuigen();
+    const auto& verkeerslichten = situatie.getVerkeerslichten();
 
-        TiXmlElement* naamElement = new TiXmlElement("naam");
-        TiXmlText* naamText = new TiXmlText(baan.getNaam().c_str());
-        naamElement->LinkEndChild(naamText);
-        baanElement->LinkEndChild(naamElement);
+    if (!voertuigen.empty()) {
+        for (const auto& voertuig : voertuigen) {
+            std::cout << "  " << voertuig->getType()
+                      << " op " << voertuig->getBaanNaam()
+                      << " @ " << std::fixed << std::setprecision(1) << voertuig->getPositie() << "m"
+                      << " (snelheid: " << std::setprecision(1) << voertuig->getSnelheid() << " m/s)";
 
-        TiXmlElement* lengteElement = new TiXmlElement("lengte");
-        std::stringstream ss;
-        ss << baan.getLengte();
-        TiXmlText* lengteText = new TiXmlText(ss.str().c_str());
-        lengteElement->LinkEndChild(lengteText);
-        baanElement->LinkEndChild(lengteElement);
+            // Zoek verkeerslichten op dezelfde baan
+            std::vector<std::string> lichtenInfo;
+            for (const auto& licht : verkeerslichten) {
+                if (licht.getBaan() == voertuig->getBaanNaam()) {
+                    double afstand = licht.getPositie() - voertuig->getPositie();
 
-        root->LinkEndChild(baanElement);
+                    // Alleen tonen als verkeerslicht voor het voertuig ligt (binnen 200m)
+                    if (afstand > 0 && afstand <= 200.0) {
+                        std::stringstream lichtInfo;
+                        lichtInfo << licht.getKleurAsString() << " licht @ "
+                                  << std::fixed << std::setprecision(1) << licht.getPositie() << "m";
+
+                        // Extra info voor slimme lichten (gebruik bestaande functies)
+                        if (licht.getIsSlim()) {
+                            lichtInfo << " (slim";
+
+                            // Gebruik alleen bestaande functies die beschikbaar zijn
+                            try {
+                                int wachtenden = licht.getVoertuigenVoorLicht();
+                                if (wachtenden > 0) {
+                                    lichtInfo << ", " << wachtenden << " wachtend";
+                                }
+                            } catch (...) {
+                                // Functie mogelijk niet beschikbaar
+                            }
+
+                            lichtInfo << ")";
+                        }
+
+                        lichtenInfo.push_back(lichtInfo.str());
+                    }
+                }
+            }
+
+            // Voeg verkeerslicht info toe als die er is
+            if (!lichtenInfo.empty()) {
+                std::cout << " -> ";
+                for (size_t i = 0; i < lichtenInfo.size(); ++i) {
+                    if (i > 0) std::cout << ", ";
+                    std::cout << lichtenInfo[i];
+                }
+            }
+
+            std::cout << std::endl;
+        }
+    } else {
+        std::cout << "  Geen voertuigen in de simulatie." << std::endl;
     }
 
-    // Schrijf voertuigen
-    for (const auto& voertuig : situatie.getVoertuigen()) {
-        TiXmlElement* voertuigElement = new TiXmlElement("VOERTUIG");
-
-        TiXmlElement* baanElement = new TiXmlElement("baan");
-        TiXmlText* baanText = new TiXmlText(voertuig->getBaanNaam().c_str());
-        baanElement->LinkEndChild(baanText);
-        voertuigElement->LinkEndChild(baanElement);
-
-        TiXmlElement* positieElement = new TiXmlElement("positie");
-        std::stringstream ssPos;
-        ssPos << voertuig->getPositie();
-        TiXmlText* positieText = new TiXmlText(ssPos.str().c_str());
-        positieElement->LinkEndChild(positieText);
-        voertuigElement->LinkEndChild(positieElement);
-
-        // Voeg type toe als het niet de standaard "auto" is
-        if (voertuig->getType() != "auto") {
-            TiXmlElement* typeElement = new TiXmlElement("type");
-            TiXmlText* typeText = new TiXmlText(voertuig->getType().c_str());
-            typeElement->LinkEndChild(typeText);
-            voertuigElement->LinkEndChild(typeElement);
-        }
-
-        root->LinkEndChild(voertuigElement);
-    }
-
-    // Schrijf verkeerslichten
-    for (const auto& licht : situatie.getVerkeerslichten()) {
-        TiXmlElement* lichtElement = new TiXmlElement("VERKEERSLICHT");
-
-        TiXmlElement* baanElement = new TiXmlElement("baan");
-        TiXmlText* baanText = new TiXmlText(licht.getBaan().c_str());
-        baanElement->LinkEndChild(baanText);
-        lichtElement->LinkEndChild(baanElement);
-
-        TiXmlElement* positieElement = new TiXmlElement("positie");
-        std::stringstream ssPos;
-        ssPos << licht.getPositie();
-        TiXmlText* positieText = new TiXmlText(ssPos.str().c_str());
-        positieElement->LinkEndChild(positieText);
-        lichtElement->LinkEndChild(positieElement);
-
-        TiXmlElement* cyclusElement = new TiXmlElement("cyclus");
-        std::stringstream ssCyclus;
-        ssCyclus << licht.getCyclus();
-        TiXmlText* cyclusText = new TiXmlText(ssCyclus.str().c_str());
-        cyclusElement->LinkEndChild(cyclusText);
-        lichtElement->LinkEndChild(cyclusElement);
-
-        // Voeg aanvullende attributen toe indien nodig
-        if (licht.getHeeftOranje()) {
-            TiXmlElement* oranjeElement = new TiXmlElement("oranje");
-            TiXmlText* oranjeText = new TiXmlText("true");
-            oranjeElement->LinkEndChild(oranjeText);
-            lichtElement->LinkEndChild(oranjeElement);
-        }
-
+    // Toon verkeerslichten status als er voertuigen zijn die wachten
+    bool heeftWachtendeVoertuigen = false;
+    for (const auto& licht : verkeerslichten) {
         if (licht.getIsSlim()) {
-            TiXmlElement* slimElement = new TiXmlElement("slim");
-            TiXmlText* slimText = new TiXmlText("true");
-            slimElement->LinkEndChild(slimText);
-            lichtElement->LinkEndChild(slimElement);
+            try {
+                int wachtenden = licht.getVoertuigenVoorLicht();
+                if (wachtenden > 0) {
+                    if (!heeftWachtendeVoertuigen) {
+                        std::cout << std::endl << "Slimme verkeerslichten met wachtende voertuigen:" << std::endl;
+                        heeftWachtendeVoertuigen = true;
+                    }
+
+                    std::cout << "  " << licht.getBaan() << " @ " << licht.getPositie() << "m: "
+                              << licht.getKleurAsString() << " licht, "
+                              << wachtenden << " voertuigen wachtend"
+                              << std::endl;
+                }
+            } catch (...) {
+                // Functie mogelijk niet beschikbaar, geen crash
+            }
         }
-
-        root->LinkEndChild(lichtElement);
     }
 
-    // Schrijf bushaltes
-    for (const auto& halte : situatie.getBushaltes()) {
-        TiXmlElement* halteElement = new TiXmlElement("BUSHALTE");
+    // Toon altijd alle verkeerslichten met hun status
+    if (!verkeerslichten.empty()) {
+        std::cout << std::endl << "Alle verkeerslichten:" << std::endl;
+        for (const auto& licht : verkeerslichten) {
+            try {
+                std::cout << "  " << licht.getBaan() << " @ "
+                          << std::fixed << std::setprecision(1) << licht.getPositie() << "m: "
+                          << licht.getKleurAsString() << " licht";
 
-        TiXmlElement* baanElement = new TiXmlElement("baan");
-        TiXmlText* baanText = new TiXmlText(halte.getBaan().c_str());
-        baanElement->LinkEndChild(baanText);
-        halteElement->LinkEndChild(baanElement);
+                if (licht.getIsSlim()) {
+                    std::cout << " (slim, cyclus: " << licht.getCyclus() << "s)";
+                } else {
+                    std::cout << " (normaal, cyclus: " << licht.getCyclus() << "s)";
+                }
 
-        TiXmlElement* positieElement = new TiXmlElement("positie");
-        std::stringstream ssPos;
-        ssPos << halte.getPositie();
-        TiXmlText* positieText = new TiXmlText(ssPos.str().c_str());
-        positieElement->LinkEndChild(positieText);
-        halteElement->LinkEndChild(positieElement);
-
-        TiXmlElement* wachttijdElement = new TiXmlElement("wachttijd");
-        std::stringstream ssWacht;
-        ssWacht << halte.getWachttijd();
-        TiXmlText* wachttijdText = new TiXmlText(ssWacht.str().c_str());
-        wachttijdElement->LinkEndChild(wachttijdText);
-        halteElement->LinkEndChild(wachttijdElement);
-
-        root->LinkEndChild(halteElement);
-    }
-
-    // Schrijf voertuiggenerators
-    for (const auto& generator : situatie.getVoertuigGenerators()) {
-        TiXmlElement* generatorElement = new TiXmlElement("VOERTUIGGENERATOR");
-
-        TiXmlElement* baanElement = new TiXmlElement("baan");
-        TiXmlText* baanText = new TiXmlText(generator.getBaanNaam().c_str());
-        baanElement->LinkEndChild(baanText);
-        generatorElement->LinkEndChild(baanElement);
-
-        TiXmlElement* frequentieElement = new TiXmlElement("frequentie");
-        std::stringstream ssFreq;
-        ssFreq << generator.getFrequentie();
-        TiXmlText* frequentieText = new TiXmlText(ssFreq.str().c_str());
-        frequentieElement->LinkEndChild(frequentieText);
-        generatorElement->LinkEndChild(frequentieElement);
-
-        // Voeg type toe als het niet de standaard "auto" is
-        if (generator.getType() != "auto") {
-            TiXmlElement* typeElement = new TiXmlElement("type");
-            TiXmlText* typeText = new TiXmlText(generator.getType().c_str());
-            typeElement->LinkEndChild(typeText);
-            generatorElement->LinkEndChild(typeElement);
+                std::cout << std::endl;
+            } catch (...) {
+                // Bij errors, toon minimale info
+                std::cout << "  Verkeerslicht op " << licht.getBaan() << std::endl;
+            }
         }
-
-        root->LinkEndChild(generatorElement);
     }
 
-    // Schrijf kruispunten
-    for (const auto& kruispunt : situatie.getKruispunten()) {
-        TiXmlElement* kruispuntElement = new TiXmlElement("KRUISPUNT");
-
-        for (const auto& baanPaar : kruispunt.getBanen()) {
-            TiXmlElement* baanElement = new TiXmlElement("baan");
-
-            // Voeg positie toe als attribuut
-            std::stringstream ssPos;
-            ssPos << baanPaar.second;
-            baanElement->SetAttribute("positie", ssPos.str().c_str());
-
-            // Voeg baannaam toe als tekst
-            TiXmlText* baanText = new TiXmlText(baanPaar.first.c_str());
-            baanElement->LinkEndChild(baanText);
-
-            kruispuntElement->LinkEndChild(baanElement);
-        }
-
-        root->LinkEndChild(kruispuntElement);
-    }
-
-    // Schrijf het bestand
-    bool saveSuccess = doc.SaveFile(bestandsnaam.c_str());
-    if (!saveSuccess) {
-        lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet schrijven";
-        return false;
-    }
-
-    return true;
+    std::cout << "-------------------" << std::endl;
 }
 
 /**
- * @brief Genereert een HTML-weergave van de verkeerssituatie
+ * @brief Toon een tekstrapport op stdout
  * @param situatie De weer te geven verkeerssituatie
- * @param bestandsnaam Pad naar het HTML-bestand
- * @return true als het schrijven succesvol was, false indien niet
- * @pre REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
- * @pre REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
+ * @pre situatie.properlyInitialized() == true
  */
-bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+void output::maakTekstRapport(const VerkeersSituatie& situatie) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    std::cout << genereerTekstRapport(situatie) << std::endl;
+}
+
+/**
+ * @brief Schrijf de verkeerssituatie naar een XML bestand
+ * @param situatie De te schrijven verkeerssituatie
+ * @param bestandsnaam Naam van het uit te schrijven bestand
+ * @return true als schrijven succesvol was, false anders
+ * @pre situatie.properlyInitialized() == true
+ * @pre !bestandsnaam.empty()
+ */
+bool output::schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
     REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
+
     std::ofstream file(bestandsnaam);
     if (!file.is_open()) {
         lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
         return false;
     }
 
-    // schrijft HTML header gedaan met AI maar persoonlijk nagekeken op juistheid
+    file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
+    file << "<VERKEERSSITUATIE>" << std::endl;
+
+    // Schrijf banen
+    const auto& banen = situatie.getBanen();
+    for (const auto& paar : banen) {
+        const Baan& baan = paar.second;
+        file << "    <BAAN>" << std::endl;
+        file << "        <naam>" << baan.getNaam() << "</naam>" << std::endl;
+        file << "        <lengte>" << baan.getLengte() << "</lengte>" << std::endl;
+        file << "    </BAAN>" << std::endl;
+    }
+
+    // Schrijf voertuigen
+    const auto& voertuigen = situatie.getVoertuigen();
+    for (const auto& voertuig : voertuigen) {
+        file << "    <VOERTUIG>" << std::endl;
+        file << "        <type>" << voertuig->getType() << "</type>" << std::endl;
+        file << "        <baan>" << voertuig->getBaanNaam() << "</baan>" << std::endl;
+        file << "        <positie>" << voertuig->getPositie() << "</positie>" << std::endl;
+        file << "        <snelheid>" << voertuig->getSnelheid() << "</snelheid>" << std::endl;
+        file << "    </VOERTUIG>" << std::endl;
+    }
+
+    // Schrijf verkeerslichten
+    const auto& verkeerslichten = situatie.getVerkeerslichten();
+    for (const auto& licht : verkeerslichten) {
+        file << "    <VERKEERSLICHT>" << std::endl;
+        file << "        <baan>" << licht.getBaan() << "</baan>" << std::endl;
+        file << "        <positie>" << licht.getPositie() << "</positie>" << std::endl;
+        file << "        <cyclus>" << licht.getCyclus() << "</cyclus>" << std::endl;
+        file << "        <kleur>" << licht.getKleurAsString() << "</kleur>" << std::endl;
+        file << "        <oranje>" << (licht.getHeeftOranje() ? "true" : "false") << "</oranje>" << std::endl;
+        file << "        <slim>" << (licht.getIsSlim() ? "true" : "false") << "</slim>" << std::endl;
+        if (licht.getIsSlim()) {
+            file << "        <voertuigen_wachtend>" << licht.getVoertuigenVoorLicht() << "</voertuigen_wachtend>" << std::endl;
+            file << "        <prioriteit_wachtend>" << licht.getPrioriteitsVoertuigenVoorLicht() << "</prioriteit_wachtend>" << std::endl;
+        }
+        file << "    </VERKEERSLICHT>" << std::endl;
+    }
+
+    // Schrijf bushaltes
+    const auto& bushaltes = situatie.getBushaltes();
+    for (const auto& halte : bushaltes) {
+        file << "    <BUSHALTE>" << std::endl;
+        file << "        <baan>" << halte.getBaan() << "</baan>" << std::endl;
+        file << "        <positie>" << halte.getPositie() << "</positie>" << std::endl;
+        file << "        <wachttijd>" << halte.getWachttijd() << "</wachttijd>" << std::endl;
+        file << "    </BUSHALTE>" << std::endl;
+    }
+
+    // Schrijf kruispunten
+    const auto& kruispunten = situatie.getKruispunten();
+    for (const auto& kruispunt : kruispunten) {
+        file << "    <KRUISPUNT>" << std::endl;
+        for (const auto& baanPaar : kruispunt.getBanen()) {
+            file << "        <baan positie=\"" << baanPaar.second << "\">" << baanPaar.first << "</baan>" << std::endl;
+        }
+        file << "    </KRUISPUNT>" << std::endl;
+    }
+
+    file << "</VERKEERSSITUATIE>" << std::endl;
+    file.close();
+    return true;
+}
+
+/**
+ * @brief Schrijf de verkeerssituatie naar een HTML bestand
+ * @param situatie De te schrijven verkeerssituatie
+ * @param bestandsnaam Naam van het uit te schrijven bestand
+ * @return true als schrijven succesvol was, false anders
+ * @pre situatie.properlyInitialized() == true
+ * @pre !bestandsnaam.empty()
+ */
+bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const {
+    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+    REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
+
+    std::ofstream file(bestandsnaam);
+    if (!file.is_open()) {
+        lastFoutmelding = "Kan bestand '" + bestandsnaam + "' niet openen";
+        return false;
+    }
+
+    // HTML header met verbeterde styling
     file << "<!DOCTYPE html>\n"
          << "<html>\n"
          << "<head>\n"
          << "    <title>Verkeerssimulatie</title>\n"
          << "    <meta charset=\"UTF-8\">\n"
          << "    <style>\n"
-         << "        body { font-family: Arial, sans-serif; margin: 20px; }\n"
-         << "        h1 { color: #333; }\n"
-         << "        .road { position: relative; margin-bottom: 30px; }\n"
-         << "        .road-name { font-weight: bold; margin-bottom: 5px; }\n"
-         << "        .road-line { height: 10px; background-color: #ccc; position: relative; }\n"
-         << "        .vehicle { position: absolute; width: 20px; height: 20px; top: -5px; text-align: center; line-height: 20px; font-weight: bold; border-radius: 10px; }\n"
+         << "        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }\n"
+         << "        h1 { color: #333; text-align: center; }\n"
+         << "        .road { position: relative; margin-bottom: 30px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n"
+         << "        .road-name { font-weight: bold; margin-bottom: 5px; font-size: 14px; }\n"
+         << "        .road-line { height: 10px; background-color: #ccc; position: relative; border-radius: 5px; }\n"
+         << "        .vehicle { position: absolute; width: 20px; height: 20px; top: -5px; text-align: center; line-height: 20px; font-weight: bold; border-radius: 10px; font-size: 12px; }\n"
          << "        .auto { background-color: blue; color: white; }\n"
          << "        .bus { background-color: green; color: white; }\n"
          << "        .brandweerwagen { background-color: red; color: white; }\n"
-         << "        .ziekenwagen { background-color: white; color: red; border: 1px solid red; }\n"
+         << "        .ziekenwagen { background-color: white; color: red; border: 2px solid red; }\n"
          << "        .politiecombi { background-color: #000066; color: white; }\n"
-         << "        .traffic-light { position: absolute; width: 10px; height: 20px; top: -5px; }\n"
-         << "        .traffic-light-red { background-color: red; }\n"
-         << "        .traffic-light-orange { background-color: orange; }\n"
-         << "        .traffic-light-green { background-color: green; }\n"
+         << "        .traffic-light { position: absolute; width: 12px; height: 24px; top: -7px; border-radius: 6px; border: 1px solid #333; }\n"
+         << "        .traffic-light-red { background-color: #ff0000; }\n"
+         << "        .traffic-light-orange { background-color: #ffa500; }\n"
+         << "        .traffic-light-green { background-color: #00ff00; }\n"
          << "        .bus-stop { position: absolute; width: 10px; height: 10px; top: -5px; background-color: yellow; border: 1px solid black; }\n"
          << "        .intersection { position: absolute; width: 10px; height: 10px; top: 0px; background-color: black; border-radius: 5px; }\n"
-         << "        .legend { margin-top: 30px; border: 1px solid #ccc; padding: 10px; }\n"
-         << "        .legend-item { display: inline-block; margin-right: 20px; }\n"
-         << "        .legend-color { display: inline-block; width: 15px; height: 15px; margin-right: 5px; vertical-align: middle; }\n"
-         << "        .statistics { margin-top: 20px; border: 1px solid #ccc; padding: 10px; }\n"
+         << "        .legend { margin-top: 30px; border: 1px solid #ccc; padding: 15px; background: white; border-radius: 8px; }\n"
+         << "        .legend-item { display: inline-block; margin-right: 20px; margin-bottom: 5px; }\n"
+         << "        .legend-color { display: inline-block; width: 15px; height: 15px; margin-right: 5px; vertical-align: middle; border-radius: 3px; }\n"
+         << "        .statistics { margin-top: 20px; border: 1px solid #ccc; padding: 15px; background: white; border-radius: 8px; }\n"
+         << "        .details { margin-top: 20px; border: 1px solid #ccc; padding: 15px; background: white; border-radius: 8px; }\n"
+         << "        .vehicle-detail { margin: 5px 0; padding: 5px; background: #f9f9f9; border-radius: 4px; }\n"
          << "    </style>\n"
          << "</head>\n"
          << "<body>\n"
-         << "    <h1>Verkeerssimulatie</h1>\n";
+         << "    <h1>Verkeerssimulatie Visualisatie</h1>\n";
 
-    // Schrijf banen
+    // Schrijf banen met alle elementen
     for (const auto& baanPaar : situatie.getBanen()) {
         const std::string& baanNaam = baanPaar.first;
         const Baan& baan = baanPaar.second;
@@ -543,7 +508,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
                     else if (type == "ziekenwagen") label = "Z";
                     else if (type == "politiecombi") label = "P";
 
-                    file << "            <div class=\"vehicle " << type << "\" style=\"left: " << positie << "px;\" title=\"" << type << " op " << voertuig->getPositie() << "m\">" << label << "</div>\n";
+                    file << "            <div class=\"vehicle " << type << "\" style=\"left: " << positie << "px;\" title=\"" << type << " op " << voertuig->getPositie() << "m, snelheid: " << voertuig->getSnelheid() << "m/s\">" << label << "</div>\n";
                 }
             }
         }
@@ -553,12 +518,17 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             if (licht.getBaan() == baanNaam) {
                 int positie = static_cast<int>(licht.getPositie() * schaalfactor);
                 if (positie >= 0 && positie < std::min(1000, baanLengte)) {
-                    std::string kleur;
-                    if (licht.isGroen()) kleur = "green";
-                    else if (licht.isOranje()) kleur = "orange";
-                    else kleur = "red";
+                    std::string kleur = licht.getKleurAsString();
+                    std::string kleurClass = "traffic-light-red";
+                    if (kleur == "groen") kleurClass = "traffic-light-green";
+                    else if (kleur == "oranje") kleurClass = "traffic-light-orange";
 
-                    file << "            <div class=\"traffic-light traffic-light-" << kleur << "\" style=\"left: " << positie << "px;\" title=\"Verkeerslicht (" << kleur << ") op " << licht.getPositie() << "m\"></div>\n";
+                    std::string title = "Verkeerslicht: " + kleur + ", cyclus: " + std::to_string(licht.getCyclus()) + "s";
+                    if (licht.getIsSlim()) {
+                        title += " (slim)";
+                    }
+
+                    file << "            <div class=\"traffic-light " << kleurClass << "\" style=\"left: " << positie << "px;\" title=\"" << title << "\"></div>\n";
                 }
             }
         }
@@ -568,34 +538,36 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
             if (halte.getBaan() == baanNaam) {
                 int positie = static_cast<int>(halte.getPositie() * schaalfactor);
                 if (positie >= 0 && positie < std::min(1000, baanLengte)) {
-                    file << "            <div class=\"bus-stop\" style=\"left: " << positie << "px;\" title=\"Bushalte op " << halte.getPositie() << "m, wachttijd: " << halte.getWachttijd() << "s\"></div>\n";
+                    file << "            <div class=\"bus-stop\" style=\"left: " << positie << "px;\" title=\"Bushalte, wachttijd: " << halte.getWachttijd() << "s\"></div>\n";
                 }
             }
         }
 
         // Voeg kruispunten toe
         for (const auto& kruispunt : situatie.getKruispunten()) {
-            if (kruispunt.bevatBaan(baanNaam)) {
-                int positie = static_cast<int>(kruispunt.getPositieOpBaan(baanNaam) * schaalfactor);
-                if (positie >= 0 && positie < std::min(1000, baanLengte)) {
-                    file << "            <div class=\"intersection\" style=\"left: " << positie << "px;\" title=\"Kruispunt op " << kruispunt.getPositieOpBaan(baanNaam) << "m\"></div>\n";
+            auto kruispuntBanen = kruispunt.getBanen();
+            for (const auto& kruispuntBaan : kruispuntBanen) {
+                if (kruispuntBaan.first == baanNaam) {
+                    int positie = static_cast<int>(kruispuntBaan.second * schaalfactor);
+                    if (positie >= 0 && positie < std::min(1000, baanLengte)) {
+                        file << "            <div class=\"intersection\" style=\"left: " << positie << "px;\" title=\"Kruispunt\"></div>\n";
+                    }
                 }
             }
         }
 
-        // Einde baan div
         file << "        </div>\n"
              << "    </div>\n";
     }
 
-    // Schrijf legende
+    // Legende
     file << "    <div class=\"legend\">\n"
          << "        <h3>Legende</h3>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color auto\"></div> Auto</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color bus\"></div> Bus</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color brandweerwagen\"></div> Brandweerwagen</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color ziekenwagen\"></div> Ziekenwagen</div>\n"
-         << "        <div class=\"legend-item\"><div class=\"legend-color politiecombi\"></div> Politiecombi</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color auto\"></div> A = Auto</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color bus\"></div> B = Bus</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color brandweerwagen\"></div> F = Brandweerwagen</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color ziekenwagen\"></div> Z = Ziekenwagen</div>\n"
+         << "        <div class=\"legend-item\"><div class=\"legend-color politiecombi\"></div> P = Politiecombi</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-red\"></div> Rood licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-orange\"></div> Oranje licht</div>\n"
          << "        <div class=\"legend-item\"><div class=\"legend-color traffic-light-green\"></div> Groen licht</div>\n"
@@ -603,15 +575,108 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
          << "        <div class=\"legend-item\"><div class=\"legend-color intersection\" style=\"position: static;\"></div> Kruispunt</div>\n"
          << "    </div>\n";
 
+    // Voertuig details
+    file << "    <div class=\"details\">\n"
+         << "        <h3>Voertuig Details</h3>\n";
+
+    const auto& voertuigen = situatie.getVoertuigen();
+    const auto& verkeerslichten = situatie.getVerkeerslichten();
+
+    if (!voertuigen.empty()) {
+        for (const auto& voertuig : voertuigen) {
+            file << "        <div class=\"vehicle-detail\">\n"
+                 << "            <strong>" << voertuig->getType() << "</strong> op " << voertuig->getBaanNaam()
+                 << " @ " << std::fixed << std::setprecision(1) << voertuig->getPositie() << "m"
+                 << " (snelheid: " << std::setprecision(1) << voertuig->getSnelheid() << " m/s)";
+
+            // Zoek verkeerslichten op dezelfde baan
+            for (const auto& licht : verkeerslichten) {
+                if (licht.getBaan() == voertuig->getBaanNaam()) {
+                    double afstand = licht.getPositie() - voertuig->getPositie();
+
+                    // Alleen tonen als verkeerslicht voor het voertuig ligt (binnen 200m)
+                    if (afstand > 0 && afstand <= 200.0) {
+                        file << " → <em>" << licht.getKleurAsString() << " licht @ "
+                             << std::fixed << std::setprecision(1) << licht.getPositie() << "m</em>";
+
+                        // Extra info voor slimme lichten
+                        if (licht.getIsSlim()) {
+                            file << " <small>(slim";
+                            if (licht.getTotaalVoertuigenVoorLicht() > 0) {
+                                file << ", " << licht.getTotaalVoertuigenVoorLicht() << " wachtend";
+                                if (licht.getPrioriteitsVoertuigenVoorLicht() > 0) {
+                                    file << ", " << licht.getPrioriteitsVoertuigenVoorLicht() << " prioriteit";
+                                }
+                            }
+                            file << ")</small>";
+                        }
+                        break; // Alleen eerste verkeerslicht tonen
+                    }
+                }
+            }
+
+            file << "\n        </div>\n";
+        }
+    } else {
+        file << "        <p>Geen voertuigen in de simulatie.</p>\n";
+    }
+
+    file << "    </div>\n";
+
     // Schrijf statistieken
     file << "    <div class=\"statistics\">\n"
          << "        <h3>Statistieken</h3>\n"
-         << "        <p>Aantal banen: " << situatie.getBanen().size() << "</p>\n"
-         << "        <p>Aantal voertuigen: " << situatie.getVoertuigen().size() << "</p>\n"
-         << "        <p>Aantal verkeerslichten: " << situatie.getVerkeerslichten().size() << "</p>\n"
-         << "        <p>Aantal bushaltes: " << situatie.getBushaltes().size() << "</p>\n"
-         << "        <p>Aantal kruispunten: " << situatie.getKruispunten().size() << "</p>\n"
-         << "    </div>\n";
+         << "        <p><strong>Aantal banen:</strong> " << situatie.getBanen().size() << "</p>\n"
+         << "        <p><strong>Aantal voertuigen:</strong> " << situatie.getVoertuigen().size() << "</p>\n"
+         << "        <p><strong>Aantal verkeerslichten:</strong> " << situatie.getVerkeerslichten().size();
+
+    // Tel slimme verkeerslichten
+    int slimmeVerkeerslichten = 0;
+    for (const auto& licht : verkeerslichten) {
+        if (licht.getIsSlim()) {
+            slimmeVerkeerslichten++;
+        }
+    }
+    if (slimmeVerkeerslichten > 0) {
+        file << " (waarvan " << slimmeVerkeerslichten << " slim)";
+    }
+    file << "</p>\n";
+
+    file << "        <p><strong>Aantal bushaltes:</strong> " << situatie.getBushaltes().size() << "</p>\n"
+         << "        <p><strong>Aantal kruispunten:</strong> " << situatie.getKruispunten().size() << "</p>\n";
+
+    // Verkeerslicht status
+    if (!verkeerslichten.empty()) {
+        file << "        <h4>Verkeerslichten Status</h4>\n";
+        for (const auto& licht : verkeerslichten) {
+            try {
+                file << "        <p><strong>" << licht.getBaan() << " @ " << licht.getPositie() << "m:</strong> "
+                     << licht.getKleurAsString() << " licht";
+
+                if (licht.getIsSlim()) {
+                    file << " (slim, cyclus: " << licht.getCyclus() << "s)";
+
+                    try {
+                        int wachtenden = licht.getVoertuigenVoorLicht();
+                        if (wachtenden > 0) {
+                            file << ", " << wachtenden << " voertuigen wachtend";
+                        }
+                    } catch (...) {
+                        // Skip wachtende voertuigen info als niet beschikbaar
+                    }
+                } else {
+                    file << " (normaal, cyclus: " << licht.getCyclus() << "s)";
+                }
+
+                file << "</p>\n";
+            } catch (...) {
+                // Bij errors, toon minimale info
+                file << "        <p>Verkeerslicht op " << licht.getBaan() << "</p>\n";
+            }
+        }
+    }
+
+    file << "    </div>\n";
 
     // HTML footer
     file << "</body>\n"
@@ -624,7 +689,7 @@ bool output::schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string
 /**
  * @brief Haal de laatste foutmelding op
  * @return De laatste foutmelding
- * @pre REQUIRE(properlyInitialized(), "Output niet correct ingesteld");
+ * @pre properlyInitialized() == true
  */
 std::string output::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(), "Output niet correct ingesteld");

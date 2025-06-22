@@ -41,7 +41,7 @@ public:
      * - Bushaltes met wachttijden
      * - Kruispunten met verbonden banen
      */
-    std::string genereerTekstRapport(const VerkeersSituatie& situatie);
+    std::string genereerTekstRapport(const VerkeersSituatie& situatie) const;
 
     /**
      * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII-art)
@@ -55,68 +55,82 @@ public:
      * Creëert een visuele representatie waarbij:
      * - Banen worden weergegeven als horizontale lijnen (=)
      * - Voertuigen als letters (A=auto, B=bus, F=brandweer, Z=ziekenwagen, P=politie)
-     * - Verkeerslichten als G/O/R (groen/oranje/rood)
-     * - Bushaltes als B symbolen
-     * - Kruispunten als + symbolen
-     * - Lange banen worden automatisch geschaald
+     * - Verkeerslichten als kleurletters (G=groen, O=oranje, R=rood)
+     * - Bushaltes als 'H' en kruispunten als '+'
+     * - Automatische schaling voor lange banen
      */
-    std::string genereerGrafischeImpressie(const VerkeersSituatie& situatie);
+    std::string genereerGrafischeImpressie(const VerkeersSituatie& situatie) const;
 
     /**
-     * @brief Schrijft een verkeerssituatie naar een XML-bestand
+     * @brief Toon een verbeterde grafische impressie op stdout met voertuigdetails
+     * @param situatie De weer te geven verkeerssituatie
+     * @pre situatie.properlyInitialized() == true
+     * @post Grafische impressie en voertuigdetails zijn getoond op stdout
+     * @post Verkeerslicht informatie is getoond bij relevante voertuigen
+     *
+     * Toont de grafische impressie gevolgd door:
+     * - Gedetailleerde voertuiginformatie met posities en snelheden
+     * - Verkeerslicht status voor voertuigen binnen 200m van lichten
+     * - Extra informatie voor slimme verkeerslichten
+     * - Prioriteitsvoertuig detectie
+     */
+    void maakGrafischeImpressie(const VerkeersSituatie& situatie) const;
+
+    /**
+     * @brief Toon een tekstrapport op stdout
+     * @param situatie De weer te geven verkeerssituatie
+     * @pre situatie.properlyInitialized() == true
+     * @post Tekstrapport is getoond op stdout
+     *
+     * Toont een gestructureerd overzicht van alle elementen
+     * in de verkeerssituatie op de console.
+     */
+    void maakTekstRapport(const VerkeersSituatie& situatie) const;
+
+    /**
+     * @brief Schrijf de verkeerssituatie naar een XML bestand
      * @param situatie De te schrijven verkeerssituatie
-     * @param bestandsnaam Pad naar het XML-bestand
-     * @return true als het schrijven succesvol was, false indien niet
+     * @param bestandsnaam Naam van het uit te schrijven bestand
+     * @return true als schrijven succesvol was, false anders
      * @pre situatie.properlyInitialized() == true
      * @pre !bestandsnaam.empty()
-     * @pre bestandsnaam heeft geldige bestandsextensie (.xml aanbevolen)
-     * @post Bij success: XML-bestand is aangemaakt met volledige situatiedata
-     * @post Bij faal: getLastFoutmelding() bevat foutbeschrijving
-     * @post XML-bestand is geldig en kan weer ingelezen worden
+     * @post Bij success: XML bestand is aangemaakt met volledige verkeerssituatie
+     * @post Bij success: return value == true
+     * @post Bij faal: getLastFoutmelding() bevat beschrijving van probleem
+     * @post Bij faal: return value == false
      *
-     * Exporteert alle elementen van de verkeerssituatie naar XML:
-     * - BAAN elementen met naam en lengte
-     * - VOERTUIG elementen met baan, positie en type
-     * - VERKEERSLICHT elementen met cyclus, oranje en slim attributen
-     * - BUSHALTE elementen met wachttijden
-     * - VOERTUIGGENERATOR elementen met frequenties
-     * - KRUISPUNT elementen met baan-positie combinaties
+     * Exporteert de volledige verkeerssituatie naar een XML bestand dat
+     * kan worden gebruikt om de situatie later opnieuw in te laden.
+     * Bevat alle banen, voertuigen, verkeerslichten, bushaltes en kruispunten.
      */
     bool schrijfNaarXml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const;
 
     /**
-     * @brief Genereert een HTML-weergave van de verkeerssituatie
-     * @param situatie De weer te geven verkeerssituatie
-     * @param bestandsnaam Pad naar het HTML-bestand
-     * @return true als het schrijven succesvol was, false indien niet
+     * @brief Schrijf de verkeerssituatie naar een HTML bestand
+     * @param situatie De te schrijven verkeerssituatie
+     * @param bestandsnaam Naam van het uit te schrijven bestand
+     * @return true als schrijven succesvol was, false anders
      * @pre situatie.properlyInitialized() == true
      * @pre !bestandsnaam.empty()
-     * @pre bestandsnaam heeft geldige bestandsextensie (.html aanbevolen)
-     * @post Bij success: HTML-bestand is aangemaakt met interactieve visualisatie
-     * @post Bij faal: getLastFoutmelding() bevat foutbeschrijving
-     * @post HTML-bestand bevat CSS styling en tooltips
-     * @post HTML-bestand kan geopend worden in webbrowsers
+     * @post Bij success: HTML bestand is aangemaakt met interactieve visualisatie
+     * @post Bij success: return value == true
+     * @post Bij faal: getLastFoutmelding() bevat beschrijving van probleem
+     * @post Bij faal: return value == false
      *
-     * Creëert een HTML-pagina met:
-     * - CSS-gestylede weergave van banen als gekleurde balken
-     * - Voertuigen als gekleurde cirkels met letters
-     * - Verkeerslichten als gekleurde rechthoeken
-     * - Tooltips met detailinformatie bij hover
-     * - Legende met uitleg van alle symbolen
-     * - Statistieken sectie met tellingen
-     * - Responsieve layout die schaalt naar 1000px breedte
+     * Creëert een HTML bestand met een interactieve visualisatie van
+     * de verkeerssituatie. Bevat CSS styling, tooltips en gedetailleerde
+     * informatie over alle elementen.
      */
     bool schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const;
 
     /**
-     * @brief Haalt de laatste foutmelding op
-     * @return De laatste foutmelding als string
+     * @brief Haal de laatste foutmelding op
+     * @return String met beschrijving van de laatste fout, lege string als geen fout
      * @pre properlyInitialized() == true
-     * @post return waarde bevat beschrijving van laatste fout (kan leeg zijn)
+     * @post return waarde is beschrijving van meest recente fout
      *
-     * Geeft toegang tot de meest recente foutmelding die optrad
-     * tijdens XML of HTML schrijfoperaties. Lege string betekent
-     * geen recente fouten.
+     * Geeft toegang tot de meest recente foutmelding van write operaties.
+     * Lege string betekent geen recente fouten.
      */
     std::string getLastFoutmelding() const;
 
