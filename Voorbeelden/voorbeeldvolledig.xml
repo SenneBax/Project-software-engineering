@@ -72,6 +72,12 @@
         <oranje>true</oranje>
     </VERKEERSLICHT>
 
+    <VOERTUIGGENERATOR>
+        <baan>Middelheimlaan</baan>
+        <frequentie>5</frequentie>
+        <type>auto</type>
+    </VOERTUIGGENERATOR>
+
     <VERKEERSLICHT>
         <baan>Beukenlaan</baan>
         <positie>600</positie>
