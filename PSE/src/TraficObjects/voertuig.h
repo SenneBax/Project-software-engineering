@@ -12,22 +12,36 @@
 
 /**
  * @brief Abstracte basisklasse die een voertuig in een verkeerssituatie voorstelt
+ *
+ * Deze klasse bekijkt positie, snelheid en versnellingsgegevens aan de hand van polymorfisme.
  */
 class Voertuig {
 public:
     /**
      * @brief Constructor
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
+     * @param baan Naam van de baan
+     * @param positie Positie op de baan
+     * @pre !baan.empty(), "Baannaam mag niet leeg zijn"
+     * @pre positie >= 0, "Positie mag niet negatief zijn"
+     * @post properlyInitialized() == true
+     * @post getBaanNaam() == baan
+     * @post getPositie() == positie
      */
     Voertuig(const std::string& baan, double positie);
 
     /**
      * @brief Constructor met snelheid en versnelling
-     * @param baan De naam van de baan waar het voertuig zich bevindt
-     * @param positie De positie van het voertuig op de baan
-     * @param snelheid De snelheid van het voertuig
-     * @param versnelling De versnelling van het voertuig
+     * @param baan Naam van de baan
+     * @param positie Positie op de baan
+     * @param snelheid Snelheid van het voertuig
+     * @param versnelling Versnelling van het voertuig
+     * @pre !baan.empty()
+     * @pre positie >= 0
+     * @pre snelheid >= 0
+     * @pre versnelling >= 0
+     * @post properlyInitialized() == true
+     * @post getSnelheid() == snelheid
+     * @post getVersnelling() == versnelling
      */
     Voertuig(const std::string& baan, double positie, double snelheid, double versnelling);
 
@@ -38,74 +52,99 @@ public:
 
     /**
      * @brief Copy constructor
-     * @param other Het te kopiëren voertuig
+     * @param other Te kopiëren voertuig
+     * @post alle waarden van other zijn gekopieerd naar dit object
      */
     Voertuig(const Voertuig& other);
 
     /**
      * @brief Assignment operator
-     * @param other Het voertuig waarvan de waarden worden overgenomen
+     * @param other Voertuig om toe te wijzen
      * @return Referentie naar dit voertuig
+     * @post alle waarden van other zijn gekopieerd naar dit object
      */
     Voertuig& operator=(const Voertuig& other);
 
     /**
      * @brief Geeft de naam van de baan terug
      * @return De naam van de baan
+     * @pre properlyInitialized() == true
+     * @post !return.empty(), "Baannaam mag niet leeg zijn"
      */
     std::string getBaanNaam() const;
 
     /**
-     * @brief Alias voor getBaanNaam voor compatibiliteit
+     * @brief Alias voor getBaanNaam
      * @return De naam van de baan
+     * @pre properlyInitialized() == true
+     * @post !return.empty(), "Baannaam mag niet leeg zijn"
      */
     std::string getBaan() const;
 
     /**
      * @brief Stelt de naam van de baan in
      * @param nieuweNaam De nieuwe baannaam
+     * @pre properlyInitialized() == true
+     * @pre !nieuweNaam.empty(), "Baannaam mag niet leeg zijn"
+     * @post getBaanNaam() == nieuweNaam
      */
     void setBaanNaam(const std::string& nieuweNaam);
 
     /**
-     * @brief Alias voor setBaanNaam voor compatibiliteit
+     * @brief Alias voor setBaanNaam
      * @param baan De nieuwe baannaam
+     * @pre properlyInitialized() == true
+     * @pre !baan.empty(), "Baannaam mag niet leeg zijn"
+     * @post getBaanNaam() == baan
      */
     void setBaan(const std::string& baan);
 
     /**
      * @brief Geeft de positie van het voertuig terug
      * @return De positie op de baan
+     * @pre properlyInitialized() == true
+     * @post return >= 0, "Positie mag niet negatief zijn"
      */
     double getPositie() const;
 
     /**
      * @brief Zet de positie van het voertuig
      * @param nieuwePositie De nieuwe positie
+     * @pre properlyInitialized() == true
+     * @pre nieuwePositie >= 0, "Positie mag niet negatief zijn"
+     * @post getPositie() == nieuwePositie
      */
     void setPositie(double nieuwePositie);
 
     /**
      * @brief Geeft de snelheid van het voertuig terug
      * @return De snelheid in m/s
+     * @pre properlyInitialized() == true
+     * @post return >= 0, "Snelheid mag niet negatief zijn"
      */
     double getSnelheid() const;
 
     /**
      * @brief Zet de snelheid van het voertuig
      * @param nieuweSnelheid De nieuwe snelheid
+     * @pre properlyInitialized() == true
+     * @pre nieuweSnelheid >= 0, "Snelheid mag niet negatief zijn"
+     * @post getSnelheid() == nieuweSnelheid
      */
     void setSnelheid(double nieuweSnelheid);
 
     /**
      * @brief Geeft de versnelling van het voertuig terug
      * @return De versnelling in m/s²
+     * @pre properlyInitialized() == true
      */
     double getVersnelling() const;
 
     /**
      * @brief Zet de versnelling van het voertuig
      * @param nieuweVersnelling De nieuwe versnelling
+     * @pre properlyInitialized() == true
+     * @post getVersnelling() == nieuweVersnelling
      */
     void setVersnelling(double nieuweVersnelling);
 
@@ -169,6 +208,8 @@ public:
      * @param isEersteVoertuig Of dit het eerste voertuig op de baan is
      * @param verkeersLichtVertraagFactor Factor voor verkeerslicht vertraging
      * @param bushalteVertraagFactor Factor voor bushalte vertraging
+     * @pre properlyInitialized() == true
+     * @pre voorliggendVoertuig != nullptr || isEersteVoertuig == true
      */
     void berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVoertuig,
                            double verkeersLichtVertraagFactor, double bushalteVertraagFactor);
@@ -176,6 +217,9 @@ public:
     /**
      * @brief Update de positie en snelheid van het voertuig
      * @param tijdstap De tijdstap voor de update
+     * @pre properlyInitialized() == true
+     * @pre tijdstap > 0, "Tijdstap moet positief zijn"
+     * @post getPositie() >= oude positie (tenzij remmen)
      */
     void updatePositieEnSnelheid(double tijdstap);
 
@@ -199,6 +243,8 @@ public:
 
     /**
      * @brief Voert een noodstop uit
+     * @pre properlyInitialized() == true
+     * @post getVersnelling() <= 0, "Versnelling moet negatief zijn na noodstop"
      */
     void noodStop();
 
@@ -209,8 +255,12 @@ public:
     virtual std::unique_ptr<Voertuig> clone() const = 0;
 
     /**
-     * @brief Controleert of het object correct geïnitialiseerd is
-     * @return True als het object correct geïnitialiseerd is
+     * @brief Controleer of het VerkeersSituatie object correct is geïnitialiseerd
+     * @return true als het object correct is geïnitialiseerd, false anders
+     * @post return waarde geeft aan of object in geldige toestand verkeert
+     *
+     * Design by Contract verificatie methode om object integriteit
+     * te controleren.
      */
     bool properlyInitialized() const;
 

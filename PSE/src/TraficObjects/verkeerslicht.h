@@ -72,11 +72,12 @@ public:
     Verkeerslicht(const std::string& baan, double positie, int cyclus, bool heeftOranje = false, bool isSlim = false);
 
     /**
-     * @brief Controleren of het verkeerslicht object goed is geïnitialiseerd
-     * @return true als _initCheck == this, false anders
+     * @brief Controleer of het BestandsLezer object correct is geïnitialiseerd
+     * @return true als het object correct is geïnitialiseerd, false anders
      * @post return waarde geeft aan of object in geldige toestand verkeert
      *
-     * Design by Contract verificatie methode.
+     * Design by Contract verificatie methode om object integriteit
+     * te controleren.
      */
     bool properlyInitialized() const;
 

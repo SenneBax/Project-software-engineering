@@ -55,7 +55,7 @@ bool Kruispunt::properlyInitialized() const
  * @return Vector van paren met wegnamen en posities
  */
 std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
-    //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij getBanen");
+    REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij getBanen");
 
     std::vector<std::pair<std::string, double>> result;
 
@@ -73,14 +73,14 @@ std::vector<std::pair<std::string, double>> Kruispunt::getBanen() const {
  * REQUIRE(!baanNaam.empty(), "baanNaam is empty");
  */
 bool Kruispunt::bevatBaan(const std::string& baanNaam) const {
-    //REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
+    REQUIRE(properlyInitialized(), "Kruispunt niet correct geïnitialiseerd bij bevatBaan");
     REQUIRE(!baanNaam.empty(), "baanNaam is empty");
     return std::any_of(banen.begin(), banen.end(),
                        [&baanNaam](const BaanPositie& baan) {
                            return baan.naam == baanNaam;
                        });
 
-    //ENSURE(properlyInitialized(), "Constructor moet eindigen in geen geldige staat.");
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in geen geldige staat.");
 }
 
 /**

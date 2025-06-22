@@ -34,6 +34,7 @@ bool output::properlyInitialized() const
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de tekstuele weergave
  * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+ * ENSURE(!ss.str().empty(), "Het tekstrapport mag niet leeg zijn");
  */
 std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -84,7 +85,7 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
                << "' op positie " << baanPaar.second << "m" << std::endl;
         }
     }
-
+    ENSURE(!ss.str().empty(), "Het tekstrapport mag niet leeg zijn");
     return ss.str();
 }
 
@@ -93,6 +94,7 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) {
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de grafische impressie
  * REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
+ * ENSURE(!ss.str().empty(), "De grafische impressie mag niet leeg zijn");
  */
 std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie) {
     REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld");
@@ -264,6 +266,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
     ss << " Z: Ziekenwagen   B: Bushalte" << std::endl;
     ss << " P: Politiecombi  +: Kruispunt" << std::endl;
 
+    ENSURE(!ss.str().empty(), "De grafische impressie mag niet leeg zijn");
     return ss.str();
 }
 

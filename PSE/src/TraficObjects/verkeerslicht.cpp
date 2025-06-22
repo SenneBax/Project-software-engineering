@@ -56,8 +56,8 @@ std::string Verkeerslicht::getBaan() const {
  * @return De positie in meters
  */
 double Verkeerslicht::getPositie() const {
-    //REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
-    //ENSURE(positie >= 0.0, "Positie moet positief zijn");
+    REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
+    ENSURE(positie >= 0.0, "Positie moet positief zijn");
     return positie;
 }
 
@@ -68,7 +68,7 @@ double Verkeerslicht::getPositie() const {
  */
 int Verkeerslicht::getCyclus() const {
     REQUIRE(properlyInitialized(), "getCyclus moet eindigen in een geldige toestand.");
-    //ENSURE(cyclus >= 0, "Cyclus moet groter dan 0 zijn.");
+    ENSURE(cyclus >= 0, "Cyclus moet groter dan 0 zijn.");
     return cyclus;
 }
 
@@ -114,18 +114,20 @@ std::string Verkeerslicht::getKleurAsString() const {
 /**
  * @brief Controleert of het verkeerslicht rood is
  * @return True als het licht rood is, false indien niet
+ * REQUIRE(properlyInitialized(), "isRood moet eindigen in een geldige toestand.");
  */
 bool Verkeerslicht::isRood() const {
-    //REQUIRE(properlyInitialized(), "isRood moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "isRood moet eindigen in een geldige toestand.");
     return huidigeKleur == Kleur::ROOD;
 }
 
 /**
  * @brief Controleert of het verkeerslicht oranje is
  * @return True als het licht oranje is, false indien niet
+ * REQUIRE(properlyInitialized(), "isOranje moet eindigen in een geldige toestand.");
  */
 bool Verkeerslicht::isOranje() const {
-    //REQUIRE(properlyInitialized(), "isOranje moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "isOranje moet eindigen in een geldige toestand.");
 
     return huidigeKleur == Kleur::ORANJE;
 }
@@ -133,9 +135,10 @@ bool Verkeerslicht::isOranje() const {
 /**
  * @brief Controleert of het verkeerslicht groen is
  * @return True als het licht groen is, false indien niet
+ * REQUIRE(properlyInitialized(), "isGroen moet eindigen in een geldige toestand.");
  */
 bool Verkeerslicht::isGroen() const {
-    //REQUIRE(properlyInitialized(), "isGroen moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "isGroen moet eindigen in een geldige toestand.");
 
     return huidigeKleur == Kleur::GROEN;
 }
@@ -162,6 +165,7 @@ bool Verkeerslicht::getIsSlim() const {
 /**
  * @brief Update het verkeerslicht op basis van verstreken tijd
  * @param tijdstap De huidige simulatie-tijdstap
+ * ENSURE(isGroen(), "Moet groen zijn na schakelen");
  */
 void Verkeerslicht::update(double tijdstap) {
     //REQUIRE(properlyInitialized(), "update moet eindigen in een geldige toestand.");
@@ -175,6 +179,7 @@ void Verkeerslicht::update(double tijdstap) {
             // Als er voertuigen wachten en het licht is rood, schakel naar groen
             if (isRood() && voertuigenVoorLicht > 0) {
                 setKleur(Kleur::GROEN);
+                ENSURE(isGroen(), "Moet groen zijn na schakelen");
                 resetVoertuigenVoorLicht();
             }
             // Als er een tijdje geen voertuigen zijn en het licht is groen, schakel naar oranje/rood

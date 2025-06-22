@@ -3,7 +3,9 @@
 #include <thread>
 #include <chrono>
 #include <iomanip>
+#if defined(__unix__) || defined(__APPLE__)
 #include <termios.h>
+#endif
 #include <unistd.h>
 #include <fcntl.h>
 #include "../Situation/situatie.h"
@@ -17,6 +19,7 @@ using namespace std;
  * @brief Check for non-blocking keyboard input
  * @return true if key was pressed, false otherwise
  */
+#if defined(__unix__) || defined(__APPLE__)
 bool kbhit() {
     struct termios oldt, newt;
     int ch;
@@ -41,6 +44,7 @@ bool kbhit() {
 
     return false;
 }
+#endif
 
 /**
  * @brief Toon help-informatie voor gebruikerscommando's
@@ -141,6 +145,7 @@ int main(int argc, char* argv[]) {
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
             // Check voor keyboard input ZONDER te wachten
+            #if defined(__unix__) || defined(__APPLE__)
             if (kbhit()) {
                 char input = getchar();
                 if (input == 'c' || input == 'C') {
@@ -152,6 +157,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
             }
+            #endif
 
             continue; // Blijf in de continue loop
         }
