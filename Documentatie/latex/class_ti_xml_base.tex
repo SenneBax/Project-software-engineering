@@ -1,0 +1,287 @@
+\doxysection{Ti\+Xml\+Base Class Reference}
+\hypertarget{class_ti_xml_base}{}\label{class_ti_xml_base}\index{TiXmlBase@{TiXmlBase}}
+
+
+{\ttfamily \#include $<$tinyxml.\+h$>$}
+
+Inheritance diagram for Ti\+Xml\+Base\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.413793cm]{class_ti_xml_base}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_ti_xml_base_a8148599c91131f494964797206f3e3d8}\label{class_ti_xml_base_a8148599c91131f494964797206f3e3d8} 
+enum \{ \newline
+{\bfseries TIXML\+\_\+\+NO\+\_\+\+ERROR} = 0
+, {\bfseries TIXML\+\_\+\+ERROR}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+OPENING\+\_\+\+FILE}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+ELEMENT}
+, \newline
+{\bfseries TIXML\+\_\+\+ERROR\+\_\+\+FAILED\+\_\+\+TO\+\_\+\+READ\+\_\+\+ELEMENT\+\_\+\+NAME}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+READING\+\_\+\+ELEMENT\+\_\+\+VALUE}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+READING\+\_\+\+ATTRIBUTES}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+EMPTY}
+, \newline
+{\bfseries TIXML\+\_\+\+ERROR\+\_\+\+READING\+\_\+\+END\+\_\+\+TAG}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+UNKNOWN}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+COMMENT}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+DECLARATION}
+, \newline
+{\bfseries TIXML\+\_\+\+ERROR\+\_\+\+DOCUMENT\+\_\+\+EMPTY}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+EMBEDDED\+\_\+\+NULL}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+PARSING\+\_\+\+CDATA}
+, {\bfseries TIXML\+\_\+\+ERROR\+\_\+\+DOCUMENT\+\_\+\+TOP\+\_\+\+ONLY}
+, \newline
+{\bfseries TIXML\+\_\+\+ERROR\+\_\+\+STRING\+\_\+\+COUNT}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_ti_xml_base_a0de56b3f2ef14c65091a3b916437b512}{Print}} (FILE \texorpdfstring{$\ast$}{*}cfile, int depth) const =0
+\item 
+int \mbox{\hyperlink{class_ti_xml_base_ad0cacca5d76d156b26511f46080b442e}{Row}} () const
+\item 
+\Hypertarget{class_ti_xml_base_ad283b95d9858d5d78c334f4a61b07bb4}\label{class_ti_xml_base_ad283b95d9858d5d78c334f4a61b07bb4} 
+int {\bfseries Column} () const
+\begin{DoxyCompactList}\small\item\em See \doxylink{class_ti_xml_base_ad0cacca5d76d156b26511f46080b442e}{Row()} \end{DoxyCompactList}\item 
+\Hypertarget{class_ti_xml_base_ac6b3e0f790930d4970ec30764e937b5d}\label{class_ti_xml_base_ac6b3e0f790930d4970ec30764e937b5d} 
+void {\bfseries Set\+User\+Data} (void \texorpdfstring{$\ast$}{*}user)
+\begin{DoxyCompactList}\small\item\em Set a pointer to arbitrary user data. \end{DoxyCompactList}\item 
+\Hypertarget{class_ti_xml_base_a436b80c865d437835d370a9eada6f9f5}\label{class_ti_xml_base_a436b80c865d437835d370a9eada6f9f5} 
+void \texorpdfstring{$\ast$}{*} {\bfseries Get\+User\+Data} ()
+\begin{DoxyCompactList}\small\item\em Get a pointer to arbitrary user data. \end{DoxyCompactList}\item 
+\Hypertarget{class_ti_xml_base_aa44896ae7cc0e9b1007429b150a81d92}\label{class_ti_xml_base_aa44896ae7cc0e9b1007429b150a81d92} 
+const void \texorpdfstring{$\ast$}{*} {\bfseries Get\+User\+Data} () const
+\begin{DoxyCompactList}\small\item\em Get a pointer to arbitrary user data. \end{DoxyCompactList}\item 
+virtual const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ti_xml_base_a70f7afb95ad04e61f45a3325cb8382f3}{Parse}} (const char \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{class_ti_xml_parsing_data}{Ti\+Xml\+Parsing\+Data}} \texorpdfstring{$\ast$}{*}data, Ti\+Xml\+Encoding encoding)=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_ti_xml_base_a0f799ec645bfb8d8a969e83478f379c1}{Set\+Condense\+White\+Space}} (bool condense)
+\item 
+\Hypertarget{class_ti_xml_base_ad4b1472531c647a25b1840a87ae42438}\label{class_ti_xml_base_ad4b1472531c647a25b1840a87ae42438} 
+static bool {\bfseries Is\+White\+Space\+Condensed} ()
+\begin{DoxyCompactList}\small\item\em Return the current white space setting. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_ti_xml_base_a32ed202562b58de64c7d799ca3c9db98}{Encode\+String}} (const TIXML\+\_\+\+STRING \&str, TIXML\+\_\+\+STRING \texorpdfstring{$\ast$}{*}out)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \mbox{\hyperlink{class_ti_xml_base_ac8c86058137bdb4b413c3eca58f2d467}{utf8\+Byte\+Table}} \mbox{[}256\mbox{]}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_ti_xml_base_ac0c3d66d8a9e6996a1fa016275e16875}\label{class_ti_xml_base_ac0c3d66d8a9e6996a1fa016275e16875} 
+static const char \texorpdfstring{$\ast$}{*} {\bfseries Skip\+White\+Space} (const char \texorpdfstring{$\ast$}{*}, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_af56296d561c0bab4bc8e198cdcf5c48e}\label{class_ti_xml_base_af56296d561c0bab4bc8e198cdcf5c48e} 
+static bool {\bfseries Is\+White\+Space} (char c)
+\item 
+\Hypertarget{class_ti_xml_base_a3de391ea9f4c4a8aa10d04480b048795}\label{class_ti_xml_base_a3de391ea9f4c4a8aa10d04480b048795} 
+static bool {\bfseries Is\+White\+Space} (int c)
+\item 
+\Hypertarget{class_ti_xml_base_a1c21a6ab5f7b503acd91f35f183734b3}\label{class_ti_xml_base_a1c21a6ab5f7b503acd91f35f183734b3} 
+static const char \texorpdfstring{$\ast$}{*} {\bfseries Read\+Name} (const char \texorpdfstring{$\ast$}{*}p, TIXML\+\_\+\+STRING \texorpdfstring{$\ast$}{*}name, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_aa646c74921aa33156968b802bbf5566e}\label{class_ti_xml_base_aa646c74921aa33156968b802bbf5566e} 
+static const char \texorpdfstring{$\ast$}{*} {\bfseries Read\+Text} (const char \texorpdfstring{$\ast$}{*}in, TIXML\+\_\+\+STRING \texorpdfstring{$\ast$}{*}text, bool ignore\+White\+Space, const char \texorpdfstring{$\ast$}{*}end\+Tag, bool ignore\+Case, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_ac5c08bf3deffcda0bf8ce2958372b584}\label{class_ti_xml_base_ac5c08bf3deffcda0bf8ce2958372b584} 
+static const char \texorpdfstring{$\ast$}{*} {\bfseries Get\+Entity} (const char \texorpdfstring{$\ast$}{*}in, char \texorpdfstring{$\ast$}{*}value, int \texorpdfstring{$\ast$}{*}length, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_a5c309eba97f91f719e7834f6a7ddaf22}\label{class_ti_xml_base_a5c309eba97f91f719e7834f6a7ddaf22} 
+static const char \texorpdfstring{$\ast$}{*} {\bfseries Get\+Char} (const char \texorpdfstring{$\ast$}{*}p, char \texorpdfstring{$\ast$}{*}\+\_\+value, int \texorpdfstring{$\ast$}{*}length, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_a51631e6986179558b9e5850723ed165a}\label{class_ti_xml_base_a51631e6986179558b9e5850723ed165a} 
+static bool {\bfseries String\+Equal} (const char \texorpdfstring{$\ast$}{*}p, const char \texorpdfstring{$\ast$}{*}end\+Tag, bool ignore\+Case, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_ae22522b2e8e1ac43102d16394f639fc8}\label{class_ti_xml_base_ae22522b2e8e1ac43102d16394f639fc8} 
+static int {\bfseries Is\+Alpha} (unsigned char any\+Byte, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_a321919055c115c78ded17f85a793f368}\label{class_ti_xml_base_a321919055c115c78ded17f85a793f368} 
+static int {\bfseries Is\+Alpha\+Num} (unsigned char any\+Byte, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_a799f17405a86a5c2029618e85f11a097}\label{class_ti_xml_base_a799f17405a86a5c2029618e85f11a097} 
+static int {\bfseries To\+Lower} (int v, Ti\+Xml\+Encoding encoding)
+\item 
+\Hypertarget{class_ti_xml_base_a07c765e3a7f979d343e646ea797b180b}\label{class_ti_xml_base_a07c765e3a7f979d343e646ea797b180b} 
+static void {\bfseries Convert\+UTF32\+To\+UTF8} (unsigned long input, char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{classoutput}{output}}, int \texorpdfstring{$\ast$}{*}length)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_ti_xml_base_a0d992580f3bc264909f898e942677a3c}\label{class_ti_xml_base_a0d992580f3bc264909f898e942677a3c} 
+\mbox{\hyperlink{struct_ti_xml_cursor}{Ti\+Xml\+Cursor}} {\bfseries location}
+\item 
+\Hypertarget{class_ti_xml_base_ab242c01590191f644569fa89a080d97c}\label{class_ti_xml_base_ab242c01590191f644569fa89a080d97c} 
+void \texorpdfstring{$\ast$}{*} {\bfseries user\+Data}
+\begin{DoxyCompactList}\small\item\em Field containing a generic user pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ti_xml_base_a7ac8feec4100e446b3d78e1ac0659700}{error\+String}} \mbox{[}TIXML\+\_\+\+ERROR\+\_\+\+STRING\+\_\+\+COUNT\mbox{]}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_ti_xml_base_a218872a0d985ae30e78c55adc4bdb196}\label{class_ti_xml_base_a218872a0d985ae30e78c55adc4bdb196} 
+class {\bfseries Ti\+Xml\+Node}
+\item 
+\Hypertarget{class_ti_xml_base_ab6592e32cb9132be517cc12a70564c4b}\label{class_ti_xml_base_ab6592e32cb9132be517cc12a70564c4b} 
+class {\bfseries Ti\+Xml\+Element}
+\item 
+\Hypertarget{class_ti_xml_base_a173617f6dfe902cf484ce5552b950475}\label{class_ti_xml_base_a173617f6dfe902cf484ce5552b950475} 
+class {\bfseries Ti\+Xml\+Document}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_ti_xml_base}{Ti\+Xml\+Base} is a base class for every class in Tiny\+Xml. It does little except to establish that Tiny\+Xml classes can be printed and provide some utility functions.
+
+In XML, the document and elements can contain other elements and other types of nodes.
+
+\begin{DoxyVerb}A Document can contain: Element (container or leaf)
+                        Comment (leaf)
+                        Unknown (leaf)
+                        Declaration( leaf )
+
+An Element can contain: Element (container or leaf)
+                        Text    (leaf)
+                        Attributes (not on tree)
+                        Comment (leaf)
+                        Unknown (leaf)
+
+A Decleration contains: Attributes (not on tree)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_ti_xml_base_a32ed202562b58de64c7d799ca3c9db98}\index{TiXmlBase@{TiXmlBase}!EncodeString@{EncodeString}}
+\index{EncodeString@{EncodeString}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{EncodeString()}{EncodeString()}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_a32ed202562b58de64c7d799ca3c9db98} 
+void Ti\+Xml\+Base\+::\+Encode\+String (\begin{DoxyParamCaption}\item[{const TIXML\+\_\+\+STRING \&}]{str}{, }\item[{TIXML\+\_\+\+STRING \texorpdfstring{$\ast$}{*}}]{out}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Expands entities in a string. Note this should not contian the tag\textquotesingle{}s \textquotesingle{}\texorpdfstring{$<$}{<}\textquotesingle{}, \textquotesingle{}\texorpdfstring{$>$}{>}\textquotesingle{}, etc, or they will be transformed into entities! \Hypertarget{class_ti_xml_base_a70f7afb95ad04e61f45a3325cb8382f3}\index{TiXmlBase@{TiXmlBase}!Parse@{Parse}}
+\index{Parse@{Parse}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{Parse()}{Parse()}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_a70f7afb95ad04e61f45a3325cb8382f3} 
+virtual const char \texorpdfstring{$\ast$}{*} Ti\+Xml\+Base\+::\+Parse (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\mbox{\hyperlink{class_ti_xml_parsing_data}{Ti\+Xml\+Parsing\+Data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{Ti\+Xml\+Encoding}]{encoding}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_ti_xml_document_a789ad2f06f93d52bdb5570b2f3670289}{Ti\+Xml\+Document}}.
+
+\Hypertarget{class_ti_xml_base_a0de56b3f2ef14c65091a3b916437b512}\index{TiXmlBase@{TiXmlBase}!Print@{Print}}
+\index{Print@{Print}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{Print()}{Print()}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_a0de56b3f2ef14c65091a3b916437b512} 
+virtual void Ti\+Xml\+Base\+::\+Print (\begin{DoxyParamCaption}\item[{FILE \texorpdfstring{$\ast$}{*}}]{cfile}{, }\item[{int}]{depth}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+All Tiny\+Xml classes can print themselves to a filestream or the string class (\doxylink{class_ti_xml_string}{Ti\+Xml\+String} in non-\/\+STL mode, std\+::string in STL mode.) Either or both cfile and str can be null.
+
+This is a formatted print, and will insert tabs and newlines.
+
+(For an unformatted stream, use the \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} operator.) 
+
+Implemented in \mbox{\hyperlink{class_ti_xml_attribute_a68ae373e03b9c35be4c9d0c3c233b894}{Ti\+Xml\+Attribute}}, \mbox{\hyperlink{class_ti_xml_comment_a873171beac19d40f0eaae945711c98ed}{Ti\+Xml\+Comment}}, \mbox{\hyperlink{class_ti_xml_declaration_ae46cff6565f299210ab945e78bf28514}{Ti\+Xml\+Declaration}}, \mbox{\hyperlink{class_ti_xml_document_aa9e166fae51da603641380a964f21eeb}{Ti\+Xml\+Document}}, \mbox{\hyperlink{class_ti_xml_element_aa31a15cddfb8601a31236fe7d2569fb4}{Ti\+Xml\+Element}}, \mbox{\hyperlink{class_ti_xml_text_a75f6895906333894e2574cc8cf77ea79}{Ti\+Xml\+Text}}, and \mbox{\hyperlink{class_ti_xml_unknown_a5793fbc48ab3419783c0e866ca2d334e}{Ti\+Xml\+Unknown}}.
+
+\Hypertarget{class_ti_xml_base_ad0cacca5d76d156b26511f46080b442e}\index{TiXmlBase@{TiXmlBase}!Row@{Row}}
+\index{Row@{Row}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{Row()}{Row()}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_ad0cacca5d76d156b26511f46080b442e} 
+int Ti\+Xml\+Base\+::\+Row (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the position, in the original source file, of this node or attribute. The row and column are 1-\/based. (That is the first row and first column is 1,1). If the returns values are 0 or less, then the parser does not have a row and column value.
+
+Generally, the row and column value will be set when the Ti\+Xml\+Document\+::\+Load(), \doxylink{class_ti_xml_document_a4c852a889c02cf251117fd1d9fe1845f}{Ti\+Xml\+Document\+::\+Load\+File()}, or any Ti\+Xml\+Node\+::\+Parse() is called. It will NOT be set when the DOM was created from operator\texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}.
+
+The values reflect the initial load. Once the DOM is modified programmatically (by adding or changing nodes and attributes) the new values will NOT update to reflect changes in the document.
+
+There is a minor performance cost to computing the row and column. Computation can be disabled if \doxylink{class_ti_xml_document_a51dac56316f89b35bdb7d0d433ba988e}{Ti\+Xml\+Document\+::\+Set\+Tab\+Size()} is called with 0 as the value.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_ti_xml_document_a51dac56316f89b35bdb7d0d433ba988e}{Ti\+Xml\+Document\+::\+Set\+Tab\+Size()} 
+\end{DoxySeeAlso}
+\Hypertarget{class_ti_xml_base_a0f799ec645bfb8d8a969e83478f379c1}\index{TiXmlBase@{TiXmlBase}!SetCondenseWhiteSpace@{SetCondenseWhiteSpace}}
+\index{SetCondenseWhiteSpace@{SetCondenseWhiteSpace}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{SetCondenseWhiteSpace()}{SetCondenseWhiteSpace()}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_a0f799ec645bfb8d8a969e83478f379c1} 
+static void Ti\+Xml\+Base\+::\+Set\+Condense\+White\+Space (\begin{DoxyParamCaption}\item[{bool}]{condense}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+The world does not agree on whether white space should be kept or not. In order to make everyone happy, these global, static functions are provided to set whether or not Tiny\+Xml will condense all white space into a single space or not. The default is to condense. Note changing this value is not thread safe. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_ti_xml_base_a7ac8feec4100e446b3d78e1ac0659700}\index{TiXmlBase@{TiXmlBase}!errorString@{errorString}}
+\index{errorString@{errorString}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{errorString}{errorString}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_a7ac8feec4100e446b3d78e1ac0659700} 
+const char \texorpdfstring{$\ast$}{*} Ti\+Xml\+Base\+::error\+String\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}No\ error"{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error"{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ open\ file"{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ parsing\ Element."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ read\ Element\ name"{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ reading\ Element\ value."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ reading\ Attributes."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error:\ empty\ tag."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ reading\ end\ tag."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ parsing\ Unknown."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ parsing\ Comment."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ parsing\ Declaration."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ document\ empty."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ null\ (0)\ or\ unexpected\ EOF\ found\ in\ input\ stream."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ parsing\ CDATA."{}},}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}Error\ when\ TiXmlDocument\ added\ to\ document,\ because\ TiXmlDocument\ can\ only\ be\ at\ the\ root."{}},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{class_ti_xml_base_ac8c86058137bdb4b413c3eca58f2d467}\index{TiXmlBase@{TiXmlBase}!utf8ByteTable@{utf8ByteTable}}
+\index{utf8ByteTable@{utf8ByteTable}!TiXmlBase@{TiXmlBase}}
+\doxysubsubsection{\texorpdfstring{utf8ByteTable}{utf8ByteTable}}
+{\footnotesize\ttfamily \label{class_ti_xml_base_ac8c86058137bdb4b413c3eca58f2d467} 
+const int Ti\+Xml\+Base\+::utf8\+Byte\+Table\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ }
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1,\ \ 1,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ 2,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ 3,\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 4,\ \ 4,\ \ 4,\ \ 4,\ \ 4,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1,\ \ 1\ \ \ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Parser/tinyxml.\+h\item 
+PSE/src/\+Parser/tinyxml.\+cpp\item 
+PSE/src/\+Parser/tinyxmlerror.\+cpp\item 
+PSE/src/\+Parser/tinyxmlparser.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,87 @@
+\doxysection{simulatie.\+h}
+\hypertarget{simulatie_8h_source}{}\label{simulatie_8h_source}\index{PSE/src/Simulation/simulatie.h@{PSE/src/Simulation/simulatie.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SIMULATIE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SIMULATIE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Situation/situatie.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie}{VerkeersSituatie}}\&\ verkeerssituatie;\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{double}\ tijdstap;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{double}\ huidigeSimulatieTijd;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ autoGenereerVoertuigen\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ Standaardwaarden\ uit\ sectie\ B.6}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{double}\ vertraagAfstand;\ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{double}\ stopAfstand;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{double}\ vertraagFactor;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ Statistieken}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ aantalVoertuigen\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{double}\ gemiddeldeSnelheid\ =\ 0.0;\ \ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{int}\ verwijderdeVoertuigenTeller\ =\ 0;\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ totaalVerwijderdeVoertuigen\ =\ 0;\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{double}\ totaleTijd\ =\ 0.0;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}*\ \_initCheck;\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ verwerkVerkeerslichten();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ controleerVerkeerslichtNadering(\mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}}\&\ verkeerslicht);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ verwerkVoertuigen();}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ verwerkBushaltes();}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ verwerkKruispunten();}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ genereerNieuweVoertuigen();}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{bool}\ genereertVoertuig(\textcolor{keyword}{const}\ std::string\&\ baanNaam,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keyword}{const}\ std::string\&\ type\ =\ \textcolor{stringliteral}{"{}auto"{}});}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ verhoogVerwijderdeVoertuigenTeller();}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ verzamelStatistieken();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{bool}\ moetNaarKruispunt(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_kruispunt}{Kruispunt}}\&\ kruispunt)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{bool}\ verplaatsVoertuigNaKruispunt(\mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_kruispunt}{Kruispunt}}\&\ kruispunt);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{bool}\ moetStoppenBijHalte(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_bushalte}{Bushalte}}\&\ halte)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00200\ \ \ \ \ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}(\mbox{\hyperlink{class_verkeers_situatie}{VerkeersSituatie}}\&\ situatie,\ \textcolor{keywordtype}{double}\ tijdstap);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00205\ \ \ \ \ \mbox{\hyperlink{classsimulatie_a505064c4ca51a4736e084a520935b7fd}{simulatie}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00210\ \ \ \ \ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&\ \mbox{\hyperlink{classsimulatie_a25a74932c9ec8b0436d597baa622806a}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00215\ \ \ \ \ \mbox{\hyperlink{classsimulatie_ac5e9fbe19e5972a1a6595c13f479c155}{simulatie}}(\mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00220\ \ \ \ \ \mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&\ \mbox{\hyperlink{classsimulatie_a3e6795e3b8725a4f4de13ecc943daf4a}{operator=}}(\mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}}\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsimulatie_a931cbb160a138f583a6b6a47e38adddf}{stap}}();}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsimulatie_a77d182fa71d71f44f805a9a9793ee068}{setAutoGenereerVoertuigen}}(\textcolor{keywordtype}{bool}\ genereer);}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00255\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6}{getHuidigeSimulatieTijd}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00262\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classsimulatie_aebf2f78caab783615b44f44cbb21b22b}{getTijdstap}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00269\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classsimulatie_af5a4b581bb2cb1857c57025f63097760}{getAantalVoertuigen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00280\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classsimulatie_a51c188e8bb4b7081997d2238e7d01ed5}{getGemiddeldeSnelheid}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00290\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classsimulatie_aa9797e76898785fcd918bca05731b5fa}{getTotaalVerwijderdeVoertuigen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00298\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classsimulatie_a45d379d8b37a488458eec3d5fa244df9}{getTotaleTijd}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00307\ \};}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//SIMULATIE\_H}}
+
+\end{DoxyCode}

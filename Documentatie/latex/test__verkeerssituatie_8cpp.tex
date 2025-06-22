@@ -1,0 +1,49 @@
+\doxysection{PSE/src/tests/test\+\_\+verkeerssituatie.cpp File Reference}
+\hypertarget{test__verkeerssituatie_8cpp}{}\label{test__verkeerssituatie_8cpp}\index{PSE/src/tests/test\_verkeerssituatie.cpp@{PSE/src/tests/test\_verkeerssituatie.cpp}}
+
+
+GEFIXTE tests voor \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} -\/ vermijdt volledig segmentatie fouten.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include "{}../\+Situation/situatie.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/baan.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/voertuig.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/verkeerslicht.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/bushalte.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}
+\begin{DoxyCompactList}\small\item\em test fixture voor de verkeerssituatie. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__verkeerssituatie_8cpp_a7d4dd73c7c975c31ea5a60946d5a1d1e}\label{test__verkeerssituatie_8cpp_a7d4dd73c7c975c31ea5a60946d5a1d1e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Basic\+Object\+Creation)
+\begin{DoxyCompactList}\small\item\em Test basis object aanmaak zonder riskante methoden aan te roepen. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_abe429fbd7fe35fe743ac5192b8e2de7e}\label{test__verkeerssituatie_8cpp_abe429fbd7fe35fe743ac5192b8e2de7e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Road\+Addition)
+\begin{DoxyCompactList}\small\item\em Test baan toevoeging met maximale veiligheid. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_ab1324b4405dba42ef492d125514efdd0}\label{test__verkeerssituatie_8cpp_ab1324b4405dba42ef492d125514efdd0} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Vehicle\+Addition)
+\begin{DoxyCompactList}\small\item\em Test voertuig toevoeging met maximale veiligheid. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_a448e90ab945db3a52f0155bad0fc8eb3}\label{test__verkeerssituatie_8cpp_a448e90ab945db3a52f0155bad0fc8eb3} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Invalid\+Operations)
+\begin{DoxyCompactList}\small\item\em Test ongeldige operaties met maximale veiligheid. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_a3ca882b6d639c781c8b19ecc26af8dce}\label{test__verkeerssituatie_8cpp_a3ca882b6d639c781c8b19ecc26af8dce} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Sequential\+Operations)
+\begin{DoxyCompactList}\small\item\em Test meerdere operaties achter elkaar. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_a1808a2b7cc88894b12102a1aca504cc4}\label{test__verkeerssituatie_8cpp_a1808a2b7cc88894b12102a1aca504cc4} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Stress\+Test)
+\begin{DoxyCompactList}\small\item\em Stress test met veel operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerssituatie_8cpp_a48f28936d3d6da15976cf76ce3782190}\label{test__verkeerssituatie_8cpp_a48f28936d3d6da15976cf76ce3782190} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeers_situatie_test}{Verkeers\+Situatie\+Test}}, Safe\+Edge\+Cases)
+\begin{DoxyCompactList}\small\item\em Test edge cases veilig. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+GEFIXTE tests voor \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} -\/ vermijdt volledig segmentatie fouten. 
+

@@ -1,0 +1,908 @@
+\doxysection{Verkeerslicht Class Reference}
+\hypertarget{class_verkeerslicht}{}\label{class_verkeerslicht}\index{Verkeerslicht@{Verkeerslicht}}
+
+
+Klasse die een verkeerslicht in de verkeerssimulatie voorstelt.  
+
+
+
+
+{\ttfamily \#include $<$verkeerslicht.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur}} \{ \mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a07a38a25eb6a99e59c9657f4c67375ad}{GROEN}}
+, \mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814afa9820820e36311ec757a077e49e27f6}{ORANJE}}
+, \mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a88a2804e92f005227692140383793972}{ROOD}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum voor de verkeerslicht kleuren. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_verkeerslicht_ae107084b15086e59d5598cf885772b5a}{Verkeerslicht}} (const std\+::string \&baan, double positie, int cyclus, bool heeft\+Oranje=false, bool is\+Slim=false)
+\begin{DoxyCompactList}\small\item\em Constructor voor het verkeerslicht. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_verkeerslicht_a873fa0eb33cc3985a3725bcb56fb4097}{Verkeerslicht}} (const \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \& \mbox{\hyperlink{class_verkeerslicht_aec4c3e80abcf92297c4059c2a23f8941}{operator=}} (const \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\Hypertarget{class_verkeerslicht_a40d08444ff0360209e1fad7023723242}\label{class_verkeerslicht_a40d08444ff0360209e1fad7023723242} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Verkeerslicht} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het object correct is geïnitialiseerd. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_verkeerslicht_a7244dd67d41cad133ce888a3b16901dc}{get\+Baan}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de baannaam van het verkeerslicht. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_verkeerslicht_aef0ef7d4d19f93aa125ccb6dc2c00682}{get\+Positie}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de positie van het verkeerslicht. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_verkeerslicht_a428caf409f2d5b7e89dfb894d46ef4a0}{get\+Cyclus}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de cyclustijd van het verkeerslicht. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur}} \mbox{\hyperlink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de huidige kleur van het verkeerslicht. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a8e9b9eb7be93a73c8550e61ab83fb030}{set\+Kleur}} (\mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur}} kleur)
+\begin{DoxyCompactList}\small\item\em Setter voor de huidige kleur van het verkeerslicht. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_verkeerslicht_af3b225fd99c598aaac9292eabc3201fb}{get\+Kleur\+As\+String}} () const
+\begin{DoxyCompactList}\small\item\em Haal kleur op als string representatie. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_a557fe1a19418b8c9b39e1fa751b8024c}{is\+Rood}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of het verkeerslicht rood is. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_a4f2edbb2e6fe73fe8bd279dc68884ec6}{is\+Oranje}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of het verkeerslicht oranje is. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_a7078aa95b2cc0a877d711f46bceca8dd}{is\+Groen}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of het verkeerslicht groen is. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_ae071f071de1bca9018001aee36258c5e}{get\+Heeft\+Oranje}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of dit verkeerslicht een oranje status heeft. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_verkeerslicht_abd5b3741a48df0a68e3e22fd530198f3}{get\+Is\+Slim}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of dit een slim verkeerslicht is. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a9f0ef14282b9a3038a1c062902a113c4}{update}} (double tijdstap)
+\begin{DoxyCompactList}\small\item\em Update het verkeerslicht op basis van verstreken tijd. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a4e474dcbe22094b7e4f7ffc0f9467069}{register\+Voertuig\+Voor\+Licht}} ()
+\begin{DoxyCompactList}\small\item\em Registreer een voertuig wachtend voor dit licht (voor slimme verkeerslichten) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a042a8d2b8db5c040c1ab6a7ee4040baa}{register\+Voertuig\+Voor\+Licht}} (bool is\+Prioriteit)
+\begin{DoxyCompactList}\small\item\em Registreer een prioriteitsvoertuig wachtend voor dit licht (voor slimme verkeerslichten) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a7b9da3a6fe77311f923b095a9a724e4e}{unregister\+Voertuig\+Voor\+Licht}} ()
+\begin{DoxyCompactList}\small\item\em Deregistreer een voertuig dat aan dit licht wachtte (voor slimme verkeerslichten) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_aac3da524e8ac6db89d6bcf6d635be9c6}{unregister\+Voertuig\+Voor\+Licht}} (bool is\+Prioriteit)
+\begin{DoxyCompactList}\small\item\em Deregistreer een prioriteitsvoertuig dat aan dit licht wachtte (voor slimme verkeerslichten) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht}} () const
+\begin{DoxyCompactList}\small\item\em Haal het aantal voertuigen op dat voor dit licht wacht. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88}{get\+Prioriteits\+Voertuigen\+Voor\+Licht}} () const
+\begin{DoxyCompactList}\small\item\em Haal het aantal prioriteitsvoertuigen op dat voor dit licht wacht. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_verkeerslicht_a34e77652d48619627de788dde96d59b8}{get\+Totaal\+Voertuigen\+Voor\+Licht}} () const
+\begin{DoxyCompactList}\small\item\em Haal totaal aantal voertuigen op dat voor dit licht wacht. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_verkeerslicht_a2db8cc38da095432df28557e56216686}{reset\+Voertuigen\+Voor\+Licht}} ()
+\begin{DoxyCompactList}\small\item\em Reset het aantal voertuigen dat voor dit licht wacht. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse die een verkeerslicht in de verkeerssimulatie voorstelt. 
+
+Een \doxylink{class_verkeerslicht}{Verkeerslicht} regelt het verkeer op een specifieke positie op een baan. Het kan verschillende kleuren hebben (groen, oranje, rood) en schakelt automatisch volgens een cyclustijd. Slimme verkeerslichten kunnen hun gedrag aanpassen op basis van wachtende voertuigen.
+
+Eigenschappen\+:
+\begin{DoxyItemize}
+\item Normale verkeerslichten\+: vaste cyclustijd
+\item Slimme verkeerslichten\+: adaptieve cyclustijd gebaseerd op verkeer
+\item Optionele oranje fase tussen groen en rood
+\item Registratie van wachtende voertuigen voor slimme lichten 
+\end{DoxyItemize}
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}\index{Verkeerslicht@{Verkeerslicht}!Kleur@{Kleur}}
+\index{Kleur@{Kleur}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{Kleur}{Kleur}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814} 
+enum class \mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Verkeerslicht\+::\+Kleur}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enum voor de verkeerslicht kleuren. 
+
+Definieert de drie mogelijke kleuren van een verkeerslicht\+:
+\begin{DoxyItemize}
+\item GROEN\+: Voertuigen mogen doorrijden
+\item ORANJE\+: Voertuigen moeten stoppen tenzij dit onveilig is
+\item ROOD\+: Voertuigen moeten stoppen 
+\end{DoxyItemize}\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GROEN@{GROEN}!Verkeerslicht@{Verkeerslicht}}\index{Verkeerslicht@{Verkeerslicht}!GROEN@{GROEN}}}\Hypertarget{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a07a38a25eb6a99e59c9657f4c67375ad}\label{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a07a38a25eb6a99e59c9657f4c67375ad} 
+GROEN&Groen licht -\/ doorrijden toegestaan \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ORANJE@{ORANJE}!Verkeerslicht@{Verkeerslicht}}\index{Verkeerslicht@{Verkeerslicht}!ORANJE@{ORANJE}}}\Hypertarget{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814afa9820820e36311ec757a077e49e27f6}\label{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814afa9820820e36311ec757a077e49e27f6} 
+ORANJE&Oranje licht -\/ voorzichtig stoppen \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ROOD@{ROOD}!Verkeerslicht@{Verkeerslicht}}\index{Verkeerslicht@{Verkeerslicht}!ROOD@{ROOD}}}\Hypertarget{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a88a2804e92f005227692140383793972}\label{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a88a2804e92f005227692140383793972} 
+ROOD&Rood licht -\/ stoppen verplicht \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_verkeerslicht_ae107084b15086e59d5598cf885772b5a}\index{Verkeerslicht@{Verkeerslicht}!Verkeerslicht@{Verkeerslicht}}
+\index{Verkeerslicht@{Verkeerslicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{Verkeerslicht()}{Verkeerslicht()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_ae107084b15086e59d5598cf885772b5a} 
+Verkeerslicht\+::\+Verkeerslicht (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{double}]{positie}{, }\item[{int}]{cyclus}{, }\item[{bool}]{heeft\+Oranje}{ = {\ttfamily false}, }\item[{bool}]{is\+Slim}{ = {\ttfamily false}}\end{DoxyParamCaption})}
+
+
+
+Constructor voor het verkeerslicht. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & Naam van de baan waar het licht staat \\
+\hline
+{\em positie} & Positie op de baan in meters \\
+\hline
+{\em cyclus} & Cyclustijd in seconden \\
+\hline
+{\em heeft\+Oranje} & Of dit verkeerslicht een oranje status heeft (default false) \\
+\hline
+{\em is\+Slim} & Of dit een slim verkeerslicht is (default false) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+!baan.empty() 
+
+positie \texorpdfstring{$>$}{>}= 0.\+0 
+
+cyclus \texorpdfstring{$>$}{>} 0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+
+\doxylink{class_verkeerslicht_a7244dd67d41cad133ce888a3b16901dc}{get\+Baan()} == baan 
+
+\doxylink{class_verkeerslicht_aef0ef7d4d19f93aa125ccb6dc2c00682}{get\+Positie()} == positie 
+
+\doxylink{class_verkeerslicht_a428caf409f2d5b7e89dfb894d46ef4a0}{get\+Cyclus()} == cyclus 
+
+\doxylink{class_verkeerslicht_ae071f071de1bca9018001aee36258c5e}{get\+Heeft\+Oranje()} == heeft\+Oranje 
+
+\doxylink{class_verkeerslicht_abd5b3741a48df0a68e3e22fd530198f3}{get\+Is\+Slim()} == is\+Slim 
+
+\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == \doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a88a2804e92f005227692140383793972}{Kleur\+::\+ROOD} (startkleur) 
+
+\doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} == 0
+\end{DoxyPostcond}
+Maakt een nieuw verkeerslicht aan op de opgegeven positie. Het licht start altijd in rode toestand. Voor slimme lichten kunnen voertuigen geregistreerd worden die voor het licht wachten.
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & Naam van de baan \\
+\hline
+{\em positie} & Positie op de baan in meters \\
+\hline
+{\em cyclus} & Cyclustijd in seconden \\
+\hline
+{\em heeft\+Oranje} & Of dit verkeerslicht een oranje status heeft \\
+\hline
+{\em is\+Slim} & Of dit een slim verkeerslicht is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+!baan.empty() 
+
+positie \texorpdfstring{$>$}{>}= 0.\+0 
+
+cyclus \texorpdfstring{$>$}{>} 0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a873fa0eb33cc3985a3725bcb56fb4097}\index{Verkeerslicht@{Verkeerslicht}!Verkeerslicht@{Verkeerslicht}}
+\index{Verkeerslicht@{Verkeerslicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{Verkeerslicht()}{Verkeerslicht()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a873fa0eb33cc3985a3725bcb56fb4097} 
+Verkeerslicht\+::\+Verkeerslicht (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Het te kopiëren verkeerslicht \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+other.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_verkeerslicht_a7244dd67d41cad133ce888a3b16901dc}\index{Verkeerslicht@{Verkeerslicht}!getBaan@{getBaan}}
+\index{getBaan@{getBaan}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getBaan()}{getBaan()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a7244dd67d41cad133ce888a3b16901dc} 
+std\+::string Verkeerslicht\+::get\+Baan (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de baannaam van het verkeerslicht. 
+
+\begin{DoxyReturn}{Returns}
+De naam van de baan als string 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+!return waarde.\+empty() 
+
+return waarde is de baan waar dit licht staat
+\end{DoxyPostcond}
+Haalt de naam op van de baan waarop dit verkeerslicht staat.
+
+\begin{DoxyReturn}{Returns}
+De naam van de baan 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true (uitgeschakeld voor compatibiliteit) 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+!return waarde.\+empty() 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a428caf409f2d5b7e89dfb894d46ef4a0}\index{Verkeerslicht@{Verkeerslicht}!getCyclus@{getCyclus}}
+\index{getCyclus@{getCyclus}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getCyclus()}{getCyclus()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a428caf409f2d5b7e89dfb894d46ef4a0} 
+int Verkeerslicht\+::get\+Cyclus (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de cyclustijd van het verkeerslicht. 
+
+\begin{DoxyReturn}{Returns}
+De cyclustijd in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>} 0 
+
+return waarde is de ingestelde cyclustijd
+\end{DoxyPostcond}
+Haalt de cyclustijd op waarmee het verkeerslicht schakelt. Voor normale lichten is dit een vaste tijd, voor slimme lichten wordt deze gebruikt als basis maar kan variëren.
+
+\begin{DoxyReturn}{Returns}
+De cyclustijd in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>} 0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_ae071f071de1bca9018001aee36258c5e}\index{Verkeerslicht@{Verkeerslicht}!getHeeftOranje@{getHeeftOranje}}
+\index{getHeeftOranje@{getHeeftOranje}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getHeeftOranje()}{getHeeftOranje()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_ae071f071de1bca9018001aee36258c5e} 
+bool Verkeerslicht\+::get\+Heeft\+Oranje (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of dit verkeerslicht een oranje status heeft. 
+
+\begin{DoxyReturn}{Returns}
+true als het licht een oranje status heeft, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is configuratie van constructor
+\end{DoxyPostcond}
+Geeft aan of dit verkeerslicht een oranje fase heeft tussen groen en rood. Zonder oranje schakelt het direct van groen naar rood.
+
+\begin{DoxyReturn}{Returns}
+True als het licht een oranje status heeft, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true (uitgeschakeld voor compatibiliteit) 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_abd5b3741a48df0a68e3e22fd530198f3}\index{Verkeerslicht@{Verkeerslicht}!getIsSlim@{getIsSlim}}
+\index{getIsSlim@{getIsSlim}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getIsSlim()}{getIsSlim()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_abd5b3741a48df0a68e3e22fd530198f3} 
+bool Verkeerslicht\+::get\+Is\+Slim (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of dit een slim verkeerslicht is. 
+
+\begin{DoxyReturn}{Returns}
+true als het licht slim is, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is configuratie van constructor
+\end{DoxyPostcond}
+Geeft aan of dit een slim verkeerslicht is dat kan reageren op wachtende voertuigen door zijn cyclustijd aan te passen.
+
+\begin{DoxyReturn}{Returns}
+True als het licht slim is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}\index{Verkeerslicht@{Verkeerslicht}!getKleur@{getKleur}}
+\index{getKleur@{getKleur}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getKleur()}{getKleur()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953} 
+\mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Verkeerslicht\+::\+Kleur}} Verkeerslicht\+::get\+Kleur (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de huidige kleur van het verkeerslicht. 
+
+\begin{DoxyReturn}{Returns}
+De huidige kleur (GROEN, ORANJE, of ROOD) 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is een geldige \doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur} enum waarde
+\end{DoxyPostcond}
+Haalt de huidige kleur op van het verkeerslicht.
+
+\begin{DoxyReturn}{Returns}
+De huidige kleur 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_af3b225fd99c598aaac9292eabc3201fb}\index{Verkeerslicht@{Verkeerslicht}!getKleurAsString@{getKleurAsString}}
+\index{getKleurAsString@{getKleurAsString}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getKleurAsString()}{getKleurAsString()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_af3b225fd99c598aaac9292eabc3201fb} 
+std\+::string Verkeerslicht\+::get\+Kleur\+As\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal kleur op als string representatie. 
+
+Haal kleur op als string.
+
+\begin{DoxyReturn}{Returns}
+String-\/weergave van de huidige kleur 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is "{}groen"{}, "{}oranje"{}, "{}rood"{}, of "{}onbekend"{} 
+
+return waarde komt overeen met \doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()}
+\end{DoxyPostcond}
+Converteert de huidige kleur naar een leesbare string.
+
+\begin{DoxyReturn}{Returns}
+String-\/weergave van de huidige kleur 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_aef0ef7d4d19f93aa125ccb6dc2c00682}\index{Verkeerslicht@{Verkeerslicht}!getPositie@{getPositie}}
+\index{getPositie@{getPositie}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getPositie()}{getPositie()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_aef0ef7d4d19f93aa125ccb6dc2c00682} 
+double Verkeerslicht\+::get\+Positie (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de positie van het verkeerslicht. 
+
+\begin{DoxyReturn}{Returns}
+De positie in meters vanaf begin van de baan 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0.\+0 
+
+return waarde is positie op de baan
+\end{DoxyPostcond}
+Haalt de positie op waar dit verkeerslicht staat op de baan.
+
+\begin{DoxyReturn}{Returns}
+De positie in meters 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0.\+0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88}\index{Verkeerslicht@{Verkeerslicht}!getPrioriteitsVoertuigenVoorLicht@{getPrioriteitsVoertuigenVoorLicht}}
+\index{getPrioriteitsVoertuigenVoorLicht@{getPrioriteitsVoertuigenVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getPrioriteitsVoertuigenVoorLicht()}{getPrioriteitsVoertuigenVoorLicht()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88} 
+int Verkeerslicht\+::get\+Prioriteits\+Voertuigen\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal het aantal prioriteitsvoertuigen op dat voor dit licht wacht. 
+
+\begin{DoxyReturn}{Returns}
+Het aantal geregistreerde wachtende prioriteitsvoertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+
+Voor slimme lichten\+: actueel aantal wachtende prioriteitsvoertuigen 
+
+Voor normale lichten\+: altijd 0
+\end{DoxyPostcond}
+Geeft het aantal prioriteitsvoertuigen dat geregistreerd staat als wachtend voor dit verkeerslicht. Alleen relevant voor slimme lichten.
+
+\begin{DoxyReturn}{Returns}
+Het aantal prioriteitsvoertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a34e77652d48619627de788dde96d59b8}\index{Verkeerslicht@{Verkeerslicht}!getTotaalVoertuigenVoorLicht@{getTotaalVoertuigenVoorLicht}}
+\index{getTotaalVoertuigenVoorLicht@{getTotaalVoertuigenVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getTotaalVoertuigenVoorLicht()}{getTotaalVoertuigenVoorLicht()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a34e77652d48619627de788dde96d59b8} 
+int Verkeerslicht\+::get\+Totaal\+Voertuigen\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal totaal aantal voertuigen op dat voor dit licht wacht. 
+
+\begin{DoxyReturn}{Returns}
+Het totaal aantal (normale + prioriteits) wachtende voertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+
+return waarde == \doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} + \doxylink{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88}{get\+Prioriteits\+Voertuigen\+Voor\+Licht()}
+\end{DoxyPostcond}
+Geeft het totaal aantal voertuigen (normale + prioriteits) dat wacht.
+
+\begin{DoxyReturn}{Returns}
+Het totaal aantal wachtende voertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}\index{Verkeerslicht@{Verkeerslicht}!getVoertuigenVoorLicht@{getVoertuigenVoorLicht}}
+\index{getVoertuigenVoorLicht@{getVoertuigenVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{getVoertuigenVoorLicht()}{getVoertuigenVoorLicht()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d} 
+int Verkeerslicht\+::get\+Voertuigen\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal het aantal voertuigen op dat voor dit licht wacht. 
+
+\begin{DoxyReturn}{Returns}
+Het aantal geregistreerde wachtende voertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+
+Voor slimme lichten\+: actueel aantal wachtende voertuigen 
+
+Voor normale lichten\+: altijd 0
+\end{DoxyPostcond}
+Geeft het aantal voertuigen dat geregistreerd staat als wachtend voor dit verkeerslicht. Alleen relevant voor slimme lichten.
+
+\begin{DoxyReturn}{Returns}
+Het aantal voertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde \texorpdfstring{$>$}{>}= 0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a7078aa95b2cc0a877d711f46bceca8dd}\index{Verkeerslicht@{Verkeerslicht}!isGroen@{isGroen}}
+\index{isGroen@{isGroen}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{isGroen()}{isGroen()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a7078aa95b2cc0a877d711f46bceca8dd} 
+bool Verkeerslicht\+::is\+Groen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of het verkeerslicht groen is. 
+
+\begin{DoxyReturn}{Returns}
+true als het licht groen is, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde == (\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == \doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a07a38a25eb6a99e59c9657f4c67375ad}{Kleur\+::\+GROEN})
+\end{DoxyPostcond}
+Hulpmethode om te controleren of het licht groen staat.
+
+\begin{DoxyReturn}{Returns}
+True als het licht groen is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_a4f2edbb2e6fe73fe8bd279dc68884ec6}\index{Verkeerslicht@{Verkeerslicht}!isOranje@{isOranje}}
+\index{isOranje@{isOranje}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{isOranje()}{isOranje()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a4f2edbb2e6fe73fe8bd279dc68884ec6} 
+bool Verkeerslicht\+::is\+Oranje (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of het verkeerslicht oranje is. 
+
+\begin{DoxyReturn}{Returns}
+true als het licht oranje is, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde == (\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == \doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814afa9820820e36311ec757a077e49e27f6}{Kleur\+::\+ORANJE})
+\end{DoxyPostcond}
+Hulpmethode om te controleren of het licht oranje staat.
+
+\begin{DoxyReturn}{Returns}
+True als het licht oranje is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_a557fe1a19418b8c9b39e1fa751b8024c}\index{Verkeerslicht@{Verkeerslicht}!isRood@{isRood}}
+\index{isRood@{isRood}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{isRood()}{isRood()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a557fe1a19418b8c9b39e1fa751b8024c} 
+bool Verkeerslicht\+::is\+Rood (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of het verkeerslicht rood is. 
+
+\begin{DoxyReturn}{Returns}
+true als het licht rood is, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde == (\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == \doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814a88a2804e92f005227692140383793972}{Kleur\+::\+ROOD})
+\end{DoxyPostcond}
+Hulpmethode om te controleren of het licht rood staat.
+
+\begin{DoxyReturn}{Returns}
+True als het licht rood is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_aec4c3e80abcf92297c4059c2a23f8941}\index{Verkeerslicht@{Verkeerslicht}!operator=@{operator=}}
+\index{operator=@{operator=}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_aec4c3e80abcf92297c4059c2a23f8941} 
+\mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \& Verkeerslicht\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Het toe te wijzen verkeerslicht \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Referentie naar dit object 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+
+other.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}\index{Verkeerslicht@{Verkeerslicht}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b} 
+bool Verkeerslicht\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het object correct is geïnitialiseerd. 
+
+Controleer of object correct geïnitialiseerd is.
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft aan of object in geldige toestand verkeert
+\end{DoxyPostcond}
+Design by Contract verificatie methode om object integriteit te controleren.
+
+\begin{DoxyReturn}{Returns}
+true als object geldig is, false anders 
+\end{DoxyReturn}
+\Hypertarget{class_verkeerslicht_a4e474dcbe22094b7e4f7ffc0f9467069}\index{Verkeerslicht@{Verkeerslicht}!registerVoertuigVoorLicht@{registerVoertuigVoorLicht}}
+\index{registerVoertuigVoorLicht@{registerVoertuigVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{registerVoertuigVoorLicht()}{registerVoertuigVoorLicht()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a4e474dcbe22094b7e4f7ffc0f9467069} 
+void Verkeerslicht\+::register\+Voertuig\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Registreer een voertuig wachtend voor dit licht (voor slimme verkeerslichten) 
+
+Registreer een voertuig wachtend voor dit licht (backward compatibility)
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Als is\+Slim()\+: \doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} is verhoogd met 1 
+
+Als !is\+Slim()\+: geen effect
+\end{DoxyPostcond}
+Registreert een voertuig dat voor dit slimme verkeerslicht wacht. Alleen van toepassing op slimme verkeerslichten.
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_a042a8d2b8db5c040c1ab6a7ee4040baa}\index{Verkeerslicht@{Verkeerslicht}!registerVoertuigVoorLicht@{registerVoertuigVoorLicht}}
+\index{registerVoertuigVoorLicht@{registerVoertuigVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{registerVoertuigVoorLicht()}{registerVoertuigVoorLicht()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a042a8d2b8db5c040c1ab6a7ee4040baa} 
+void Verkeerslicht\+::register\+Voertuig\+Voor\+Licht (\begin{DoxyParamCaption}\item[{bool}]{is\+Prioriteit}{}\end{DoxyParamCaption})}
+
+
+
+Registreer een prioriteitsvoertuig wachtend voor dit licht (voor slimme verkeerslichten) 
+
+Registreer een voertuig wachtend voor dit licht met prioriteit ondersteuning.
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Prioriteit} & true als het een prioriteitsvoertuig is (brandweer, ziekenwagen, politie) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Als is\+Slim() \&\& is\+Prioriteit\+: prioriteits\+Voertuigen\+Voor\+Licht is verhoogd met 1 
+
+Als is\+Slim() \&\& !is\+Prioriteit\+: voertuigen\+Voor\+Licht is verhoogd met 1 
+
+Als !is\+Slim()\+: geen effect
+\end{DoxyPostcond}
+Registreert een voertuig dat voor dit slimme verkeerslicht wacht. Prioriteitsvoertuigen worden apart geteld en krijgen voorrang.
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Prioriteit} & true voor prioriteitsvoertuigen (brandweer, ambulance, politie) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_a2db8cc38da095432df28557e56216686}\index{Verkeerslicht@{Verkeerslicht}!resetVoertuigenVoorLicht@{resetVoertuigenVoorLicht}}
+\index{resetVoertuigenVoorLicht@{resetVoertuigenVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{resetVoertuigenVoorLicht()}{resetVoertuigenVoorLicht()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a2db8cc38da095432df28557e56216686} 
+void Verkeerslicht\+::reset\+Voertuigen\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reset het aantal voertuigen dat voor dit licht wacht. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} == 0 
+
+\doxylink{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88}{get\+Prioriteits\+Voertuigen\+Voor\+Licht()} == 0
+\end{DoxyPostcond}
+Reset beide tellers van wachtende voertuigen naar nul. Wordt typisch gebruikt wanneer het licht groen wordt.
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} == 0 
+
+\doxylink{class_verkeerslicht_adcc9932df94a6a2c8905c0b084ed1c88}{get\+Prioriteits\+Voertuigen\+Voor\+Licht()} == 0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a8e9b9eb7be93a73c8550e61ab83fb030}\index{Verkeerslicht@{Verkeerslicht}!setKleur@{setKleur}}
+\index{setKleur@{setKleur}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{setKleur()}{setKleur()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a8e9b9eb7be93a73c8550e61ab83fb030} 
+void Verkeerslicht\+::set\+Kleur (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur}}}]{kleur}{}\end{DoxyParamCaption})}
+
+
+
+Setter voor de huidige kleur van het verkeerslicht. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kleur} & De nieuwe kleur om in te stellen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == kleur 
+
+tijd\+Sinds\+Laatste\+Wissel is gereset naar 0.\+0
+\end{DoxyPostcond}
+Stelt een nieuwe kleur in voor het verkeerslicht en reset de timer voor de laatste kleurverandering.
+
+
+\begin{DoxyParams}{Parameters}
+{\em kleur} & De nieuwe kleur \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_verkeerslicht_af0a0b2102a959144d1846c8e0cb6c953}{get\+Kleur()} == kleur 
+
+tijd\+Sinds\+Laatste\+Wissel == 0.\+0 
+\end{DoxyPostcond}
+\Hypertarget{class_verkeerslicht_a7b9da3a6fe77311f923b095a9a724e4e}\index{Verkeerslicht@{Verkeerslicht}!unregisterVoertuigVoorLicht@{unregisterVoertuigVoorLicht}}
+\index{unregisterVoertuigVoorLicht@{unregisterVoertuigVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{unregisterVoertuigVoorLicht()}{unregisterVoertuigVoorLicht()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a7b9da3a6fe77311f923b095a9a724e4e} 
+void Verkeerslicht\+::unregister\+Voertuig\+Voor\+Licht (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Deregistreer een voertuig dat aan dit licht wachtte (voor slimme verkeerslichten) 
+
+Deregistreer een voertuig dat aan dit licht wachtte (backward compatibility)
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Als is\+Slim() \&\& voertuigen\+Voor\+Licht \texorpdfstring{$>$}{>} 0\+: \doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} is verminderd met 1 
+
+Als !is\+Slim()\+: geen effect 
+
+\doxylink{class_verkeerslicht_a66855e3cabcd1d5048ee1d1bc59fa09d}{get\+Voertuigen\+Voor\+Licht()} \texorpdfstring{$>$}{>}= 0
+\end{DoxyPostcond}
+Deregistreert een voertuig dat niet meer wacht voor dit licht. Voorkomt dat de teller negatief wordt.
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_aac3da524e8ac6db89d6bcf6d635be9c6}\index{Verkeerslicht@{Verkeerslicht}!unregisterVoertuigVoorLicht@{unregisterVoertuigVoorLicht}}
+\index{unregisterVoertuigVoorLicht@{unregisterVoertuigVoorLicht}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{unregisterVoertuigVoorLicht()}{unregisterVoertuigVoorLicht()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_aac3da524e8ac6db89d6bcf6d635be9c6} 
+void Verkeerslicht\+::unregister\+Voertuig\+Voor\+Licht (\begin{DoxyParamCaption}\item[{bool}]{is\+Prioriteit}{}\end{DoxyParamCaption})}
+
+
+
+Deregistreer een prioriteitsvoertuig dat aan dit licht wachtte (voor slimme verkeerslichten) 
+
+Deregistreer een voertuig met prioriteit ondersteuning.
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Prioriteit} & true als het een prioriteitsvoertuig is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Als is\+Slim() \&\& is\+Prioriteit \&\& prioriteits\+Voertuigen\+Voor\+Licht \texorpdfstring{$>$}{>} 0\+: prioriteits\+Voertuigen\+Voor\+Licht verminderd met 1 
+
+Als is\+Slim() \&\& !is\+Prioriteit \&\& voertuigen\+Voor\+Licht \texorpdfstring{$>$}{>} 0\+: voertuigen\+Voor\+Licht verminderd met 1 
+
+prioriteits\+Voertuigen\+Voor\+Licht \texorpdfstring{$>$}{>}= 0 \&\& voertuigen\+Voor\+Licht \texorpdfstring{$>$}{>}= 0
+\end{DoxyPostcond}
+Deregistreert een voertuig dat niet meer wacht voor dit licht. Houdt rekening met type voertuig (prioriteit of normaal).
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Prioriteit} & true voor prioriteitsvoertuigen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{class_verkeerslicht_a9f0ef14282b9a3038a1c062902a113c4}\index{Verkeerslicht@{Verkeerslicht}!update@{update}}
+\index{update@{update}!Verkeerslicht@{Verkeerslicht}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_verkeerslicht_a9f0ef14282b9a3038a1c062902a113c4} 
+void Verkeerslicht\+::update (\begin{DoxyParamCaption}\item[{double}]{tijdstap}{}\end{DoxyParamCaption})}
+
+
+
+Update het verkeerslicht op basis van verstreken tijd. 
+
+Update het verkeerslicht op basis van verstreken tijd met prioriteitslogica.
+
+
+\begin{DoxyParams}{Parameters}
+{\em tijdstap} & De verstreken tijd sinds laatste update in seconden \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true 
+
+tijdstap \texorpdfstring{$>$}{>}= 0.\+0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+tijd\+Sinds\+Laatste\+Wissel is verhoogd met tijdstap 
+
+\doxylink{class_verkeerslicht_a51544a48e5bf3a0c9d40f9f0f5cf5814}{Kleur} kan zijn veranderd volgens licht logica 
+
+Voor slimme lichten\+: kleur reageert op voertuigen\+Voor\+Licht
+\end{DoxyPostcond}
+Update de status van het verkeerslicht. Voor normale lichten schakelt het volgens vaste cyclustijd. Voor slimme lichten wordt ook rekening gehouden met wachtende voertuigen.
+
+Normale logica\+:
+\begin{DoxyItemize}
+\item Met oranje\+: Groen -\/\texorpdfstring{$>$}{>} Oranje (10\% cyclus) -\/\texorpdfstring{$>$}{>} Rood -\/\texorpdfstring{$>$}{>} Groen
+\item Zonder oranje\+: Groen -\/\texorpdfstring{$>$}{>} Rood -\/\texorpdfstring{$>$}{>} Groen
+\end{DoxyItemize}
+
+Slimme logica\+:
+\begin{DoxyItemize}
+\item Minimaal 10s, maximaal 60s per fase
+\item Schakelt naar groen bij wachtende voertuigen
+\item Schakelt naar rood bij geen verkeer na 20s groen
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em tijdstap} & De huidige simulatie-\/tijdstap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_verkeerslicht_a48467bde75ab36bae00b0a9fc68ff52b}{properly\+Initialized()} == true (uitgeschakeld voor compatibiliteit) 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Prioriteitsvoertuigen krijgen voorrang 
+\end{DoxyPostcond}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Trafic\+Objects/verkeerslicht.\+h\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{verkeerslicht_8cpp}{verkeerslicht.\+cpp}}\end{DoxyCompactItemize}

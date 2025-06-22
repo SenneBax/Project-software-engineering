@@ -1,0 +1,352 @@
+\doxysection{Brandweerwagen Class Reference}
+\hypertarget{class_brandweerwagen}{}\label{class_brandweerwagen}\index{Brandweerwagen@{Brandweerwagen}}
+
+
+\doxylink{class_brandweerwagen}{Brandweerwagen} class -\/ specifieke implementatie voor brandweerwagens.  
+
+
+
+
+{\ttfamily \#include $<$voertuig.\+h$>$}
+
+Inheritance diagram for Brandweerwagen\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_brandweerwagen}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17}{Brandweerwagen}} (const std\+::string \&baan, double positie)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_brandweerwagen_a46bcc6c6eefe7a608e6ccf66e289969b}{Brandweerwagen}} (const std\+::string \&baan, double positie, double snelheid, double versnelling)
+\begin{DoxyCompactList}\small\item\em Constructor met snelheid en versnelling. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813}{get\+Type}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Type voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23}{is\+Prioriteitsvoertuig}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van is\+Prioriteitsvoertuig voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_brandweerwagen_adf43ad342df2e47945e7608239e023d4}{is\+Bus}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van is\+Bus voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_brandweerwagen_a56edd8396ba6dec4fc4f49569b84538e}{get\+Lengte}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Lengte voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_brandweerwagen_aa23ed92afc9ba231c4c442d46160cddf}{get\+Max\+Snelheid}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Max\+Snelheid voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_brandweerwagen_a1da843aa1b668a0490b871a2fe5b6ba1}{get\+Max\+Versnelling}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Max\+Versnelling voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_brandweerwagen_a4655f381d436b5ce0aabdee0572d1684}{get\+Max\+Rem\+Factor}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Max\+Rem\+Factor voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_brandweerwagen_ab1989b04ade37ef6feb4c772a4a29dfc}{get\+Min\+Volgafstand}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Min\+Volgafstand voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_brandweerwagen_a09a2ce30326c9baa37dee484ff516dea}{get\+Visuele\+Representatie}} () const override
+\begin{DoxyCompactList}\small\item\em Implementatie van get\+Visuele\+Representatie voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ \mbox{\hyperlink{class_brandweerwagen_a55e8dc3f0adfc56ad98208af235665cc}{clone}} () const override
+\begin{DoxyCompactList}\small\item\em Clone method implementatie voor \doxylink{class_brandweerwagen}{Brandweerwagen}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_voertuig}{Voertuig}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}} (const std\+::string \&baan, double positie)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_voertuig_a20a0b90da0fc10252ef5a988941acc9a}{Voertuig}} (const std\+::string \&baan, double positie, double snelheid, double versnelling)
+\begin{DoxyCompactList}\small\item\em Constructor met snelheid en versnelling. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_voertuig_aec74a12075c040b65562c427f7d46efd}{\texorpdfstring{$\sim$}{\string~}\+Voertuig}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor voor correcte afhandeling van afgeleide klassen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_voertuig_a375822d820948bb6a87173d381af2ea8}{Voertuig}} (const \mbox{\hyperlink{class_voertuig}{Voertuig}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_voertuig}{Voertuig}} \& \mbox{\hyperlink{class_voertuig_a01d46a82078dfaec3e53af952dc62703}{operator=}} (const \mbox{\hyperlink{class_voertuig}{Voertuig}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_voertuig_a59c0b2a1b14cdaed22a90ca200dfb93f}{get\+Baan\+Naam}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de naam van de baan terug. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_voertuig_a06d5649bd5332d4e12049f24f9f2d0d3}{get\+Baan}} () const
+\begin{DoxyCompactList}\small\item\em Alias voor get\+Baan\+Naam. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_ac2d989f49a4092b9b5d372cfa7f2d815}{set\+Baan\+Naam}} (const std\+::string \&nieuwe\+Naam)
+\begin{DoxyCompactList}\small\item\em Stelt de naam van de baan in. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_a0c636e752d224a6c45f840841cee4194}{set\+Baan}} (const std\+::string \&baan)
+\begin{DoxyCompactList}\small\item\em Alias voor set\+Baan\+Naam. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_voertuig_ab16d7e812605a6ade8fa8a2bfdddb1ee}{get\+Positie}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de positie van het voertuig terug. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_ad975536e993dc1e1091f1c4463f11fa0}{set\+Positie}} (double nieuwe\+Positie)
+\begin{DoxyCompactList}\small\item\em Zet de positie van het voertuig. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_voertuig_aba6a3376b3c8f08641d3bc4c8a22d634}{get\+Snelheid}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de snelheid van het voertuig terug. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_a85a1e63be1be5a4a9195e444a9fd29b8}{set\+Snelheid}} (double nieuwe\+Snelheid)
+\begin{DoxyCompactList}\small\item\em Zet de snelheid van het voertuig. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_voertuig_a28912162917a45d9c774c0575e0b48af}{get\+Versnelling}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de versnelling van het voertuig terug. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_a96d00eaaf7934a1172accc3411f799b8}{set\+Versnelling}} (double nieuwe\+Versnelling)
+\begin{DoxyCompactList}\small\item\em Zet de versnelling van het voertuig. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_aaa4c32430c5cff99588bcf02fefa2bf1}{bereken\+Versnelling}} (\mbox{\hyperlink{class_voertuig}{Voertuig}} \texorpdfstring{$\ast$}{*}voorliggend\+Voertuig, bool is\+Eerste\+Voertuig, double verkeers\+Licht\+Vertraag\+Factor, double bushalte\+Vertraag\+Factor)
+\begin{DoxyCompactList}\small\item\em Berekent de versnelling van het voertuig. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_ae02d5afb84a579cc4eacae118740e1bd}{update\+Positie\+En\+Snelheid}} (double tijdstap)
+\begin{DoxyCompactList}\small\item\em Update de positie en snelheid van het voertuig. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_a81cf560c3bb7af9c6e764809ef2f12e8}{set\+Is\+Waiting\+At\+Stop}} (bool waiting)
+\begin{DoxyCompactList}\small\item\em Zet de wachtstatus bij een bushalte. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_voertuig_a2ab342c2e19de103cbe4ee71b3f00402}{get\+Is\+Waiting\+At\+Stop}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de wachtstatus bij een bushalte terug. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_voertuig_a2408c161be6bc18d17f73832eb254fb6}{is\+Waiting\+At\+Stop}} () const
+\begin{DoxyCompactList}\small\item\em Alias voor \doxylink{class_voertuig_a2ab342c2e19de103cbe4ee71b3f00402}{get\+Is\+Waiting\+At\+Stop()} voor test compatibiliteit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_voertuig_a813c2dc29efa2acf27e7e2c7c4ed86f7}{nood\+Stop}} ()
+\begin{DoxyCompactList}\small\item\em Voert een noodstop uit. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_voertuig_a78169ed7e2fea5fd3ff0d9f740b91f32}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_voertuig}{Voertuig}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ \mbox{\hyperlink{class_voertuig_ae3d56f245aeab43feb8ae0a5d4f12df6}{maak\+Voertuig}} (const std\+::string \&baan, double positie, const std\+::string \&type)
+\begin{DoxyCompactList}\small\item\em Factory methode voor het maken van voertuigen. \end{DoxyCompactList}\item 
+static std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ \mbox{\hyperlink{class_voertuig_a439290ff913b6987396672195ca25195}{maak\+Voertuig}} (const std\+::string \&baan, double positie, double snelheid, double versnelling, const std\+::string \&type)
+\begin{DoxyCompactList}\small\item\em Factory methode voor het maken van voertuigen met snelheid en versnelling. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_brandweerwagen}{Brandweerwagen} class -\/ specifieke implementatie voor brandweerwagens. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17}\index{Brandweerwagen@{Brandweerwagen}!Brandweerwagen@{Brandweerwagen}}
+\index{Brandweerwagen@{Brandweerwagen}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{Brandweerwagen()}{Brandweerwagen()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17} 
+Brandweerwagen\+::\+Brandweerwagen (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{double}]{positie}{}\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+Constructor voor \doxylink{class_brandweerwagen}{Brandweerwagen} met standaard snelheid en versnelling.
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & De naam van de baan waar het voertuig zich bevindt \\
+\hline
+{\em positie} & De positie van het voertuig op de baan\\
+\hline
+{\em baan} & Naam van de baan \\
+\hline
+{\em positie} & Positie op de baan\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(\doxylink{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813}{get\+Type()} == "{}brandweerwagen"{}, "{}\+Brandweerwagen type moet correct zijn."{}); 
+
+ENSURE(\doxylink{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23}{is\+Prioriteitsvoertuig()}, "{}\+Brandweerwagen moet een prioriteitsvoertuig zijn."{}); 
+
+ENSURE(!is\+Bus(), "{}\+Brandweerwagen mag geen bus zijn."{}); 
+\end{DoxyPostcond}
+\Hypertarget{class_brandweerwagen_a46bcc6c6eefe7a608e6ccf66e289969b}\index{Brandweerwagen@{Brandweerwagen}!Brandweerwagen@{Brandweerwagen}}
+\index{Brandweerwagen@{Brandweerwagen}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{Brandweerwagen()}{Brandweerwagen()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a46bcc6c6eefe7a608e6ccf66e289969b} 
+Brandweerwagen\+::\+Brandweerwagen (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{double}]{positie}{, }\item[{double}]{snelheid}{, }\item[{double}]{versnelling}{}\end{DoxyParamCaption})}
+
+
+
+Constructor met snelheid en versnelling. 
+
+Constructor voor \doxylink{class_brandweerwagen}{Brandweerwagen} met snelheid en versnelling.
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & De naam van de baan waar het voertuig zich bevindt \\
+\hline
+{\em positie} & De positie van het voertuig op de baan \\
+\hline
+{\em snelheid} & De snelheid van het voertuig \\
+\hline
+{\em versnelling} & De versnelling van het voertuig\\
+\hline
+{\em baan} & Naam van de baan \\
+\hline
+{\em positie} & Positie op de baan \\
+\hline
+{\em snelheid} & Snelheid van het voertuig \\
+\hline
+{\em versnelling} & Versnelling van het voertuig\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(\doxylink{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813}{get\+Type()} == "{}brandweerwagen"{}, "{}\+Brandweerwagen type moet correct zijn."{}); 
+
+ENSURE(\doxylink{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23}{is\+Prioriteitsvoertuig()}, "{}\+Brandweerwagen moet een prioriteitsvoertuig zijn."{}); 
+
+ENSURE(!is\+Bus(), "{}\+Brandweerwagen mag geen bus zijn."{}); 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_brandweerwagen_a55e8dc3f0adfc56ad98208af235665cc}\index{Brandweerwagen@{Brandweerwagen}!clone@{clone}}
+\index{clone@{clone}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a55e8dc3f0adfc56ad98208af235665cc} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ Brandweerwagen\+::clone (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Clone method implementatie voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+Een unieke pointer naar een nieuwe \doxylink{class_brandweerwagen}{Brandweerwagen} met dezelfde eigenschappen 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a2290187d3cb863b5a8023a657d471472}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_a56edd8396ba6dec4fc4f49569b84538e}\index{Brandweerwagen@{Brandweerwagen}!getLengte@{getLengte}}
+\index{getLengte@{getLengte}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getLengte()}{getLengte()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a56edd8396ba6dec4fc4f49569b84538e} 
+double Brandweerwagen\+::get\+Lengte (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Lengte voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+De lengte van een brandweerwagen in meters 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a1661027ae83623207ccdfc9bca393b30}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_a4655f381d436b5ce0aabdee0572d1684}\index{Brandweerwagen@{Brandweerwagen}!getMaxRemFactor@{getMaxRemFactor}}
+\index{getMaxRemFactor@{getMaxRemFactor}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getMaxRemFactor()}{getMaxRemFactor()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a4655f381d436b5ce0aabdee0572d1684} 
+double Brandweerwagen\+::get\+Max\+Rem\+Factor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Max\+Rem\+Factor voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+De maximale remfactor van een brandweerwagen in m/s² 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a824c6ac6685365268880d48c63d93d34}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_aa23ed92afc9ba231c4c442d46160cddf}\index{Brandweerwagen@{Brandweerwagen}!getMaxSnelheid@{getMaxSnelheid}}
+\index{getMaxSnelheid@{getMaxSnelheid}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getMaxSnelheid()}{getMaxSnelheid()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_aa23ed92afc9ba231c4c442d46160cddf} 
+double Brandweerwagen\+::get\+Max\+Snelheid (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Max\+Snelheid voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+De maximumsnelheid van een brandweerwagen in m/s 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a7d55c94046492cf2ed5fca1bcc5c6b3d}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_a1da843aa1b668a0490b871a2fe5b6ba1}\index{Brandweerwagen@{Brandweerwagen}!getMaxVersnelling@{getMaxVersnelling}}
+\index{getMaxVersnelling@{getMaxVersnelling}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getMaxVersnelling()}{getMaxVersnelling()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a1da843aa1b668a0490b871a2fe5b6ba1} 
+double Brandweerwagen\+::get\+Max\+Versnelling (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Max\+Versnelling voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+De maximumversnelling van een brandweerwagen in m/s² 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a3be6e4b4df7c9942eabe002217a0c031}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_ab1989b04ade37ef6feb4c772a4a29dfc}\index{Brandweerwagen@{Brandweerwagen}!getMinVolgafstand@{getMinVolgafstand}}
+\index{getMinVolgafstand@{getMinVolgafstand}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getMinVolgafstand()}{getMinVolgafstand()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_ab1989b04ade37ef6feb4c772a4a29dfc} 
+double Brandweerwagen\+::get\+Min\+Volgafstand (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Min\+Volgafstand voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+De minimale volgafstand van een brandweerwagen in meters 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a094ac37b9156852669bce814ca61ba45}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813}\index{Brandweerwagen@{Brandweerwagen}!getType@{getType}}
+\index{getType@{getType}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813} 
+std\+::string Brandweerwagen\+::get\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Type voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+"{}brandweerwagen"{} als string 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_abb7a07555e239172a8944a7b8c0a8101}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_a09a2ce30326c9baa37dee484ff516dea}\index{Brandweerwagen@{Brandweerwagen}!getVisueleRepresentatie@{getVisueleRepresentatie}}
+\index{getVisueleRepresentatie@{getVisueleRepresentatie}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{getVisueleRepresentatie()}{getVisueleRepresentatie()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a09a2ce30326c9baa37dee484ff516dea} 
+std\+::string Brandweerwagen\+::get\+Visuele\+Representatie (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van get\+Visuele\+Representatie voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+"{}\+F"{} als visuele representatie 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a54f1c53b8a5c447b9b77c32f83e5b87c}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_adf43ad342df2e47945e7608239e023d4}\index{Brandweerwagen@{Brandweerwagen}!isBus@{isBus}}
+\index{isBus@{isBus}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{isBus()}{isBus()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_adf43ad342df2e47945e7608239e023d4} 
+bool Brandweerwagen\+::is\+Bus (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van is\+Bus voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+false (brandweerwagens zijn geen bussen) 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_ae1458e145a861382ded7260d1975f585}{Voertuig}}.
+
+\Hypertarget{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23}\index{Brandweerwagen@{Brandweerwagen}!isPrioriteitsvoertuig@{isPrioriteitsvoertuig}}
+\index{isPrioriteitsvoertuig@{isPrioriteitsvoertuig}!Brandweerwagen@{Brandweerwagen}}
+\doxysubsubsection{\texorpdfstring{isPrioriteitsvoertuig()}{isPrioriteitsvoertuig()}}
+{\footnotesize\ttfamily \label{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23} 
+bool Brandweerwagen\+::is\+Prioriteitsvoertuig (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementatie van is\+Prioriteitsvoertuig voor \doxylink{class_brandweerwagen}{Brandweerwagen}. 
+
+\begin{DoxyReturn}{Returns}
+true (brandweerwagens zijn prioriteitsvoertuigen) 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_voertuig_a164d602251cae5587a55d4e46ed4e950}{Voertuig}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{voertuig_8h}{voertuig.\+h}}\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{voertuig_8cpp}{voertuig.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,36 @@
+\doxysection{voertuiggenerator.\+h}
+\hypertarget{voertuiggenerator_8h_source}{}\label{voertuiggenerator_8h_source}\index{PSE/src/TraficObjects/voertuiggenerator.h@{PSE/src/TraficObjects/voertuiggenerator.h}}
+\mbox{\hyperlink{voertuiggenerator_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ VOERTUIGGENERATOR\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ VOERTUIGGENERATOR\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc}{VoertuigGenerator}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc}{VoertuigGenerator}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{int}\ frequentie,\ \textcolor{keyword}{const}\ std::string\&\ type\ =\ \textcolor{stringliteral}{"{}auto"{}});}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::string\ \mbox{\hyperlink{class_voertuig_generator_af8dd89cc12c2e5abfd6ff0f5df74e0d2}{getBaanNaam}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_voertuig_generator_a6618970013c33584230a5a1f4ab158de}{getFrequentie}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00052\ \ \ \ \ std::string\ \mbox{\hyperlink{class_voertuig_generator_aa21fb02cadc1929efedc2a43ac42cd6b}{getType}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \ \ std::string\ baanNaam;\ \ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{int}\ frequentie;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ std::string\ type;\ \ \ \ \ \ }
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc}{VoertuigGenerator}}*\ \_initCheck;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VOERTUIGGENERATOR\_H}}
+
+\end{DoxyCode}

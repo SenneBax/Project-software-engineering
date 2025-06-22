@@ -1,0 +1,391 @@
+\doxysection{output Class Reference}
+\hypertarget{classoutput}{}\label{classoutput}\index{output@{output}}
+
+
+Klasse voor het genereren van uitvoer van verkeerssituaties.  
+
+
+
+
+{\ttfamily \#include $<$output.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classoutput_ad7e70fae10c1e8f527c0863ad69cab76}{output}} ()
+\begin{DoxyCompactList}\small\item\em Constructor voor output klasse. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classoutput_a012752792a1c56baee237e93a9803e3a}{genereer\+Tekst\+Rapport}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie) const
+\begin{DoxyCompactList}\small\item\em Genereert een tekstuele weergave van de verkeerssituatie. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classoutput_a8fb3ab05f9a49026253fe394da1f2aae}{genereer\+Grafische\+Impressie}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie) const
+\begin{DoxyCompactList}\small\item\em Genereert een grafische impressie van de verkeerssituatie (ASCII-\/art) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classoutput_a97494feb3cbf94d9f5a46581625b4b1a}{maak\+Grafische\+Impressie}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie) const
+\begin{DoxyCompactList}\small\item\em Toon een verbeterde grafische impressie op stdout met voertuigdetails. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classoutput_a75a4784dafa4bf2105412f4378029858}{maak\+Tekst\+Rapport}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie) const
+\begin{DoxyCompactList}\small\item\em Toon een tekstrapport op stdout. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classoutput_a5adfbbaf424a002995d75cfed58e37ab}{schrijf\+Naar\+Xml}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie, const std\+::string \&bestandsnaam) const
+\begin{DoxyCompactList}\small\item\em Schrijf de verkeerssituatie naar een XML bestand. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classoutput_a25de904bdde3e475de55f19ef7fd122d}{schrijf\+Naar\+Html}} (const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie, const std\+::string \&bestandsnaam) const
+\begin{DoxyCompactList}\small\item\em Schrijf de verkeerssituatie naar een HTML bestand. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb}{get\+Last\+Foutmelding}} () const
+\begin{DoxyCompactList}\small\item\em Haal de laatste foutmelding op. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classoutput_aef9d4da240131154f5c56241df533413}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het output object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse voor het genereren van uitvoer van verkeerssituaties. 
+
+De output klasse biedt verschillende methoden om verkeerssituaties te visualiseren en te exporteren. Ondersteunde formaten zijn\+:
+\begin{DoxyItemize}
+\item Tekstuele rapporten met statistieken
+\item ASCII-\/art grafische impressies
+\item XML export voor persistentie
+\item HTML visualisaties voor webbrowsers 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classoutput_ad7e70fae10c1e8f527c0863ad69cab76}\index{output@{output}!output@{output}}
+\index{output@{output}!output@{output}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \label{classoutput_ad7e70fae10c1e8f527c0863ad69cab76} 
+output\+::output (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Constructor voor output klasse. 
+
+Constructor.
+
+\begin{DoxyPrecond}{Precondition}
+Geen specifieke precondities 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{classoutput_aef9d4da240131154f5c56241df533413}{properly\+Initialized()} == true 
+
+\doxylink{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb}{get\+Last\+Foutmelding()} == "{}"{}
+\end{DoxyPostcond}
+Initialiseert een output object in een geldige toestand.
+
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{classoutput_aef9d4da240131154f5c56241df533413}{properly\+Initialized()} == true 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classoutput_a8fb3ab05f9a49026253fe394da1f2aae}\index{output@{output}!genereerGrafischeImpressie@{genereerGrafischeImpressie}}
+\index{genereerGrafischeImpressie@{genereerGrafischeImpressie}!output@{output}}
+\doxysubsubsection{\texorpdfstring{genereerGrafischeImpressie()}{genereerGrafischeImpressie()}}
+{\footnotesize\ttfamily \label{classoutput_a8fb3ab05f9a49026253fe394da1f2aae} 
+std\+::string output\+::genereer\+Grafische\+Impressie (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{}\end{DoxyParamCaption}) const}
+
+
+
+Genereert een grafische impressie van de verkeerssituatie (ASCII-\/art) 
+
+Genereert een verbeterde grafische impressie van de verkeerssituatie (ASCII kunst)
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Een string met de grafische impressie inclusief legende 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde bevat ASCII-\/art visualisatie 
+
+return waarde bevat legende voor symbolen 
+
+banen worden geschaald naar maximaal 80 karakters breedte
+\end{DoxyPostcond}
+Creëert een visuele representatie waarbij\+:
+\begin{DoxyItemize}
+\item Banen worden weergegeven als horizontale lijnen (=)
+\item Voertuigen als letters (A=auto, B=bus, F=brandweer, Z=ziekenwagen, P=politie)
+\item Verkeerslichten als kleurletters (G=groen, O=oranje, R=rood)
+\item Bushaltes als \textquotesingle{}H\textquotesingle{} en kruispunten als \textquotesingle{}+\textquotesingle{}
+\item Automatische schaling voor lange banen
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Een string met de grafische impressie 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_a012752792a1c56baee237e93a9803e3a}\index{output@{output}!genereerTekstRapport@{genereerTekstRapport}}
+\index{genereerTekstRapport@{genereerTekstRapport}!output@{output}}
+\doxysubsubsection{\texorpdfstring{genereerTekstRapport()}{genereerTekstRapport()}}
+{\footnotesize\ttfamily \label{classoutput_a012752792a1c56baee237e93a9803e3a} 
+std\+::string output\+::genereer\+Tekst\+Rapport (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{}\end{DoxyParamCaption}) const}
+
+
+
+Genereert een tekstuele weergave van de verkeerssituatie. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Een string met de tekstuele weergave inclusief statistieken 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde bevat volledige situatiebeschrijving 
+
+return waarde is niet leeg voor geldige situaties
+\end{DoxyPostcond}
+Genereert een gestructureerd tekstrapport met\+:
+\begin{DoxyItemize}
+\item Overzicht van alle banen met lengtes
+\item Lijst van voertuigen met posities en types
+\item Verkeerslichten met status en cyclustijden
+\item Bushaltes met wachttijden
+\item Kruispunten met verbonden banen
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Een string met de tekstuele weergave 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb}\index{output@{output}!getLastFoutmelding@{getLastFoutmelding}}
+\index{getLastFoutmelding@{getLastFoutmelding}!output@{output}}
+\doxysubsubsection{\texorpdfstring{getLastFoutmelding()}{getLastFoutmelding()}}
+{\footnotesize\ttfamily \label{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb} 
+std\+::string output\+::get\+Last\+Foutmelding (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal de laatste foutmelding op. 
+
+\begin{DoxyReturn}{Returns}
+String met beschrijving van de laatste fout, lege string als geen fout 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classoutput_aef9d4da240131154f5c56241df533413}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is beschrijving van meest recente fout
+\end{DoxyPostcond}
+Geeft toegang tot de meest recente foutmelding van write operaties. Lege string betekent geen recente fouten.
+
+\begin{DoxyReturn}{Returns}
+De laatste foutmelding 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classoutput_aef9d4da240131154f5c56241df533413}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_a97494feb3cbf94d9f5a46581625b4b1a}\index{output@{output}!maakGrafischeImpressie@{maakGrafischeImpressie}}
+\index{maakGrafischeImpressie@{maakGrafischeImpressie}!output@{output}}
+\doxysubsubsection{\texorpdfstring{maakGrafischeImpressie()}{maakGrafischeImpressie()}}
+{\footnotesize\ttfamily \label{classoutput_a97494feb3cbf94d9f5a46581625b4b1a} 
+void output\+::maak\+Grafische\+Impressie (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{}\end{DoxyParamCaption}) const}
+
+
+
+Toon een verbeterde grafische impressie op stdout met voertuigdetails. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Grafische impressie en voertuigdetails zijn getoond op stdout 
+
+\doxylink{class_verkeerslicht}{Verkeerslicht} informatie is getoond bij relevante voertuigen
+\end{DoxyPostcond}
+Toont de grafische impressie gevolgd door\+:
+\begin{DoxyItemize}
+\item Gedetailleerde voertuiginformatie met posities en snelheden
+\item \doxylink{class_verkeerslicht}{Verkeerslicht} status voor voertuigen binnen 200m van lichten
+\item Extra informatie voor slimme verkeerslichten
+\item Prioriteitsvoertuig detectie
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_a75a4784dafa4bf2105412f4378029858}\index{output@{output}!maakTekstRapport@{maakTekstRapport}}
+\index{maakTekstRapport@{maakTekstRapport}!output@{output}}
+\doxysubsubsection{\texorpdfstring{maakTekstRapport()}{maakTekstRapport()}}
+{\footnotesize\ttfamily \label{classoutput_a75a4784dafa4bf2105412f4378029858} 
+void output\+::maak\+Tekst\+Rapport (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{}\end{DoxyParamCaption}) const}
+
+
+
+Toon een tekstrapport op stdout. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Tekstrapport is getoond op stdout
+\end{DoxyPostcond}
+Toont een gestructureerd overzicht van alle elementen in de verkeerssituatie op de console.
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De weer te geven verkeerssituatie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_aef9d4da240131154f5c56241df533413}\index{output@{output}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!output@{output}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{classoutput_aef9d4da240131154f5c56241df533413} 
+bool output\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het output object correct is geïnitialiseerd. 
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft aan of object in geldige toestand verkeert
+\end{DoxyPostcond}
+Design by Contract verificatie methode om object integriteit te controleren. \Hypertarget{classoutput_a25de904bdde3e475de55f19ef7fd122d}\index{output@{output}!schrijfNaarHtml@{schrijfNaarHtml}}
+\index{schrijfNaarHtml@{schrijfNaarHtml}!output@{output}}
+\doxysubsubsection{\texorpdfstring{schrijfNaarHtml()}{schrijfNaarHtml()}}
+{\footnotesize\ttfamily \label{classoutput_a25de904bdde3e475de55f19ef7fd122d} 
+bool output\+::schrijf\+Naar\+Html (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{, }\item[{const std\+::string \&}]{bestandsnaam}{}\end{DoxyParamCaption}) const}
+
+
+
+Schrijf de verkeerssituatie naar een HTML bestand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De te schrijven verkeerssituatie \\
+\hline
+{\em bestandsnaam} & Naam van het uit te schrijven bestand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als schrijven succesvol was, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+
+!bestandsnaam.empty() 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Bij success\+: HTML bestand is aangemaakt met interactieve visualisatie 
+
+Bij success\+: return value == true 
+
+Bij faal\+: \doxylink{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb}{get\+Last\+Foutmelding()} bevat beschrijving van probleem 
+
+Bij faal\+: return value == false
+\end{DoxyPostcond}
+Creëert een HTML bestand met een interactieve visualisatie van de verkeerssituatie. Bevat CSS styling, tooltips en gedetailleerde informatie over alle elementen.
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De te schrijven verkeerssituatie \\
+\hline
+{\em bestandsnaam} & Naam van het uit te schrijven bestand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als schrijven succesvol was, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+
+!bestandsnaam.empty() 
+\end{DoxyPrecond}
+\Hypertarget{classoutput_a5adfbbaf424a002995d75cfed58e37ab}\index{output@{output}!schrijfNaarXml@{schrijfNaarXml}}
+\index{schrijfNaarXml@{schrijfNaarXml}!output@{output}}
+\doxysubsubsection{\texorpdfstring{schrijfNaarXml()}{schrijfNaarXml()}}
+{\footnotesize\ttfamily \label{classoutput_a5adfbbaf424a002995d75cfed58e37ab} 
+bool output\+::schrijf\+Naar\+Xml (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{, }\item[{const std\+::string \&}]{bestandsnaam}{}\end{DoxyParamCaption}) const}
+
+
+
+Schrijf de verkeerssituatie naar een XML bestand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De te schrijven verkeerssituatie \\
+\hline
+{\em bestandsnaam} & Naam van het uit te schrijven bestand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als schrijven succesvol was, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+
+!bestandsnaam.empty() 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Bij success\+: XML bestand is aangemaakt met volledige verkeerssituatie 
+
+Bij success\+: return value == true 
+
+Bij faal\+: \doxylink{classoutput_a8180ae98792aa2cc1b17eaa787bd4dcb}{get\+Last\+Foutmelding()} bevat beschrijving van probleem 
+
+Bij faal\+: return value == false
+\end{DoxyPostcond}
+Exporteert de volledige verkeerssituatie naar een XML bestand dat kan worden gebruikt om de situatie later opnieuw in te laden. Bevat alle banen, voertuigen, verkeerslichten, bushaltes en kruispunten.
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & De te schrijven verkeerssituatie \\
+\hline
+{\em bestandsnaam} & Naam van het uit te schrijven bestand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als schrijven succesvol was, false anders 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+
+!bestandsnaam.empty() 
+\end{DoxyPrecond}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Output/output.\+h\item 
+PSE/src/\+Output/\mbox{\hyperlink{output_8cpp}{output.\+cpp}}\end{DoxyCompactItemize}

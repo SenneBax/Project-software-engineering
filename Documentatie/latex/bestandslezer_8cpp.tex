@@ -1,0 +1,41 @@
+\doxysection{PSE/src/\+File\+Reader/bestandslezer.cpp File Reference}
+\hypertarget{bestandslezer_8cpp}{}\label{bestandslezer_8cpp}\index{PSE/src/FileReader/bestandslezer.cpp@{PSE/src/FileReader/bestandslezer.cpp}}
+
+
+Implementatie van de \doxylink{class_bestands_lezer}{Bestands\+Lezer} klasse.  
+
+
+{\ttfamily \#include "{}bestandslezer.\+h"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Parser/tinyxml.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/voertuiggenerator.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/bushalte.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/kruispunt.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{bestandslezer_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}{ENSURE}}(assertion,  what)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementatie van de \doxylink{class_bestands_lezer}{Bestands\+Lezer} klasse. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{bestandslezer_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}\index{bestandslezer.cpp@{bestandslezer.cpp}!ENSURE@{ENSURE}}
+\index{ENSURE@{ENSURE}!bestandslezer.cpp@{bestandslezer.cpp}}
+\doxysubsubsection{\texorpdfstring{ENSURE}{ENSURE}}
+{\footnotesize\ttfamily \label{bestandslezer_8cpp_ab8da60ea2bcdd55183cc29d8526e6857} 
+\#define ENSURE(\begin{DoxyParamCaption}\item[{}]{assertion}{, }\item[{}]{what}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (!(assertion))\ \_\_assert\ (what,\ \_\_FILE\_\_,\ \_\_LINE\_\_)}
+
+\end{DoxyCode}

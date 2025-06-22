@@ -1,0 +1,196 @@
+\doxysection{voertuig.\+h}
+\hypertarget{voertuig_8h_source}{}\label{voertuig_8h_source}\index{PSE/src/TraficObjects/voertuig.h@{PSE/src/TraficObjects/voertuig.h}}
+\mbox{\hyperlink{voertuig_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ VOERTUIG\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ VOERTUIG\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_voertuig_aec74a12075c040b65562c427f7d46efd}{\string~Voertuig}}();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\&\ other);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\&\ \mbox{\hyperlink{class_voertuig_a01d46a82078dfaec3e53af952dc62703}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\&\ other);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00074\ \ \ \ \ std::string\ \mbox{\hyperlink{class_voertuig_a59c0b2a1b14cdaed22a90ca200dfb93f}{getBaanNaam}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00082\ \ \ \ \ std::string\ \mbox{\hyperlink{class_voertuig_a06d5649bd5332d4e12049f24f9f2d0d3}{getBaan}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_ac2d989f49a4092b9b5d372cfa7f2d815}{setBaanNaam}}(\textcolor{keyword}{const}\ std::string\&\ nieuweNaam);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_a0c636e752d224a6c45f840841cee4194}{setBaan}}(\textcolor{keyword}{const}\ std::string\&\ baan);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_ab16d7e812605a6ade8fa8a2bfdddb1ee}{getPositie}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_ad975536e993dc1e1091f1c4463f11fa0}{setPositie}}(\textcolor{keywordtype}{double}\ nieuwePositie);}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_aba6a3376b3c8f08641d3bc4c8a22d634}{getSnelheid}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_a85a1e63be1be5a4a9195e444a9fd29b8}{setSnelheid}}(\textcolor{keywordtype}{double}\ nieuweSnelheid);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a28912162917a45d9c774c0575e0b48af}{getVersnelling}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_a96d00eaaf7934a1172accc3411f799b8}{setVersnelling}}(\textcolor{keywordtype}{double}\ nieuweVersnelling);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_voertuig_abb7a07555e239172a8944a7b8c0a8101}{getType}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_a164d602251cae5587a55d4e46ed4e950}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_ae1458e145a861382ded7260d1975f585}{isBus}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a1661027ae83623207ccdfc9bca393b30}{getLengte}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a7d55c94046492cf2ed5fca1bcc5c6b3d}{getMaxSnelheid}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a3be6e4b4df7c9942eabe002217a0c031}{getMaxVersnelling}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a824c6ac6685365268880d48c63d93d34}{getMaxRemFactor}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_voertuig_a094ac37b9156852669bce814ca61ba45}{getMinVolgafstand}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_voertuig_a54f1c53b8a5c447b9b77c32f83e5b87c}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_aaa4c32430c5cff99588bcf02fefa2bf1}{berekenVersnelling}}(\mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}*\ voorliggendVoertuig,\ \textcolor{keywordtype}{bool}\ isEersteVoertuig,}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ verkeersLichtVertraagFactor,\ \textcolor{keywordtype}{double}\ bushalteVertraagFactor);}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_ae02d5afb84a579cc4eacae118740e1bd}{updatePositieEnSnelheid}}(\textcolor{keywordtype}{double}\ tijdstap);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_a81cf560c3bb7af9c6e764809ef2f12e8}{setIsWaitingAtStop}}(\textcolor{keywordtype}{bool}\ waiting);}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_a2ab342c2e19de103cbe4ee71b3f00402}{getIsWaitingAtStop}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_a2408c161be6bc18d17f73832eb254fb6}{isWaitingAtStop}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_voertuig_a813c2dc29efa2acf27e7e2c7c4ed86f7}{noodStop}}();}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keyword}{virtual}\ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_voertuig_a2290187d3cb863b5a8023a657d471472}{clone}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_voertuig_a78169ed7e2fea5fd3ff0d9f740b91f32}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keyword}{static}\ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_voertuig_ae3d56f245aeab43feb8ae0a5d4f12df6}{maakVoertuig}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keyword}{const}\ std::string\&\ type);}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keyword}{static}\ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_voertuig_ae3d56f245aeab43feb8ae0a5d4f12df6}{maakVoertuig}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling,\ \textcolor{keyword}{const}\ std::string\&\ type);}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00289\ \ \ \ \ std::string\ baanNaam;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordtype}{double}\ positie;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordtype}{double}\ snelheid;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordtype}{double}\ versnelling;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}*\ \_initCheck;}
+\DoxyCodeLine{00295\ \};}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00300\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_auto_a7741e388fc56e5f3008f74c49d9b53cb}{Auto}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00301\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00307\ \ \ \ \ \mbox{\hyperlink{class_auto_a7741e388fc56e5f3008f74c49d9b53cb}{Auto}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00316\ \ \ \ \ \mbox{\hyperlink{class_auto_a7741e388fc56e5f3008f74c49d9b53cb}{Auto}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00322\ \ \ \ \ std::string\ \mbox{\hyperlink{class_auto_adef4e6b2cc795410e183bdd20cafc995}{getType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_auto_a60aad76c7badac925a87f11ac614019b}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_auto_aa4a9d17655e022e2be0f332d63e53db4}{isBus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_auto_aff6f2d42c41808a9b351aa06b2212196}{getLengte}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_auto_abacbb9201a76839fa2bd86f3d3852f18}{getMaxSnelheid}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_auto_ad22ef3718f5e7853427b5e4aa1920a0e}{getMaxVersnelling}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_auto_a3485b5e451280a4fb1040c1c65f03650}{getMaxRemFactor}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_auto_aa22cda2ea6d58053a1638dbb8db00d08}{getMinVolgafstand}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00370\ \ \ \ \ std::string\ \mbox{\hyperlink{class_auto_a63266245cb5935a85f77f36bf6f350b5}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00376\ \ \ \ \ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_auto_afbaaa43ac67b085771b1f09d898a89d1}{clone}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00377\ \};}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00382\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_bus_a4177c4951754e567c1a6fa168f1b7758}{Bus}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00383\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00389\ \ \ \ \ \mbox{\hyperlink{class_bus_a4177c4951754e567c1a6fa168f1b7758}{Bus}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00398\ \ \ \ \ \mbox{\hyperlink{class_bus_a4177c4951754e567c1a6fa168f1b7758}{Bus}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \ \ \ \ std::string\ \mbox{\hyperlink{class_bus_a4b274c1ef8c3d46114e0e43151edb97c}{getType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bus_ac1fa5d4baf4c46db220717b60596f395}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bus_a48ea44e18b13c8533d025c4ca724a666}{isBus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bus_adfdfb0e3605a1d125f6e1f2c091582ba}{getLengte}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bus_a512c71b5be5ce28cc85020757515c519}{getMaxSnelheid}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bus_a2461f155a3bf54af93f943d2329708cf}{getMaxVersnelling}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bus_ae8eae8a56c372b2cc5db94152542f6ce}{getMaxRemFactor}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bus_a66f0a3d95d32a14d76685247b9e0a4e8}{getMinVolgafstand}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00408\ \ \ \ \ std::string\ \mbox{\hyperlink{class_bus_a1447ea0acb3ef63fbf5fd8f853e30fac}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00409\ \ \ \ \ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_bus_aff5e4b76c7833e5477a6d6505fc40b03}{clone}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00410\ \};}
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00415\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17}{Brandweerwagen}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00416\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00422\ \ \ \ \ \mbox{\hyperlink{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17}{Brandweerwagen}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00431\ \ \ \ \ \mbox{\hyperlink{class_brandweerwagen_a1a9e8dd45973faa3a18dabc41c531a17}{Brandweerwagen}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ \ \ std::string\ \mbox{\hyperlink{class_brandweerwagen_af20fb3b816d921e8c21396303fbf0813}{getType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_brandweerwagen_a676deb26ac592fd99d3f45066a967e23}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_brandweerwagen_adf43ad342df2e47945e7608239e023d4}{isBus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_brandweerwagen_a56edd8396ba6dec4fc4f49569b84538e}{getLengte}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_brandweerwagen_aa23ed92afc9ba231c4c442d46160cddf}{getMaxSnelheid}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00438\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_brandweerwagen_a1da843aa1b668a0490b871a2fe5b6ba1}{getMaxVersnelling}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_brandweerwagen_a4655f381d436b5ce0aabdee0572d1684}{getMaxRemFactor}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_brandweerwagen_ab1989b04ade37ef6feb4c772a4a29dfc}{getMinVolgafstand}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00441\ \ \ \ \ std::string\ \mbox{\hyperlink{class_brandweerwagen_a09a2ce30326c9baa37dee484ff516dea}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00442\ \ \ \ \ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_brandweerwagen_a55e8dc3f0adfc56ad98208af235665cc}{clone}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00443\ \};}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00448\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_ziekenwagen_a436a04000514221653d90c79a6bcd42e}{Ziekenwagen}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00449\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00455\ \ \ \ \ \mbox{\hyperlink{class_ziekenwagen_a436a04000514221653d90c79a6bcd42e}{Ziekenwagen}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00464\ \ \ \ \ \mbox{\hyperlink{class_ziekenwagen_a436a04000514221653d90c79a6bcd42e}{Ziekenwagen}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00465\ }
+\DoxyCodeLine{00466\ \ \ \ \ std::string\ \mbox{\hyperlink{class_ziekenwagen_ac0c0725eedbd2087e12680e92b32a3c2}{getType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_ziekenwagen_a2e9e0d8d00a1c993fce4021273cf0aa6}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00468\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_ziekenwagen_a14b4cc09aef8a2941e247873f9c88cbd}{isBus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00469\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_ziekenwagen_a04b443be688c62761475bc4f5e2ebfa4}{getLengte}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_ziekenwagen_abd51d6e7d4f67dd62de3ab6af37bed61}{getMaxSnelheid}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_ziekenwagen_a20a5db00fb7958a225ccf5e0050cfa6a}{getMaxVersnelling}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_ziekenwagen_ab4b9d376fbfe26022fccd148d0cfdce0}{getMaxRemFactor}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_ziekenwagen_a1bfd4b6184894d351ac1d4955b87663d}{getMinVolgafstand}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00474\ \ \ \ \ std::string\ \mbox{\hyperlink{class_ziekenwagen_ae8760584f2676c20ec77043db82e711c}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00475\ \ \ \ \ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_ziekenwagen_af89e8880da7986f87c6bbc32a0eedb0e}{clone}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00476\ \};}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00481\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_politiecombi_a2c600023bcf9e4d6e1e0383d378287e2}{Politiecombi}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_voertuig_a8ea3dabbe0aca123067f70cb74b8768f}{Voertuig}}\ \{}
+\DoxyCodeLine{00482\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00488\ \ \ \ \ \mbox{\hyperlink{class_politiecombi_a2c600023bcf9e4d6e1e0383d378287e2}{Politiecombi}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00497\ \ \ \ \ \mbox{\hyperlink{class_politiecombi_a2c600023bcf9e4d6e1e0383d378287e2}{Politiecombi}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{double}\ snelheid,\ \textcolor{keywordtype}{double}\ versnelling);}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ std::string\ \mbox{\hyperlink{class_politiecombi_a98a14518743d7f96477b7bee928065b4}{getType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_politiecombi_a51e6117ec6b5c1ae961a06bc86a7fff8}{isPrioriteitsvoertuig}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_politiecombi_ad0042e51265e892d88b5c2f99003af17}{isBus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_politiecombi_ac32760fd3853d8cb7f86d09fab46917a}{getLengte}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_politiecombi_af3d23b5b80ba0ee9825482f63aa9eaab}{getMaxSnelheid}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_politiecombi_a7e2639f1d1d4eb6152b6682bdf504633}{getMaxVersnelling}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_politiecombi_a814c36109fa310019fc6829365a1917c}{getMaxRemFactor}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_politiecombi_ae99e1b35756da5f3a6935df9ad17db56}{getMinVolgafstand}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00507\ \ \ \ \ std::string\ \mbox{\hyperlink{class_politiecombi_a199b6117a819b665c4567ddc9fc0e5fb}{getVisueleRepresentatie}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00508\ \ \ \ \ std::unique\_ptr<Voertuig>\ \mbox{\hyperlink{class_politiecombi_a0fadf133d9b65c189aefc84d0fa744c1}{clone}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00509\ \};}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VOERTUIG\_H}}
+
+\end{DoxyCode}

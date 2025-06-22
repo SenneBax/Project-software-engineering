@@ -1,0 +1,60 @@
+\doxysection{Voertuig\+Test Class Reference}
+\hypertarget{class_voertuig_test}{}\label{class_voertuig_test}\index{VoertuigTest@{VoertuigTest}}
+
+
+Testfixture voor \doxylink{class_voertuig}{Voertuig} tests.  
+
+
+Inheritance diagram for Voertuig\+Test\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_voertuig_test}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_voertuig_test_a7477940371596ecaa1a3e216dc1e0f31}\label{class_voertuig_test_a7477940371596ecaa1a3e216dc1e0f31} 
+void {\bfseries Set\+Up} () override
+\item 
+\Hypertarget{class_voertuig_test_a6d02d81745047e20177c2eab9b7482a3}\label{class_voertuig_test_a6d02d81745047e20177c2eab9b7482a3} 
+void {\bfseries Tear\+Down} () override
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ \mbox{\hyperlink{class_voertuig_test_aa436033c5d3e88336cbe21789e3cb8fe}{safe\+Create\+Voertuig}} (const std\+::string \&baan, double positie, const std\+::string \&type)
+\begin{DoxyCompactList}\small\item\em Veilige wrapper om een \doxylink{class_voertuig}{Voertuig} object aan te maken met factory methode. \end{DoxyCompactList}\item 
+\Hypertarget{class_voertuig_test_ae1677d7881a63245671dd9694018c7f4}\label{class_voertuig_test_ae1677d7881a63245671dd9694018c7f4} 
+bool {\bfseries safe\+Test\+Getters} (\mbox{\hyperlink{class_voertuig}{Voertuig}} \texorpdfstring{$\ast$}{*}voertuig, const std\+::string \&expected\+Baan, double expected\+Positie, const std\+::string \&expected\+Type)
+\begin{DoxyCompactList}\small\item\em Veilige test van getters zonder crash risico. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Testfixture voor \doxylink{class_voertuig}{Voertuig} tests. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_voertuig_test_aa436033c5d3e88336cbe21789e3cb8fe}\index{VoertuigTest@{VoertuigTest}!safeCreateVoertuig@{safeCreateVoertuig}}
+\index{safeCreateVoertuig@{safeCreateVoertuig}!VoertuigTest@{VoertuigTest}}
+\doxysubsubsection{\texorpdfstring{safeCreateVoertuig()}{safeCreateVoertuig()}}
+{\footnotesize\ttfamily \label{class_voertuig_test_aa436033c5d3e88336cbe21789e3cb8fe} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_voertuig}{Voertuig}} $>$ Voertuig\+Test\+::safe\+Create\+Voertuig (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{double}]{positie}{, }\item[{const std\+::string \&}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Veilige wrapper om een \doxylink{class_voertuig}{Voertuig} object aan te maken met factory methode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & Wegnaam \\
+\hline
+{\em positie} & Positie \\
+\hline
+{\em type} & Voertuigtype \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Unique pointer naar \doxylink{class_voertuig}{Voertuig} of nullptr als aanmaak gefaald is 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/tests/\mbox{\hyperlink{test__voertuig_8cpp}{test\+\_\+voertuig.\+cpp}}\end{DoxyCompactItemize}

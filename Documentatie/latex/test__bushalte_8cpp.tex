@@ -1,0 +1,62 @@
+\doxysection{PSE/src/tests/test\+\_\+bushalte.cpp File Reference}
+\hypertarget{test__bushalte_8cpp}{}\label{test__bushalte_8cpp}\index{PSE/src/tests/test\_bushalte.cpp@{PSE/src/tests/test\_bushalte.cpp}}
+
+
+Tests voor de \doxylink{class_bushalte}{Bushalte} klasse die Design by Contract problemen omzeilen.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}test\+\_\+helpers.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/bushalte.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}
+\begin{DoxyCompactList}\small\item\em Test fixture voor \doxylink{class_bushalte}{Bushalte} tests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__bushalte_8cpp_a05d1984a90d5a070cbbad32003b39ef1}\label{test__bushalte_8cpp_a05d1984a90d5a070cbbad32003b39ef1} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Valid\+Constructor\+And\+Getters)
+\begin{DoxyCompactList}\small\item\em Test basis bushalte constructor en getters met geldige parameters. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_a5c2d638dd67f86cc3343d709745693ec}\label{test__bushalte_8cpp_a5c2d638dd67f86cc3343d709745693ec} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Parameter\+Validation\+Logic)
+\begin{DoxyCompactList}\small\item\em Test bushalte parameter validatie logica. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_a072aa3e113dc9349c64272752c5d3fb7}\label{test__bushalte_8cpp_a072aa3e113dc9349c64272752c5d3fb7} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Bus\+Stop\+Functionality)
+\begin{DoxyCompactList}\small\item\em Test bushalte functionaliteit met geldige objecten. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_a5ce57c9606adb557f093f394d755ccef}\label{test__bushalte_8cpp_a5ce57c9606adb557f093f394d755ccef} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Update\+Functionality)
+\begin{DoxyCompactList}\small\item\em Test update functionaliteit. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_aba9a92c67f3122ddee40d5bf350c9af0}\label{test__bushalte_8cpp_aba9a92c67f3122ddee40d5bf350c9af0} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Reset\+Functionality)
+\begin{DoxyCompactList}\small\item\em Test reset functionaliteit. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_ab478f37595f23d90c9e7df93b0907c57}\label{test__bushalte_8cpp_ab478f37595f23d90c9e7df93b0907c57} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Safe\+Object\+Management)
+\begin{DoxyCompactList}\small\item\em Test object aanmaak en beheer (copy operaties vermeden vanwege segfault risico) \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_af51fb0238d32515278fe47be57b06d07}\label{test__bushalte_8cpp_af51fb0238d32515278fe47be57b06d07} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Valid\+Boundary\+Conditions)
+\begin{DoxyCompactList}\small\item\em Test met geldige grenswaarden. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_aff0e39195dd0cb6a548bd7656dbeac2e}\label{test__bushalte_8cpp_aff0e39195dd0cb6a548bd7656dbeac2e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Valid\+Special\+Characters)
+\begin{DoxyCompactList}\small\item\em Test speciale karakters in namen (alleen geldige gevallen) \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_a36768e488964327513d2362460863c3f}\label{test__bushalte_8cpp_a36768e488964327513d2362460863c3f} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Multiple\+Valid\+Instances)
+\begin{DoxyCompactList}\small\item\em Test meerdere instanties met geldige parameters. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_aa016c96ce56c4643a1ebb79e0cb95309}\label{test__bushalte_8cpp_aa016c96ce56c4643a1ebb79e0cb95309} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, State\+Consistency)
+\begin{DoxyCompactList}\small\item\em Test staat consistentie met geldige operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_a0a60fba8eb0edd7aa0a3d9d46656d5c9}\label{test__bushalte_8cpp_a0a60fba8eb0edd7aa0a3d9d46656d5c9} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Error\+Handling\+Documentation)
+\begin{DoxyCompactList}\small\item\em Test foutafhandeling documentatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_aa3c875bdbfb2ff76527a8382565ac4dd}\label{test__bushalte_8cpp_aa3c875bdbfb2ff76527a8382565ac4dd} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Fractional\+Timing\+Test)
+\begin{DoxyCompactList}\small\item\em Test fractionele timing edge cases. \end{DoxyCompactList}\item 
+\Hypertarget{test__bushalte_8cpp_ac9d29f45822ed6e10f12eff0ec6e9e3e}\label{test__bushalte_8cpp_ac9d29f45822ed6e10f12eff0ec6e9e3e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_bushalte_test}{Bushalte\+Test}}, Integration\+Readiness)
+\begin{DoxyCompactList}\small\item\em Integratietest met andere componenten. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Tests voor de \doxylink{class_bushalte}{Bushalte} klasse die Design by Contract problemen omzeilen. 
+

@@ -1,0 +1,58 @@
+\doxysection{Baan\+Test Class Reference}
+\hypertarget{class_baan_test}{}\label{class_baan_test}\index{BaanTest@{BaanTest}}
+
+
+Testfixture voor \doxylink{class_baan}{Baan} tests.  
+
+
+Inheritance diagram for Baan\+Test\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_baan_test}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_baan_test_a0e86e912bbd1e55da99ad83a12064867}\label{class_baan_test_a0e86e912bbd1e55da99ad83a12064867} 
+void {\bfseries Set\+Up} () override
+\item 
+\Hypertarget{class_baan_test_a65ed5b4c429af64c35a1b46de0a5ff00}\label{class_baan_test_a65ed5b4c429af64c35a1b46de0a5ff00} 
+void {\bfseries Tear\+Down} () override
+\item 
+\mbox{\hyperlink{class_baan}{Baan}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_baan_test_a6d5458c5613ba56b2d50f0c1f3a7264a}{safe\+Create\+Baan}} (const std\+::string \&naam, int lengte)
+\begin{DoxyCompactList}\small\item\em Veilige wrapper om een \doxylink{class_baan}{Baan} object aan te maken. \end{DoxyCompactList}\item 
+\Hypertarget{class_baan_test_a204a27bcc2e4bdd2a1bd6d2adbd09cad}\label{class_baan_test_a204a27bcc2e4bdd2a1bd6d2adbd09cad} 
+bool {\bfseries safe\+Test\+Getters} (\mbox{\hyperlink{class_baan}{Baan}} \texorpdfstring{$\ast$}{*}baan, const std\+::string \&expected\+Naam, int expected\+Lengte)
+\begin{DoxyCompactList}\small\item\em Veilige test van getters zonder crash risico. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Testfixture voor \doxylink{class_baan}{Baan} tests. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_baan_test_a6d5458c5613ba56b2d50f0c1f3a7264a}\index{BaanTest@{BaanTest}!safeCreateBaan@{safeCreateBaan}}
+\index{safeCreateBaan@{safeCreateBaan}!BaanTest@{BaanTest}}
+\doxysubsubsection{\texorpdfstring{safeCreateBaan()}{safeCreateBaan()}}
+{\footnotesize\ttfamily \label{class_baan_test_a6d5458c5613ba56b2d50f0c1f3a7264a} 
+\mbox{\hyperlink{class_baan}{Baan}} \texorpdfstring{$\ast$}{*} Baan\+Test\+::safe\+Create\+Baan (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{naam}{, }\item[{int}]{lengte}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Veilige wrapper om een \doxylink{class_baan}{Baan} object aan te maken. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em naam} & Wegnaam \\
+\hline
+{\em lengte} & Weglengte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer naar \doxylink{class_baan}{Baan} of nullptr als aanmaak gefaald is 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/tests/\mbox{\hyperlink{test__baan_8cpp}{test\+\_\+baan.\+cpp}}\end{DoxyCompactItemize}

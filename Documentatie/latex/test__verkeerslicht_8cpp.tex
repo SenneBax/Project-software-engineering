@@ -1,0 +1,65 @@
+\doxysection{PSE/src/tests/test\+\_\+verkeerslicht.cpp File Reference}
+\hypertarget{test__verkeerslicht_8cpp}{}\label{test__verkeerslicht_8cpp}\index{PSE/src/tests/test\_verkeerslicht.cpp@{PSE/src/tests/test\_verkeerslicht.cpp}}
+
+
+Tests voor de \doxylink{class_verkeerslicht}{Verkeerslicht} klasse die Design by Contract problemen omzeilen.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}test\+\_\+helpers.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/verkeerslicht.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}
+\begin{DoxyCompactList}\small\item\em Test fixture voor \doxylink{class_verkeerslicht}{Verkeerslicht} tests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__verkeerslicht_8cpp_a33e0cc7effbc86b65e1d2fd335d2845b}\label{test__verkeerslicht_8cpp_a33e0cc7effbc86b65e1d2fd335d2845b} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Valid\+Constructor\+And\+Getters)
+\begin{DoxyCompactList}\small\item\em Test basis verkeerslicht constructor en getters met geldige parameters. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a02d777564c208fdc10ef769af41ca10a}\label{test__verkeerslicht_8cpp_a02d777564c208fdc10ef769af41ca10a} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Parameter\+Validation\+Logic)
+\begin{DoxyCompactList}\small\item\em Test verkeerslicht parameter validatie logica. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_afdb5375a4b3a533478663c406fe3459f}\label{test__verkeerslicht_8cpp_afdb5375a4b3a533478663c406fe3459f} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Initial\+State)
+\begin{DoxyCompactList}\small\item\em Test verkeerslicht initiële staat. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_ab915a0290196d182e95db2f736a91e23}\label{test__verkeerslicht_8cpp_ab915a0290196d182e95db2f736a91e23} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Color\+Management)
+\begin{DoxyCompactList}\small\item\em Test verkeerslicht kleur beheer. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_ad31ec9a56b9ab235467a25aeb42bb257}\label{test__verkeerslicht_8cpp_ad31ec9a56b9ab235467a25aeb42bb257} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Update\+Functionality)
+\begin{DoxyCompactList}\small\item\em Test verkeerslicht update functionaliteit. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_ab65361fee317e67e55468115f477b620}\label{test__verkeerslicht_8cpp_ab65361fee317e67e55468115f477b620} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Orange\+Phase\+Test)
+\begin{DoxyCompactList}\small\item\em Test verkeerslicht met oranje fase. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a6357ae9b9251f264f40d06590860444a}\label{test__verkeerslicht_8cpp_a6357ae9b9251f264f40d06590860444a} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Smart\+Traffic\+Light\+Test)
+\begin{DoxyCompactList}\small\item\em Test slim verkeerslicht functionaliteit. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_ab8e6ee26021381d9e756c2e0ec07b95d}\label{test__verkeerslicht_8cpp_ab8e6ee26021381d9e756c2e0ec07b95d} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Safe\+Object\+Management)
+\begin{DoxyCompactList}\small\item\em Test object aanmaak en basis eigenschappen (copy operaties vermeden vanwege segfault) \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a8b785774eab7d995c40399302960f991}\label{test__verkeerslicht_8cpp_a8b785774eab7d995c40399302960f991} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Valid\+Boundary\+Conditions)
+\begin{DoxyCompactList}\small\item\em Test met geldige grenswaarden. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a0be581816da6def20b2b2eef8bec89fb}\label{test__verkeerslicht_8cpp_a0be581816da6def20b2b2eef8bec89fb} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Valid\+Special\+Characters)
+\begin{DoxyCompactList}\small\item\em Test speciale karakters in namen (alleen geldige gevallen) \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a269c4ed83f3172db06e25c0ccb56bdf9}\label{test__verkeerslicht_8cpp_a269c4ed83f3172db06e25c0ccb56bdf9} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Multiple\+Valid\+Instances)
+\begin{DoxyCompactList}\small\item\em Test meerdere instanties met geldige parameters. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_a0296b168210dc6b614b3bed16fe699ce}\label{test__verkeerslicht_8cpp_a0296b168210dc6b614b3bed16fe699ce} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, State\+Consistency)
+\begin{DoxyCompactList}\small\item\em Test staat consistentie met geldige operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_aec2592de4626e83cbc50a0fea84b2ea2}\label{test__verkeerslicht_8cpp_aec2592de4626e83cbc50a0fea84b2ea2} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Error\+Handling\+Documentation)
+\begin{DoxyCompactList}\small\item\em Test foutafhandeling documentatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__verkeerslicht_8cpp_afeb880f9b098a629977f8da9539720e2}\label{test__verkeerslicht_8cpp_afeb880f9b098a629977f8da9539720e2} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_verkeerslicht_test}{Verkeerslicht\+Test}}, Integration\+Readiness)
+\begin{DoxyCompactList}\small\item\em Integratietest met andere componenten. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Tests voor de \doxylink{class_verkeerslicht}{Verkeerslicht} klasse die Design by Contract problemen omzeilen. 
+

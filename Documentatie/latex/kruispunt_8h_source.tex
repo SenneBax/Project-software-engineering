@@ -1,0 +1,51 @@
+\doxysection{kruispunt.\+h}
+\hypertarget{kruispunt_8h_source}{}\label{kruispunt_8h_source}\index{PSE/src/TraficObjects/kruispunt.h@{PSE/src/TraficObjects/kruispunt.h}}
+\mbox{\hyperlink{kruispunt_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ KRUISPUNT\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ KRUISPUNT\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}*\ \_initCheck;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{struct\ }BaanPositie\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::string\ naam;\ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ positie;\ \ \ \ \ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ BaanPositie(\textcolor{keyword}{const}\ std::string\&\ n,\ \textcolor{keywordtype}{double}\ p)\ :\ naam(n),\ positie(p)\ \{\}}
+\DoxyCodeLine{00026\ \ \ \ \ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ std::vector<BaanPositie>\ banen;\ \ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}\&\ other);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}\&\ \mbox{\hyperlink{class_kruispunt_a98d453bd1a87e95c7a9fc758c1d75896}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_kruispunt_aa4adf478df44feadfd2076a79b0f844e}{Kruispunt}}\&\ other);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{class_kruispunt_a888801dc5b120847a4c76e4523ba65b2}{\string~Kruispunt}}();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_kruispunt_aee4b426f6b5ddcd150bc6570beb80d58}{voegBaanToe}}(\textcolor{keyword}{const}\ std::string\&\ baanNaam,\ \textcolor{keywordtype}{double}\ positie);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00071\ \ \ \ \ std::vector<std::pair<std::string,\ double>>\ \mbox{\hyperlink{class_kruispunt_a028aa62107b2c9c855850472ab3d8c32}{getBanen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_kruispunt_a4d7252d9396725303f7417c3b3d94e9d}{bevatBaan}}(\textcolor{keyword}{const}\ std::string\&\ baanNaam)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_kruispunt_ad1e28eb619491dc9500118fd9fe91ee8}{getPositieOpBaan}}(\textcolor{keyword}{const}\ std::string\&\ baanNaam)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00101\ \ \ \ \ std::string\ \mbox{\hyperlink{class_kruispunt_a2f6ab93e046301857f6b479814b55bec}{kiesRandomBaan}}(\textcolor{keyword}{const}\ std::string\&\ huidigeWeg)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_kruispunt_aa20c55694fd7aa7ef9d6aa5a97bf2e39}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00109\ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ KRUISPUNT\_H}}
+
+\end{DoxyCode}

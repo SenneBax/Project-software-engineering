@@ -1,0 +1,46 @@
+\doxysection{bushalte.\+h}
+\hypertarget{bushalte_8h_source}{}\label{bushalte_8h_source}\index{PSE/src/TraficObjects/bushalte.h@{PSE/src/TraficObjects/bushalte.h}}
+\mbox{\hyperlink{bushalte_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ BUSHALTE\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ BUSHALTE\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_bushalte_a411b427f8e696183f38548fa0b7ffb01}{Bushalte}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ baan;\ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{double}\ positie;\ \ \ \ \ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ wachttijd;\ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{double}\ tijdSindsLaatsteStop;\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ isBusStopped;\ \ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_bushalte_a411b427f8e696183f38548fa0b7ffb01}{Bushalte}}*\ \_initCheck;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{class_bushalte_a411b427f8e696183f38548fa0b7ffb01}{Bushalte}}(\textcolor{keyword}{const}\ std::string\&\ baan,\ \textcolor{keywordtype}{double}\ positie,\ \textcolor{keywordtype}{int}\ wachttijd);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00049\ \ \ \ \ std::string\ \mbox{\hyperlink{class_bushalte_ac77203f1fa0452286257c723a317d084}{getBaan}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_bushalte_a824ca181caaa17a468b7d0bc33ed3270}{getPositie}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_bushalte_a8a264caa8cc827be910b4c2b5db7ccde}{getWachttijd}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bushalte_ae70e40333e80bc3afad890113ec3796f}{updateWachttijd}}(\textcolor{keywordtype}{double}\ timestep);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bushalte_a249a5d1640f8cd3fae3edc14ef34c1ab}{setBusStopped}}();}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bushalte_a2763f68c327137c1c88de91a50b1e71f}{setBusLeft}}();}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9}{isBusGestopt}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_bushalte_a1ad76f3e882abaddf1b17695bf53074e}{resetWachttijd}}();}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ BUSHALTE\_H}}
+
+\end{DoxyCode}

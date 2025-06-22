@@ -1,0 +1,34 @@
+\doxysection{PSE/src/\+Trafic\+Objects/baan.cpp File Reference}
+\hypertarget{baan_8cpp}{}\label{baan_8cpp}\index{PSE/src/TraficObjects/baan.cpp@{PSE/src/TraficObjects/baan.cpp}}
+
+
+de manier hoe de klasse van de baan is geïmplementeerd  
+
+
+{\ttfamily \#include "{}baan.\+h"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{baan_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}{ENSURE}}(assertion,  what)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+de manier hoe de klasse van de baan is geïmplementeerd 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{baan_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}\index{baan.cpp@{baan.cpp}!ENSURE@{ENSURE}}
+\index{ENSURE@{ENSURE}!baan.cpp@{baan.cpp}}
+\doxysubsubsection{\texorpdfstring{ENSURE}{ENSURE}}
+{\footnotesize\ttfamily \label{baan_8cpp_ab8da60ea2bcdd55183cc29d8526e6857} 
+\#define ENSURE(\begin{DoxyParamCaption}\item[{}]{assertion}{, }\item[{}]{what}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (!(assertion))\ \_\_assert\ (what,\ \_\_FILE\_\_,\ \_\_LINE\_\_)}
+
+\end{DoxyCode}

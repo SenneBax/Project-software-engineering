@@ -1,0 +1,39 @@
+\doxysection{PSE/src/\+Output/output.cpp File Reference}
+\hypertarget{output_8cpp}{}\label{output_8cpp}\index{PSE/src/Output/output.cpp@{PSE/src/Output/output.cpp}}
+
+
+Implementatie van de output klasse -\/ Verbeterde versie met verkeerslichten in lijn.  
+
+
+{\ttfamily \#include "{}output.\+h"{}}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include "{}../\+Parser/tinyxml.\+h"{}}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{output_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}{ENSURE}}(assertion,  what)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementatie van de output klasse -\/ Verbeterde versie met verkeerslichten in lijn. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{output_8cpp_ab8da60ea2bcdd55183cc29d8526e6857}\index{output.cpp@{output.cpp}!ENSURE@{ENSURE}}
+\index{ENSURE@{ENSURE}!output.cpp@{output.cpp}}
+\doxysubsubsection{\texorpdfstring{ENSURE}{ENSURE}}
+{\footnotesize\ttfamily \label{output_8cpp_ab8da60ea2bcdd55183cc29d8526e6857} 
+\#define ENSURE(\begin{DoxyParamCaption}\item[{}]{assertion}{, }\item[{}]{what}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (!(assertion))\ \_\_assert\ (what,\ \_\_FILE\_\_,\ \_\_LINE\_\_)}
+
+\end{DoxyCode}

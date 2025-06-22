@@ -1,0 +1,310 @@
+\doxysection{simulatie Class Reference}
+\hypertarget{classsimulatie}{}\label{classsimulatie}\index{simulatie@{simulatie}}
+
+
+Klasse voor het simuleren van een verkeerssituatie met voertuigen, verkeerslichten en kruispunten.  
+
+
+
+
+{\ttfamily \#include $<$simulatie.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}{simulatie}} (\mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie, double tijdstap)
+\begin{DoxyCompactList}\small\item\em Constructor voor de simulatieklasse. \end{DoxyCompactList}\item 
+\Hypertarget{classsimulatie_a505064c4ca51a4736e084a520935b7fd}\label{classsimulatie_a505064c4ca51a4736e084a520935b7fd} 
+{\bfseries simulatie} (const \mbox{\hyperlink{classsimulatie}{simulatie}} \&)=delete
+\begin{DoxyCompactList}\small\item\em Copy constructor -\/ niet toegestaan omdat simulatie een referentie bevat. \end{DoxyCompactList}\item 
+\Hypertarget{classsimulatie_a25a74932c9ec8b0436d597baa622806a}\label{classsimulatie_a25a74932c9ec8b0436d597baa622806a} 
+\mbox{\hyperlink{classsimulatie}{simulatie}} \& {\bfseries operator=} (const \mbox{\hyperlink{classsimulatie}{simulatie}} \&)=delete
+\begin{DoxyCompactList}\small\item\em Assignment operator -\/ niet toegestaan omdat simulatie een referentie bevat. \end{DoxyCompactList}\item 
+\Hypertarget{classsimulatie_ac5e9fbe19e5972a1a6595c13f479c155}\label{classsimulatie_ac5e9fbe19e5972a1a6595c13f479c155} 
+{\bfseries simulatie} (\mbox{\hyperlink{classsimulatie}{simulatie}} \&\&)=delete
+\begin{DoxyCompactList}\small\item\em Move constructor -\/ niet toegestaan omdat simulatie een referentie bevat. \end{DoxyCompactList}\item 
+\Hypertarget{classsimulatie_a3e6795e3b8725a4f4de13ecc943daf4a}\label{classsimulatie_a3e6795e3b8725a4f4de13ecc943daf4a} 
+\mbox{\hyperlink{classsimulatie}{simulatie}} \& {\bfseries operator=} (\mbox{\hyperlink{classsimulatie}{simulatie}} \&\&)=delete
+\begin{DoxyCompactList}\small\item\em Move assignment operator -\/ niet toegestaan omdat simulatie een referentie bevat. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classsimulatie_a931cbb160a138f583a6b6a47e38adddf}{stap}} ()
+\begin{DoxyCompactList}\small\item\em Voer één simulatiestap uit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classsimulatie_a77d182fa71d71f44f805a9a9793ee068}{set\+Auto\+Genereer\+Voertuigen}} (bool genereer)
+\begin{DoxyCompactList}\small\item\em Schakel automatische voertuiggeneratie in of uit. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6}{get\+Huidige\+Simulatie\+Tijd}} () const
+\begin{DoxyCompactList}\small\item\em Haal de huidige simulatietijd op. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classsimulatie_aebf2f78caab783615b44f44cbb21b22b}{get\+Tijdstap}} () const
+\begin{DoxyCompactList}\small\item\em Haal de tijdstap op. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classsimulatie_af5a4b581bb2cb1857c57025f63097760}{get\+Aantal\+Voertuigen}} () const
+\begin{DoxyCompactList}\small\item\em Haal het huidige aantal voertuigen op. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classsimulatie_a51c188e8bb4b7081997d2238e7d01ed5}{get\+Gemiddelde\+Snelheid}} () const
+\begin{DoxyCompactList}\small\item\em Haal de gemiddelde snelheid van alle voertuigen op. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classsimulatie_aa9797e76898785fcd918bca05731b5fa}{get\+Totaal\+Verwijderde\+Voertuigen}} () const
+\begin{DoxyCompactList}\small\item\em Haal het totale aantal verwijderde voertuigen op. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classsimulatie_a45d379d8b37a488458eec3d5fa244df9}{get\+Totale\+Tijd}} () const
+\begin{DoxyCompactList}\small\item\em Haal de totale gesimuleerde tijd op. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het simulatie object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse voor het simuleren van een verkeerssituatie met voertuigen, verkeerslichten en kruispunten. 
+
+Deze klasse implementeert een discrete-\/time simulatie van verkeerssituaties. De simulatie verwerkt voertuigbewegingen, verkeerslichtcycli, bushalte-\/interacties en kruispuntlogica. Standaardwaarden voor fysieke parameters zijn gebaseerd op sectie B.\+6 van de specificatie. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b}\index{simulatie@{simulatie}!simulatie@{simulatie}}
+\index{simulatie@{simulatie}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{simulatie()}{simulatie()}}
+{\footnotesize\ttfamily \label{classsimulatie_a26dad374bbc0b1f0e9a7a0cf8c277c8b} 
+simulatie\+::simulatie (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{, }\item[{double}]{tijdstap}{}\end{DoxyParamCaption})}
+
+
+
+Constructor voor de simulatieklasse. 
+
+Constructor voor simulatie klasse.
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & Referentie naar de te simuleren verkeerssituatie \\
+\hline
+{\em tijdstap} & De tijdstap voor de simulatie in seconden (standaard 0.\+0166s voor 60fps) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+situatie.\+properly\+Initialized() == true 
+
+tijdstap \texorpdfstring{$>$}{>} 0.\+0 of tijdstap wordt automatisch ingesteld op 0.\+0166 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+
+\doxylink{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6}{get\+Huidige\+Simulatie\+Tijd()} == 0.\+0 
+
+\doxylink{classsimulatie_aebf2f78caab783615b44f44cbb21b22b}{get\+Tijdstap()} == tijdstap (of 0.\+0166 als tijdstap \texorpdfstring{$<$}{<}= 0)
+\end{DoxyPostcond}
+Initialiseert de simulatie met standaardparameters\+:
+\begin{DoxyItemize}
+\item vertraag\+Afstand = 250.\+0m
+\item stop\+Afstand = 50.\+0m
+\item vertraag\+Factor = 0.\+4
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em situatie} & Referentie naar de verkeerssituatie \\
+\hline
+{\em tijdstap} & Tijdstap voor de simulatie (default 0.\+0166s ≈ 60fps) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+tijdstap \texorpdfstring{$>$}{>} 0.\+0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+
+\doxylink{classsimulatie_aebf2f78caab783615b44f44cbb21b22b}{get\+Tijdstap()} == tijdstap (or 0.\+0166 if tijdstap \texorpdfstring{$<$}{<}= 0) 
+
+\doxylink{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6}{get\+Huidige\+Simulatie\+Tijd()} == 0.\+0 
+
+ENSURE(\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()}, "{}\+Constructor moet eindigen in een geldige toestand."{}); 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimulatie_af5a4b581bb2cb1857c57025f63097760}\index{simulatie@{simulatie}!getAantalVoertuigen@{getAantalVoertuigen}}
+\index{getAantalVoertuigen@{getAantalVoertuigen}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getAantalVoertuigen()}{getAantalVoertuigen()}}
+{\footnotesize\ttfamily \label{classsimulatie_af5a4b581bb2cb1857c57025f63097760} 
+int simulatie\+::get\+Aantal\+Voertuigen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal het huidige aantal voertuigen op. 
+
+\begin{DoxyReturn}{Returns}
+Het aantal voertuigen in de simulatie 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{classsimulatie_a51c188e8bb4b7081997d2238e7d01ed5}\index{simulatie@{simulatie}!getGemiddeldeSnelheid@{getGemiddeldeSnelheid}}
+\index{getGemiddeldeSnelheid@{getGemiddeldeSnelheid}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getGemiddeldeSnelheid()}{getGemiddeldeSnelheid()}}
+{\footnotesize\ttfamily \label{classsimulatie_a51c188e8bb4b7081997d2238e7d01ed5} 
+double simulatie\+::get\+Gemiddelde\+Snelheid (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal de gemiddelde snelheid van alle voertuigen op. 
+
+\begin{DoxyReturn}{Returns}
+De gemiddelde snelheid in m/s 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+result \texorpdfstring{$>$}{>}= 0.\+0
+\end{DoxyPostcond}
+Berekent het gemiddelde van de snelheden van alle voertuigen. Retourneert 0.\+0 als er geen voertuigen zijn. \Hypertarget{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6}\index{simulatie@{simulatie}!getHuidigeSimulatieTijd@{getHuidigeSimulatieTijd}}
+\index{getHuidigeSimulatieTijd@{getHuidigeSimulatieTijd}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getHuidigeSimulatieTijd()}{getHuidigeSimulatieTijd()}}
+{\footnotesize\ttfamily \label{classsimulatie_ab33a9602c008161ce079d6a340d4dcd6} 
+double simulatie\+::get\+Huidige\+Simulatie\+Tijd (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal de huidige simulatietijd op. 
+
+\begin{DoxyReturn}{Returns}
+De huidige simulatietijd in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{classsimulatie_aebf2f78caab783615b44f44cbb21b22b}\index{simulatie@{simulatie}!getTijdstap@{getTijdstap}}
+\index{getTijdstap@{getTijdstap}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getTijdstap()}{getTijdstap()}}
+{\footnotesize\ttfamily \label{classsimulatie_aebf2f78caab783615b44f44cbb21b22b} 
+double simulatie\+::get\+Tijdstap (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal de tijdstap op. 
+
+\begin{DoxyReturn}{Returns}
+De tijdstap in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\Hypertarget{classsimulatie_aa9797e76898785fcd918bca05731b5fa}\index{simulatie@{simulatie}!getTotaalVerwijderdeVoertuigen@{getTotaalVerwijderdeVoertuigen}}
+\index{getTotaalVerwijderdeVoertuigen@{getTotaalVerwijderdeVoertuigen}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getTotaalVerwijderdeVoertuigen()}{getTotaalVerwijderdeVoertuigen()}}
+{\footnotesize\ttfamily \label{classsimulatie_aa9797e76898785fcd918bca05731b5fa} 
+int simulatie\+::get\+Totaal\+Verwijderde\+Voertuigen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal het totale aantal verwijderde voertuigen op. 
+
+\begin{DoxyReturn}{Returns}
+Het totale aantal verwijderde voertuigen sinds start simulatie 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+result \texorpdfstring{$>$}{>}= 0
+\end{DoxyPostcond}
+Voertuigen worden verwijderd wanneer ze het einde van een baan bereiken. \Hypertarget{classsimulatie_a45d379d8b37a488458eec3d5fa244df9}\index{simulatie@{simulatie}!getTotaleTijd@{getTotaleTijd}}
+\index{getTotaleTijd@{getTotaleTijd}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{getTotaleTijd()}{getTotaleTijd()}}
+{\footnotesize\ttfamily \label{classsimulatie_a45d379d8b37a488458eec3d5fa244df9} 
+double simulatie\+::get\+Totale\+Tijd (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+
+Haal de totale gesimuleerde tijd op. 
+
+\begin{DoxyReturn}{Returns}
+De totale tijd sinds start van de simulatie in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+result \texorpdfstring{$>$}{>}= 0.\+0 
+\end{DoxyPostcond}
+\Hypertarget{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}\index{simulatie@{simulatie}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006} 
+bool simulatie\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het simulatie object correct is geïnitialiseerd. 
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders
+\end{DoxyReturn}
+Design by Contract verificatie methode.
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\Hypertarget{classsimulatie_a77d182fa71d71f44f805a9a9793ee068}\index{simulatie@{simulatie}!setAutoGenereerVoertuigen@{setAutoGenereerVoertuigen}}
+\index{setAutoGenereerVoertuigen@{setAutoGenereerVoertuigen}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{setAutoGenereerVoertuigen()}{setAutoGenereerVoertuigen()}}
+{\footnotesize\ttfamily \label{classsimulatie_a77d182fa71d71f44f805a9a9793ee068} 
+void simulatie\+::set\+Auto\+Genereer\+Voertuigen (\begin{DoxyParamCaption}\item[{bool}]{genereer}{}\end{DoxyParamCaption})}
+
+
+
+Schakel automatische voertuiggeneratie in of uit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em genereer} & Of voertuigen automatisch moeten worden gegenereerd \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+auto\+Genereer\+Voertuigen == genereer
+\end{DoxyPostcond}
+Wanneer ingeschakeld, worden nieuwe voertuigen automatisch gegenereerd op basis van de voertuiggeneratoren in de verkeerssituatie. \Hypertarget{classsimulatie_a931cbb160a138f583a6b6a47e38adddf}\index{simulatie@{simulatie}!stap@{stap}}
+\index{stap@{stap}!simulatie@{simulatie}}
+\doxysubsubsection{\texorpdfstring{stap()}{stap()}}
+{\footnotesize\ttfamily \label{classsimulatie_a931cbb160a138f583a6b6a47e38adddf} 
+void simulatie\+::stap (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Voer één simulatiestap uit. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+huidige\+Simulatie\+Tijd is verhoogd met tijdstap 
+
+alle verkeerselementen zijn bijgewerkt volgens hun regels 
+
+statistieken zijn bijgewerkt
+\end{DoxyPostcond}
+Voert een volledige simulatiestap uit in deze volgorde\+:
+\begin{DoxyEnumerate}
+\item Update verkeerslichten
+\item Verwerk voertuigen (beweging, versnelling, verwijdering)
+\item Verwerk bushaltes (bus stops en vertrek)
+\item Verwerk kruispunten (voertuigverplaatsing)
+\item Genereer nieuwe voertuigen (indien ingeschakeld)
+\item Verzamel statistieken
+\end{DoxyEnumerate}
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+huidige\+Simulatie\+Tijd is verhoogd met tijdstap 
+
+alle verkeerselementen zijn bijgewerkt volgens hun regels 
+
+statistieken zijn bijgewerkt 
+\end{DoxyPostcond}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{classsimulatie_a2b38e0cd9241233b5fe3e6d69558c006}{properly\+Initialized()}, "{}simulatie is niet correct geïnitialiseerd bij stap"{}); 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(huidige\+Simulatie\+Tijd \texorpdfstring{$>$}{>} 0.\+0, "{}huidige\+Simulatie\+Tijd moet toenemen na een stap"{}); 
+\end{DoxyPostcond}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Simulation/simulatie.\+h\item 
+PSE/src/\+Simulation/\mbox{\hyperlink{simulatie_8cpp}{simulatie.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,180 @@
+\doxysection{Bestands\+Lezer Class Reference}
+\hypertarget{class_bestands_lezer}{}\label{class_bestands_lezer}\index{BestandsLezer@{BestandsLezer}}
+
+
+Klasse voor het lezen van bestanden met verkeerssituaties.  
+
+
+
+
+{\ttfamily \#include $<$bestandslezer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_bestands_lezer_a48eaf45b3e2177137d9bd3c94671d246}{Bestands\+Lezer}} ()
+\begin{DoxyCompactList}\small\item\em Constructor voor \doxylink{class_bestands_lezer}{Bestands\+Lezer} klasse. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_bestands_lezer_a8e42c647622e04b42f475c3f779890a1}{lees\+Xml\+Bestand}} (const std\+::string \&bestandsnaam, \mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&situatie)
+\begin{DoxyCompactList}\small\item\em Lees een verkeerssituatie uit een XML-\/bestand. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_bestands_lezer_add89e4e3da6c81d6a30b7844a1cd8dc1}{get\+Last\+Foutmelding}} () const
+\begin{DoxyCompactList}\small\item\em Haal de laatste foutmelding op. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het \doxylink{class_bestands_lezer}{Bestands\+Lezer} object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse voor het lezen van bestanden met verkeerssituaties. 
+
+De \doxylink{class_bestands_lezer}{Bestands\+Lezer} klasse gebruikt Tiny\+XML om XML-\/bestanden te parsen en verkeerssituaties op te bouwen. De klasse is tolerant voor verschillende XML-\/formaten en kan omgaan met zowel gewone elementen als elementen gewikkeld in een \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} root element. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_bestands_lezer_a48eaf45b3e2177137d9bd3c94671d246}\index{BestandsLezer@{BestandsLezer}!BestandsLezer@{BestandsLezer}}
+\index{BestandsLezer@{BestandsLezer}!BestandsLezer@{BestandsLezer}}
+\doxysubsubsection{\texorpdfstring{BestandsLezer()}{BestandsLezer()}}
+{\footnotesize\ttfamily \label{class_bestands_lezer_a48eaf45b3e2177137d9bd3c94671d246} 
+Bestands\+Lezer\+::\+Bestands\+Lezer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Constructor voor \doxylink{class_bestands_lezer}{Bestands\+Lezer} klasse. 
+
+Constructor.
+
+\begin{DoxyPrecond}{Precondition}
+Geen specifieke precondities 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()} == true 
+
+\doxylink{class_bestands_lezer_add89e4e3da6c81d6a30b7844a1cd8dc1}{get\+Last\+Foutmelding()} == "{}"{}
+\end{DoxyPostcond}
+Initialiseert een \doxylink{class_bestands_lezer}{Bestands\+Lezer} object in een geldige toestand klaar voor het lezen van XML-\/bestanden.
+
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()}, "{}constructor moet eindingen in een geldige toestand."{}); 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_bestands_lezer_add89e4e3da6c81d6a30b7844a1cd8dc1}\index{BestandsLezer@{BestandsLezer}!getLastFoutmelding@{getLastFoutmelding}}
+\index{getLastFoutmelding@{getLastFoutmelding}!BestandsLezer@{BestandsLezer}}
+\doxysubsubsection{\texorpdfstring{getLastFoutmelding()}{getLastFoutmelding()}}
+{\footnotesize\ttfamily \label{class_bestands_lezer_add89e4e3da6c81d6a30b7844a1cd8dc1} 
+std\+::string Bestands\+Lezer\+::get\+Last\+Foutmelding (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Haal de laatste foutmelding op. 
+
+\begin{DoxyReturn}{Returns}
+De laatste foutmelding als string 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde bevat beschrijving van laatste fout (kan leeg zijn)
+\end{DoxyPostcond}
+Geeft toegang tot de meest recente foutmelding die optrad tijdens het lezen en parsen van XML-\/bestanden. Lege string betekent geen recente fouten.
+
+\begin{DoxyReturn}{Returns}
+De laatste foutmelding 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()},"{}\+Bestand\+Lezer werd niet correct ingesteld"{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_bestands_lezer_a8e42c647622e04b42f475c3f779890a1}\index{BestandsLezer@{BestandsLezer}!leesXmlBestand@{leesXmlBestand}}
+\index{leesXmlBestand@{leesXmlBestand}!BestandsLezer@{BestandsLezer}}
+\doxysubsubsection{\texorpdfstring{leesXmlBestand()}{leesXmlBestand()}}
+{\footnotesize\ttfamily \label{class_bestands_lezer_a8e42c647622e04b42f475c3f779890a1} 
+bool Bestands\+Lezer\+::lees\+Xml\+Bestand (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{bestandsnaam}{, }\item[{\mbox{\hyperlink{class_verkeers_situatie}{Verkeers\+Situatie}} \&}]{situatie}{}\end{DoxyParamCaption})}
+
+
+
+Lees een verkeerssituatie uit een XML-\/bestand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bestandsnaam} & Pad naar het XML-\/bestand \\
+\hline
+{\em situatie} & Referentie naar de verkeerssituatie waarin de gegevens worden geladen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als het lezen succesvol was, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()} == true 
+
+!bestandsnaam.empty() 
+
+situatie.\+properly\+Initialized() == true 
+
+XML-\/bestand moet bestaan en leesbaar zijn 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Bij success\+: situatie bevat alle data uit XML-\/bestand 
+
+Bij success\+: situatie.\+verificeer\+Consistentie() == true 
+
+Bij faal\+: \doxylink{class_bestands_lezer_add89e4e3da6c81d6a30b7844a1cd8dc1}{get\+Last\+Foutmelding()} bevat foutbeschrijving 
+
+situatie blijft in geldige toestand (mogelijk leeg bij faal)
+\end{DoxyPostcond}
+Deze methode\+:
+\begin{DoxyItemize}
+\item Controleert bestandstoegang
+\item Detecteert en corrigeert ontbrekende root elementen
+\item Parseert alle ondersteunde XML-\/elementen
+\item Valideert de consistentie van de geladen data
+\item Ondersteunt zowel gewikkelde als ongewikkelde XML-\/formaten
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em bestandsnaam} & Pad naar het XML-\/bestand \\
+\hline
+{\em situatie} & Referentie naar de verkeerssituatie waar de gegevens worden geladen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true als het lezen succesvol was, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+
+
+
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+
+\end{DoxyPostcond}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}{properly\+Initialized()},"{}\+Bestand\+Lezer werd niet correct ingesteld"{}); 
+
+REQUIRE(!bestandsnaam.empty(), "{}\+Bestand\+Naam mag niet leeg zijn."{}); 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(!success \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} situatie.\+verificeer\+Consistentie(), "{}\+Bij succesvolle parsing moet de situatie consistent zijn."{} ); 
+\end{DoxyPostcond}
+\Hypertarget{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc}\index{BestandsLezer@{BestandsLezer}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!BestandsLezer@{BestandsLezer}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{class_bestands_lezer_ada923db1cea28af78a4b47ea743f4ecc} 
+bool Bestands\+Lezer\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het \doxylink{class_bestands_lezer}{Bestands\+Lezer} object correct is geïnitialiseerd. 
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft aan of object in geldige toestand verkeert
+\end{DoxyPostcond}
+Design by Contract verificatie methode om object integriteit te controleren. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+File\+Reader/bestandslezer.\+h\item 
+PSE/src/\+File\+Reader/\mbox{\hyperlink{bestandslezer_8cpp}{bestandslezer.\+cpp}}\end{DoxyCompactItemize}

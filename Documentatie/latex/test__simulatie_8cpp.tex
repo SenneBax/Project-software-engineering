@@ -1,0 +1,59 @@
+\doxysection{PSE/src/tests/test\+\_\+simulatie.cpp File Reference}
+\hypertarget{test__simulatie_8cpp}{}\label{test__simulatie_8cpp}\index{PSE/src/tests/test\_simulatie.cpp@{PSE/src/tests/test\_simulatie.cpp}}
+
+
+Vaste tests voor simulatie klasse -\/ voorkomt volledig segmentation faults.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Simulation/simulatie.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Situation/situatie.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/baan.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/voertuig.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/verkeerslicht.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/voertuiggenerator.\+h"{}}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}
+\begin{DoxyCompactList}\small\item\em veilige testfixture voor simulatie tests \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__simulatie_8cpp_a587fdb2dbace09d7f683537003245a37}\label{test__simulatie_8cpp_a587fdb2dbace09d7f683537003245a37} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Basic\+Simulation\+Creation)
+\begin{DoxyCompactList}\small\item\em Test basis simulatie aanmaak. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a9e591053fa7c90faf60c8dc033b69993}\label{test__simulatie_8cpp_a9e591053fa7c90faf60c8dc033b69993} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Time\+Step\+Validation)
+\begin{DoxyCompactList}\small\item\em Test simulatie constructor met verschillende tijdstappen. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a41daeb262eb5980373948f707058f5ca}\label{test__simulatie_8cpp_a41daeb262eb5980373948f707058f5ca} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Simulation\+Step)
+\begin{DoxyCompactList}\small\item\em Test simulatie stap functionaliteit. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a7553a82ba4065ab6f45643c38f9c7579}\label{test__simulatie_8cpp_a7553a82ba4065ab6f45643c38f9c7579} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Vehicle\+Movement)
+\begin{DoxyCompactList}\small\item\em Test simulatie met voertuigen. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a29e00cda4ff3457e7b4cba9b590d3333}\label{test__simulatie_8cpp_a29e00cda4ff3457e7b4cba9b590d3333} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Statistics)
+\begin{DoxyCompactList}\small\item\em Test simulatie statistieken. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_aeb6b264aa263efa477c89c773b27172e}\label{test__simulatie_8cpp_aeb6b264aa263efa477c89c773b27172e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Traffic\+Lights)
+\begin{DoxyCompactList}\small\item\em Test simulatie met verkeerslichten. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a3499e32e57d0dd0bbd592e7ec15d5abf}\label{test__simulatie_8cpp_a3499e32e57d0dd0bbd592e7ec15d5abf} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Time\+Management)
+\begin{DoxyCompactList}\small\item\em Test simulatie tijd beheer. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_ac340ad08da3e198ed958f875dcfb05e2}\label{test__simulatie_8cpp_ac340ad08da3e198ed958f875dcfb05e2} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Error\+Handling)
+\begin{DoxyCompactList}\small\item\em Test simulatie foutafhandeling en herstel. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_ae370659253ac552675e14921a892d03c}\label{test__simulatie_8cpp_ae370659253ac552675e14921a892d03c} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Multiple\+Simulations)
+\begin{DoxyCompactList}\small\item\em Test meerdere simulaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__simulatie_8cpp_a47f18cb3f4359a2951b76c9cefe00435}\label{test__simulatie_8cpp_a47f18cb3f4359a2951b76c9cefe00435} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_simulatie_test}{Simulatie\+Test}}, Stress\+Test)
+\begin{DoxyCompactList}\small\item\em Stresstest met complexe situaties. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Vaste tests voor simulatie klasse -\/ voorkomt volledig segmentation faults. 
+

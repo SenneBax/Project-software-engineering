@@ -1,0 +1,54 @@
+\doxysection{PSE/src/tests/test\+\_\+kruispunt.cpp File Reference}
+\hypertarget{test__kruispunt_8cpp}{}\label{test__kruispunt_8cpp}\index{PSE/src/tests/test\_kruispunt.cpp@{PSE/src/tests/test\_kruispunt.cpp}}
+
+
+Veilige tests voor de \doxylink{class_kruispunt}{Kruispunt} klasse -\/ voorkomt alle segmentatie fouten.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/kruispunt.\+h"{}}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}
+\begin{DoxyCompactList}\small\item\em testfixture voor de kruispunten \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__kruispunt_8cpp_aa9da1969ad75ac61594c5649a77983f9}\label{test__kruispunt_8cpp_aa9da1969ad75ac61594c5649a77983f9} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Basic\+Object\+Creation)
+\begin{DoxyCompactList}\small\item\em Test basis kruispunt aanmaak -\/ GEEN properly\+Initialized aanroepen. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_a9633e5441b03c681c6cb340386e5bbd8}\label{test__kruispunt_8cpp_a9633e5441b03c681c6cb340386e5bbd8} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Add\+Roads)
+\begin{DoxyCompactList}\small\item\em Test wegen toevoegen aan kruispunt. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_a880a22625364761b229a6a50b3aa3178}\label{test__kruispunt_8cpp_a880a22625364761b229a6a50b3aa3178} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Duplicate\+Roads)
+\begin{DoxyCompactList}\small\item\em Test dubbele wegen toevoegen. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_a4a665d23b8016294f10b8e33d68ef641}\label{test__kruispunt_8cpp_a4a665d23b8016294f10b8e33d68ef641} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Multiple\+Roads)
+\begin{DoxyCompactList}\small\item\em Test kruispunt met meerdere wegen. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_aaee7a017c766169e74a50c0a7418cf67}\label{test__kruispunt_8cpp_aaee7a017c766169e74a50c0a7418cf67} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Object\+Duplication)
+\begin{DoxyCompactList}\small\item\em Test kopieeroperaties ZONDER copy constructor of assignment te gebruiken. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_a1f905cbb8fd9418438e83c2febddc042}\label{test__kruispunt_8cpp_a1f905cbb8fd9418438e83c2febddc042} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Object\+Recreation)
+\begin{DoxyCompactList}\small\item\em Test assignment-\/achtige operaties ZONDER assignment operator te gebruiken. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_ae4988520754a81e9ac54d0f6a65cb5c7}\label{test__kruispunt_8cpp_ae4988520754a81e9ac54d0f6a65cb5c7} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Edge\+Cases)
+\begin{DoxyCompactList}\small\item\em Test randgevallen veilig -\/ MINIMAAL testen om alle segfaults te voorkomen. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_aa7b353cbb5b436a9fbf6b6d062882c13}\label{test__kruispunt_8cpp_aa7b353cbb5b436a9fbf6b6d062882c13} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Road\+Retrieval)
+\begin{DoxyCompactList}\small\item\em Test weg ophalen en verificatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_a1f52866b5280a8325c9305208346ae07}\label{test__kruispunt_8cpp_a1f52866b5280a8325c9305208346ae07} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Multiple\+Objects)
+\begin{DoxyCompactList}\small\item\em Test meerdere aparte kruispunt objecten. \end{DoxyCompactList}\item 
+\Hypertarget{test__kruispunt_8cpp_ae0b30997fc7a0cd2c9d4583b1b7d039e}\label{test__kruispunt_8cpp_ae0b30997fc7a0cd2c9d4583b1b7d039e} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_kruispunt_test}{Kruispunt\+Test}}, Safe\+Stress\+Test)
+\begin{DoxyCompactList}\small\item\em Stresstest met alleen veilige operaties. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Veilige tests voor de \doxylink{class_kruispunt}{Kruispunt} klasse -\/ voorkomt alle segmentatie fouten. 
+

@@ -1,0 +1,97 @@
+\doxysection{situatie.\+h}
+\hypertarget{situatie_8h_source}{}\label{situatie_8h_source}\index{PSE/src/Situation/situatie.h@{PSE/src/Situation/situatie.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SITUATIE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SITUATIE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../TraficObjects/baan.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{voertuig_8h}{../TraficObjects/voertuig.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../TraficObjects/verkeerslicht.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{voertuiggenerator_8h}{../TraficObjects/voertuiggenerator.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bushalte_8h}{../TraficObjects/bushalte.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{kruispunt_8h}{../TraficObjects/kruispunt.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_a4f2dde1be3f9848a192bc7a6f172fcc3}{VerkeersSituatie}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&\ \mbox{\hyperlink{class_verkeers_situatie_ab07591c097ca823b1a60cc4ac8ae4364}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_a4a94a29c9288a3282302b4ef3fc7d576}{VerkeersSituatie}}(\mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&\ \mbox{\hyperlink{class_verkeers_situatie_acc597008c8a70b1b1fa29d8aab4cd15e}{operator=}}(\mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_aec2caf739a713498e1a211927df30f8e}{\string~VerkeersSituatie}}();}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a6a314830262cda54cf8deb3eb5b5b5bf}{voegBaanToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_baan}{Baan}}\&\ baan);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a493ddb384706ec6e3bfd4de4d265965c}{voegVoertuigToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a493ddb384706ec6e3bfd4de4d265965c}{voegVoertuigToe}}(std::unique\_ptr<Voertuig>\ voertuig);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_ac9da98beb6be426da45c5de2c94c19a8}{voegVerkeerslichtToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}}\&\ licht);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a2ec2e5db85e94c24ad646c88fd8e19d0}{voegVoertuigGeneratorToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig_generator}{VoertuigGenerator}}\&\ generator);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_ac3e37e41005e859051ddd412229b1040}{voegBushalteToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_bushalte}{Bushalte}}\&\ bushalte);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_ae94eec6a34707feacfa3296204daf995}{voegKruispuntToe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_kruispunt}{Kruispunt}}\&\ kruispunt);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a13d2a9322ef97db5f3fecac4781a728f}{verificeerConsistentie}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a6d81f05f7166dbd957e4f2850f5f4908}{verwijderVoertuig}}(\textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{const}\ std::map<std::string,\ Baan>\&\ \mbox{\hyperlink{class_verkeers_situatie_a24273a5b7e799a5b2f2b41db95367eb9}{getBanen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00259\ \ \ \ \ std::vector<std::unique\_ptr<Voertuig>>\ \mbox{\hyperlink{class_verkeers_situatie_a2c48504212e583efc7f63f95f293e0ec}{kopieVoertuigen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00270\ \ \ \ \ std::vector<std::unique\_ptr<Voertuig>>\&\ \mbox{\hyperlink{class_verkeers_situatie_a2f5ad3ff381cde4860ef2bbc981ce112}{getVoertuigen}}();}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::unique\_ptr<Voertuig>>\&\ \mbox{\hyperlink{class_verkeers_situatie_a2f5ad3ff381cde4860ef2bbc981ce112}{getVoertuigen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_verkeers_situatie_a766da377ce336393fbb4719992bf1abb}{getAantalVoertuigen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Verkeerslicht>\&\ \mbox{\hyperlink{class_verkeers_situatie_afca59ee35b14861a8edcac5092f487ee}{getVerkeerslichten}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00311\ \ \ \ \ std::vector<Verkeerslicht>\&\ \mbox{\hyperlink{class_verkeers_situatie_afca59ee35b14861a8edcac5092f487ee}{getVerkeerslichten}}();}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<VoertuigGenerator>\&\ \mbox{\hyperlink{class_verkeers_situatie_a79350748951affe994e7ce77f03d8f94}{getVoertuigGenerators}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Bushalte>\&\ \mbox{\hyperlink{class_verkeers_situatie_a9b597b712e547f441db9e64acc61a552}{getBushaltes}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00341\ \ \ \ \ std::vector<Bushalte>\&\ \mbox{\hyperlink{class_verkeers_situatie_a9b597b712e547f441db9e64acc61a552}{getBushaltes}}();}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Kruispunt>\&\ \mbox{\hyperlink{class_verkeers_situatie_a2e518ad2812f8d4999e815448544802b}{getKruispunten}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00366\ \ \ \ \ std::vector<Bushalte*>\ \mbox{\hyperlink{class_verkeers_situatie_a3ba6af5401803178214143c6bb7248dc}{zoekBushaltesOpBaan}}(\textcolor{keyword}{const}\ std::string\&\ baanNaam);}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00381\ \ \ \ \ \mbox{\hyperlink{class_bushalte}{Bushalte}}*\ \mbox{\hyperlink{class_verkeers_situatie_a2b4c8a3df7d5d37ca43d569ddeed867b}{zoekEerstvolgendeHalte}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig);}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00395\ \ \ \ \ \mbox{\hyperlink{class_verkeerslicht}{Verkeerslicht}}*\ \mbox{\hyperlink{class_verkeers_situatie_a80961e71729e2a3fdbe05b0bb85a89f9}{zoekEerstvolgendeVerkeerslicht}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig);}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00408\ \ \ \ \ std::vector<Kruispunt*>\ \mbox{\hyperlink{class_verkeers_situatie_a5540e3a90367ae7d8d22e78522d53abe}{zoekKruispuntenOpBaan}}(\textcolor{keyword}{const}\ std::string\&\ baanNaam);}
+\DoxyCodeLine{00409\ }
+\DoxyCodeLine{00422\ \ \ \ \ \mbox{\hyperlink{class_kruispunt}{Kruispunt}}*\ \mbox{\hyperlink{class_verkeers_situatie_a6df3f1e2fdb3d59ebd572bc7bf20270c}{zoekEerstvolgendeKruispunt}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_voertuig}{Voertuig}}\&\ voertuig);}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_verkeers_situatie_a153e8d58a81e51d4ce490c29b4d7fa50}{properlyInitialized}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00435\ \ \ \ \ std::map<std::string,\ Baan>\ banen;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00436\ \ \ \ \ std::vector<std::unique\_ptr<Voertuig>>\ voertuigen;\ \ }
+\DoxyCodeLine{00437\ \ \ \ \ std::vector<Verkeerslicht>\ verkeerslichten;\ }
+\DoxyCodeLine{00438\ \ \ \ \ std::vector<VoertuigGenerator>\ generators;\ \ }
+\DoxyCodeLine{00439\ \ \ \ \ std::vector<Bushalte>\ bushaltes;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00440\ \ \ \ \ std::vector<Kruispunt>\ kruispunten;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00441\ \ \ \ \ \mbox{\hyperlink{class_verkeers_situatie_aac3d7c6d80e598ac0ef5c7c0e129b29a}{VerkeersSituatie}}*\ \_initCheck;\ }
+\DoxyCodeLine{00442\ \};}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SITUATIE\_H}}
+
+\end{DoxyCode}

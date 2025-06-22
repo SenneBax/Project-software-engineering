@@ -1,0 +1,102 @@
+\doxysection{PSE/src/tests/test\+\_\+output.cpp File Reference}
+\hypertarget{test__output_8cpp}{}\label{test__output_8cpp}\index{PSE/src/tests/test\_output.cpp@{PSE/src/tests/test\_output.cpp}}
+
+
+Superveilige tests voor output klasse -\/ voorkomt alle assertions.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include "{}Design\+By\+Contract.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Output/output.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Situation/situatie.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/baan.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Trafic\+Objects/voertuig.\+h"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_output_test}{Output\+Test}}
+\begin{DoxyCompactList}\small\item\em testfixture voor de output \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test__output_8cpp_a51d5cc6fbbee0fe85e0aaeff273b5721}\label{test__output_8cpp_a51d5cc6fbbee0fe85e0aaeff273b5721} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Basic\+Object\+Creation)
+\begin{DoxyCompactList}\small\item\em Test basis object aanmaak -\/ GEEN properly\+Initialized aanroepen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{test__output_8cpp_a1fa4d999d49309712a43bf3341cccb7d}{TEST\+\_\+F}} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Xml\+Lege\+Bestandsnaam)
+\begin{DoxyCompactList}\small\item\em Veilige error message tests voor \doxylink{test__output_8cpp}{test\+\_\+output.\+cpp} Vervang de error tests in je bestaande \doxylink{test__output_8cpp}{test\+\_\+output.\+cpp} met deze versies Deze vermijden segmentatiefouten door gebruik van de juiste variabele namen. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_ac4c504872284b3ad9c8abd7f4ef730b5}\label{test__output_8cpp_ac4c504872284b3ad9c8abd7f4ef730b5} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Html\+Lege\+Bestandsnaam)
+\begin{DoxyCompactList}\small\item\em Test foutmelding voor lege bestandsnaam bij HTML output. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a3c606fe6c65b182014e87efc24ae832f}\label{test__output_8cpp_a3c606fe6c65b182014e87efc24ae832f} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Xml\+Ongeldig\+Pad)
+\begin{DoxyCompactList}\small\item\em Test foutmelding voor ongeldig pad bij XML output. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a60bee7916d28690ef2fe8e014b0b3319}\label{test__output_8cpp_a60bee7916d28690ef2fe8e014b0b3319} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Html\+Ongeldig\+Pad)
+\begin{DoxyCompactList}\small\item\em Test foutmelding voor ongeldig pad bij HTML output. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_aea5e1190acaac467fb4cc8a9f166b5fa}\label{test__output_8cpp_aea5e1190acaac467fb4cc8a9f166b5fa} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Xml\+Lange\+Bestandsnaam)
+\begin{DoxyCompactList}\small\item\em Test XML output met zeer lange bestandsnaam. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a403db620d63c013d2fcd8ffc5f1222ee}\label{test__output_8cpp_a403db620d63c013d2fcd8ffc5f1222ee} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Html\+Lange\+Bestandsnaam)
+\begin{DoxyCompactList}\small\item\em Test HTML output met zeer lange bestandsnaam. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a1286505085bc57fa4bc6c4943e2d2028}\label{test__output_8cpp_a1286505085bc57fa4bc6c4943e2d2028} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Sequentiele\+Operaties)
+\begin{DoxyCompactList}\small\item\em Test output operaties in sequentie voor error handling. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a239be3397098c3c5e9a4f343c1414658}\label{test__output_8cpp_a239be3397098c3c5e9a4f343c1414658} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Error\+Recovery)
+\begin{DoxyCompactList}\small\item\em Test error recovery na gefaalde operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a35d33e7367a409912298558b22a2c23a}\label{test__output_8cpp_a35d33e7367a409912298558b22a2c23a} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Message\+\_\+\+Consistentie)
+\begin{DoxyCompactList}\small\item\em Test foutmelding consistentie. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a889d11c4694fe0b98c6f9f86331ebb2d}\label{test__output_8cpp_a889d11c4694fe0b98c6f9f86331ebb2d} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Xml\+Output)
+\begin{DoxyCompactList}\small\item\em Test XML output generatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_ab3bf5a35cd43876b608f34cd8fa7e958}\label{test__output_8cpp_ab3bf5a35cd43876b608f34cd8fa7e958} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Html\+Output)
+\begin{DoxyCompactList}\small\item\em Test HTML output generatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a38c98e21e036b7696dabc0dc55ccedd2}\label{test__output_8cpp_a38c98e21e036b7696dabc0dc55ccedd2} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Empty\+Traffic\+Situation)
+\begin{DoxyCompactList}\small\item\em Test output met lege verkeerssituatie. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a2c18ae49e1c9d08de02b7547a6e5c9c8}\label{test__output_8cpp_a2c18ae49e1c9d08de02b7547a6e5c9c8} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Invalid\+Filenames)
+\begin{DoxyCompactList}\small\item\em Test output met ongeldige bestandsnamen. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_aa751fa5230d3aad8704475f0e141baac}\label{test__output_8cpp_aa751fa5230d3aad8704475f0e141baac} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Multiple\+Operations)
+\begin{DoxyCompactList}\small\item\em Test meerdere output operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_ad9d40e2569f1ea578cc07661e72d10a5}\label{test__output_8cpp_ad9d40e2569f1ea578cc07661e72d10a5} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Error\+Handling)
+\begin{DoxyCompactList}\small\item\em Test foutafhandeling en herstel. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a28d913800fce249121cc4b5a1aa0ceeb}\label{test__output_8cpp_a28d913800fce249121cc4b5a1aa0ceeb} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Comprehensive\+Output)
+\begin{DoxyCompactList}\small\item\em Test uitgebreide verkeerssituatie output. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_ad52458ca55b5f603912cfa84a94aaeeb}\label{test__output_8cpp_ad52458ca55b5f603912cfa84a94aaeeb} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Concurrent\+Operations)
+\begin{DoxyCompactList}\small\item\em Test gelijktijdige output operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a0d2d9fbbcd4a1eb269f22d7b4806d010}\label{test__output_8cpp_a0d2d9fbbcd4a1eb269f22d7b4806d010} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, Stress\+Test)
+\begin{DoxyCompactList}\small\item\em Stresstest met veel operaties. \end{DoxyCompactList}\item 
+\Hypertarget{test__output_8cpp_a82d21291665a3161679101e42f6e24bf}\label{test__output_8cpp_a82d21291665a3161679101e42f6e24bf} 
+{\bfseries TEST\+\_\+F} (\mbox{\hyperlink{class_output_test}{Output\+Test}}, File\+Operations)
+\begin{DoxyCompactList}\small\item\em Test bestandsoperaties zonder risicovolle assertions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Superveilige tests voor output klasse -\/ voorkomt alle assertions. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{test__output_8cpp_a1fa4d999d49309712a43bf3341cccb7d}\index{test\_output.cpp@{test\_output.cpp}!TEST\_F@{TEST\_F}}
+\index{TEST\_F@{TEST\_F}!test\_output.cpp@{test\_output.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST\_F()}{TEST\_F()}}
+{\footnotesize\ttfamily \label{test__output_8cpp_a1fa4d999d49309712a43bf3341cccb7d} 
+TEST\+\_\+F (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_output_test}{Output\+Test}}}]{}{, }\item[{Error\+Message\+\_\+\+Xml\+Lege\+Bestandsnaam}]{}{}\end{DoxyParamCaption})}
+
+
+
+Veilige error message tests voor \doxylink{test__output_8cpp}{test\+\_\+output.\+cpp} Vervang de error tests in je bestaande \doxylink{test__output_8cpp}{test\+\_\+output.\+cpp} met deze versies Deze vermijden segmentatiefouten door gebruik van de juiste variabele namen. 
+
+Test foutmelding voor lege bestandsnaam bij XML output 

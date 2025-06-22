@@ -1,0 +1,317 @@
+\doxysection{Bushalte Class Reference}
+\hypertarget{class_bushalte}{}\label{class_bushalte}\index{Bushalte@{Bushalte}}
+
+
+Klasse die een bushalte in de verkeerssimulatie voorstelt.  
+
+
+
+
+{\ttfamily \#include $<$bushalte.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_bushalte_a411b427f8e696183f38548fa0b7ffb01}{Bushalte}} (const std\+::string \&baan, double positie, int wachttijd)
+\begin{DoxyCompactList}\small\item\em Constructor voor de bushalte. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_bushalte_ac77203f1fa0452286257c723a317d084}{get\+Baan}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de baannaam van de bushalte. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_bushalte_a824ca181caaa17a468b7d0bc33ed3270}{get\+Positie}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de positie van de bushalte. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_bushalte_a8a264caa8cc827be910b4c2b5db7ccde}{get\+Wachttijd}} () const
+\begin{DoxyCompactList}\small\item\em Getter voor de wachttijd van de bushalte. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_bushalte_ae70e40333e80bc3afad890113ec3796f}{update\+Wachttijd}} (double timestep)
+\begin{DoxyCompactList}\small\item\em Update de timer voor een gestopte bus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_bushalte_a249a5d1640f8cd3fae3edc14ef34c1ab}{set\+Bus\+Stopped}} ()
+\begin{DoxyCompactList}\small\item\em Registreert dat een bus gestopt is bij deze halte. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_bushalte_a2763f68c327137c1c88de91a50b1e71f}{set\+Bus\+Left}} ()
+\begin{DoxyCompactList}\small\item\em Registreert dat een bus deze halte heeft verlaten. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9}{is\+Bus\+Gestopt}} () const
+\begin{DoxyCompactList}\small\item\em Controleert of er momenteel een bus gestopt is bij deze halte. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_bushalte_a1ad76f3e882abaddf1b17695bf53074e}{reset\+Wachttijd}} ()
+\begin{DoxyCompactList}\small\item\em Reset de wachttijd. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse die een bushalte in de verkeerssimulatie voorstelt. 
+
+\doxylink{class_bushalte}{Bushalte} hoort bij een bepaalde positie en tijd Er wordt gemonitord hoelang de bus is gestopt en hoe lang hij is gestopt 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_bushalte_a411b427f8e696183f38548fa0b7ffb01}\index{Bushalte@{Bushalte}!Bushalte@{Bushalte}}
+\index{Bushalte@{Bushalte}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{Bushalte()}{Bushalte()}}
+{\footnotesize\ttfamily \label{class_bushalte_a411b427f8e696183f38548fa0b7ffb01} 
+Bushalte\+::\+Bushalte (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{double}]{positie}{, }\item[{int}]{wachttijd}{}\end{DoxyParamCaption})}
+
+
+
+Constructor voor de bushalte. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & Naam van de baan \\
+\hline
+{\em positie} & Positie op de baan in meters \\
+\hline
+{\em wachttijd} & Wachttijd in seconden \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+!baan.empty() 
+
+positie \texorpdfstring{$>$}{>}= 0.\+0 
+
+wachttijd \texorpdfstring{$>$}{>}= 0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+
+\doxylink{class_bushalte_ac77203f1fa0452286257c723a317d084}{get\+Baan()} == baan 
+
+\doxylink{class_bushalte_a824ca181caaa17a468b7d0bc33ed3270}{get\+Positie()} == positie 
+
+\doxylink{class_bushalte_a8a264caa8cc827be910b4c2b5db7ccde}{get\+Wachttijd()} == wachttijd
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & Naam van de baan \\
+\hline
+{\em positie} & Positie op de baan in meters \\
+\hline
+{\em wachttijd} & Wachttijd in seconden \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(!baan.empty(), "{}naam van de baan mag niet leeg zijn."{}); 
+
+REQUIRE(positie \texorpdfstring{$>$}{>}= 0.\+0, "{}\+Positie mag niet negatief zijn."{}); 
+
+REQUIRE(wachttijd \texorpdfstring{$>$}{>}= 0, "{}\+Wachttijd mag niet negatief zijn."{} ); 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Constructor moet eindigen in een geldige toestand."{}); 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_bushalte_ac77203f1fa0452286257c723a317d084}\index{Bushalte@{Bushalte}!getBaan@{getBaan}}
+\index{getBaan@{getBaan}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{getBaan()}{getBaan()}}
+{\footnotesize\ttfamily \label{class_bushalte_ac77203f1fa0452286257c723a317d084} 
+std\+::string Bushalte\+::get\+Baan (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de baannaam van de bushalte. 
+
+\begin{DoxyReturn}{Returns}
+De naam van de baan 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is de huidige naam van de baan
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+De naam van de baan 
+\end{DoxyReturn}
+\Hypertarget{class_bushalte_a824ca181caaa17a468b7d0bc33ed3270}\index{Bushalte@{Bushalte}!getPositie@{getPositie}}
+\index{getPositie@{getPositie}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{getPositie()}{getPositie()}}
+{\footnotesize\ttfamily \label{class_bushalte_a824ca181caaa17a468b7d0bc33ed3270} 
+double Bushalte\+::get\+Positie (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de positie van de bushalte. 
+
+\begin{DoxyReturn}{Returns}
+De positie in meters 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is de huidige positie
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+De positie in meters 
+\end{DoxyReturn}
+\Hypertarget{class_bushalte_a8a264caa8cc827be910b4c2b5db7ccde}\index{Bushalte@{Bushalte}!getWachttijd@{getWachttijd}}
+\index{getWachttijd@{getWachttijd}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{getWachttijd()}{getWachttijd()}}
+{\footnotesize\ttfamily \label{class_bushalte_a8a264caa8cc827be910b4c2b5db7ccde} 
+int Bushalte\+::get\+Wachttijd (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter voor de wachttijd van de bushalte. 
+
+\begin{DoxyReturn}{Returns}
+De wachttijd in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde is de huidige wachttijd
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+De wachttijd in seconden 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Wachttijd is niet correct geïnitialiseerd bij get\+Wachttijd."{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9}\index{Bushalte@{Bushalte}!isBusGestopt@{isBusGestopt}}
+\index{isBusGestopt@{isBusGestopt}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{isBusGestopt()}{isBusGestopt()}}
+{\footnotesize\ttfamily \label{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9} 
+bool Bushalte\+::is\+Bus\+Gestopt (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleert of er momenteel een bus gestopt is bij deze halte. 
+
+\begin{DoxyReturn}{Returns}
+True als er een bus gestopt is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft de huidige toestand van is\+Bus\+Stopped
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+True als er een bus gestopt is, false indien niet 
+\end{DoxyReturn}
+\Hypertarget{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}\index{Bushalte@{Bushalte}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2} 
+bool Bushalte\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} object correct is geïnitialiseerd. 
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft aan of object in geldige toestand is 
+\end{DoxyPostcond}
+\Hypertarget{class_bushalte_a1ad76f3e882abaddf1b17695bf53074e}\index{Bushalte@{Bushalte}!resetWachttijd@{resetWachttijd}}
+\index{resetWachttijd@{resetWachttijd}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{resetWachttijd()}{resetWachttijd()}}
+{\footnotesize\ttfamily \label{class_bushalte_a1ad76f3e882abaddf1b17695bf53074e} 
+void Bushalte\+::reset\+Wachttijd (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reset de wachttijd. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+tijd\+Sinds\+Laatste\+Stop == 0.\+0
+\end{DoxyPostcond}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Bushalte niet correct geïnitialiseerd bij reset\+Wachttijd"{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_bushalte_a2763f68c327137c1c88de91a50b1e71f}\index{Bushalte@{Bushalte}!setBusLeft@{setBusLeft}}
+\index{setBusLeft@{setBusLeft}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{setBusLeft()}{setBusLeft()}}
+{\footnotesize\ttfamily \label{class_bushalte_a2763f68c327137c1c88de91a50b1e71f} 
+void Bushalte\+::set\+Bus\+Left (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Registreert dat een bus deze halte heeft verlaten. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9}{is\+Bus\+Gestopt()} == false 
+
+tijd\+Sinds\+Laatste\+Stop == 0.\+0
+\end{DoxyPostcond}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Bushalte niet correct geïnitialiseerd bij set\+Bus\+Left"{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_bushalte_a249a5d1640f8cd3fae3edc14ef34c1ab}\index{Bushalte@{Bushalte}!setBusStopped@{setBusStopped}}
+\index{setBusStopped@{setBusStopped}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{setBusStopped()}{setBusStopped()}}
+{\footnotesize\ttfamily \label{class_bushalte_a249a5d1640f8cd3fae3edc14ef34c1ab} 
+void Bushalte\+::set\+Bus\+Stopped (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Registreert dat een bus gestopt is bij deze halte. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_bushalte_a2a745a35a6d0cca63104ebcc2abff3a9}{is\+Bus\+Gestopt()} == true 
+
+tijd\+Sinds\+Laatste\+Stop == 0.\+0
+\end{DoxyPostcond}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Bushalte niet correct geïnitialiseerd bij set\+Bus\+Stopped"{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_bushalte_ae70e40333e80bc3afad890113ec3796f}\index{Bushalte@{Bushalte}!updateWachttijd@{updateWachttijd}}
+\index{updateWachttijd@{updateWachttijd}!Bushalte@{Bushalte}}
+\doxysubsubsection{\texorpdfstring{updateWachttijd()}{updateWachttijd()}}
+{\footnotesize\ttfamily \label{class_bushalte_ae70e40333e80bc3afad890113ec3796f} 
+bool Bushalte\+::update\+Wachttijd (\begin{DoxyParamCaption}\item[{double}]{timestep}{}\end{DoxyParamCaption})}
+
+
+
+Update de timer voor een gestopte bus. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timestep} & De huidige simulatie-\/tijdstap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True als de wachttijd voorbij is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()} == true 
+
+timestep \texorpdfstring{$>$}{>}= 0.\+0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+tijd\+Sinds\+Laatste\+Stop is verhoogd met timestep indien bus gestopt is
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parameters}
+{\em timestep} & De huidige simulatie-\/tijdstap \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True als de wachttijd voorbij is, false indien niet 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_bushalte_a3472ab847c1fe78c2d7abc3841693bc2}{properly\+Initialized()}, "{}\+Wachttijd is niet correct geïnitialiseerd bij update\+Wachttijd."{}); 
+
+REQUIRE(timestep \texorpdfstring{$>$}{>}= 0.\+0, "{}timestep moet positief zijn."{}); 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(tijd\+Sinds\+Laatste\+Stop \texorpdfstring{$>$}{>}= oude\+Tijd, "{}\+Tijd mag niet teruglopen"{}); 
+
+ENSURE(tijd\+Sinds\+Laatste\+Stop \texorpdfstring{$>$}{>}= oude\+Tijd + timestep, "{}\+Tijd moet met timestep toenemen"{}); 
+\end{DoxyPostcond}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{bushalte_8h}{bushalte.\+h}}\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{bushalte_8cpp}{bushalte.\+cpp}}\end{DoxyCompactItemize}

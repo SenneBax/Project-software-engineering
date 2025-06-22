@@ -1,0 +1,186 @@
+\doxysection{Voertuig\+Generator Class Reference}
+\hypertarget{class_voertuig_generator}{}\label{class_voertuig_generator}\index{VoertuigGenerator@{VoertuigGenerator}}
+
+
+Klasse die voertuigen genereert op een baan.  
+
+
+
+
+{\ttfamily \#include $<$voertuiggenerator.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc}{Voertuig\+Generator}} (const std\+::string \&baan, int frequentie, const std\+::string \&type="{}auto"{})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_voertuig_generator_af8dd89cc12c2e5abfd6ff0f5df74e0d2}{get\+Baan\+Naam}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de baannaam terug. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_voertuig_generator_a6618970013c33584230a5a1f4ab158de}{get\+Frequentie}} () const
+\begin{DoxyCompactList}\small\item\em Geeft de generatiefrequentie terug. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_voertuig_generator_aa21fb02cadc1929efedc2a43ac42cd6b}{get\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Geeft het voertuigtype terug. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Controleer of het \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} object correct is geïnitialiseerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasse die voertuigen genereert op een baan. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc}\index{VoertuigGenerator@{VoertuigGenerator}!VoertuigGenerator@{VoertuigGenerator}}
+\index{VoertuigGenerator@{VoertuigGenerator}!VoertuigGenerator@{VoertuigGenerator}}
+\doxysubsubsection{\texorpdfstring{VoertuigGenerator()}{VoertuigGenerator()}}
+{\footnotesize\ttfamily \label{class_voertuig_generator_a2253cdddde7a8ee48cfff5b12f9bf3bc} 
+Voertuig\+Generator\+::\+Voertuig\+Generator (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{baan}{, }\item[{int}]{frequentie}{, }\item[{const std\+::string \&}]{type}{ = {\ttfamily "{}auto"{}}}\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & De naam van de baan \\
+\hline
+{\em frequentie} & Generatiefrequentie (voertuigen/tijdseenheid) \\
+\hline
+{\em type} & Voertuigtype (standaard "{}auto"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+!baan.empty(), "{}\+Baannaam mag niet leeg zijn"{} 
+
+frequentie \texorpdfstring{$>$}{>} 0, "{}\+Frequentie moet positief zijn"{} 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()} 
+
+\doxylink{class_voertuig_generator_af8dd89cc12c2e5abfd6ff0f5df74e0d2}{get\+Baan\+Naam()} == baan 
+
+\doxylink{class_voertuig_generator_a6618970013c33584230a5a1f4ab158de}{get\+Frequentie()} == frequentie 
+
+\doxylink{class_voertuig_generator_aa21fb02cadc1929efedc2a43ac42cd6b}{get\+Type()} == type
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parameters}
+{\em baan} & De naam van de baan waar voertuigen gegenereerd worden \\
+\hline
+{\em frequentie} & De frequentie waarmee voertuigen gegenereerd worden \\
+\hline
+{\em type} & Het type voertuigen dat gegenereerd wordt \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(!baan\+Naam.empty(), "{}baan\+Naam mag niet leeg zijn."{}); 
+
+REQUIRE(frequentie \texorpdfstring{$>$}{>} 0, "{}frequentie moet positief zijn."{}); 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+ENSURE(\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()}, "{}\+Constructor moet eindigen in een geldige toestand."{}); 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_voertuig_generator_af8dd89cc12c2e5abfd6ff0f5df74e0d2}\index{VoertuigGenerator@{VoertuigGenerator}!getBaanNaam@{getBaanNaam}}
+\index{getBaanNaam@{getBaanNaam}!VoertuigGenerator@{VoertuigGenerator}}
+\doxysubsubsection{\texorpdfstring{getBaanNaam()}{getBaanNaam()}}
+{\footnotesize\ttfamily \label{class_voertuig_generator_af8dd89cc12c2e5abfd6ff0f5df74e0d2} 
+std\+::string Voertuig\+Generator\+::get\+Baan\+Naam (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Geeft de baannaam terug. 
+
+Geeft de naam van de baan terug.
+
+\begin{DoxyReturn}{Returns}
+Niet-\/lege baannaam 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()} 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+!return.empty()
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+De naam van de baan 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()}, "{}get\+Baan\+Naam moet eindigen in een geldige toestand."{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_voertuig_generator_a6618970013c33584230a5a1f4ab158de}\index{VoertuigGenerator@{VoertuigGenerator}!getFrequentie@{getFrequentie}}
+\index{getFrequentie@{getFrequentie}!VoertuigGenerator@{VoertuigGenerator}}
+\doxysubsubsection{\texorpdfstring{getFrequentie()}{getFrequentie()}}
+{\footnotesize\ttfamily \label{class_voertuig_generator_a6618970013c33584230a5a1f4ab158de} 
+int Voertuig\+Generator\+::get\+Frequentie (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Geeft de generatiefrequentie terug. 
+
+Geeft de frequentie terug.
+
+\begin{DoxyReturn}{Returns}
+Positieve frequentie 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()} 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+return \texorpdfstring{$>$}{>} 0
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+De frequentie 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()}, "{}get\+Frequentie moet eindigen in een geldige toestand."{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_voertuig_generator_aa21fb02cadc1929efedc2a43ac42cd6b}\index{VoertuigGenerator@{VoertuigGenerator}!getType@{getType}}
+\index{getType@{getType}!VoertuigGenerator@{VoertuigGenerator}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \label{class_voertuig_generator_aa21fb02cadc1929efedc2a43ac42cd6b} 
+std\+::string Voertuig\+Generator\+::get\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Geeft het voertuigtype terug. 
+
+Geeft het type voertuigen terug.
+
+\begin{DoxyReturn}{Returns}
+Geldig voertuigtype 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()} 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+!return.empty()
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+Het type voertuigen 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+REQUIRE(\doxylink{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}{properly\+Initialized()}, "{}get\+Type moet eindigen in een geldige toestand."{}); 
+\end{DoxyPrecond}
+\Hypertarget{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985}\index{VoertuigGenerator@{VoertuigGenerator}!properlyInitialized@{properlyInitialized}}
+\index{properlyInitialized@{properlyInitialized}!VoertuigGenerator@{VoertuigGenerator}}
+\doxysubsubsection{\texorpdfstring{properlyInitialized()}{properlyInitialized()}}
+{\footnotesize\ttfamily \label{class_voertuig_generator_a112dbeaf34022b75b917df00e4ab7985} 
+bool Voertuig\+Generator\+::properly\+Initialized (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Controleer of het \doxylink{class_verkeers_situatie}{Verkeers\+Situatie} object correct is geïnitialiseerd. 
+
+\begin{DoxyReturn}{Returns}
+true als het object correct is geïnitialiseerd, false anders 
+\end{DoxyReturn}
+\begin{DoxyPostcond}{Postcondition}
+return waarde geeft aan of object in geldige toestand verkeert
+\end{DoxyPostcond}
+Design by Contract verificatie methode om object integriteit te controleren. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{voertuiggenerator_8h}{voertuiggenerator.\+h}}\item 
+PSE/src/\+Trafic\+Objects/\mbox{\hyperlink{voertuiggenerator_8cpp}{voertuiggenerator.\+cpp}}\end{DoxyCompactItemize}
