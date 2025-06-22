@@ -5,6 +5,7 @@
 
 #include "bushalte.h"
 #include "DesignByContract.h"
+#include <algorithm>
 
 /**
  * @brief Constructor voor de bushalte
@@ -82,8 +83,9 @@ bool Bushalte::updateWachttijd(double timestep) {
         }
     }
     return false;
-}
+    ENSURE(tijdSindsLaatsteStop >= timestep, "Tijd mag niet teruglopen");
 
+}
 /**
  * @brief Registreert dat een bus gestopt is bij deze halte
  * REQUIRE(properlyInitialized(), "Bushalte niet correct geïnitialiseerd bij setBusStopped");
