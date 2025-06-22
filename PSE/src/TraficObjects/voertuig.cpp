@@ -18,9 +18,9 @@
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
- * REQUIRE(positie > 0.0, "Positie moet positief zijn.");
- * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
+ * @pre REQUIRE(positie > 0.0, "Positie moet positief zijn.");
+ * @post ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Voertuig::Voertuig(const std::string& baan, double positie)
     : baanNaam(baan), positie(positie), snelheid(0.0), versnelling(0.0) {
@@ -38,9 +38,9 @@ Voertuig::Voertuig(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
- * REQUIRE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
- * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!baan.empty(), "Baannaam mag niet leeg zijn.");
+ * @pre REQUIRE(snelheid >= 0.0, "Snelheid mag niet negatief zijn.");
+ * @post ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Voertuig::Voertuig(const std::string& baan, double positie, double snelheid, double versnelling)
     : baanNaam(baan), positie(positie), snelheid(snelheid), versnelling(versnelling) {
@@ -62,7 +62,7 @@ Voertuig::~Voertuig() {
  * @brief Copy constructor voor Voertuig
  * @param other Te kopiëren voertuig
  *
- * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @post ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Voertuig::Voertuig(const Voertuig& other)
     : baanNaam(other.baanNaam), positie(other.positie), snelheid(other.snelheid),
@@ -90,8 +90,8 @@ Voertuig& Voertuig::operator=(const Voertuig& other) {
  * @brief Getter voor de baannaam van het voertuig
  * @return De naam van de baan
  *
- * REQUIRE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
- * ENSURE(!baan.empty(), "Baanaam mag niet leeg zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @post ENSURE(!baan.empty(), "Baanaam mag niet leeg zijn.");
  */
 std::string Voertuig::getBaanNaam() const {
     REQUIRE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
@@ -110,9 +110,9 @@ std::string Voertuig::getBaan() const {
  * @brief Setter voor de baannaam van het voertuig
  * @param nieuweNaam De nieuwe baannaam
  *
- * REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
- * REQUIRE(!nieuweNaam.empty(), "nieuweNaam mag niet leeg zijn.");
- * ENSURE(baanNaam == nieuweNaam, "Baannaam werd niet correct ingesteld");
+ * @pre REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!nieuweNaam.empty(), "nieuweNaam mag niet leeg zijn.");
+ * @post ENSURE(baanNaam == nieuweNaam, "Baannaam werd niet correct ingesteld");
  */
 void Voertuig::setBaanNaam(const std::string& nieuweNaam) {
     REQUIRE(properlyInitialized(), "setBaanNaam moet eindigen in een geldige toestand.");
@@ -133,7 +133,7 @@ void Voertuig::setBaan(const std::string& baan) {
  * @brief Getter voor de positie van het voertuig
  * @return De positie op de baan
  *
- * REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
  */
 double Voertuig::getPositie() const {
     REQUIRE(properlyInitialized(), "getPositie moet eindigen in een geldige toestand.");
@@ -144,9 +144,9 @@ double Voertuig::getPositie() const {
  * @brief Setter voor de positie van het voertuig
  * @param nieuwePositie De nieuwe positie
  *
- * REQUIRE(properlyInitialized(), "setPositie moet eindigen in een geldige toestand.");
- * REQUIRE(nieuwePositie >= 0.0, "nieuwePositie mag niet negatief zijn.");
- * ENSURE(positie == nieuwePositie, "Positie werd niet correct ingesteld.");
+ * @pre REQUIRE(properlyInitialized(), "setPositie moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(nieuwePositie >= 0.0, "nieuwePositie mag niet negatief zijn.");
+ * @post ENSURE(positie == nieuwePositie, "Positie werd niet correct ingesteld.");
  */
 void Voertuig::setPositie(double nieuwePositie) {
     REQUIRE(properlyInitialized(), "setPositie moet eindigen in een geldige toestand.");
@@ -159,7 +159,7 @@ void Voertuig::setPositie(double nieuwePositie) {
  * @brief Getter voor de snelheid van het voertuig
  * @return De snelheid in m/s
  *
- * REQUIRE(properlyInitialized(), "getSnelheid moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getSnelheid moet eindigen in een geldige toestand.");
  */
 double Voertuig::getSnelheid() const {
     REQUIRE(properlyInitialized(), "getSnelheid moet eindigen in een geldige toestand.");
@@ -170,9 +170,9 @@ double Voertuig::getSnelheid() const {
  * @brief Setter voor de snelheid van het voertuig
  * @param nieuweSnelheid De nieuwe snelheid
  *
- * REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
- * REQUIRE(nieuweSnelheid >= 0.0, "nieuweSnelheid mag niet negatief zijn.");
- * ENSURE(snelheid == nieuweSnelheid, "Snelheid werd niet correct ingesteld.");
+ * @pre REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(nieuweSnelheid >= 0.0, "nieuweSnelheid mag niet negatief zijn.");
+ * @post ENSURE(snelheid == nieuweSnelheid, "Snelheid werd niet correct ingesteld.");
  */
 void Voertuig::setSnelheid(double nieuweSnelheid) {
     REQUIRE(properlyInitialized(), "setSnelheid moet eindigen in een geldige toestand.");
@@ -185,7 +185,7 @@ void Voertuig::setSnelheid(double nieuweSnelheid) {
  * @brief Getter voor de versnelling van het voertuig
  * @return De versnelling in m/s²
  *
- * REQUIRE(properlyInitialized(), "getVersnelling moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVersnelling moet eindigen in een geldige toestand.");
  */
 double Voertuig::getVersnelling() const {
     REQUIRE(properlyInitialized(), "getVersnelling moet eindigen in een geldige toestand.");
@@ -196,8 +196,8 @@ double Voertuig::getVersnelling() const {
  * @brief Setter voor de versnelling van het voertuig
  * @param nieuweVersnelling De nieuwe versnelling
  *
- * REQUIRE(properlyInitialized(), "setVersnelling moet eindigen in een geldige toestand.");
- * ENSURE(versnelling == nieuweVersnelling, "Versnelling werd niet correct ingesteld.");
+ * @pre REQUIRE(properlyInitialized(), "setVersnelling moet eindigen in een geldige toestand.");
+ * @post ENSURE(versnelling == nieuweVersnelling, "Versnelling werd niet correct ingesteld.");
  */
 void Voertuig::setVersnelling(double nieuweVersnelling) {
     REQUIRE(properlyInitialized(), "setVersnelling moet eindigen in een geldige toestand.");
@@ -212,7 +212,7 @@ void Voertuig::setVersnelling(double nieuweVersnelling) {
  * @param verkeersLichtVertraagFactor Factor voor verkeerslicht vertraging
  * @param bushalteVertraagFactor Factor voor bushalte vertraging
  *
- * REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
  */
 void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVoertuig,
                                  double verkeersLichtVertraagFactor, double bushalteVertraagFactor) {
@@ -256,8 +256,8 @@ void Voertuig::berekenVersnelling(Voertuig* voorliggendVoertuig, bool isEersteVo
  * @brief Update de positie en snelheid van het voertuig
  * @param tijdstap De tijdstap voor de update
  *
- * REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
- * REQUIRE(tijdstap > 0, "Tijdstap moet positief zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+ * @pre REQUIRE(tijdstap > 0, "Tijdstap moet positief zijn.");
  */
 void Voertuig::updatePositieEnSnelheid(double tijdstap) {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
@@ -288,7 +288,7 @@ void Voertuig::updatePositieEnSnelheid(double tijdstap) {
  * @brief Zet de wachtstatus bij een bushalte
  * @param waiting Of het voertuig wacht bij een bushalte
  *
- * REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
  */
 void Voertuig::setIsWaitingAtStop(bool waiting) {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
@@ -300,7 +300,7 @@ void Voertuig::setIsWaitingAtStop(bool waiting) {
  * @brief Geeft de wachtstatus bij een bushalte terug
  * @return True als het voertuig wacht bij een bushalte
  *
- * REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
  */
 bool Voertuig::getIsWaitingAtStop() const {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
@@ -312,7 +312,7 @@ bool Voertuig::getIsWaitingAtStop() const {
  * @brief Alias voor getIsWaitingAtStop
  * @return True als het voertuig wacht bij een bushalte
  *
- * REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
+ * @pre REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
  */
 bool Voertuig::isWaitingAtStop() const {
     REQUIRE(properlyInitialized(), "Voertuig moet properly initialized zijn.");
@@ -322,8 +322,8 @@ bool Voertuig::isWaitingAtStop() const {
 /**
  * @brief Voert een noodstop uit
  *
- * REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
- * ENSURE(versnelling <= 0, "Noodstop moet negatieve versnelling geven.");
+ * @pre REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
+ * @post ENSURE(versnelling <= 0, "Noodstop moet negatieve versnelling geven.");
  */
 void Voertuig::noodStop() {
     REQUIRE(properlyInitialized(), "noodStop moet starten in een geldige toestand.");
@@ -406,9 +406,9 @@ std::unique_ptr<Voertuig> Voertuig::maakVoertuig(const std::string& baan, double
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * ENSURE(getType() == "auto", "Auto type moet correct zijn.");
- * ENSURE(!isPrioriteitsvoertuig(), "Auto mag geen prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Auto mag geen bus zijn.");
+ * @post ENSURE(getType() == "auto", "Auto type moet correct zijn.");
+ * @post ENSURE(!isPrioriteitsvoertuig(), "Auto mag geen prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Auto mag geen bus zijn.");
  */
 Auto::Auto(const std::string& baan, double positie)
     : Voertuig(baan, positie) {
@@ -424,9 +424,9 @@ Auto::Auto(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * ENSURE(getType() == "auto", "Auto type moet correct zijn.");
- * ENSURE(!isPrioriteitsvoertuig(), "Auto mag geen prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Auto mag geen bus zijn.");
+ * @post ENSURE(getType() == "auto", "Auto type moet correct zijn.");
+ * @post ENSURE(!isPrioriteitsvoertuig(), "Auto mag geen prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Auto mag geen bus zijn.");
  */
 Auto::Auto(const std::string& baan, double positie, double snelheid, double versnelling)
     : Voertuig(baan, positie, snelheid, versnelling) {
@@ -524,9 +524,9 @@ std::unique_ptr<Voertuig> Auto::clone() const {
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * ENSURE(getType() == "bus", "Bus type moet correct zijn.");
- * ENSURE(!isPrioriteitsvoertuig(), "Bus mag geen prioriteitsvoertuig zijn.");
- * ENSURE(isBus(), "Bus moet een bus zijn.");
+ * @post ENSURE(getType() == "bus", "Bus type moet correct zijn.");
+ * @post ENSURE(!isPrioriteitsvoertuig(), "Bus mag geen prioriteitsvoertuig zijn.");
+ * @post ENSURE(isBus(), "Bus moet een bus zijn.");
  */
 Bus::Bus(const std::string& baan, double positie)
     : Voertuig(baan, positie) {
@@ -542,9 +542,9 @@ Bus::Bus(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * ENSURE(getType() == "bus", "Bus type moet correct zijn.");
- * ENSURE(!isPrioriteitsvoertuig(), "Bus mag geen prioriteitsvoertuig zijn.");
- * ENSURE(isBus(), "Bus moet een bus zijn.");
+ * @post ENSURE(getType() == "bus", "Bus type moet correct zijn.");
+ * @post ENSURE(!isPrioriteitsvoertuig(), "Bus mag geen prioriteitsvoertuig zijn.");
+ * @post ENSURE(isBus(), "Bus moet een bus zijn.");
  */
 Bus::Bus(const std::string& baan, double positie, double snelheid, double versnelling)
     : Voertuig(baan, positie, snelheid, versnelling) {
@@ -642,9 +642,9 @@ std::unique_ptr<Voertuig> Bus::clone() const {
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * ENSURE(getType() == "brandweerwagen", "Brandweerwagen type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Brandweerwagen moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Brandweerwagen mag geen bus zijn.");
+ * @post ENSURE(getType() == "brandweerwagen", "Brandweerwagen type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Brandweerwagen moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Brandweerwagen mag geen bus zijn.");
  */
 Brandweerwagen::Brandweerwagen(const std::string& baan, double positie)
     : Voertuig(baan, positie) {
@@ -660,9 +660,9 @@ Brandweerwagen::Brandweerwagen(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * ENSURE(getType() == "brandweerwagen", "Brandweerwagen type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Brandweerwagen moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Brandweerwagen mag geen bus zijn.");
+ * @post ENSURE(getType() == "brandweerwagen", "Brandweerwagen type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Brandweerwagen moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Brandweerwagen mag geen bus zijn.");
  */
 Brandweerwagen::Brandweerwagen(const std::string& baan, double positie, double snelheid, double versnelling)
     : Voertuig(baan, positie, snelheid, versnelling) {
@@ -760,9 +760,9 @@ std::unique_ptr<Voertuig> Brandweerwagen::clone() const {
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * ENSURE(getType() == "ziekenwagen", "Ziekenwagen type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Ziekenwagen moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Ziekenwagen mag geen bus zijn.");
+ * @post ENSURE(getType() == "ziekenwagen", "Ziekenwagen type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Ziekenwagen moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Ziekenwagen mag geen bus zijn.");
  */
 Ziekenwagen::Ziekenwagen(const std::string& baan, double positie)
     : Voertuig(baan, positie) {
@@ -778,9 +778,9 @@ Ziekenwagen::Ziekenwagen(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * ENSURE(getType() == "ziekenwagen", "Ziekenwagen type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Ziekenwagen moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Ziekenwagen mag geen bus zijn.");
+ * @post ENSURE(getType() == "ziekenwagen", "Ziekenwagen type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Ziekenwagen moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Ziekenwagen mag geen bus zijn.");
  */
 Ziekenwagen::Ziekenwagen(const std::string& baan, double positie, double snelheid, double versnelling)
     : Voertuig(baan, positie, snelheid, versnelling) {
@@ -878,9 +878,9 @@ std::unique_ptr<Voertuig> Ziekenwagen::clone() const {
  * @param baan Naam van de baan
  * @param positie Positie op de baan
  *
- * ENSURE(getType() == "politiecombi", "Politiecombi type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Politiecombi moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Politiecombi mag geen bus zijn.");
+ * @post ENSURE(getType() == "politiecombi", "Politiecombi type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Politiecombi moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Politiecombi mag geen bus zijn.");
  */
 Politiecombi::Politiecombi(const std::string& baan, double positie)
     : Voertuig(baan, positie) {
@@ -896,9 +896,9 @@ Politiecombi::Politiecombi(const std::string& baan, double positie)
  * @param snelheid Snelheid van het voertuig
  * @param versnelling Versnelling van het voertuig
  *
- * ENSURE(getType() == "politiecombi", "Politiecombi type moet correct zijn.");
- * ENSURE(isPrioriteitsvoertuig(), "Politiecombi moet een prioriteitsvoertuig zijn.");
- * ENSURE(!isBus(), "Politiecombi mag geen bus zijn.");
+ * @post ENSURE(getType() == "politiecombi", "Politiecombi type moet correct zijn.");
+ * @post ENSURE(isPrioriteitsvoertuig(), "Politiecombi moet een prioriteitsvoertuig zijn.");
+ * @post ENSURE(!isBus(), "Politiecombi mag geen bus zijn.");
  */
 Politiecombi::Politiecombi(const std::string& baan, double positie, double snelheid, double versnelling)
     : Voertuig(baan, positie, snelheid, versnelling) {

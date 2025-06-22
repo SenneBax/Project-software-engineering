@@ -19,9 +19,10 @@
  * @post properlyInitialized() == true
  * @post getTijdstap() == tijdstap (or 0.0166 if tijdstap <= 0)
  * @post getHuidigeSimulatieTijd() == 0.0
- * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @post ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
+// zijn de defaultwaardes
     : verkeerssituatie(situatie),
       tijdstap(tijdstap > 0.0 ? tijdstap : 0.0166),
       huidigeSimulatieTijd(0.0),
@@ -54,8 +55,8 @@ bool simulatie::properlyInitialized() const
  * @post huidigeSimulatieTijd is verhoogd met tijdstap
  * @post alle verkeerselementen zijn bijgewerkt volgens hun regels
  * @post statistieken zijn bijgewerkt
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij stap");
- * ENSURE(huidigeSimulatieTijd > 0.0, "huidigeSimulatieTijd moet toenemen na een stap");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij stap");
+ * @post ENSURE(huidigeSimulatieTijd > 0.0, "huidigeSimulatieTijd moet toenemen na een stap");
  */
 void simulatie::stap() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij stap");
@@ -91,7 +92,7 @@ void simulatie::stap() {
  * @brief Verwerk alle verkeerslichten in de simulatie
  * @pre properlyInitialized() == true
  * @post Alle verkeerslichten zijn bijgewerkt volgens hun cyclustijd
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVerkeerslichten");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVerkeerslichten");
  */
 void simulatie::verwerkVerkeerslichten() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVerkeerslichten");
@@ -111,7 +112,7 @@ void simulatie::verwerkVerkeerslichten() {
  * @pre voertuig.properlyInitialized() == true
  * @pre verkeerslicht.properlyInitialized() == true
  * @post Prioriteitsvoertuigen worden geregistreerd bij slimme verkeerslichten
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij controleerVerkeerslichtNadering");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij controleerVerkeerslichtNadering");
  */
 int simulatie::controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeerslicht& verkeerslicht) {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij controleerVerkeerslichtNadering");
@@ -159,7 +160,7 @@ int simulatie::controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeer
  * @post Alle voertuigen hebben nieuwe posities en snelheden
  * @post Voertuigen die de baan verlaten zijn verwijderd
  * @post verwijderdeVoertuigenTeller is bijgewerkt
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVoertuigen");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVoertuigen");
  */
 void simulatie::verwerkVoertuigen() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVoertuigen");
@@ -248,7 +249,7 @@ void simulatie::verwerkVoertuigen() {
  * @pre properlyInitialized() == true
  * @post Bussen stoppen bij bushaltes en vertrekken na wachttijd
  * @post Bushalte bezettingsstatus is correct bijgewerkt
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkBushaltes");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkBushaltes");
  */
 void simulatie::verwerkBushaltes() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkBushaltes");
@@ -302,7 +303,7 @@ void simulatie::verwerkBushaltes() {
  * @brief Verwerk alle kruispunten in de simulatie
  * @pre properlyInitialized() == true
  * @post Voertuigen bij kruispunten worden verplaatst naar nieuwe banen
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkKruispunten");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkKruispunten");
  */
 void simulatie::verwerkKruispunten() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkKruispunten");
@@ -359,7 +360,7 @@ void simulatie::verwerkKruispunten() {
  * @pre properlyInitialized() == true
  * @pre autoGenereerVoertuigen == true
  * @post Nieuwe voertuigen zijn toegevoegd volgens generator frequenties
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereerNieuweVoertuigen");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereerNieuweVoertuigen");
  */
 void simulatie::genereerNieuweVoertuigen() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereerNieuweVoertuigen");
@@ -388,9 +389,9 @@ void simulatie::genereerNieuweVoertuigen() {
  * @pre !baanNaam.empty()
  * @pre positie >= 0.0
  * @post Bij succes: nieuw voertuig is toegevoegd aan verkeerssituatie
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereertVoertuig");
- * REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
- * REQUIRE(positie >= 0.0, "positie moet groter of gelijk aan 0 zijn.");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereertVoertuig");
+ * @pre REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
+ * @pre REQUIRE(positie >= 0.0, "positie moet groter of gelijk aan 0 zijn.");
  */
 bool simulatie::genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type) {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereertVoertuig");
@@ -421,7 +422,7 @@ bool simulatie::genereertVoertuig(const std::string& baanNaam, double positie, c
  * @brief Verzamel simulatiestatistieken
  * @pre properlyInitialized() == true
  * @post aantalVoertuigen en gemiddeldeSnelheid zijn bijgewerkt
- * REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verzamelStatistieken");
+ * @pre REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verzamelStatistieken");
  */
 void simulatie::verzamelStatistieken() {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verzamelStatistieken");

@@ -21,9 +21,9 @@ Baan::Baan()
  * @brief Constructor met parameters
  * @param naam Naam van de baan
  * @param lengte Lengte van de baan in meters
- * REQUIRE(!naam.empty(), "Naam van de baan mag niet leeg zijn");
- * REQUIRE(lengte>0, "Baan lengte moet groter dan 0 zijn.");
- * ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!naam.empty(), "Naam van de baan mag niet leeg zijn");
+ * @pre REQUIRE(lengte>0, "Baan lengte moet groter dan 0 zijn.");
+ * @post ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
  */
 Baan::Baan(const std::string& naam, const int lengte)
     : naam(naam), lengte(lengte) {
@@ -47,7 +47,6 @@ bool Baan::properlyInitialized() const
  * @return De naam van de baan
  */
 std::string Baan::getNaam() const {
-    //REQUIRE(properlyInitialized(), "Naam niet correct geïnitialiseerd bij getNaam");
     return naam;
 }
 
@@ -56,6 +55,5 @@ std::string Baan::getNaam() const {
  * @return De lengte van de baan in meters
  */
 int Baan::getLengte() const {
-    //REQUIRE(properlyInitialized(), "Baan niet correct geïnitialiseerd bij getLengte.");
     return lengte;
 }

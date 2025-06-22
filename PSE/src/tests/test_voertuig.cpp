@@ -1,8 +1,6 @@
 /**
  * @file test_voertuig.cpp
- * @brief Tests for the Voertuig class that work around Design by Contract issues
- * @author Generated to work around REQUIRE/ENSURE macro crashes
- * @date 2025
+ * @brief Tests voor de Voertuig klasse die omgaan met Design by Contract problemen
  */
 
 #include <gtest/gtest.h>
@@ -11,28 +9,28 @@
 #include <memory>
 
 /**
- * @brief Test fixture for Voertuig tests that handles Design by Contract safely
+ * @brief Testfixture voor Voertuig tests die Design by Contract veilig afhandelt
  */
 class VoertuigTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Minimal setup
+        // Minimale setup
     }
 
     void TearDown() override {
-        // Minimal cleanup
+        // Minimale opruiming
     }
 
     /**
-     * @brief Safe wrapper to create a Voertuig object using factory method
-     * @param baan Road name
-     * @param positie Position
-     * @param type Vehicle type
-     * @return Unique pointer to Voertuig or nullptr if creation failed
+     * @brief Veilige wrapper om een Voertuig object aan te maken met factory methode
+     * @param baan Wegnaam
+     * @param positie Positie
+     * @param type Voertuigtype
+     * @return Unique pointer naar Voertuig of nullptr als aanmaak gefaald is
      */
     std::unique_ptr<Voertuig> safeCreateVoertuig(const std::string& baan, double positie, const std::string& type) {
         try {
-            // Only create with parameters that should pass validation
+            // Maak alleen aan met parameters die validatie zouden moeten passeren
             if (!baan.empty() && positie >= 0.0 && !type.empty()) {
                 return Voertuig::maakVoertuig(baan, positie, type);
             }
@@ -43,7 +41,7 @@ protected:
     }
 
     /**
-     * @brief Safe test of getters without risking crashes
+     * @brief Veilige test van getters zonder crash risico
      */
     bool safeTestGetters(Voertuig* voertuig, const std::string& expectedBaan,
                         double expectedPositie, const std::string& expectedType) {
@@ -61,10 +59,10 @@ protected:
 };
 
 /**
- * @brief Test vehicle creation using factory method
+ * @brief Test voertuig aanmaak met factory methode
  */
 TEST_F(VoertuigTest, VehicleCreationTest) {
-    // Test creating an auto (regular car)
+    // Test auto (gewone auto) aanmaken
     auto auto1 = safeCreateVoertuig("Teststraat", 50.0, "auto");
 
     if (auto1) {
@@ -74,11 +72,11 @@ TEST_F(VoertuigTest, VehicleCreationTest) {
             EXPECT_FALSE(auto1->isPrioriteitsvoertuig());
             EXPECT_TRUE(auto1->properlyInitialized());
         } catch (...) {
-            // Priority and initialization checks might fail - noted
+            // Prioriteit en initialisatie checks kunnen falen - genoteerd
         }
     }
 
-    // Test creating a bus
+    // Test bus aanmaken
     auto bus1 = safeCreateVoertuig("Hoofdweg", 100.0, "bus");
 
     if (bus1) {
@@ -88,16 +86,16 @@ TEST_F(VoertuigTest, VehicleCreationTest) {
             EXPECT_FALSE(bus1->isPrioriteitsvoertuig());
             EXPECT_TRUE(bus1->isBus());
         } catch (...) {
-            // Bus-specific checks might fail - noted
+            // Bus-specifieke checks kunnen falen - genoteerd
         }
     }
 }
 
 /**
- * @brief Test priority vehicle creation
+ * @brief Test prioriteitsvoertuig aanmaak
  */
 TEST_F(VoertuigTest, PriorityVehicleTest) {
-    // Test creating a fire truck
+    // Test brandweerwagen aanmaken
     auto brandweer = safeCreateVoertuig("Zijstraat", 25.0, "brandweerwagen");
 
     if (brandweer) {
@@ -106,11 +104,11 @@ TEST_F(VoertuigTest, PriorityVehicleTest) {
         try {
             EXPECT_TRUE(brandweer->isPrioriteitsvoertuig());
         } catch (...) {
-            // Priority check might fail - noted
+            // Prioriteit check kan falen - genoteerd
         }
     }
 
-    // Test creating an ambulance
+    // Test ziekenwagen aanmaken
     auto ziekenwagen = safeCreateVoertuig("Kruisweg", 75.0, "ziekenwagen");
 
     if (ziekenwagen) {
@@ -119,11 +117,11 @@ TEST_F(VoertuigTest, PriorityVehicleTest) {
         try {
             EXPECT_TRUE(ziekenwagen->isPrioriteitsvoertuig());
         } catch (...) {
-            // Priority check might fail - noted
+            // Prioriteit check kan falen - genoteerd
         }
     }
 
-    // Test creating a police car
+    // Test politieauto aanmaken
     auto politie = safeCreateVoertuig("Politielaan", 150.0, "politiecombi");
 
     if (politie) {
@@ -132,16 +130,16 @@ TEST_F(VoertuigTest, PriorityVehicleTest) {
         try {
             EXPECT_TRUE(politie->isPrioriteitsvoertuig());
         } catch (...) {
-            // Priority check might fail - noted
+            // Prioriteit check kan falen - genoteerd
         }
     }
 }
 
 /**
- * @brief Test vehicle parameter validation logic
+ * @brief Test voertuig parameter validatie logica
  */
 TEST_F(VoertuigTest, ParameterValidationLogic) {
-    // Test the logic that would be in validation
+    // Test de logica die in validatie zou staan
     auto isValidBaan = [](const std::string& baan) -> bool {
         return !baan.empty();
     };
@@ -154,7 +152,7 @@ TEST_F(VoertuigTest, ParameterValidationLogic) {
         return !type.empty();
     };
 
-    // Valid parameters
+    // Geldige parameters
     EXPECT_TRUE(isValidBaan("Teststraat"));
     EXPECT_TRUE(isValidBaan("A"));
     EXPECT_TRUE(isValidPositie(0.0));
@@ -164,7 +162,7 @@ TEST_F(VoertuigTest, ParameterValidationLogic) {
     EXPECT_TRUE(isValidType("bus"));
     EXPECT_TRUE(isValidType("brandweerwagen"));
 
-    // Invalid parameters that would fail validation
+    // Ongeldige parameters die validatie zouden laten falen
     EXPECT_FALSE(isValidBaan(""));
     EXPECT_FALSE(isValidPositie(-1.0));
     EXPECT_FALSE(isValidPositie(-150.0));
@@ -172,18 +170,18 @@ TEST_F(VoertuigTest, ParameterValidationLogic) {
 }
 
 /**
- * @brief Test vehicle property getters and setters
+ * @brief Test voertuig eigenschap getters en setters
  */
 TEST_F(VoertuigTest, PropertyGettersAndSetters) {
     auto voertuig = safeCreateVoertuig("Teststraat", 100.0, "auto");
 
     if (!voertuig) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak gefaald is
         return;
     }
 
     try {
-        // Test initial values
+        // Test initiële waarden
         EXPECT_EQ("Teststraat", voertuig->getBaanNaam());
         EXPECT_EQ(100.0, voertuig->getPositie());
         EXPECT_EQ("auto", voertuig->getType());
@@ -199,34 +197,34 @@ TEST_F(VoertuigTest, PropertyGettersAndSetters) {
         EXPECT_EQ(2.0, voertuig->getVersnelling());
 
     } catch (...) {
-        // Getter/setter functionality might not be implemented - noted
+        // Getter/setter functionaliteit is misschien niet geïmplementeerd - genoteerd
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test vehicle movement and physics
+ * @brief Test voertuig beweging en fysica
  */
 TEST_F(VoertuigTest, MovementAndPhysics) {
     auto voertuig = safeCreateVoertuig("Teststraat", 0.0, "auto");
 
     if (!voertuig) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak gefaald is
         return;
     }
 
     try {
-        // Set initial conditions
+        // Stel initiële condities in
         voertuig->setSnelheid(10.0);
         voertuig->setVersnelling(2.0);
 
-        // Update with timestep
+        // Update met tijdstap
         double timestep = 1.0;
         voertuig->updatePositieEnSnelheid(timestep);
 
-        // Check if position and speed were updated correctly
-        // New speed = old_speed + acceleration * time
-        // New position = old_pos + speed * time + 0.5 * acceleration * time^2
+        // Check of positie en snelheid correct geupdate werden
+        // Nieuwe snelheid = oude_snelheid + versnelling * tijd
+        // Nieuwe positie = oude_pos + snelheid * tijd + 0.5 * versnelling * tijd^2
         double expectedSpeed = 10.0 + 2.0 * 1.0; // = 12.0
         double expectedPosition = 0.0 + 10.0 * 1.0 + 0.5 * 2.0 * 1.0 * 1.0; // 0 + 10×1 + 0.5×2×1² = 11
 
@@ -239,16 +237,16 @@ TEST_F(VoertuigTest, MovementAndPhysics) {
 }
 
 /**
- * @brief Test vehicle type classification
+ * @brief Test voertuigtype classificatie
  */
 TEST_F(VoertuigTest, VehicleTypeClassification) {
-    // Test different vehicle types
+    // Test verschillende voertuigtypes
     std::vector<std::tuple<std::string, bool, bool>> vehicleTypes = {
-        {"auto", false, false},           // regular car - not priority, not bus
-        {"bus", false, true},             // bus - not priority, is bus
-        {"brandweerwagen", true, false},  // fire truck - priority, not bus
-        {"ziekenwagen", true, false},     // ambulance - priority, not bus
-        {"politiecombi", true, false}     // police - priority, not bus
+        {"auto", false, false},           // gewone auto - niet prioriteit, niet bus
+        {"bus", false, true},             // bus - niet prioriteit, wel bus
+        {"brandweerwagen", true, false},  // brandweerwagen - prioriteit, niet bus
+        {"ziekenwagen", true, false},     // ziekenwagen - prioriteit, niet bus
+        {"politiecombi", true, false}     // politie - prioriteit, niet bus
     };
 
     for (const auto& typeInfo : vehicleTypes) {
@@ -264,7 +262,7 @@ TEST_F(VoertuigTest, VehicleTypeClassification) {
                 EXPECT_EQ(expectedBus, voertuig->isBus());
                 EXPECT_EQ(type, voertuig->getType());
             } catch (...) {
-                // Type classification might not be implemented - noted
+                // Type classificatie is misschien niet geïmplementeerd - genoteerd
                 EXPECT_TRUE(true);
             }
         }
@@ -272,53 +270,53 @@ TEST_F(VoertuigTest, VehicleTypeClassification) {
 }
 
 /**
- * @brief Test vehicle bus stop functionality
+ * @brief Test voertuig bushalte functionaliteit
  */
 TEST_F(VoertuigTest, BusStopFunctionality) {
     auto bus = safeCreateVoertuig("Teststraat", 100.0, "bus");
 
     if (!bus) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak gefaald is
         return;
     }
 
     try {
-        // Test initial state - should always be false in basic implementation
+        // Test initiële state - zou altijd false moeten zijn in basis implementatie
         EXPECT_FALSE(bus->isWaitingAtStop());
 
-        // Test that methods exist and can be called without crashing
-        bus->setIsWaitingAtStop(true);  // Method exists but may not store state
-        bus->setIsWaitingAtStop(false); // Method exists but may not store state
+        // Test dat methodes bestaan en aangeroepen kunnen worden zonder te crashen
+        bus->setIsWaitingAtStop(true);  // Methode bestaat maar slaat state misschien niet op
+        bus->setIsWaitingAtStop(false); // Methode bestaat maar slaat state misschien niet op
 
-        // Test that isWaitingAtStop method works (returns false in basic implementation)
+        // Test dat isWaitingAtStop methode werkt (geeft false in basis implementatie)
         EXPECT_FALSE(bus->isWaitingAtStop());
 
-        // Test passed - the methods exist and can be called
+        // Test geslaagd - de methodes bestaan en kunnen aangeroepen worden
         EXPECT_TRUE(true);
 
     } catch (...) {
-        // Bus stop functionality might not be implemented - noted
+        // Bushalte functionaliteit is misschien niet geïmplementeerd - genoteerd
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test vehicle cloning functionality
+ * @brief Test voertuig kloon functionaliteit
  */
 TEST_F(VoertuigTest, CloningFunctionality) {
     auto original = safeCreateVoertuig("Teststraat", 150.0, "auto");
 
     if (!original) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak gefaald is
         return;
     }
 
     try {
-        // Set some properties
+        // Stel wat eigenschappen in
         original->setSnelheid(30.0);
         original->setVersnelling(1.5);
 
-        // Test cloning
+        // Test klonen
         auto clone = original->clone();
 
         if (clone) {
@@ -329,22 +327,22 @@ TEST_F(VoertuigTest, CloningFunctionality) {
         }
 
     } catch (...) {
-        // Cloning functionality might not be implemented - noted
+        // Kloon functionaliteit is misschien niet geïmplementeerd - genoteerd
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test with valid boundary conditions
+ * @brief Test met geldige grensvoorwaarden
  */
 TEST_F(VoertuigTest, ValidBoundaryConditions) {
-    // Test minimum valid values
+    // Test minimale geldige waarden
     auto minVoertuig = safeCreateVoertuig("M", 0.0, "auto");
     if (minVoertuig) {
         EXPECT_TRUE(safeTestGetters(minVoertuig.get(), "M", 0.0, "auto"));
     }
 
-    // Test large valid values
+    // Test grote geldige waarden
     auto largeVoertuig = safeCreateVoertuig("VeryLongRoadNameForTesting", 1000000.0, "brandweerwagen");
     if (largeVoertuig) {
         EXPECT_TRUE(safeTestGetters(largeVoertuig.get(), "VeryLongRoadNameForTesting", 1000000.0, "brandweerwagen"));
@@ -352,10 +350,10 @@ TEST_F(VoertuigTest, ValidBoundaryConditions) {
 }
 
 /**
- * @brief Test special characters in names (valid cases only)
+ * @brief Test speciale karakters in namen (alleen geldige gevallen)
  */
 TEST_F(VoertuigTest, ValidSpecialCharacters) {
-    // Test with characters that should be valid
+    // Test met karakters die geldig zouden moeten zijn
     std::vector<std::tuple<std::string, double, std::string>> validCases = {
         {"Test-straat", 100.0, "auto"},
         {"Test_straat", 100.0, "bus"},
@@ -373,18 +371,18 @@ TEST_F(VoertuigTest, ValidSpecialCharacters) {
         if (voertuig) {
             EXPECT_TRUE(safeTestGetters(voertuig.get(), baan, positie, type));
         }
-        // If creation fails, that's still useful information
+        // Als aanmaak faalt, is dat nog steeds nuttige informatie
     }
 }
 
 /**
- * @brief Test multiple instances with valid parameters
+ * @brief Test meerdere instanties met geldige parameters
  */
 TEST_F(VoertuigTest, MultipleValidInstances) {
     std::vector<std::unique_ptr<Voertuig>> voertuigen;
     std::vector<std::string> types = {"auto", "bus", "brandweerwagen", "ziekenwagen", "politiecombi"};
 
-    // Create multiple vehicles with valid parameters
+    // Maak meerdere voertuigen met geldige parameters
     for (int i = 1; i <= 10; i++) {
         std::string baan = "Baan" + std::to_string(i);
         double positie = 50.0 + i * 10.0;
@@ -396,7 +394,7 @@ TEST_F(VoertuigTest, MultipleValidInstances) {
         }
     }
 
-    // Verify all created vehicles
+    // Verifieer alle aangemaakte voertuigen
     for (size_t i = 0; i < voertuigen.size(); i++) {
         std::string expectedBaan = "Baan" + std::to_string(i + 1);
         double expectedPositie = 50.0 + (static_cast<int>(i) + 1) * 10.0;
@@ -407,27 +405,27 @@ TEST_F(VoertuigTest, MultipleValidInstances) {
 }
 
 /**
- * @brief Test state consistency with valid operations
+ * @brief Test state consistentie met geldige operaties
  */
 TEST_F(VoertuigTest, StateConsistency) {
     auto voertuig = safeCreateVoertuig("Teststraat", 150.0, "auto");
 
     if (!voertuig) {
-        EXPECT_TRUE(true); // Skip if creation failed
+        EXPECT_TRUE(true); // Sla over als aanmaak gefaald is
         return;
     }
 
-    // Verify initial state
+    // Verifieer initiële state
     try {
         EXPECT_TRUE(voertuig->properlyInitialized());
         EXPECT_FALSE(voertuig->getBaanNaam().empty());
         EXPECT_GE(voertuig->getPositie(), 0.0);
         EXPECT_FALSE(voertuig->getType().empty());
     } catch (...) {
-        // State checking might fail - that's documented
+        // State checking kan falen - dat wordt gedocumenteerd
     }
 
-    // Test that state remains consistent after operations
+    // Test dat state consistent blijft na operaties
     try {
         voertuig->setSnelheid(25.0);
         EXPECT_TRUE(voertuig->properlyInitialized());
@@ -438,86 +436,86 @@ TEST_F(VoertuigTest, StateConsistency) {
         voertuig->updatePositieEnSnelheid(1.0);
         EXPECT_TRUE(voertuig->properlyInitialized());
 
-        // State should remain consistent throughout
+        // State zou consistent moeten blijven
         EXPECT_FALSE(voertuig->getBaanNaam().empty());
         EXPECT_GE(voertuig->getPositie(), 0.0);
         EXPECT_FALSE(voertuig->getType().empty());
 
     } catch (...) {
-        // Operation consistency issues are noted
+        // Operatie consistentie problemen worden genoteerd
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test error handling documentation
+ * @brief Test foutafhandeling documentatie
  */
 TEST_F(VoertuigTest, ErrorHandlingDocumentation) {
-    // Document what would happen with invalid parameters
+    // Documenteer wat er zou gebeuren met ongeldige parameters
 
-    // These would fail validation if we tried to create them:
-    // Voertuig::maakVoertuig("", 100.0, "auto");      // Empty road name
-    // Voertuig::maakVoertuig("Test", -50.0, "auto");  // Negative position
-    // Voertuig::maakVoertuig("Test", 100.0, "");      // Empty type
-    // Voertuig::maakVoertuig("Test", 100.0, "invalid"); // Invalid type
+    // Deze zouden validatie laten falen als we ze zouden proberen aan te maken:
+    // Voertuig::maakVoertuig("", 100.0, "auto");      // Lege wegnaam
+    // Voertuig::maakVoertuig("Test", -50.0, "auto");  // Negatieve positie
+    // Voertuig::maakVoertuig("Test", 100.0, "");      // Leeg type
+    // Voertuig::maakVoertuig("Test", 100.0, "invalid"); // Ongeldig type
 
-    // Instead we test the validation logic
-    EXPECT_FALSE(std::string("").empty() == false);  // Empty road name check
-    EXPECT_FALSE(-50.0 >= 0.0);                       // Negative position check
-    EXPECT_FALSE(std::string("").empty() == false);  // Empty type check
+    // In plaats daarvan testen we de validatie logica
+    EXPECT_FALSE(std::string("").empty() == false);  // Lege wegnaam check
+    EXPECT_FALSE(-50.0 >= 0.0);                       // Negatieve positie check
+    EXPECT_FALSE(std::string("").empty() == false);  // Leeg type check
 
-    EXPECT_TRUE(true); // Test passes, documenting the constraints
+    EXPECT_TRUE(true); // Test slaagt, documenteert de beperkingen
 }
 
 /**
- * @brief Test vehicle factory method edge cases
+ * @brief Test voertuig factory methode randgevallen
  */
 TEST_F(VoertuigTest, FactoryMethodEdgeCases) {
-    // Test with unknown vehicle type
+    // Test met onbekend voertuigtype
     auto unknownType = safeCreateVoertuig("Teststraat", 100.0, "unknown");
     if (!unknownType) {
-        EXPECT_TRUE(true); // Factory should return nullptr for unknown types
+        EXPECT_TRUE(true); // Factory zou nullptr moeten geven voor onbekende types
     }
 
-    // Test with valid but uncommon types (if supported)
+    // Test met geldige maar ongewone types (als ondersteund)
     std::vector<std::string> possibleTypes = {
         "vrachtwagen", "motor", "fiets", "tram"
     };
 
     for (const std::string& type : possibleTypes) {
         auto voertuig = safeCreateVoertuig("Teststraat", 100.0, type);
-        // Whether these work or not, we document the behavior
+        // Of deze werken of niet, we documenteren het gedrag
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Integration test with other components
+ * @brief Integratie test met andere componenten
  */
 TEST_F(VoertuigTest, IntegrationReadiness) {
-    // Test that created vehicles can be used in larger systems
+    // Test dat aangemaakte voertuigen gebruikt kunnen worden in grotere systemen
     auto voertuig = safeCreateVoertuig("IntegrationTest", 500.0, "auto");
 
     if (voertuig) {
         try {
-            // These operations should work for integration with VerkeersSituatie
+            // Deze operaties zouden moeten werken voor integratie met VerkeersSituatie
             std::string baan = voertuig->getBaanNaam();
             double positie = voertuig->getPositie();
             std::string type = voertuig->getType();
             bool initialized = voertuig->properlyInitialized();
 
-            // Verify all needed interface elements work
+            // Verifieer dat alle benodigde interface elementen werken
             EXPECT_FALSE(baan.empty());
             EXPECT_GE(positie, 0.0);
             EXPECT_FALSE(type.empty());
             EXPECT_TRUE(initialized);
 
-            // Test cloning for container storage
+            // Test klonen voor container opslag
             auto clone = voertuig->clone();
             EXPECT_NE(nullptr, clone.get());
 
         } catch (...) {
-            // Integration issues are documented
+            // Integratie problemen worden gedocumenteerd
             EXPECT_TRUE(true);
         }
     }

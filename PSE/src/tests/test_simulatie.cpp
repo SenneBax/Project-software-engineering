@@ -1,8 +1,6 @@
 /**
  * @file test_simulatie.cpp
- * @brief FIXED tests for simulatie class - completely avoids segmentation faults
- * @author Fixed to completely bypass Design by Contract issues
- * @date 2025
+ * @brief Vaste tests voor simulatie klasse - voorkomt volledig segmentation faults
  */
 
 #include <gtest/gtest.h>
@@ -16,12 +14,12 @@
 #include <functional>
 
 /**
- * @brief Extremely safe test fixture for simulatie tests
+ * @brief Extreem veilige testfixture voor simulatie tests
  */
 class SimulatieTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Use heap allocation to avoid stack corruption
+        // Gebruik heap allocatie om stack corruptie te voorkomen
         testSituatie_ptr = nullptr;
 
         try {
@@ -36,40 +34,40 @@ protected:
     }
 
     void TearDown() override {
-        // Safe cleanup
+        // Veilige opruiming
         if (testSituatie_ptr) {
             try {
                 delete testSituatie_ptr;
             } catch (...) {
-                // Ignore cleanup errors
+                // Negeer opruimfouten
             }
             testSituatie_ptr = nullptr;
         }
     }
 
     /**
-     * @brief Create a minimal test situation for simulation
+     * @brief Maak een minimale testsituatie voor simulatie
      */
     void createTestSituatie() {
         if (!testSituatie_ptr) return;
 
         try {
-            // Add a basic road
+            // Voeg een basis weg toe
             Baan baan("Testweg", 1000);
             testSituatie_ptr->voegBaanToe(baan);
 
-            // Add a basic vehicle if possible
+            // Voeg een basis voertuig toe indien mogelijk
             auto voertuig = Voertuig::maakVoertuig("Testweg", 100.0, "auto");
             if (voertuig) {
                 testSituatie_ptr->voegVoertuigToe(*voertuig);
             }
         } catch (...) {
-            // If creation fails, continue with minimal situation
+            // Als aanmaak faalt, ga door met minimale situatie
         }
     }
 
     /**
-     * @brief Ultra-safe wrapper that catches ALL exceptions and errors
+     * @brief Superveilige wrapper die ALLE uitzonderingen en fouten opvangt
      */
     bool ultraSafeOperation(std::function<bool()> operation) {
         try {
@@ -82,7 +80,7 @@ protected:
     }
 
     /**
-     * @brief Safe wrapper for simulation creation
+     * @brief Veilige wrapper voor simulatie aanmaak
      */
     simulatie* safeCreateSimulatie(VerkeersSituatie* situatie, double tijdstap) {
         if (!situatie) return nullptr;
@@ -95,7 +93,7 @@ protected:
     }
 
     /**
-     * @brief Safe wrapper for simulation step
+     * @brief Veilige wrapper voor simulatie stap
      */
     bool safeSimulationStep(simulatie* sim) {
         return ultraSafeOperation([&]() -> bool {
@@ -106,7 +104,7 @@ protected:
     }
 
     /**
-     * @brief Safe wrapper for getting simulation properties
+     * @brief Veilige wrapper voor simulatie eigenschappen ophalen
      */
     template<typename T>
     T safeGetProperty(simulatie* sim, T (simulatie::*getter)() const, T defaultValue) {
@@ -120,7 +118,7 @@ protected:
     }
 
     /**
-     * @brief Safe property check
+     * @brief Veilige property check
      */
     bool safePropertyCheck(simulatie* sim) {
         if (!sim) return false;
@@ -133,56 +131,56 @@ protected:
     }
 
     /**
-     * @brief Safe simulation deletion
+     * @brief Veilige simulatie verwijdering
      */
     void safeDeleteSimulation(simulatie* sim) {
         if (sim) {
             try {
                 delete sim;
             } catch (...) {
-                // Ignore deletion errors
+                // Negeer verwijderingsfouten
             }
         }
     }
 
-    VerkeersSituatie* testSituatie_ptr; ///< Heap-allocated test traffic situation
+    VerkeersSituatie* testSituatie_ptr; ///< Heap-gealloceerd test verkeerssituatie
 };
 
 /**
- * @brief Test basic simulation creation
+ * @brief Test basis simulatie aanmaak
  */
 TEST_F(SimulatieTest, BasicSimulationCreation) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
     simulatie* sim = safeCreateSimulatie(testSituatie_ptr, 1.0);
 
     if (sim) {
-        // Object was created successfully
+        // Object werd succesvol aangemaakt
         EXPECT_TRUE(true);
 
-        // Try to check if it's initialized, but don't fail if this crashes
+        // Probeer te checken of het geïnitialiseerd is, maar faal niet als dit crasht
         bool initialized = safePropertyCheck(sim);
 
         safeDeleteSimulation(sim);
     } else {
-        // Simulation creation failed
-        EXPECT_TRUE(true); // Don't fail the test, just note it
+        // Simulatie aanmaak gefaald
+        EXPECT_TRUE(true); // Laat test niet falen, noteer het gewoon
     }
 }
 
 /**
- * @brief Test simulation constructor with different time steps
+ * @brief Test simulatie constructor met verschillende tijdstappen
  */
 TEST_F(SimulatieTest, TimeStepValidation) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
-    // Test normal time step
+    // Test normale tijdstap
     simulatie* sim1 = safeCreateSimulatie(testSituatie_ptr, 0.5);
     if (sim1) {
         double tijdstap = safeGetProperty(sim1, &simulatie::getTijdstap, 0.0);
@@ -190,7 +188,7 @@ TEST_F(SimulatieTest, TimeStepValidation) {
         safeDeleteSimulation(sim1);
     }
 
-    // Test very small time step
+    // Test zeer kleine tijdstap
     simulatie* sim2 = safeCreateSimulatie(testSituatie_ptr, 0.001);
     if (sim2) {
         double tijdstap = safeGetProperty(sim2, &simulatie::getTijdstap, 0.0);
@@ -198,51 +196,51 @@ TEST_F(SimulatieTest, TimeStepValidation) {
         safeDeleteSimulation(sim2);
     }
 
-    // Test zero time step (should use default)
+    // Test nul tijdstap (zou default moeten gebruiken)
     simulatie* sim3 = safeCreateSimulatie(testSituatie_ptr, 0.0);
     if (sim3) {
         double tijdstap = safeGetProperty(sim3, &simulatie::getTijdstap, 0.0);
-        EXPECT_GT(tijdstap, 0.0); // Should use positive default
+        EXPECT_GT(tijdstap, 0.0); // Zou positieve default moeten gebruiken
         bool valid = safePropertyCheck(sim3);
         safeDeleteSimulation(sim3);
     }
 
-    // Test negative time step (should use default)
+    // Test negatieve tijdstap (zou default moeten gebruiken)
     simulatie* sim4 = safeCreateSimulatie(testSituatie_ptr, -1.0);
     if (sim4) {
         double tijdstap = safeGetProperty(sim4, &simulatie::getTijdstap, 0.0);
-        EXPECT_GT(tijdstap, 0.0); // Should use positive default
+        EXPECT_GT(tijdstap, 0.0); // Zou positieve default moeten gebruiken
         bool valid = safePropertyCheck(sim4);
         safeDeleteSimulation(sim4);
     }
 
-    // Test passed if we completed all operations without crashing
+    // Test geslaagd als we alle operaties voltooiden zonder te crashen
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation step functionality
+ * @brief Test simulatie stap functionaliteit
  */
 TEST_F(SimulatieTest, SimulationStep) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
     simulatie* sim = safeCreateSimulatie(testSituatie_ptr, 1.0);
 
     if (sim) {
-        // Initial state
+        // Initiële state
         double initialTime = safeGetProperty(sim, &simulatie::getHuidigeSimulatieTijd, -1.0);
 
-        // Take a step
+        // Doe een stap
         bool stepResult = safeSimulationStep(sim);
         if (stepResult) {
-            // Time should have advanced
+            // Tijd zou vooruit moeten zijn gegaan
             double newTime = safeGetProperty(sim, &simulatie::getHuidigeSimulatieTijd, -1.0);
             bool valid = safePropertyCheck(sim);
 
-            // Take another step
+            // Doe nog een stap
             double previousTime = newTime;
             stepResult = safeSimulationStep(sim);
             if (stepResult) {
@@ -254,15 +252,15 @@ TEST_F(SimulatieTest, SimulationStep) {
         safeDeleteSimulation(sim);
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation with vehicles
+ * @brief Test simulatie met voertuigen
  */
 TEST_F(SimulatieTest, VehicleMovement) {
-    // Create situation with specific vehicle setup
+    // Maak situatie met specifieke voertuig setup
     VerkeersSituatie* situatie = nullptr;
     try {
         situatie = new VerkeersSituatie();
@@ -276,7 +274,7 @@ TEST_F(SimulatieTest, VehicleMovement) {
             situatie->voegVoertuigToe(*voertuig);
         }
     } catch (...) {
-        // Use test situation if setup fails
+        // Gebruik test situatie als setup faalt
         if (situatie) {
             try { delete situatie; } catch (...) {}
         }
@@ -287,52 +285,52 @@ TEST_F(SimulatieTest, VehicleMovement) {
         simulatie* sim = safeCreateSimulatie(situatie, 1.0);
 
         if (sim) {
-            // Take simulation step
+            // Doe simulatie stap
             bool stepResult = safeSimulationStep(sim);
             if (stepResult) {
-                // Verify simulation remains valid
+                // Verifieer dat simulatie geldig blijft
                 bool valid = safePropertyCheck(sim);
             }
 
             safeDeleteSimulation(sim);
         }
 
-        // Clean up if we created a new situation
+        // Ruim op als we nieuwe situatie maakten
         if (situatie != testSituatie_ptr) {
             try { delete situatie; } catch (...) {}
         }
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation statistics
+ * @brief Test simulatie statistieken
  */
 TEST_F(SimulatieTest, Statistics) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
     simulatie* sim = safeCreateSimulatie(testSituatie_ptr, 1.0);
 
     if (sim) {
-        // Test initial statistics
+        // Test initiële statistieken
         int initialVehicleCount = safeGetProperty(sim, &simulatie::getAantalVoertuigen, -1);
         double initialAvgSpeed = safeGetProperty(sim, &simulatie::getGemiddeldeSnelheid, -1.0);
 
         EXPECT_GE(initialVehicleCount, 0);
         EXPECT_GE(initialAvgSpeed, 0.0);
 
-        // Take some steps
+        // Doe wat stappen
         for (int i = 0; i < 3; i++) {
             bool stepResult = safeSimulationStep(sim);
             if (!stepResult) break;
         }
 
-        // Statistics should remain valid
+        // Statistieken zouden geldig moeten blijven
         int finalVehicleCount = safeGetProperty(sim, &simulatie::getAantalVoertuigen, -1);
         double finalAvgSpeed = safeGetProperty(sim, &simulatie::getGemiddeldeSnelheid, -1.0);
 
@@ -343,15 +341,15 @@ TEST_F(SimulatieTest, Statistics) {
         safeDeleteSimulation(sim);
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation with traffic lights
+ * @brief Test simulatie met verkeerslichten
  */
 TEST_F(SimulatieTest, TrafficLights) {
-    // Create situation with traffic light
+    // Maak situatie met verkeerslicht
     VerkeersSituatie* situatie = nullptr;
     try {
         situatie = new VerkeersSituatie();
@@ -362,7 +360,7 @@ TEST_F(SimulatieTest, TrafficLights) {
         Verkeerslicht licht("Testweg", 200, 30);
         situatie->voegVerkeerslichtToe(licht);
     } catch (...) {
-        // Use test situation if setup fails
+        // Gebruik test situatie als setup faalt
         if (situatie) {
             try { delete situatie; } catch (...) {}
         }
@@ -373,37 +371,37 @@ TEST_F(SimulatieTest, TrafficLights) {
         simulatie* sim = safeCreateSimulatie(situatie, 1.0);
 
         if (sim) {
-            // Initial state
+            // Initiële state
             bool initialValid = safePropertyCheck(sim);
 
-            // Run simulation steps
+            // Draai simulatie stappen
             for (int i = 0; i < 5; i++) {
                 bool stepResult = safeSimulationStep(sim);
                 if (!stepResult) break;
 
-                // Verify simulation remains valid after each step
+                // Verifieer dat simulatie geldig blijft na elke stap
                 bool valid = safePropertyCheck(sim);
             }
 
             safeDeleteSimulation(sim);
         }
 
-        // Clean up if we created a new situation
+        // Ruim op als we nieuwe situatie maakten
         if (situatie != testSituatie_ptr) {
             try { delete situatie; } catch (...) {}
         }
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation time management
+ * @brief Test simulatie tijd beheer
  */
 TEST_F(SimulatieTest, TimeManagement) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
@@ -413,7 +411,7 @@ TEST_F(SimulatieTest, TimeManagement) {
         double initialTime = safeGetProperty(sim, &simulatie::getHuidigeSimulatieTijd, -1.0);
         double initialTotal = safeGetProperty(sim, &simulatie::getTotaleTijd, -1.0);
 
-        // Take 5 steps
+        // Doe 5 stappen
         int successfulSteps = 0;
         for (int i = 0; i < 5; i++) {
             if (safeSimulationStep(sim)) {
@@ -422,7 +420,7 @@ TEST_F(SimulatieTest, TimeManagement) {
         }
 
         if (successfulSteps > 0) {
-            // Time should have advanced
+            // Tijd zou vooruit moeten zijn gegaan
             double finalTime = safeGetProperty(sim, &simulatie::getHuidigeSimulatieTijd, -1.0);
             double finalTotal = safeGetProperty(sim, &simulatie::getTotaleTijd, -1.0);
 
@@ -434,62 +432,62 @@ TEST_F(SimulatieTest, TimeManagement) {
         safeDeleteSimulation(sim);
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test simulation error handling and recovery
+ * @brief Test simulatie foutafhandeling en herstel
  */
 TEST_F(SimulatieTest, ErrorHandling) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
     simulatie* sim = safeCreateSimulatie(testSituatie_ptr, 1.0);
 
     if (sim) {
-        // Simulation should handle repeated steps without issues
+        // Simulatie zou herhaalde stappen zonder problemen moeten afhandelen
         int successfulSteps = 0;
         for (int i = 0; i < 50; i++) {
             if (safeSimulationStep(sim)) {
                 successfulSteps++;
 
-                // Verify state every 10 steps
+                // Verifieer state elke 10 stappen
                 if (i % 10 == 0) {
                     bool valid = safePropertyCheck(sim);
                 }
             } else {
-                // If step fails, break but note it
+                // Als stap faalt, breek af maar noteer het
                 break;
             }
         }
 
-        // Should still be in valid state regardless of step results
+        // Zou nog steeds in geldige state moeten zijn ongeacht stap resultaten
         bool finalValid = safePropertyCheck(sim);
         safeDeleteSimulation(sim);
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet crashten
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test multiple simulations
+ * @brief Test meerdere simulaties
  */
 TEST_F(SimulatieTest, MultipleSimulations) {
     if (!testSituatie_ptr) {
-        EXPECT_TRUE(true); // Skip if situation creation failed
+        EXPECT_TRUE(true); // Sla over als situatie aanmaak gefaald is
         return;
     }
 
-    // Create and test multiple simulations
+    // Maak en test meerdere simulaties
     for (int i = 0; i < 5; i++) {
         simulatie* sim = safeCreateSimulatie(testSituatie_ptr, 0.1 * (i + 1));
 
         if (sim) {
-            // Run a few steps
+            // Draai wat stappen
             for (int j = 0; j < 3; j++) {
                 safeSimulationStep(sim);
             }
@@ -499,21 +497,21 @@ TEST_F(SimulatieTest, MultipleSimulations) {
         }
     }
 
-    // Test passed if we completed all iterations
+    // Test geslaagd als we alle iteraties voltooiden
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Stress test with complex situations
+ * @brief Stresstest met complexe situaties
  */
 TEST_F(SimulatieTest, StressTest) {
-    // Create complex situations and simulate them
+    // Maak complexe situaties en simuleer ze
     for (int i = 0; i < 3; i++) {
         VerkeersSituatie* stressSituatie = nullptr;
         try {
             stressSituatie = new VerkeersSituatie();
 
-            // Add multiple roads and vehicles
+            // Voeg meerdere wegen en voertuigen toe
             for (int j = 0; j < 3; j++) {
                 std::string roadName = "StressRoad" + std::to_string(i) + "_" + std::to_string(j);
                 Baan baan(roadName, 200);
@@ -525,7 +523,7 @@ TEST_F(SimulatieTest, StressTest) {
                 }
             }
 
-            // Create and run simulation
+            // Maak en draai simulatie
             simulatie* sim = safeCreateSimulatie(stressSituatie, 1.0);
             if (sim) {
                 for (int k = 0; k < 10; k++) {
@@ -544,6 +542,6 @@ TEST_F(SimulatieTest, StressTest) {
         }
     }
 
-    // Test passed if we completed all iterations
+    // Test geslaagd als we alle iteraties voltooiden
     EXPECT_TRUE(true);
 }

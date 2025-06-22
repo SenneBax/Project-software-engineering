@@ -1,8 +1,6 @@
 /**
  * @file test_bushalte.cpp
- * @brief Tests for the Bushalte class that work around Design by Contract issues
- * @author Generated to work around REQUIRE/ENSURE macro crashes
- * @date 2025
+ * @brief Tests voor de Bushalte klasse die Design by Contract problemen omzeilen
  */
 
 #include <gtest/gtest.h>
@@ -10,28 +8,28 @@
 #include "../TraficObjects/bushalte.h"
 
 /**
- * @brief Test fixture for Bushalte tests that handles Design by Contract safely
+ * @brief Test fixture voor Bushalte tests die Design by Contract veilig afhandelt
  */
 class BushalteTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Minimal setup
+        // Minimale setup
     }
 
     void TearDown() override {
-        // Minimal cleanup
+        // Minimale opruiming
     }
 
     /**
-     * @brief Safe wrapper to create a Bushalte object
-     * @param baan Road name
-     * @param positie Position
-     * @param wachttijd Wait time
-     * @return Pointer to Bushalte or nullptr if creation failed
+     * @brief Veilige wrapper om een Bushalte object aan te maken
+     * @param baan Naam van de weg
+     * @param positie Positie
+     * @param wachttijd Wachttijd
+     * @return Pointer naar Bushalte of nullptr als aanmaak mislukte
      */
     Bushalte* safeCreateBushalte(const std::string& baan, double positie, int wachttijd) {
         try {
-            // Only create with parameters that should pass REQUIRE checks
+            // Alleen aanmaken met parameters die REQUIRE checks zouden moeten doorstaan
             if (!baan.empty() && positie >= 0.0 && wachttijd >= 0) {
                 return new Bushalte(baan, positie, wachttijd);
             }
@@ -42,7 +40,7 @@ protected:
     }
 
     /**
-     * @brief Safe test of getters without risking crashes
+     * @brief Veilige test van getters zonder risico op crashes
      */
     bool safeTestGetters(Bushalte* halte, const std::string& expectedBaan, double expectedPositie, int expectedWachttijd) {
         if (!halte) return false;
@@ -59,29 +57,29 @@ protected:
 };
 
 /**
- * @brief Test basic bus stop constructor and getters with valid parameters
+ * @brief Test basis bushalte constructor en getters met geldige parameters
  */
 TEST_F(BushalteTest, ValidConstructorAndGetters) {
-    // Test with parameters that should pass all REQUIRE checks
+    // Test met parameters die alle REQUIRE checks zouden moeten doorstaan
     Bushalte* halte1 = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (halte1) {
         EXPECT_TRUE(safeTestGetters(halte1, "Teststraat", 150.0, 20));
 
-        // Test properlyInitialized safely
+        // Test properlyInitialized veilig
         try {
             EXPECT_TRUE(halte1->properlyInitialized());
         } catch (...) {
-            // If properlyInitialized fails, that's noted but test continues
+            // Als properlyInitialized faalt, wordt dat genoteerd maar test gaat door
         }
 
         delete halte1;
     } else {
-        // If even valid parameters fail, there's a deeper issue
-        EXPECT_TRUE(true); // Test passes but documents the issue
+        // Als zelfs geldige parameters falen, is er een dieper probleem
+        EXPECT_TRUE(true); // Test slaagt maar documenteert het probleem
     }
 
-    // Test with different valid parameters
+    // Test met andere geldige parameters
     Bushalte* halte2 = safeCreateBushalte("Hoofdweg", 250.0, 15);
 
     if (halte2) {
@@ -89,7 +87,7 @@ TEST_F(BushalteTest, ValidConstructorAndGetters) {
         delete halte2;
     }
 
-    // Test with minimal valid parameters
+    // Test met minimale geldige parameters
     Bushalte* halte3 = safeCreateBushalte("A", 0.0, 0);
 
     if (halte3) {
@@ -99,10 +97,10 @@ TEST_F(BushalteTest, ValidConstructorAndGetters) {
 }
 
 /**
- * @brief Test bus stop parameter validation logic
+ * @brief Test bushalte parameter validatie logica
  */
 TEST_F(BushalteTest, ParameterValidationLogic) {
-    // Test the logic that would be in REQUIRE statements
+    // Test de logica die in REQUIRE statements zou zitten
     auto isValidBaan = [](const std::string& baan) -> bool {
         return !baan.empty();
     };
@@ -115,7 +113,7 @@ TEST_F(BushalteTest, ParameterValidationLogic) {
         return wachttijd >= 0;
     };
 
-    // Valid parameters
+    // Geldige parameters
     EXPECT_TRUE(isValidBaan("Teststraat"));
     EXPECT_TRUE(isValidBaan("A"));
     EXPECT_TRUE(isValidPositie(0.0));
@@ -125,7 +123,7 @@ TEST_F(BushalteTest, ParameterValidationLogic) {
     EXPECT_TRUE(isValidWachttijd(20));
     EXPECT_TRUE(isValidWachttijd(3600));
 
-    // Invalid parameters that would fail REQUIRE
+    // Ongeldige parameters die REQUIRE zouden laten falen
     EXPECT_FALSE(isValidBaan(""));
     EXPECT_FALSE(isValidPositie(-1.0));
     EXPECT_FALSE(isValidPositie(-150.0));
@@ -134,33 +132,33 @@ TEST_F(BushalteTest, ParameterValidationLogic) {
 }
 
 /**
- * @brief Test bus stop functionality with valid objects
+ * @brief Test bushalte functionaliteit met geldige objecten
  */
 TEST_F(BushalteTest, BusStopFunctionality) {
     Bushalte* halte = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (!halte) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak mislukte
         return;
     }
 
     try {
-        // Test initial state
+        // Test initiële staat
         bool initiallyGestopt = halte->isBusGestopt();
-        EXPECT_FALSE(initiallyGestopt); // Should start with no bus
+        EXPECT_FALSE(initiallyGestopt); // Zou moeten beginnen zonder bus
 
-        // Test setting bus stopped
+        // Test bus gestopt zetten
         halte->setBusStopped();
         bool afterStopped = halte->isBusGestopt();
         EXPECT_TRUE(afterStopped);
 
-        // Test setting bus left
+        // Test bus vertrokken zetten
         halte->setBusLeft();
         bool afterLeft = halte->isBusGestopt();
         EXPECT_FALSE(afterLeft);
 
     } catch (...) {
-        // Bus stop functionality might not be implemented - that's noted
+        // Bushalte functionaliteit is mogelijk niet geïmplementeerd - wordt genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -168,36 +166,36 @@ TEST_F(BushalteTest, BusStopFunctionality) {
 }
 
 /**
- * @brief Test update functionality
+ * @brief Test update functionaliteit
  */
 TEST_F(BushalteTest, UpdateFunctionality) {
     Bushalte* halte = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (!halte) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak mislukte
         return;
     }
 
     try {
-        // Test updateWachttijd without bus stopped - should return false
+        // Test updateWachttijd zonder gestopte bus - zou false moeten teruggeven
         bool result1 = halte->updateWachttijd(1.0);
         EXPECT_FALSE(result1);
 
-        // Set bus stopped and test timing
+        // Zet bus gestopt en test timing
         halte->setBusStopped();
 
-        // Update for less than wait time - should return false
+        // Update voor minder dan wachttijd - zou false moeten teruggeven
         for (int i = 0; i < 19; i++) {
             bool result = halte->updateWachttijd(1.0);
             EXPECT_FALSE(result);
         }
 
-        // Final update should complete wait time - return true
+        // Finale update zou wachttijd moeten voltooien - geeft true terug
         bool finalResult = halte->updateWachttijd(1.0);
         EXPECT_TRUE(finalResult);
 
     } catch (...) {
-        // Update functionality might not be implemented - that's noted
+        // Update functionaliteit is mogelijk niet geïmplementeerd - wordt genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -205,29 +203,29 @@ TEST_F(BushalteTest, UpdateFunctionality) {
 }
 
 /**
- * @brief Test reset functionality
+ * @brief Test reset functionaliteit
  */
 TEST_F(BushalteTest, ResetFunctionality) {
     Bushalte* halte = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (!halte) {
-        EXPECT_TRUE(true); // Skip test if creation failed
+        EXPECT_TRUE(true); // Sla test over als aanmaak mislukte
         return;
     }
 
     try {
-        // Set bus stopped and update partially
+        // Zet bus gestopt en update gedeeltelijk
         halte->setBusStopped();
 
-        // Update for some time
+        // Update voor een tijdje
         for (int i = 0; i < 10; i++) {
             halte->updateWachttijd(1.0);
         }
 
-        // Reset wait time
+        // Reset wachttijd
         halte->resetWachttijd();
 
-        // Should now need full wait time again
+        // Zou nu weer volledige wachttijd nodig moeten hebben
         for (int i = 0; i < 19; i++) {
             bool result = halte->updateWachttijd(1.0);
             EXPECT_FALSE(result);
@@ -236,7 +234,7 @@ TEST_F(BushalteTest, ResetFunctionality) {
         EXPECT_TRUE(finalResult);
 
     } catch (...) {
-        // Reset functionality might not be implemented - that's noted
+        // Reset functionaliteit is mogelijk niet geïmplementeerd - wordt genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -244,47 +242,47 @@ TEST_F(BushalteTest, ResetFunctionality) {
 }
 
 /**
- * @brief Test object creation and management (copy operations avoided due to segfault risk)
+ * @brief Test object aanmaak en beheer (copy operaties vermeden vanwege segfault risico)
  */
 TEST_F(BushalteTest, SafeObjectManagement) {
     Bushalte* original = safeCreateBushalte("Origineel", 200.0, 25);
 
     if (!original) {
-        EXPECT_TRUE(true); // Skip test if original creation failed
+        EXPECT_TRUE(true); // Sla test over als originele aanmaak mislukte
         return;
     }
 
     try {
-        // Test that we can create multiple independent objects
+        // Test dat we meerdere onafhankelijke objecten kunnen aanmaken
         Bushalte* independent1 = safeCreateBushalte("Independent1", 150.0, 20);
         Bushalte* independent2 = safeCreateBushalte("Independent2", 300.0, 30);
 
-        // Verify all objects are independent and functional
+        // Verifieer dat alle objecten onafhankelijk en functioneel zijn
         if (independent1 && independent2) {
             EXPECT_TRUE(safeTestGetters(original, "Origineel", 200.0, 25));
             EXPECT_TRUE(safeTestGetters(independent1, "Independent1", 150.0, 20));
             EXPECT_TRUE(safeTestGetters(independent2, "Independent2", 300.0, 30));
 
-            // Test that objects maintain their individual state
+            // Test dat objecten hun individuele staat behouden
             try {
                 if (original->properlyInitialized() && independent1->properlyInitialized() && independent2->properlyInitialized()) {
-                    EXPECT_TRUE(true); // All objects properly initialized
+                    EXPECT_TRUE(true); // Alle objecten goed geïnitialiseerd
                 }
             } catch (...) {
-                // properlyInitialized might fail - noted
+                // properlyInitialized kan falen - genoteerd
                 EXPECT_TRUE(true);
             }
         }
 
-        // Clean up independent objects
+        // Ruim onafhankelijke objecten op
         delete independent1;
         delete independent2;
 
-        // Note: Copy constructor and assignment operator are avoided
-        // because they may cause segmentation faults due to _initCheck pointer issues
+        // Notitie: Copy constructor en assignment operator worden vermeden
+        // omdat ze segmentatie fouten kunnen veroorzaken door _initCheck pointer problemen
 
     } catch (...) {
-        // Object management might fail - that's documented
+        // Object beheer kan falen - wordt gedocumenteerd
         EXPECT_TRUE(true);
     }
 
@@ -292,17 +290,17 @@ TEST_F(BushalteTest, SafeObjectManagement) {
 }
 
 /**
- * @brief Test with valid boundary conditions
+ * @brief Test met geldige grenswaarden
  */
 TEST_F(BushalteTest, ValidBoundaryConditions) {
-    // Test minimum valid values
+    // Test minimale geldige waarden
     Bushalte* minHalte = safeCreateBushalte("M", 0.0, 0);
     if (minHalte) {
         EXPECT_TRUE(safeTestGetters(minHalte, "M", 0.0, 0));
         delete minHalte;
     }
 
-    // Test large valid values
+    // Test grote geldige waarden
     Bushalte* largeHalte = safeCreateBushalte("VeryLongBusStopName", 1000000.0, 3600);
     if (largeHalte) {
         EXPECT_TRUE(safeTestGetters(largeHalte, "VeryLongBusStopName", 1000000.0, 3600));
@@ -311,10 +309,10 @@ TEST_F(BushalteTest, ValidBoundaryConditions) {
 }
 
 /**
- * @brief Test special characters in names (valid cases only)
+ * @brief Test speciale karakters in namen (alleen geldige gevallen)
  */
 TEST_F(BushalteTest, ValidSpecialCharacters) {
-    // Test with characters that should be valid
+    // Test met karakters die geldig zouden moeten zijn
     std::vector<std::tuple<std::string, double, int>> validCases = {
         {"Test-straat", 100.0, 15},
         {"Test_straat", 100.0, 15},
@@ -333,17 +331,17 @@ TEST_F(BushalteTest, ValidSpecialCharacters) {
             EXPECT_TRUE(safeTestGetters(halte, baan, positie, wachttijd));
             delete halte;
         }
-        // If creation fails, that's still useful information
+        // Als aanmaak faalt, is dat nog steeds nuttige informatie
     }
 }
 
 /**
- * @brief Test multiple instances with valid parameters
+ * @brief Test meerdere instanties met geldige parameters
  */
 TEST_F(BushalteTest, MultipleValidInstances) {
     std::vector<Bushalte*> haltes;
 
-    // Create multiple bus stops with valid parameters
+    // Maak meerdere bushaltes aan met geldige parameters
     for (int i = 1; i <= 10; i++) {
         std::string baan = "Baan" + std::to_string(i);
         double positie = 100.0 + i;
@@ -355,7 +353,7 @@ TEST_F(BushalteTest, MultipleValidInstances) {
         }
     }
 
-    // Verify all created bus stops
+    // Verifieer alle aangemaakte bushaltes
     for (size_t i = 0; i < haltes.size(); i++) {
         std::string expectedBaan = "Baan" + std::to_string(i + 1);
         double expectedPositie = 100.0 + static_cast<int>(i) + 1;
@@ -364,49 +362,49 @@ TEST_F(BushalteTest, MultipleValidInstances) {
         EXPECT_TRUE(safeTestGetters(haltes[i], expectedBaan, expectedPositie, expectedWachttijd));
     }
 
-    // Clean up
+    // Opruimen
     for (Bushalte* halte : haltes) {
         delete halte;
     }
 }
 
 /**
- * @brief Test state consistency with valid operations
+ * @brief Test staat consistentie met geldige operaties
  */
 TEST_F(BushalteTest, StateConsistency) {
     Bushalte* halte = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (!halte) {
-        EXPECT_TRUE(true); // Skip if creation failed
+        EXPECT_TRUE(true); // Sla over als aanmaak mislukte
         return;
     }
 
-    // Verify initial state
+    // Verifieer initiële staat
     try {
         EXPECT_TRUE(halte->properlyInitialized());
         EXPECT_FALSE(halte->getBaan().empty());
         EXPECT_GE(halte->getPositie(), 0.0);
         EXPECT_GE(halte->getWachttijd(), 0);
     } catch (...) {
-        // State checking might fail - that's documented
+        // Staat controle kan falen - wordt gedocumenteerd
     }
 
-    // Test that state remains consistent after operations
+    // Test dat staat consistent blijft na operaties
     try {
         std::string baan1 = halte->getBaan();
         std::string baan2 = halte->getBaan();
-        EXPECT_EQ(baan1, baan2); // Should be consistent
+        EXPECT_EQ(baan1, baan2); // Zou consistent moeten zijn
 
         double positie1 = halte->getPositie();
         double positie2 = halte->getPositie();
-        EXPECT_EQ(positie1, positie2); // Should be consistent
+        EXPECT_EQ(positie1, positie2); // Zou consistent moeten zijn
 
         int wachttijd1 = halte->getWachttijd();
         int wachttijd2 = halte->getWachttijd();
-        EXPECT_EQ(wachttijd1, wachttijd2); // Should be consistent
+        EXPECT_EQ(wachttijd1, wachttijd2); // Zou consistent moeten zijn
 
     } catch (...) {
-        // Getter consistency issues are noted
+        // Getter consistentie problemen worden genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -414,42 +412,42 @@ TEST_F(BushalteTest, StateConsistency) {
 }
 
 /**
- * @brief Test error handling documentation
+ * @brief Test foutafhandeling documentatie
  */
 TEST_F(BushalteTest, ErrorHandlingDocumentation) {
-    // Document what would happen with invalid parameters
+    // Documenteer wat er zou gebeuren met ongeldige parameters
 
-    // These would fail REQUIRE checks if we tried to create them:
-    // Bushalte("", 150.0, 20);     // Empty name
-    // Bushalte("Test", -50.0, 20); // Negative position
-    // Bushalte("Test", 150.0, -10); // Negative wait time
+    // Deze zouden REQUIRE checks laten falen als we ze zouden proberen aan te maken:
+    // Bushalte("", 150.0, 20);     // Lege naam
+    // Bushalte("Test", -50.0, 20); // Negatieve positie
+    // Bushalte("Test", 150.0, -10); // Negatieve wachttijd
 
-    // Instead we test the validation logic
-    EXPECT_FALSE(std::string("").empty() == false);  // Empty name check
-    EXPECT_FALSE(-50.0 >= 0.0);                       // Negative position check
-    EXPECT_FALSE(-10 >= 0);                           // Negative wait time check
+    // In plaats daarvan testen we de validatie logica
+    EXPECT_FALSE(std::string("").empty() == false);  // Lege naam check
+    EXPECT_FALSE(-50.0 >= 0.0);                       // Negatieve positie check
+    EXPECT_FALSE(-10 >= 0);                           // Negatieve wachttijd check
 
-    EXPECT_TRUE(true); // Test passes, documenting the constraints
+    EXPECT_TRUE(true); // Test slaagt, documenteert de beperkingen
 }
 
 /**
- * @brief Test fractional timing edge cases
+ * @brief Test fractionele timing edge cases
  */
 TEST_F(BushalteTest, FractionalTimingTest) {
     Bushalte* halte = safeCreateBushalte("Teststraat", 100.0, 5);
 
     if (!halte) {
-        EXPECT_TRUE(true); // Skip if creation failed
+        EXPECT_TRUE(true); // Sla over als aanmaak mislukte
         return;
     }
 
     try {
         halte->setBusStopped();
 
-        // Test with fractional timesteps
+        // Test met fractionele timestappen
         for (int i = 0; i < 10; i++) {
             bool result = halte->updateWachttijd(0.5);
-            if (i == 9) { // After 5 seconds total (10 * 0.5)
+            if (i == 9) { // Na 5 seconden totaal (10 * 0.5)
                 EXPECT_TRUE(result);
             } else {
                 EXPECT_FALSE(result);
@@ -457,7 +455,7 @@ TEST_F(BushalteTest, FractionalTimingTest) {
         }
 
     } catch (...) {
-        // Fractional timing might not be supported - that's noted
+        // Fractionele timing wordt mogelijk niet ondersteund - wordt genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -465,28 +463,28 @@ TEST_F(BushalteTest, FractionalTimingTest) {
 }
 
 /**
- * @brief Integration test with other components
+ * @brief Integratietest met andere componenten
  */
 TEST_F(BushalteTest, IntegrationReadiness) {
-    // Test that created bus stops can be used in larger systems
+    // Test dat aangemaakte bushaltes gebruikt kunnen worden in grotere systemen
     Bushalte* halte = safeCreateBushalte("IntegrationTest", 500.0, 30);
 
     if (halte) {
         try {
-            // These operations should work for integration with VerkeersSituatie
+            // Deze operaties zouden moeten werken voor integratie met VerkeersSituatie
             std::string baan = halte->getBaan();
             double positie = halte->getPositie();
             int wachttijd = halte->getWachttijd();
             bool initialized = halte->properlyInitialized();
 
-            // Verify all needed interface elements work
+            // Verifieer dat alle benodigde interface elementen werken
             EXPECT_FALSE(baan.empty());
             EXPECT_GE(positie, 0.0);
             EXPECT_GE(wachttijd, 0);
             EXPECT_TRUE(initialized);
 
         } catch (...) {
-            // Integration issues are documented
+            // Integratie problemen worden gedocumenteerd
             EXPECT_TRUE(true);
         }
 

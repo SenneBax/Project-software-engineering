@@ -19,7 +19,7 @@ using namespace std;
 
 /**
  * @brief Constructor
- * ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
+ * @post ENSURE(properlyInitialized(), "constructor moet eindingen in een geldige toestand.");
  */
 BestandsLezer::BestandsLezer() : lastFoutmelding("")
 {
@@ -41,9 +41,9 @@ bool BestandsLezer::properlyInitialized() const
  * @pre
  * @pre
  * @post
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
- * ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(!bestandsnaam.empty(), "BestandNaam mag niet leeg zijn.");
+ * @post ENSURE(!success || situatie.verificeerConsistentie(), "Bij succesvolle parsing moet de situatie consistent zijn." );
  *
  */
 bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSituatie& situatie) {
@@ -142,7 +142,7 @@ bool BestandsLezer::leesXmlBestand(const std::string& bestandsnaam, VerkeersSitu
  * @param situatie De verkeerssituatie waaraan de elementen worden toegevoegd
  * @return true als de verwerking succesvol was, false indien niet
  * @pre moet correct geïnitialiseerd zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
  */
 bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -196,8 +196,8 @@ bool BestandsLezer::processXmlElements(TiXmlElement* root, VerkeersSituatie& sit
  * @return true indien succesvol, false indien niet
  * @pre correcte initialisatie
  * @pre het wegelement mag geen nullptr zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor baan mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor baan mag niet null zijn.");
  */
 bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -241,8 +241,8 @@ bool BestandsLezer::verwerkBaan(TiXmlElement* elem, VerkeersSituatie& situatie) 
  * @return true indien succesvol, false indien niet
  * @pre moet correct geinitialiseerd zijn
  * @pre voertuigelement mag niet de nullptr zijn.
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor Voertuig mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor Voertuig mag niet null zijn.");
  */
 bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -309,8 +309,8 @@ bool BestandsLezer::verwerkVoertuig(TiXmlElement* elem, VerkeersSituatie& situat
  * @return true indien succesvol, false indien niet
  * @pre moet correct geïnitialiseerd zijn
  * @pre verkeerslicht mag geen nullptr zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor Verkeerslicht mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor Verkeerslicht mag niet null zijn.");
  */
 bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -385,8 +385,8 @@ bool BestandsLezer::verwerkVerkeerslicht(TiXmlElement* elem, VerkeersSituatie& s
  * @return true indien succesvol, false indien niet
  * @pre correct geïnitialiseerde voertuiggenerator
  * @pre voertuiggenerator mag niet de nullptr zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor VoertuigGenerator mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor VoertuigGenerator mag niet null zijn.");
  */
 bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -437,8 +437,8 @@ bool BestandsLezer::verwerkVoertuigGenerator(TiXmlElement* elem, VerkeersSituati
  * @return true indien succesvol, false indien niet
  * @pre correcte geïnitialiseerde bushalte
  * @pre bushalte element mag niet de nullptr zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor Bushalte mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor Bushalte mag niet null zijn.");
  */
 bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -487,8 +487,8 @@ bool BestandsLezer::verwerkBushalte(TiXmlElement* elem, VerkeersSituatie& situat
  * @return true indien succesvol, false indien niet
  * @pre correcte geïnitialiseerd kruispunt
  * @pre XML element mag niet de nullptr zijn
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
- * REQUIRE(elem != nullptr, "XML-element voor Kruispunt mag niet null zijn.");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(elem != nullptr, "XML-element voor Kruispunt mag niet null zijn.");
  */
 bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situatie) {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
@@ -554,7 +554,7 @@ bool BestandsLezer::verwerkKruispunt(TiXmlElement* elem, VerkeersSituatie& situa
 /**
  * @brief Haal de laatste foutmelding op
  * @return De laatste foutmelding
- * REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
+ * @pre REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");
  */
 std::string BestandsLezer::getLastFoutmelding() const {
     REQUIRE(properlyInitialized(),"BestandLezer werd niet correct ingesteld");

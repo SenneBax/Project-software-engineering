@@ -1,8 +1,6 @@
 /**
  * @file test_verkeerssituatie.cpp
- * @brief FIXED tests for VerkeersSituatie - completely avoids segmentation faults
- * @author Fixed to completely bypass Design by Contract issues
- * @date 2025
+ * @brief GEFIXTE tests voor VerkeersSituatie - vermijdt volledig segmentatie fouten
  */
 
 #include <gtest/gtest.h>
@@ -15,12 +13,12 @@
 #include "../TraficObjects/bushalte.h"
 
 /**
- * @brief Extremely safe test fixture that avoids all potential crashes
+ * @brief Extreem veilige test fixture die alle potentiële crashes vermijdt
  */
 class VerkeersSituatieTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Use heap allocation to avoid stack corruption
+        // Gebruik heap allocatie om stack corruptie te vermijden
         situatie_ptr = nullptr;
         try {
             situatie_ptr = new VerkeersSituatie();
@@ -30,19 +28,19 @@ protected:
     }
 
     void TearDown() override {
-        // Safe cleanup
+        // Veilige opruiming
         if (situatie_ptr) {
             try {
                 delete situatie_ptr;
             } catch (...) {
-                // Ignore cleanup errors
+                // Negeer opruim fouten
             }
             situatie_ptr = nullptr;
         }
     }
 
     /**
-     * @brief Ultra-safe wrapper that catches ALL exceptions and errors
+     * @brief Ultra-veilige wrapper die ALLE uitzonderingen en fouten opvangt
      */
     bool ultraSafeOperation(function<bool()> operation) {
         if (!situatie_ptr) return false;
@@ -57,13 +55,13 @@ protected:
     }
 
     /**
-     * @brief Safe property check with timeout protection
+     * @brief Veilige eigenschap controle met timeout bescherming
      */
     bool safePropertyCheck() {
         if (!situatie_ptr) return false;
 
         try {
-            // Try to call properlyInitialized without triggering assertions
+            // Probeer properlyInitialized aan te roepen zonder assertions te triggeren
             return situatie_ptr->properlyInitialized();
         } catch (...) {
             return false;
@@ -71,7 +69,7 @@ protected:
     }
 
     /**
-     * @brief Extremely safe road addition
+     * @brief Extreem veilige baan toevoeging
      */
     bool ultraSafeAddBaan(const std::string& naam, int lengte) {
         return ultraSafeOperation([&]() -> bool {
@@ -87,7 +85,7 @@ protected:
     }
 
     /**
-     * @brief Extremely safe vehicle addition
+     * @brief Extreem veilige voertuig toevoeging
      */
     bool ultraSafeAddVoertuig(const std::string& baan, double positie, const std::string& type) {
         return ultraSafeOperation([&]() -> bool {
@@ -104,13 +102,13 @@ protected:
     }
 
     /**
-     * @brief Safe container size check that doesn't trigger getters
+     * @brief Veilige container grootte controle die geen getters triggert
      */
     size_t safeSizeCheck(const char* containerType) {
         if (!situatie_ptr) return 0;
 
         try {
-            // Use direct access instead of getters to avoid REQUIRE macros
+            // Gebruik directe toegang in plaats van getters om REQUIRE macro's te vermijden
             if (strcmp(containerType, "banen") == 0) {
                 return situatie_ptr->getBanen().size();
             } else if (strcmp(containerType, "voertuigen") == 0) {
@@ -124,97 +122,97 @@ protected:
         }
     }
 
-    VerkeersSituatie* situatie_ptr; ///< Heap-allocated to avoid stack issues
+    VerkeersSituatie* situatie_ptr; ///< Heap-gealloceerd om stack problemen te vermijden
 };
 
 /**
- * @brief Test basic object creation without calling risky methods
+ * @brief Test basis object aanmaak zonder riskante methoden aan te roepen
  */
 TEST_F(VerkeersSituatieTest, BasicObjectCreation) {
     if (situatie_ptr != nullptr) {
-        // Object was created successfully
+        // Object werd succesvol aangemaakt
         EXPECT_TRUE(true);
 
-        // Try to check if it's initialized, but don't fail if this crashes
+        // Probeer te controleren of het geïnitialiseerd is, maar laat test niet falen als dit crasht
         bool initialized = safePropertyCheck();
-        // We don't assert on this because it might fail due to macros
+        // We asserten hier niet op omdat dit kan falen door macro's
 
     } else {
-        // Object creation failed
-        EXPECT_TRUE(true); // Don't fail the test, just note it
+        // Object aanmaak is mislukt
+        EXPECT_TRUE(true); // Laat test niet falen, noteer het alleen
     }
 }
 
 /**
- * @brief Test road addition with maximum safety
+ * @brief Test baan toevoeging met maximale veiligheid
  */
 TEST_F(VerkeersSituatieTest, SafeRoadAddition) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Try to add roads with ultra-safe wrapper
+    // Probeer banen toe te voegen met ultra-veilige wrapper
     bool result1 = ultraSafeAddBaan("Teststraat", 250);
     bool result2 = ultraSafeAddBaan("Hoofdweg", 500);
 
-    // We can't reliably check the results due to potential macro issues
-    // So we just verify the operations didn't crash
-    EXPECT_TRUE(true); // If we get here, no crash occurred
+    // We kunnen de resultaten niet betrouwbaar controleren vanwege potentiële macro problemen
+    // Dus we verifiëren alleen dat de operaties niet zijn gecrasht
+    EXPECT_TRUE(true); // Als we hier komen, is er geen crash opgetreden
 
-    // Try to check size if possible
+    // Probeer grootte te controleren indien mogelijk
     size_t banenSize = safeSizeCheck("banen");
-    // Don't assert specific values, just verify we got a reasonable result
+    // Assert niet op specifieke waarden, verifieer alleen dat we een redelijk resultaat kregen
     EXPECT_GE(banenSize, 0);
 }
 
 /**
- * @brief Test vehicle addition with maximum safety
+ * @brief Test voertuig toevoeging met maximale veiligheid
  */
 TEST_F(VerkeersSituatieTest, SafeVehicleAddition) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // First try to add a road
+    // Eerst proberen een baan toe te voegen
     bool roadAdded = ultraSafeAddBaan("Teststraat", 250);
 
     if (roadAdded) {
-        // Try to add vehicles
+        // Probeer voertuigen toe te voegen
         bool vehicle1 = ultraSafeAddVoertuig("Teststraat", 50.0, "auto");
         bool vehicle2 = ultraSafeAddVoertuig("Teststraat", 150.0, "bus");
 
-        // Just verify operations completed without crashing
+        // Verifieer alleen dat operaties zijn voltooid zonder crash
         EXPECT_TRUE(true);
 
-        // Try to check vehicle count if possible
+        // Probeer voertuig aantal te controleren indien mogelijk
         size_t voertuigenSize = safeSizeCheck("voertuigen");
         EXPECT_GE(voertuigenSize, 0);
     } else {
-        // Road addition failed, skip vehicle tests
+        // Baan toevoeging mislukt, sla voertuig tests over
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test invalid operations with maximum safety
+ * @brief Test ongeldige operaties met maximale veiligheid
  */
 TEST_F(VerkeersSituatieTest, SafeInvalidOperations) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Try invalid operations - these should fail gracefully
-    bool result1 = ultraSafeAddBaan("", 100);        // Empty name
-    bool result2 = ultraSafeAddBaan("Test", 0);      // Zero length
-    bool result3 = ultraSafeAddBaan("Test", -100);   // Negative length
+    // Probeer ongeldige operaties - deze zouden netjes moeten falen
+    bool result1 = ultraSafeAddBaan("", 100);        // Lege naam
+    bool result2 = ultraSafeAddBaan("Test", 0);      // Nul lengte
+    bool result3 = ultraSafeAddBaan("Test", -100);   // Negatieve lengte
 
-    // Try to add vehicle to non-existent road
+    // Probeer voertuig toe te voegen aan niet-bestaande baan
     bool result4 = ultraSafeAddVoertuig("NonExistent", 50.0, "auto");
 
-    // Operations should fail but not crash
+    // Operaties zouden moeten falen maar niet crashen
     EXPECT_FALSE(result1);
     EXPECT_FALSE(result2);
     EXPECT_FALSE(result3);
@@ -222,43 +220,43 @@ TEST_F(VerkeersSituatieTest, SafeInvalidOperations) {
 }
 
 /**
- * @brief Test multiple operations in sequence
+ * @brief Test meerdere operaties achter elkaar
  */
 TEST_F(VerkeersSituatieTest, SafeSequentialOperations) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Perform a sequence of operations
+    // Voer een reeks operaties uit
     for (int i = 0; i < 5; i++) {
         std::string roadName = "Road" + std::to_string(i);
         ultraSafeAddBaan(roadName, 100 + i * 50);
 
-        // Try to add a vehicle to each road
+        // Probeer een voertuig toe te voegen aan elke baan
         std::string vehicleType = (i % 2 == 0) ? "auto" : "bus";
         ultraSafeAddVoertuig(roadName, 25.0, vehicleType);
     }
 
-    // If we get here without crashing, the test passed
+    // Als we hier komen zonder crash, is de test geslaagd
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Stress test with many operations
+ * @brief Stress test met veel operaties
  */
 TEST_F(VerkeersSituatieTest, SafeStressTest) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Create a reasonable number of elements
+    // Maak een redelijk aantal elementen aan
     for (int i = 0; i < 10; i++) {
         std::string roadName = "StressRoad" + std::to_string(i);
         ultraSafeAddBaan(roadName, 200);
 
-        // Add multiple vehicles per road
+        // Voeg meerdere voertuigen per baan toe
         for (int j = 0; j < 3; j++) {
             double position = j * 50.0;
             std::string type = (j % 3 == 0) ? "auto" : ((j % 3 == 1) ? "bus" : "brandweerwagen");
@@ -266,33 +264,33 @@ TEST_F(VerkeersSituatieTest, SafeStressTest) {
         }
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet zijn gecrasht
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test edge cases safely
+ * @brief Test edge cases veilig
  */
 TEST_F(VerkeersSituatieTest, SafeEdgeCases) {
     if (!situatie_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Test edge case values
-    ultraSafeAddBaan("MinimalRoad", 1);           // Minimal length
-    ultraSafeAddBaan("LongRoad", 10000);          // Large length
+    // Test edge case waarden
+    ultraSafeAddBaan("MinimalRoad", 1);           // Minimale lengte
+    ultraSafeAddBaan("LongRoad", 10000);          // Grote lengte
 
-    // Test duplicate additions
+    // Test dubbele toevoegingen
     ultraSafeAddBaan("DuplicateTest", 100);
-    bool duplicate = ultraSafeAddBaan("DuplicateTest", 200); // Should fail
+    bool duplicate = ultraSafeAddBaan("DuplicateTest", 200); // Zou moeten falen
     EXPECT_FALSE(duplicate);
 
-    // Test boundary positions
+    // Test grens posities
     if (ultraSafeAddBaan("BoundaryRoad", 100)) {
-        ultraSafeAddVoertuig("BoundaryRoad", 0.0, "auto");    // Start position
-        ultraSafeAddVoertuig("BoundaryRoad", 100.0, "bus");  // End position
+        ultraSafeAddVoertuig("BoundaryRoad", 0.0, "auto");    // Start positie
+        ultraSafeAddVoertuig("BoundaryRoad", 100.0, "bus");  // Eind positie
     }
 
-    EXPECT_TRUE(true); // Test completed without crash
+    EXPECT_TRUE(true); // Test voltooid zonder crash
 }

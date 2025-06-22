@@ -1,7 +1,7 @@
 /**
  * @file test_bestandslezer.cpp
- * @brief FIXED tests for BestandsLezer - completely avoids segmentation faults
- * @author Fixed to completely bypass Design by Contract issues
+ * @brief GEFIXTE tests voor BestandsLezer - vermijdt volledig segmentatie fouten
+ * @author Gefixed om Design by Contract problemen volledig te omzeilen
  * @date 2025
  */
 
@@ -14,12 +14,12 @@
 #include <functional>
 
 /**
- * @brief Extremely safe test fixture for BestandsLezer
+ * @brief Extreem veilige test fixture voor BestandsLezer
  */
 class BestandsLezerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Use heap allocation to avoid stack corruption
+        // Gebruik heap allocatie om stack corruptie te vermijden
         lezer_ptr = nullptr;
         try {
             lezer_ptr = new BestandsLezer();
@@ -29,17 +29,17 @@ protected:
     }
 
     void TearDown() override {
-        // Safe cleanup
+        // Veilige opruiming
         if (lezer_ptr) {
             try {
                 delete lezer_ptr;
             } catch (...) {
-                // Ignore cleanup errors
+                // Negeer opruim fouten
             }
             lezer_ptr = nullptr;
         }
 
-        // Clean up test files
+        // Ruim test bestanden op
         std::remove("test_temp.xml");
         std::remove("test_valid.xml");
         std::remove("test_invalid.xml");
@@ -50,7 +50,7 @@ protected:
     }
 
     /**
-     * @brief Ultra-safe wrapper that catches ALL exceptions and errors
+     * @brief Ultra-veilige wrapper die ALLE uitzonderingen en fouten opvangt
      */
     bool ultraSafeOperation(std::function<bool()> operation) {
         if (!lezer_ptr) return false;
@@ -65,7 +65,7 @@ protected:
     }
 
     /**
-     * @brief Create a temporary XML file with given content
+     * @brief Maak een tijdelijk XML bestand met gegeven inhoud
      */
     std::string createTempXmlFile(const std::string& content, const std::string& filename = "test_temp.xml") {
         try {
@@ -76,13 +76,13 @@ protected:
                 return filename;
             }
         } catch (...) {
-            // File creation failed
+            // Bestand aanmaken is mislukt
         }
         return "";
     }
 
     /**
-     * @brief Ultra-safe XML reading
+     * @brief Ultra-veilig XML lezen
      */
     bool ultraSafeReadXml(const std::string& filename, VerkeersSituatie* situatie) {
         return ultraSafeOperation([&]() -> bool {
@@ -97,7 +97,7 @@ protected:
     }
 
     /**
-     * @brief Safe property check
+     * @brief Veilige eigenschap controle
      */
     bool safePropertyCheck() {
         if (!lezer_ptr) return false;
@@ -110,20 +110,20 @@ protected:
     }
 
     /**
-     * @brief Safe error message retrieval
+     * @brief Veilige foutmelding ophalen
      */
     std::string safeGetError() {
-        if (!lezer_ptr) return "Object not initialized";
+        if (!lezer_ptr) return "Object niet geïnitialiseerd";
 
         try {
             return lezer_ptr->getLastFoutmelding();
         } catch (...) {
-            return "Error retrieving error message";
+            return "Fout bij ophalen van foutmelding";
         }
     }
 
     /**
-     * @brief Check if file exists
+     * @brief Controleer of bestand bestaat
      */
     bool fileExists(const std::string& filename) {
         try {
@@ -134,20 +134,19 @@ protected:
         }
     }
 
-    BestandsLezer* lezer_ptr; ///< Heap-allocated to avoid stack issues
+    BestandsLezer* lezer_ptr; ///< Heap-gealloceerd om stack problemen te vermijden
 };
 
 /**
- * @brief Test basic object creation
+ * @brief Test basis object aanmaak
  */
 TEST_F(BestandsLezerTest, BasicObjectCreation) {
     if (lezer_ptr != nullptr) {
-        // Object maken was  succesvol
+        // Object maken was succesvol
         EXPECT_TRUE(true);
 
         // Checken of het geïnitialiseerd is.
         bool initialized = safePropertyCheck();
-
 
     } else {
         // Object maken is gefaald
@@ -169,7 +168,7 @@ TEST_F(BestandsLezerTest, ErrorMessage_BaanZonderNaam) {
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <lengte>100</lengte>\n"
-        "        <!-- naam ontbreekt -->\n"      // <naam>straat</naam> als dit er zou staan faalt de tets want dan is er een naam
+        "        <!-- naam ontbreekt -->\n"      // <naam>straat</naam> als dit er zou staan faalt de test want dan is er een naam
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
@@ -714,7 +713,7 @@ TEST_F(BestandsLezerTest, ErrorMessage_MalformedXml) {
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
-        "        <naam>Test\n"  // Missing closing tag
+        "        <naam>Test\n"  // Ontbrekende sluit-tag
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
@@ -745,11 +744,11 @@ TEST_F(BestandsLezerTest, ErrorMessage_MalformedXml) {
 }
 
 /**
- * @brief Test reading a valid XML file
+ * @brief Test het lezen van een geldig XML bestand
  */
 TEST_F(BestandsLezerTest, ValidXmlFile) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -779,7 +778,7 @@ TEST_F(BestandsLezerTest, ValidXmlFile) {
             situatie = new VerkeersSituatie();
             bool result = ultraSafeReadXml(filename, situatie);
 
-            // Test passed if we didn't crash
+            // Test geslaagd als we niet zijn gecrasht
             EXPECT_TRUE(true);
 
             if (situatie) {
@@ -789,21 +788,21 @@ TEST_F(BestandsLezerTest, ValidXmlFile) {
             if (situatie) {
                 try { delete situatie; } catch (...) {}
             }
-            // Test passed if we handled the exception
+            // Test geslaagd als we de uitzondering hebben afgehandeld
             EXPECT_TRUE(true);
         }
     } else {
-        // File creation failed
+        // Bestand aanmaken mislukt
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test reading a non-existent file
+ * @brief Test het lezen van een niet-bestaand bestand
  */
 TEST_F(BestandsLezerTest, NonExistentFile) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -812,12 +811,12 @@ TEST_F(BestandsLezerTest, NonExistentFile) {
         situatie = new VerkeersSituatie();
         bool result = ultraSafeReadXml("non_existent_file_12345.xml", situatie);
 
-        // Should fail to read non-existent file
+        // Zou moeten falen bij lezen van niet-bestaand bestand
         EXPECT_FALSE(result);
 
-        // Try to get error message
+        // Probeer foutmelding op te halen
         std::string error = safeGetError();
-        // Error message should exist but we don't check content
+        // Foutmelding zou moeten bestaan maar we controleren de inhoud niet
 
         if (situatie) {
             delete situatie;
@@ -826,17 +825,17 @@ TEST_F(BestandsLezerTest, NonExistentFile) {
         if (situatie) {
             try { delete situatie; } catch (...) {}
         }
-        // Test passed if we handled the exception
+        // Test geslaagd als we de uitzondering hebben afgehandeld
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test reading an empty XML file
+ * @brief Test het lezen van een leeg XML bestand
  */
 TEST_F(BestandsLezerTest, EmptyXmlFile) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -848,10 +847,10 @@ TEST_F(BestandsLezerTest, EmptyXmlFile) {
             situatie = new VerkeersSituatie();
             bool result = ultraSafeReadXml(filename, situatie);
 
-            // Empty file should fail to parse
+            // Leeg bestand zou moeten falen bij parsen
             EXPECT_FALSE(result);
 
-            // Try to get error message
+            // Probeer foutmelding op te halen
             std::string error = safeGetError();
 
             if (situatie) {
@@ -869,11 +868,11 @@ TEST_F(BestandsLezerTest, EmptyXmlFile) {
 }
 
 /**
- * @brief Test reading malformed XML
+ * @brief Test het lezen van malformed XML
  */
 TEST_F(BestandsLezerTest, MalformedXml) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -881,7 +880,7 @@ TEST_F(BestandsLezerTest, MalformedXml) {
         "<?xml version=\"1.0\"?>\n"
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
-        "        <naam>Test\n"  // Missing closing tag
+        "        <naam>Test\n"  // Ontbrekende sluit-tag
         "    </BAAN>\n"
         "</VerkeersSituatie>";
 
@@ -893,7 +892,7 @@ TEST_F(BestandsLezerTest, MalformedXml) {
             situatie = new VerkeersSituatie();
             bool result = ultraSafeReadXml(filename, situatie);
 
-            // Malformed XML should fail to parse
+            // Malformed XML zou moeten falen bij parsen
             EXPECT_FALSE(result);
 
             if (situatie) {
@@ -911,11 +910,11 @@ TEST_F(BestandsLezerTest, MalformedXml) {
 }
 
 /**
- * @brief Test XML with missing required elements
+ * @brief Test XML met ontbrekende verplichte elementen
  */
 TEST_F(BestandsLezerTest, MissingRequiredElements) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -924,10 +923,10 @@ TEST_F(BestandsLezerTest, MissingRequiredElements) {
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <naam>Teststraat</naam>\n"
-        "        <!-- Missing lengte element -->\n"
+        "        <!-- Ontbrekend lengte element -->\n"
         "    </BAAN>\n"
         "    <VOERTUIG>\n"
-        "        <!-- Missing baan element -->\n"
+        "        <!-- Ontbrekend baan element -->\n"
         "        <positie>50</positie>\n"
         "        <type>auto</type>\n"
         "    </VOERTUIG>\n"
@@ -941,8 +940,8 @@ TEST_F(BestandsLezerTest, MissingRequiredElements) {
             situatie = new VerkeersSituatie();
             bool result = ultraSafeReadXml(filename, situatie);
 
-            // Should handle missing elements gracefully
-            // Result may be true or false depending on implementation
+            // Zou ontbrekende elementen netjes moeten afhandelen
+            // Resultaat kan waar of onwaar zijn afhankelijk van implementatie
 
             if (situatie) {
                 delete situatie;
@@ -959,11 +958,11 @@ TEST_F(BestandsLezerTest, MissingRequiredElements) {
 }
 
 /**
- * @brief Test XML with invalid data types
+ * @brief Test XML met ongeldige datatypes
  */
 TEST_F(BestandsLezerTest, InvalidDataTypes) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -972,11 +971,11 @@ TEST_F(BestandsLezerTest, InvalidDataTypes) {
         "<VerkeersSituatie>\n"
         "    <BAAN>\n"
         "        <naam>Teststraat</naam>\n"
-        "        <lengte>not_a_number</lengte>\n"
+        "        <lengte>niet_een_getal</lengte>\n"
         "    </BAAN>\n"
         "    <VOERTUIG>\n"
         "        <baan>Teststraat</baan>\n"
-        "        <positie>also_not_a_number</positie>\n"
+        "        <positie>ook_niet_een_getal</positie>\n"
         "        <type>auto</type>\n"
         "    </VOERTUIG>\n"
         "</VerkeersSituatie>";
@@ -989,7 +988,7 @@ TEST_F(BestandsLezerTest, InvalidDataTypes) {
             situatie = new VerkeersSituatie();
             bool result = ultraSafeReadXml(filename, situatie);
 
-            // Invalid data types should fail parsing
+            // Ongeldige datatypes zouden moeten falen bij parsen
             EXPECT_FALSE(result);
 
             if (situatie) {
@@ -1007,24 +1006,24 @@ TEST_F(BestandsLezerTest, InvalidDataTypes) {
 }
 
 /**
- * @brief Test multiple file operations for state consistency
+ * @brief Test meerdere bestandsoperaties voor staat consistentie
  */
 TEST_F(BestandsLezerTest, MultipleOperations) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Try multiple operations in sequence
+    // Probeer meerdere operaties achter elkaar
     for (int i = 0; i < 5; i++) {
         VerkeersSituatie* situatie = nullptr;
         try {
             situatie = new VerkeersSituatie();
 
-            // Try reading non-existent file
+            // Probeer niet-bestaand bestand te lezen
             ultraSafeReadXml("non_existent_" + std::to_string(i) + ".xml", situatie);
 
-            // Check that object state remains valid
+            // Controleer dat object staat geldig blijft
             bool valid = safePropertyCheck();
 
             if (situatie) {
@@ -1037,16 +1036,16 @@ TEST_F(BestandsLezerTest, MultipleOperations) {
         }
     }
 
-    // Test passed if we completed all iterations without crashing
+    // Test geslaagd als we alle iteraties hebben voltooid zonder crash
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test error handling and recovery
+ * @brief Test foutafhandeling en herstel
  */
 TEST_F(BestandsLezerTest, ErrorHandling) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
@@ -1054,14 +1053,14 @@ TEST_F(BestandsLezerTest, ErrorHandling) {
     try {
         situatie = new VerkeersSituatie();
 
-        // Multiple failed operations
+        // Meerdere gefaalde operaties
         ultraSafeReadXml("", situatie);
         ultraSafeReadXml("non_existent.xml", situatie);
 
-        // Object should remain valid
+        // Object zou geldig moeten blijven
         bool valid = safePropertyCheck();
 
-        // Try a potentially valid operation after errors
+        // Probeer een potentieel geldige operatie na fouten
         std::string validXml = "<?xml version=\"1.0\"?><VerkeersSituatie></VerkeersSituatie>";
         std::string validFile = createTempXmlFile(validXml, "recovery_test.xml");
 
@@ -1079,20 +1078,20 @@ TEST_F(BestandsLezerTest, ErrorHandling) {
         }
     }
 
-    // Test passed if we didn't crash
+    // Test geslaagd als we niet zijn gecrasht
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Stress test with multiple file operations
+ * @brief Stress test met meerdere bestandsoperaties
  */
 TEST_F(BestandsLezerTest, StressTest) {
     if (!lezer_ptr) {
-        EXPECT_TRUE(true); // Skip if object creation failed
+        EXPECT_TRUE(true); // Sla over als object aanmaak mislukte
         return;
     }
 
-    // Create and read multiple XML files
+    // Maak en lees meerdere XML bestanden
     for (int i = 0; i < 10; i++) {
         VerkeersSituatie* situatie = nullptr;
         try {
@@ -1122,6 +1121,6 @@ TEST_F(BestandsLezerTest, StressTest) {
         }
     }
 
-    // Test passed if we completed all iterations
+    // Test geslaagd als we alle iteraties hebben voltooid
     EXPECT_TRUE(true);
 }

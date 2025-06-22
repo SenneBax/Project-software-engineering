@@ -1,8 +1,6 @@
 /**
  * @file test_helpers.h
- * @brief Common helper functions for tests with improved memory safety
- * @author Generated with fixes for segmentation faults
- * @date 2025
+ * @brief Algemene hulpfuncties voor tests met verbeterde geheugen veiligheid
  */
 
 #ifndef TEST_HELPERS_H
@@ -21,13 +19,13 @@
 #include "../TraficObjects/voertuiggenerator.h"
 
 /**
- * @brief Helper function to convert container size to int for safer comparisons in tests
- * @tparam Container Type of container to count
- * @param c The container to count elements in
- * @return Number of elements as int
+ * @brief Hulpfunctie om container grootte naar int te converteren voor veiligere vergelijkingen in tests
+ * @tparam Container Type van container om elementen in te tellen
+ * @param c De container om elementen in te tellen
+ * @return Aantal elementen als int
  *
- * This template function provides a safe way to convert size_t to int
- * for use in EXPECT_EQ comparisons in Google Test.
+ * Deze template functie biedt een veilige manier om size_t naar int te converteren
+ * voor gebruik in EXPECT_EQ vergelijkingen in Google Test.
  */
 template<typename Container>
 int count(const Container& c) {
@@ -35,12 +33,12 @@ int count(const Container& c) {
 }
 
 /**
- * @brief Creates a temporary XML file for testing purposes
- * @param content The XML content to write to the file
- * @return Filename of the created temporary file
+ * @brief Maakt een tijdelijk XML bestand voor testdoeleinden
+ * @param content De XML inhoud om naar het bestand te schrijven
+ * @return Bestandsnaam van het aangemaakte tijdelijke bestand
  *
- * Creates a temporary XML file with the given content that can be used
- * for testing file reading functionality.
+ * Maakt een tijdelijk XML bestand met de gegeven inhoud dat gebruikt kan worden
+ * voor het testen van bestand lees functionaliteit.
  */
 inline std::string createTempXmlFile(const std::string& content) {
     std::string filename = "test_temp.xml";
@@ -53,12 +51,12 @@ inline std::string createTempXmlFile(const std::string& content) {
 }
 
 /**
- * @brief Checks if a file exists
- * @param filename Path to the file to check
- * @return true if file exists and is readable, false otherwise
+ * @brief Checkt of een bestand bestaat
+ * @param filename Pad naar het bestand om te checken
+ * @return true als bestand bestaat en leesbaar is, anders false
  *
- * Simple utility function to check file existence before attempting
- * to read or process files in tests.
+ * Simpele hulpfunctie om bestaan van bestanden te checken voordat
+ * ze gelezen of verwerkt worden in tests.
  */
 inline bool fileExists(const std::string& filename) {
     std::ifstream file(filename);
@@ -66,13 +64,13 @@ inline bool fileExists(const std::string& filename) {
 }
 
 /**
- * @brief Creates a temporary file with given content and extension
- * @param content Content to write to the file
- * @param extension File extension (default: ".txt")
- * @return Filename of the created temporary file
+ * @brief Maakt een tijdelijk bestand met gegeven inhoud en extensie
+ * @param content Inhoud om naar het bestand te schrijven
+ * @param extension Bestandsextensie (standaard: ".txt")
+ * @return Bestandsnaam van het aangemaakte tijdelijke bestand
  *
- * General purpose function for creating temporary files with any content
- * and file extension for testing purposes.
+ * Algemene functie voor het maken van tijdelijke bestanden met elke inhoud
+ * en bestandsextensie voor testdoeleinden.
  */
 inline std::string createTempFile(const std::string& content, const std::string& extension = ".txt") {
     std::string filename = "test_temp" + extension;
@@ -85,12 +83,12 @@ inline std::string createTempFile(const std::string& content, const std::string&
 }
 
 /**
- * @brief Reads entire file content into a string
- * @param filename Path to the file to read
- * @return File content as string, empty string if file cannot be read
+ * @brief Leest volledige bestandsinhoud in een string
+ * @param filename Pad naar het bestand om te lezen
+ * @return Bestandsinhoud als string, lege string als bestand niet gelezen kan worden
  *
- * Utility function for reading file contents for verification in tests.
- * Returns empty string if file cannot be opened.
+ * Hulpfunctie voor het lezen van bestandsinhoud voor verificatie in tests.
+ * Geeft lege string terug als bestand niet geopend kan worden.
  */
 inline std::string readFile(const std::string& filename) {
     std::ifstream file(filename);
@@ -102,21 +100,21 @@ inline std::string readFile(const std::string& filename) {
 }
 
 /**
- * @brief Creates a comprehensive test traffic situation with multiple components
- * @return Complete VerkeersSituatie object for testing
+ * @brief Maakt een uitgebreide test verkeerssituatie met meerdere componenten
+ * @return Complete VerkeersSituatie object voor testen
  *
- * This function creates a realistic traffic situation with roads, vehicles,
- * traffic lights, bus stops, intersections, and vehicle generators for
- * comprehensive testing of the traffic simulation system.
+ * Deze functie maakt een realistische verkeerssituatie met wegen, voertuigen,
+ * verkeerslichten, bushaltes, kruispunten en voertuiggeneratoren voor
+ * uitgebreide tests van het verkeerssimulatie systeem.
  *
- * @note This function ensures all created objects are properly initialized
- * and all pointers are safely managed to prevent segmentation faults.
+ * @note Deze functie zorgt ervoor dat alle aangemaakte objecten correct geïnitialiseerd zijn
+ * en alle pointers veilig beheerd worden om segmentation faults te voorkomen.
  */
 inline VerkeersSituatie createTestSituatie() {
     VerkeersSituatie situatie;
 
     try {
-        // Add roads with validation
+        // Voeg wegen toe met validatie
         Baan baan1("Hoofdweg", 500);
         Baan baan2("Zijstraat", 300);
         Baan baan3("Kruisweg", 400);
@@ -124,13 +122,13 @@ inline VerkeersSituatie createTestSituatie() {
         if (!situatie.voegBaanToe(baan1) ||
             !situatie.voegBaanToe(baan2) ||
             !situatie.voegBaanToe(baan3)) {
-            // If roads cannot be added, create minimal situation
+            // Als wegen niet toegevoegd kunnen worden, maak minimale situatie
             Baan minimalBaan("Testweg", 100);
             situatie.voegBaanToe(minimalBaan);
             return situatie;
         }
 
-        // Add vehicles safely with proper error checking
+        // Voeg voertuigen veilig toe met goede foutcontrole
         auto auto1 = Voertuig::maakVoertuig("Hoofdweg", 50, "auto");
         if (auto1) {
             situatie.voegVoertuigToe(std::move(auto1));
@@ -156,46 +154,46 @@ inline VerkeersSituatie createTestSituatie() {
             situatie.voegVoertuigToe(std::move(politie));
         }
 
-        // Add traffic lights with validation
+        // Voeg verkeerslichten toe met validatie
         try {
             Verkeerslicht licht1("Hoofdweg", 300, 30, true, false);
             Verkeerslicht licht2("Zijstraat", 200, 20, false, true);
             situatie.voegVerkeerslichtToe(licht1);
             situatie.voegVerkeerslichtToe(licht2);
         } catch (const std::exception& e) {
-            // If traffic lights fail, continue without them
+            // Als verkeerslichten falen, ga door zonder ze
         }
 
-        // Add bus stops with validation
+        // Voeg bushaltes toe met validatie
         try {
             Bushalte halte1("Hoofdweg", 250, 15);
             Bushalte halte2("Kruisweg", 150, 10);
             situatie.voegBushalteToe(halte1);
             situatie.voegBushalteToe(halte2);
         } catch (const std::exception& e) {
-            // If bus stops fail, continue without them
+            // Als bushaltes falen, ga door zonder ze
         }
 
-        // Add intersection with validation
+        // Voeg kruispunt toe met validatie
         try {
             Kruispunt kruispunt;
             kruispunt.voegBaanToe("Hoofdweg", 400);
             kruispunt.voegBaanToe("Kruisweg", 300);
             situatie.voegKruispuntToe(kruispunt);
         } catch (const std::exception& e) {
-            // If intersection fails, continue without it
+            // Als kruispunt faalt, ga door zonder het
         }
 
-        // Add vehicle generator with validation
+        // Voeg voertuiggenerator toe met validatie
         try {
             VoertuigGenerator generator("Zijstraat", 10, "auto");
             situatie.voegVoertuigGeneratorToe(generator);
         } catch (const std::exception& e) {
-            // If generator fails, continue without it
+            // Als generator faalt, ga door zonder het
         }
 
     } catch (const std::exception& e) {
-        // If any critical error occurs, return minimal valid situation
+        // Als er een kritieke fout optreedt, geef minimale geldige situatie terug
         VerkeersSituatie minimalSituatie;
         Baan minimalBaan("Testweg", 100);
         minimalSituatie.voegBaanToe(minimalBaan);
@@ -206,13 +204,13 @@ inline VerkeersSituatie createTestSituatie() {
 }
 
 /**
- * @brief Creates a minimal valid traffic situation for basic tests
- * @return Simple VerkeersSituatie with one road and one vehicle
+ * @brief Maakt een minimale geldige verkeerssituatie voor basis tests
+ * @return Simpele VerkeersSituatie met één weg en één voertuig
  *
- * This function creates the most basic valid traffic situation that can
- * be used for tests that don't require complex scenarios. It's safer
- * than createTestSituatie() for tests that might be sensitive to complex
- * object interactions.
+ * Deze functie maakt de meest basale geldige verkeerssituatie die gebruikt
+ * kan worden voor tests die geen complexe scenario's vereisen. Het is veiliger
+ * dan createTestSituatie() voor tests die gevoelig kunnen zijn voor complexe
+ * object interacties.
  */
 inline VerkeersSituatie createMinimalTestSituatie() {
     VerkeersSituatie situatie;

@@ -1,8 +1,6 @@
 /**
  * @file test_baan.cpp
- * @brief Tests for the Baan class that work around Design by Contract issues
- * @author Generated to work around REQUIRE/ENSURE macro crashes
- * @date 2025
+ * @brief Tests voor de Baan klasse die omgaan met Design by Contract problemen
  */
 
 #include <gtest/gtest.h>
@@ -10,27 +8,27 @@
 #include "../TraficObjects/baan.h"
 
 /**
- * @brief Test fixture for Baan tests that handles Design by Contract safely
+ * @brief Testfixture voor Baan tests die Design by Contract veilig afhandelt
  */
 class BaanTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Minimal setup
+        // Minimale setup
     }
 
     void TearDown() override {
-        // Minimal cleanup
+        // Minimale opruiming
     }
 
     /**
-     * @brief Safe wrapper to create a Baan object
-     * @param naam Road name
-     * @param lengte Road length
-     * @return Pointer to Baan or nullptr if creation failed
+     * @brief Veilige wrapper om een Baan object aan te maken
+     * @param naam Wegnaam
+     * @param lengte Weglengte
+     * @return Pointer naar Baan of nullptr als aanmaak gefaald is
      */
     Baan* safeCreateBaan(const std::string& naam, int lengte) {
         try {
-            // Only create with parameters that should pass REQUIRE checks
+            // Maak alleen aan met parameters die REQUIRE checks zouden moeten passeren
             if (!naam.empty() && lengte > 0) {
                 return new Baan(naam, lengte);
             }
@@ -41,7 +39,7 @@ protected:
     }
 
     /**
-     * @brief Safe test of getters without risking crashes
+     * @brief Veilige test van getters zonder crash risico
      */
     bool safeTestGetters(Baan* baan, const std::string& expectedNaam, int expectedLengte) {
         if (!baan) return false;
@@ -57,29 +55,29 @@ protected:
 };
 
 /**
- * @brief Test basic road constructor and getters with valid parameters
+ * @brief Test basis weg constructor en getters met geldige parameters
  */
 TEST_F(BaanTest, ValidConstructorAndGetters) {
-    // Test with parameters that should pass all REQUIRE checks
+    // Test met parameters die alle REQUIRE checks zouden moeten passeren
     Baan* baan1 = safeCreateBaan("Teststraat", 250);
 
     if (baan1) {
         EXPECT_TRUE(safeTestGetters(baan1, "Teststraat", 250));
 
-        // Test properlyInitialized safely
+        // Test properlyInitialized veilig
         try {
             EXPECT_TRUE(baan1->properlyInitialized());
         } catch (...) {
-            // If properlyInitialized fails, that's noted but test continues
+            // Als properlyInitialized faalt, wordt dat genoteerd maar test gaat door
         }
 
         delete baan1;
     } else {
-        // If even valid parameters fail, there's a deeper issue
-        EXPECT_TRUE(true); // Test passes but documents the issue
+        // Als zelfs geldige parameters falen, is er een dieper probleem
+        EXPECT_TRUE(true); // Test slaagt maar documenteert het probleem
     }
 
-    // Test with different valid parameters
+    // Test met andere geldige parameters
     Baan* baan2 = safeCreateBaan("Hoofdweg", 500);
 
     if (baan2) {
@@ -87,7 +85,7 @@ TEST_F(BaanTest, ValidConstructorAndGetters) {
         delete baan2;
     }
 
-    // Test with minimal valid parameters
+    // Test met minimale geldige parameters
     Baan* baan3 = safeCreateBaan("A", 1);
 
     if (baan3) {
@@ -97,88 +95,88 @@ TEST_F(BaanTest, ValidConstructorAndGetters) {
 }
 
 /**
- * @brief Test road name validation logic
+ * @brief Test wegnaam validatie logica
  */
 TEST_F(BaanTest, NameValidationLogic) {
-    // Test the logic that would be in REQUIRE statements
+    // Test de logica die in REQUIRE statements zou staan
     auto isValidName = [](const std::string& name) -> bool {
         return !name.empty();
     };
 
-    // Valid names
+    // Geldige namen
     EXPECT_TRUE(isValidName("Teststraat"));
     EXPECT_TRUE(isValidName("Test Straat"));
     EXPECT_TRUE(isValidName("Straat123"));
     EXPECT_TRUE(isValidName("A"));
     EXPECT_TRUE(isValidName("VeryLongRoadName"));
 
-    // Invalid names that would fail REQUIRE
+    // Ongeldige namen die REQUIRE zouden laten falen
     EXPECT_FALSE(isValidName(""));
 }
 
 /**
- * @brief Test road length validation logic
+ * @brief Test weglengte validatie logica
  */
 TEST_F(BaanTest, LengthValidationLogic) {
-    // Test the logic that would be in REQUIRE statements
+    // Test de logica die in REQUIRE statements zou staan
     auto isValidLength = [](int length) -> bool {
         return length > 0;
     };
 
-    // Valid lengths
+    // Geldige lengtes
     EXPECT_TRUE(isValidLength(1));
     EXPECT_TRUE(isValidLength(100));
     EXPECT_TRUE(isValidLength(1000));
     EXPECT_TRUE(isValidLength(1000000));
 
-    // Invalid lengths that would fail REQUIRE
+    // Ongeldige lengtes die REQUIRE zouden laten falen
     EXPECT_FALSE(isValidLength(0));
     EXPECT_FALSE(isValidLength(-1));
     EXPECT_FALSE(isValidLength(-100));
 }
 
 /**
- * @brief Test object creation and management (copy operations avoided due to segfault risk)
+ * @brief Test object aanmaak en beheer (kopieeroperaties vermeden vanwege segfault risico)
  */
 TEST_F(BaanTest, SafeObjectManagement) {
     Baan* original = safeCreateBaan("Origineel", 200);
 
     if (!original) {
-        EXPECT_TRUE(true); // Skip test if original creation failed
+        EXPECT_TRUE(true); // Sla test over als originele aanmaak gefaald is
         return;
     }
 
     try {
-        // Test that we can create multiple independent objects
+        // Test dat we meerdere onafhankelijke objecten kunnen maken
         Baan* independent1 = safeCreateBaan("Independent1", 150);
         Baan* independent2 = safeCreateBaan("Independent2", 300);
 
-        // Verify all objects are independent and functional
+        // Verifieer dat alle objecten onafhankelijk en functioneel zijn
         if (independent1 && independent2) {
             EXPECT_TRUE(safeTestGetters(original, "Origineel", 200));
             EXPECT_TRUE(safeTestGetters(independent1, "Independent1", 150));
             EXPECT_TRUE(safeTestGetters(independent2, "Independent2", 300));
 
-            // Test that objects maintain their individual state
+            // Test dat objecten hun individuele state behouden
             try {
                 if (original->properlyInitialized() && independent1->properlyInitialized() && independent2->properlyInitialized()) {
-                    EXPECT_TRUE(true); // All objects properly initialized
+                    EXPECT_TRUE(true); // Alle objecten correct geïnitialiseerd
                 }
             } catch (...) {
-                // properlyInitialized might fail - noted
+                // properlyInitialized kan falen - genoteerd
                 EXPECT_TRUE(true);
             }
         }
 
-        // Clean up independent objects
+        // Ruim onafhankelijke objecten op
         delete independent1;
         delete independent2;
 
-        // Note: Copy constructor and assignment operator are avoided
-        // because they may cause segmentation faults due to _initCheck pointer issues
+        // Note: Copy constructor en assignment operator worden vermeden
+        // omdat ze segmentation faults kunnen veroorzaken door _initCheck pointer problemen
 
     } catch (...) {
-        // Object management might fail - that's documented
+        // Object beheer kan falen - dat wordt gedocumenteerd
         EXPECT_TRUE(true);
     }
 
@@ -186,17 +184,17 @@ TEST_F(BaanTest, SafeObjectManagement) {
 }
 
 /**
- * @brief Test with valid boundary conditions
+ * @brief Test met geldige grensvoorwaarden
  */
 TEST_F(BaanTest, ValidBoundaryConditions) {
-    // Test minimum valid values
+    // Test minimale geldige waarden
     Baan* minBaan = safeCreateBaan("M", 1);
     if (minBaan) {
         EXPECT_TRUE(safeTestGetters(minBaan, "M", 1));
         delete minBaan;
     }
 
-    // Test large valid values
+    // Test grote geldige waarden
     Baan* largeBaan = safeCreateBaan("VeryLongRoadNameForTesting", 1000000);
     if (largeBaan) {
         EXPECT_TRUE(safeTestGetters(largeBaan, "VeryLongRoadNameForTesting", 1000000));
@@ -205,10 +203,10 @@ TEST_F(BaanTest, ValidBoundaryConditions) {
 }
 
 /**
- * @brief Test special characters in names (valid cases only)
+ * @brief Test speciale karakters in namen (alleen geldige gevallen)
  */
 TEST_F(BaanTest, ValidSpecialCharacters) {
-    // Test with characters that should be valid
+    // Test met karakters die geldig zouden moeten zijn
     std::vector<std::pair<std::string, int>> validCases = {
         {"Test-straat", 100},
         {"Test_straat", 100},
@@ -223,17 +221,17 @@ TEST_F(BaanTest, ValidSpecialCharacters) {
             EXPECT_TRUE(safeTestGetters(baan, testCase.first, testCase.second));
             delete baan;
         }
-        // If creation fails, that's still useful information
+        // Als aanmaak faalt, is dat nog steeds nuttige informatie
     }
 }
 
 /**
- * @brief Test multiple instances with valid parameters
+ * @brief Test meerdere instanties met geldige parameters
  */
 TEST_F(BaanTest, MultipleValidInstances) {
     std::vector<Baan*> banen;
 
-    // Create multiple roads with valid parameters
+    // Maak meerdere wegen met geldige parameters
     for (int i = 1; i <= 10; i++) {
         std::string naam = "Baan" + std::to_string(i);
         int lengte = 100 + i;
@@ -244,7 +242,7 @@ TEST_F(BaanTest, MultipleValidInstances) {
         }
     }
 
-    // Verify all created roads
+    // Verifieer alle aangemaakte wegen
     for (size_t i = 0; i < banen.size(); i++) {
         std::string expectedNaam = "Baan" + std::to_string(i + 1);
         int expectedLengte = 100 + static_cast<int>(i) + 1;
@@ -252,94 +250,94 @@ TEST_F(BaanTest, MultipleValidInstances) {
         EXPECT_TRUE(safeTestGetters(banen[i], expectedNaam, expectedLengte));
     }
 
-    // Clean up
+    // Ruim op
     for (Baan* baan : banen) {
         delete baan;
     }
 }
 
 /**
- * @brief Test error handling documentation
+ * @brief Test foutafhandeling documentatie
  */
 TEST_F(BaanTest, ErrorHandlingDocumentation) {
-    // Document what would happen with invalid parameters
+    // Documenteer wat er zou gebeuren met ongeldige parameters
 
-    // These would fail REQUIRE checks if we tried to create them:
-    // Baan("", 100);           // Empty name
-    // Baan("Test", 0);         // Zero length
-    // Baan("Test", -100);      // Negative length
+    // Deze zouden REQUIRE checks laten falen als we ze zouden proberen aan te maken:
+    // Baan("", 100);           // Lege naam
+    // Baan("Test", 0);         // Nul lengte
+    // Baan("Test", -100);      // Negatieve lengte
 
-    // Instead we test the validation logic
-    EXPECT_FALSE(std::string("").empty() == false);  // Empty name check
-    EXPECT_FALSE(0 > 0);                              // Zero length check
-    EXPECT_FALSE(-100 > 0);                           // Negative length check
+    // In plaats daarvan testen we de validatie logica
+    EXPECT_FALSE(std::string("").empty() == false);  // Lege naam check
+    EXPECT_FALSE(0 > 0);                              // Nul lengte check
+    EXPECT_FALSE(-100 > 0);                           // Negatieve lengte check
 
-    EXPECT_TRUE(true); // Test passes, documenting the constraints
+    EXPECT_TRUE(true); // Test slaagt, documenteert de beperkingen
 }
 
 /**
- * @brief Test default constructor if it exists
+ * @brief Test default constructor als die bestaat
  */
 TEST_F(BaanTest, DefaultConstructorTest) {
     try {
         // Test default constructor
         Baan defaultBaan;
 
-        // Try to use it safely
+        // Probeer het veilig te gebruiken
         try {
             std::string naam = defaultBaan.getNaam();
             int lengte = defaultBaan.getLengte();
 
-            // Default constructor should create valid object
+            // Default constructor zou geldig object moeten maken
             EXPECT_TRUE(defaultBaan.properlyInitialized());
 
-            // Use the variables to avoid unused variable warnings
-            EXPECT_TRUE(naam.empty() || !naam.empty()); // Always true, but uses naam
-            EXPECT_TRUE(lengte >= 0 || lengte < 0);     // Always true, but uses lengte
+            // Gebruik de variabelen om unused variable warnings te voorkomen
+            EXPECT_TRUE(naam.empty() || !naam.empty()); // Altijd waar, maar gebruikt naam
+            EXPECT_TRUE(lengte >= 0 || lengte < 0);     // Altijd waar, maar gebruikt lengte
 
         } catch (...) {
-            // If default constructor creates invalid object, that's noted
+            // Als default constructor ongeldig object maakt, wordt dat genoteerd
             EXPECT_TRUE(true);
         }
 
     } catch (...) {
-        // If default constructor doesn't exist or fails, that's acceptable
+        // Als default constructor niet bestaat of faalt, is dat acceptabel
         EXPECT_TRUE(true);
     }
 }
 
 /**
- * @brief Test state consistency with valid operations
+ * @brief Test state consistentie met geldige operaties
  */
 TEST_F(BaanTest, StateConsistency) {
     Baan* baan = safeCreateBaan("Teststraat", 150);
 
     if (!baan) {
-        EXPECT_TRUE(true); // Skip if creation failed
+        EXPECT_TRUE(true); // Sla over als aanmaak gefaald is
         return;
     }
 
-    // Verify initial state
+    // Verifieer initiële state
     try {
         EXPECT_TRUE(baan->properlyInitialized());
         EXPECT_FALSE(baan->getNaam().empty());
         EXPECT_GT(baan->getLengte(), 0);
     } catch (...) {
-        // State checking might fail - that's documented
+        // State checking kan falen - dat wordt gedocumenteerd
     }
 
-    // Test that state remains consistent after operations
+    // Test dat state consistent blijft na operaties
     try {
         std::string naam1 = baan->getNaam();
         std::string naam2 = baan->getNaam();
-        EXPECT_EQ(naam1, naam2); // Should be consistent
+        EXPECT_EQ(naam1, naam2); // Zou consistent moeten zijn
 
         int lengte1 = baan->getLengte();
         int lengte2 = baan->getLengte();
-        EXPECT_EQ(lengte1, lengte2); // Should be consistent
+        EXPECT_EQ(lengte1, lengte2); // Zou consistent moeten zijn
 
     } catch (...) {
-        // Getter consistency issues are noted
+        // Getter consistentie problemen worden genoteerd
         EXPECT_TRUE(true);
     }
 
@@ -347,26 +345,26 @@ TEST_F(BaanTest, StateConsistency) {
 }
 
 /**
- * @brief Integration test with other components
+ * @brief Integratie test met andere componenten
  */
 TEST_F(BaanTest, IntegrationReadiness) {
-    // Test that created roads can be used in larger systems
+    // Test dat aangemaakte wegen gebruikt kunnen worden in grotere systemen
     Baan* baan = safeCreateBaan("IntegrationTest", 500);
 
     if (baan) {
         try {
-            // These operations should work for integration with VerkeersSituatie
+            // Deze operaties zouden moeten werken voor integratie met VerkeersSituatie
             std::string naam = baan->getNaam();
             int lengte = baan->getLengte();
             bool initialized = baan->properlyInitialized();
 
-            // Verify all needed interface elements work
+            // Verifieer dat alle benodigde interface elementen werken
             EXPECT_FALSE(naam.empty());
             EXPECT_GT(lengte, 0);
             EXPECT_TRUE(initialized);
 
         } catch (...) {
-            // Integration issues are documented
+            // Integratie problemen worden gedocumenteerd
             EXPECT_TRUE(true);
         }
 

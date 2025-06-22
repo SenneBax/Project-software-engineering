@@ -33,9 +33,9 @@ bool VerkeersSituatie::properlyInitialized() const
  * @brief Voeg een baan toe aan de verkeerssituatie
  * @param baan De toe te voegen baan
  * @return true als de baan succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegBaanToe moet eindigen in een geldige toestand.");
- * REQUIRE(!baan.getNaam().empty(), "Naam van toe te voegen baan mag niet leeg zijn.");
- * ENSURE(banen.find(baanNaam) != banen.end(), "Baan werd niet correct toegevoed.");
+ * @pre REQUIRE(properlyInitialized(), "voegBaanToe moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!baan.getNaam().empty(), "Naam van toe te voegen baan mag niet leeg zijn.");
+ * @post ENSURE(banen.find(baanNaam) != banen.end(), "Baan werd niet correct toegevoed.");
  */
 bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
     REQUIRE(properlyInitialized(), "voegBaanToe moet eindigen in een geldige toestand.");
@@ -58,8 +58,8 @@ bool VerkeersSituatie::voegBaanToe(const Baan& baan) {
  * @brief Voeg een voertuig toe aan de verkeerssituatie
  * @param voertuig Het toe te voegen voertuig
  * @return true als het voertuig succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
- * ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
+ * @pre REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
+ * @post ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
  */
 bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
     REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
@@ -94,8 +94,8 @@ bool VerkeersSituatie::voegVoertuigToe(const Voertuig& voertuig) {
  * @brief Voeg een voertuig toe aan de verkeerssituatie
  * @param voertuig Unieke pointer naar het toe te voegen voertuig
  * @return true als het voertuig succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
- * ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
+ * @pre REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
+ * @post ENSURE(!voertuigen.empty(), "Voertuig werd niet correct toegevoed.");
  */
 bool VerkeersSituatie::voegVoertuigToe(std::unique_ptr<Voertuig> voertuig) {
     REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
@@ -124,9 +124,9 @@ bool VerkeersSituatie::voegVoertuigToe(std::unique_ptr<Voertuig> voertuig) {
  * @brief Voeg een verkeerslicht toe aan de verkeerssituatie
  * @param licht Het toe te voegen verkeerslicht
  * @return true als het verkeerslicht succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
- * REQUIRE(licht.properlyInitialized(), "Verkeerslicht is niet correct ingesteld.");
- * ENSURE(!verkeerslichten.empty(), "Verkeerslicht werdt niet correct toegevoed aan situatie.");
+ * @pre REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(licht.properlyInitialized(), "Verkeerslicht is niet correct ingesteld.");
+ * @post ENSURE(!verkeerslichten.empty(), "Verkeerslicht werdt niet correct toegevoed aan situatie.");
  */
 bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& licht) {
     REQUIRE(properlyInitialized(), "voegVoertuigToe moet eindigen in een geldige toestand.");
@@ -169,9 +169,9 @@ bool VerkeersSituatie::voegVerkeerslichtToe(const Verkeerslicht& licht) {
  * @brief Voeg een voertuiggenerator toe aan de verkeerssituatie
  * @param generator De toe te voegen voertuiggenerator
  * @return true als de generator succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegVoertuigGeneratorToe moet eindigen in een geldige toestand.");
- * REQUIRE(generator.properlyInitialized(), "Generator is niet correct ingesteld");
- * ENSURE(!generators.empty(), "Generator werd niet correct toegevoed.");
+ * @pre REQUIRE(properlyInitialized(), "voegVoertuigGeneratorToe moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(generator.properlyInitialized(), "Generator is niet correct ingesteld");
+ * @post ENSURE(!generators.empty(), "Generator werd niet correct toegevoed.");
  */
 bool VerkeersSituatie::voegVoertuigGeneratorToe(const VoertuigGenerator& generator) {
     REQUIRE(properlyInitialized(), "voegVoertuigGeneratorToe moet eindigen in een geldige toestand.");
@@ -193,9 +193,9 @@ bool VerkeersSituatie::voegVoertuigGeneratorToe(const VoertuigGenerator& generat
  * @brief Voeg een bushalte toe aan de verkeerssituatie
  * @param bushalte De toe te voegen bushalte
  * @return true als de bushalte succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegBushalteToe moet eindigen in een geldige toestand.");
- * REQUIRE(bushalte.properlyInitialized(), "Bushalte is niet correct geïnitialiseerd");
- * ENSURE(!bushaltes.empty(), "Bushalte werd niet correct toegevoed.");
+ * @pre REQUIRE(properlyInitialized(), "voegBushalteToe moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(bushalte.properlyInitialized(), "Bushalte is niet correct geïnitialiseerd");
+ * @post ENSURE(!bushaltes.empty(), "Bushalte werd niet correct toegevoed.");
  */
 bool VerkeersSituatie::voegBushalteToe(const Bushalte& bushalte) {
     REQUIRE(properlyInitialized(), "voegBushalteToe moet eindigen in een geldige toestand.");
@@ -228,9 +228,9 @@ bool VerkeersSituatie::voegBushalteToe(const Bushalte& bushalte) {
  * @brief Voeg een kruispunt toe aan de verkeerssituatie
  * @param kruispunt Het toe te voegen kruispunt
  * @return true als het kruispunt succesvol werd toegevoegd, false indien niet
- * REQUIRE(properlyInitialized(), "voegKruispuntToe moet eindigen in een geldige toestand.");
- * REQUIRE(kruispunt.properlyInitialized(), "Kruispunt is niet correct geïnitialiseerd");
- * ENSURE(!kruispunten.empty(), "Kruispunt werd niet correct toegevoegd.");
+ * @pre REQUIRE(properlyInitialized(), "voegKruispuntToe moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(kruispunt.properlyInitialized(), "Kruispunt is niet correct geïnitialiseerd");
+ * @post ENSURE(!kruispunten.empty(), "Kruispunt werd niet correct toegevoegd.");
  */
 bool VerkeersSituatie::voegKruispuntToe(const Kruispunt& kruispunt) {
     REQUIRE(properlyInitialized(), "voegKruispuntToe moet eindigen in een geldige toestand.");
@@ -270,8 +270,8 @@ bool VerkeersSituatie::voegKruispuntToe(const Kruispunt& kruispunt) {
 /**
  * @brief Verifieer de consistentie van de verkeerssituatie
  * @return true als de verkeerssituatie consistent is, false indien niet
- * REQUIRE(properlyInitialized(), "verificeerConsistentie moet eindigen in een geldige toestand.");
- * ENSURE(true, "Constistentie is goed beëindigd.");
+ * @pre REQUIRE(properlyInitialized(), "verificeerConsistentie moet eindigen in een geldige toestand.");
+ * @post ENSURE(true, "Constistentie is goed beëindigd.");
  */
 bool VerkeersSituatie::verificeerConsistentie() const {
     REQUIRE(properlyInitialized(), "verificeerConsistentie moet eindigen in een geldige toestand.");
@@ -353,8 +353,8 @@ bool VerkeersSituatie::verificeerConsistentie() const {
  * @brief Verwijder een voertuig uit de simulatie
  * @param index Index van het te verwijderen voertuig
  * @return true als het voertuig succesvol werd verwijderd, false indien niet
- * REQUIRE(properlyInitialized(), "verwijderVoertuig moet eindigen in een geldige toestand.");
- * ENSURE(static_cast<int>(voertuigen.size()) >= 0, "Aantal Voertuig out of range.");
+ * @pre REQUIRE(properlyInitialized(), "verwijderVoertuig moet eindigen in een geldige toestand.");
+ * @post ENSURE(static_cast<int>(voertuigen.size()) >= 0, "Aantal Voertuig out of range.");
  */
 bool VerkeersSituatie::verwijderVoertuig(int index) {
     REQUIRE(properlyInitialized(), "verwijderVoertuig moet eindigen in een geldige toestand.");
@@ -370,7 +370,7 @@ bool VerkeersSituatie::verwijderVoertuig(int index) {
 /**
  * @brief Krijg een map van alle banen
  * @return Map met baannamen als sleutels en baanobjecten als waarden
- * REQUIRE(properlyInitialized(), "getBanen moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getBanen moet eindigen in een geldige toestand.");
  */
 const std::map<std::string, Baan>& VerkeersSituatie::getBanen() const {
     REQUIRE(properlyInitialized(), "getBanen moet eindigen in een geldige toestand.");
@@ -380,7 +380,7 @@ const std::map<std::string, Baan>& VerkeersSituatie::getBanen() const {
 /**
  * @brief Maak kopieën van alle voertuigen
  * @return Vector met kopieën van alle voertuigen
- * REQUIRE(properlyInitialized(), "kopieVoertuigen moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "kopieVoertuigen moet eindigen in een geldige toestand.");
  */
 std::vector<std::unique_ptr<Voertuig>> VerkeersSituatie::kopieVoertuigen() const {
     REQUIRE(properlyInitialized(), "kopieVoertuigen moet eindigen in een geldige toestand.");
@@ -398,7 +398,7 @@ std::vector<std::unique_ptr<Voertuig>> VerkeersSituatie::kopieVoertuigen() const
 /**
  * @brief Krijg wijzigbare referentie naar alle voertuigen
  * @return Vector met alle voertuigen
- * REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
  */
 std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() {
     REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
@@ -408,7 +408,7 @@ std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() {
 /**
  * @brief Krijg constante referentie naar alle voertuigen
  * @return Vector met alle voertuigen
- * REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
  */
 const std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() const {
     REQUIRE(properlyInitialized(), "getVoertuigen moet eindigen in een geldige toestand.");
@@ -418,7 +418,7 @@ const std::vector<std::unique_ptr<Voertuig>>& VerkeersSituatie::getVoertuigen() 
 /**
  * @brief Geef het aantal voertuigen in de situatie
  * @return Aantal voertuigen
- * REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
  */
 size_t VerkeersSituatie::getAantalVoertuigen() const {
     REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
@@ -428,7 +428,7 @@ size_t VerkeersSituatie::getAantalVoertuigen() const {
 /**
  * @brief Krijg alle verkeerslichten
  * @return Vector met alle verkeerslichten
- * REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
  */
 const std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() const {
     REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
@@ -438,7 +438,7 @@ const std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() const {
 /**
  * @brief Krijg wijzigbare referentie naar alle verkeerslichten
  * @return Vector met alle verkeerslichten
- * REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
  */
 std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() {
     REQUIRE(properlyInitialized(), "getVerkeerslichten moet eindigen in een geldige toestand.");
@@ -448,7 +448,7 @@ std::vector<Verkeerslicht>& VerkeersSituatie::getVerkeerslichten() {
 /**
  * @brief Krijg alle voertuiggenerators
  * @return Vector met alle voertuiggenerators
- * REQUIRE(properlyInitialized(), "getVoertuigGenerators moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getVoertuigGenerators moet eindigen in een geldige toestand.");
  */
 const std::vector<VoertuigGenerator>& VerkeersSituatie::getVoertuigGenerators() const {
     REQUIRE(properlyInitialized(), "getVoertuigGenerators moet eindigen in een geldige toestand.");
@@ -458,7 +458,7 @@ const std::vector<VoertuigGenerator>& VerkeersSituatie::getVoertuigGenerators() 
 /**
  * @brief Krijg alle bushaltes
  * @return Vector met alle bushaltes
- * REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
  */
 const std::vector<Bushalte>& VerkeersSituatie::getBushaltes() const {
     REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
@@ -468,7 +468,7 @@ const std::vector<Bushalte>& VerkeersSituatie::getBushaltes() const {
 /**
  * @brief Krijg wijzigbare referentie naar alle bushaltes
  * @return Vector met alle bushaltes
- * REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
  */
 std::vector<Bushalte>& VerkeersSituatie::getBushaltes() {
     REQUIRE(properlyInitialized(), "getBushaltes moet eindigen in een geldige toestand.");
@@ -478,7 +478,7 @@ std::vector<Bushalte>& VerkeersSituatie::getBushaltes() {
 /**
  * @brief Krijg alle kruispunten
  * @return Vector met alle kruispunten
- * REQUIRE(properlyInitialized(), "getKruispunten moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "getKruispunten moet eindigen in een geldige toestand.");
  */
 const std::vector<Kruispunt>& VerkeersSituatie::getKruispunten() const {
     REQUIRE(properlyInitialized(), "getKruispunten moet eindigen in een geldige toestand.");
@@ -489,8 +489,8 @@ const std::vector<Kruispunt>& VerkeersSituatie::getKruispunten() const {
  * @brief Zoek bushaltes op een specifieke baan
  * @param baanNaam Naam van de baan
  * @return Vector met pointers naar bushaltes op de baan
- * REQUIRE(properlyInitialized(), "zoekBushaltesOpBaan moet eindigen in een geldige toestand.")
- * REQUIRE(!baanNaam.empty(), "Baannaam mag niet leeg zijn.")
+ * @pre REQUIRE(properlyInitialized(), "zoekBushaltesOpBaan moet eindigen in een geldige toestand.")
+ * @pre REQUIRE(!baanNaam.empty(), "Baannaam mag niet leeg zijn.")
  */
 std::vector<Bushalte*> VerkeersSituatie::zoekBushaltesOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekBushaltesOpBaan moet eindigen in een geldige toestand.");
@@ -515,7 +515,7 @@ std::vector<Bushalte*> VerkeersSituatie::zoekBushaltesOpBaan(const std::string& 
  * @brief Zoek de volgende bushalte voor een voertuig
  * @param voertuig Het voertuig waarvoor de volgende bushalte wordt gezocht
  * @return Pointer naar de volgende bushalte, nullptr indien geen
- * REQUIRE(properlyInitialized(), "zoekEerstvolgendeHalte moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "zoekEerstvolgendeHalte moet eindigen in een geldige toestand.");
  */
 Bushalte* VerkeersSituatie::zoekEerstvolgendeHalte(const Voertuig& voertuig) {
     REQUIRE(properlyInitialized(), "zoekEerstvolgendeHalte moet eindigen in een geldige toestand.");
@@ -548,7 +548,7 @@ Bushalte* VerkeersSituatie::zoekEerstvolgendeHalte(const Voertuig& voertuig) {
  * @brief Zoek het volgende verkeerslicht voor een voertuig
  * @param voertuig Het voertuig waarvoor het volgende verkeerslicht wordt gezocht
  * @return Pointer naar het volgende verkeerslicht, nullptr indien geen
- * REQUIRE(properlyInitialized(), "zoekEerstvolgendeVerkeerslicht moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "zoekEerstvolgendeVerkeerslicht moet eindigen in een geldige toestand.");
  */
 Verkeerslicht* VerkeersSituatie::zoekEerstvolgendeVerkeerslicht(const Voertuig& voertuig) {
     REQUIRE(properlyInitialized(), "zoekEerstvolgendeVerkeerslicht moet eindigen in een geldige toestand.");
@@ -577,8 +577,8 @@ Verkeerslicht* VerkeersSituatie::zoekEerstvolgendeVerkeerslicht(const Voertuig& 
  * @brief Zoek kruispunten die een specifieke baan omvatten
  * @param baanNaam Naam van de baan
  * @return Vector met pointers naar kruispunten die de baan omvatten
- * REQUIRE(properlyInitialized(), "zoekKruispuntenOpBaan moet eindigen in een geldige toestand.");
- * REQUIRE(!baanNaam.empty(), "BaanNaam mag niet leeg zijn.");
+ * @pre REQUIRE(properlyInitialized(), "zoekKruispuntenOpBaan moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(!baanNaam.empty(), "BaanNaam mag niet leeg zijn.");
  */
 std::vector<Kruispunt*> VerkeersSituatie::zoekKruispuntenOpBaan(const std::string& baanNaam) {
     REQUIRE(properlyInitialized(), "zoekKruispuntenOpBaan moet eindigen in een geldige toestand.");
@@ -598,7 +598,7 @@ std::vector<Kruispunt*> VerkeersSituatie::zoekKruispuntenOpBaan(const std::strin
  * @brief Zoek het volgende kruispunt voor een voertuig
  * @param voertuig Het voertuig waarvoor het volgende kruispunt wordt gezocht
  * @return Pointer naar het volgende kruispunt, nullptr indien geen
- * REQUIRE(properlyInitialized(), "zoekEerstvolgendeKruispunt moet eindigen in een geldige toestand.");
+ * @pre REQUIRE(properlyInitialized(), "zoekEerstvolgendeKruispunt moet eindigen in een geldige toestand.");
  */
 Kruispunt* VerkeersSituatie::zoekEerstvolgendeKruispunt(const Voertuig& voertuig) {
     REQUIRE(properlyInitialized(), "zoekEerstvolgendeKruispunt moet eindigen in een geldige toestand.");

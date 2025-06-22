@@ -108,10 +108,7 @@ public:
     /**
      * @brief Controleer of het VerkeersSituatie object correct is geïnitialiseerd
      * @return true als het object correct is geïnitialiseerd, false anders
-     * @post return waarde geeft aan of object in geldige toestand verkeert
-     *
-     * Design by Contract verificatie methode om object integriteit
-     * te controleren.
+     * @post return waarde geeft aan of object in geldige toestand is
      */
 
     bool properlyInitialized() const;

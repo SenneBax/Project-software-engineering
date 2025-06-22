@@ -232,7 +232,7 @@ public:
      * @post Als !isSlim(): geen effect
      *
      * Registreert een voertuig dat voor dit slimme verkeerslicht wacht.
-     * Alleen van toepassing op slimme verkeerslichten.
+     * Alleen van toepassing op slimme verkeerslichten. Om te controleren op prioriteitsvoertuigen.
      */
     void registerVoertuigVoorLicht();
 
