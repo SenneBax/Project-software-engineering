@@ -304,7 +304,7 @@ TEST_F(OutputTest, ErrorMessage_XmlOngeldigPad) {
             std::string foutmelding = uitvoer_ptr->getLastFoutmelding();
             // Test verschillende mogelijke foutmeldingen
             if (!foutmelding.empty()) {
-                bool validError = (foutmelding.find("niet schrijven") != std::string::npos);
+                bool validError = (foutmelding.find("niet openen") != std::string::npos);
 
                 EXPECT_TRUE(validError);
             }
