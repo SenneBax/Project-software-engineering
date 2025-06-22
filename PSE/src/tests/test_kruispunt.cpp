@@ -9,7 +9,7 @@
 #include <functional>
 
 /**
- * @brief Superveilige testfixture die alle risicovolle operaties vermijdt
+ * @brief testfixture voor de kruispunten
  */
 class KruispuntTest : public ::testing::Test {
 protected:

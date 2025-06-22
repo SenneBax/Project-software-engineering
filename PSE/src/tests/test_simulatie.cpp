@@ -14,7 +14,7 @@
 #include <functional>
 
 /**
- * @brief Extreem veilige testfixture voor simulatie tests
+ * @brief veilige testfixture voor simulatie tests
  */
 class SimulatieTest : public ::testing::Test {
 protected:

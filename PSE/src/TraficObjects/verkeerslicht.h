@@ -5,7 +5,7 @@
 
 /**
  * @class Verkeerslicht
- * @brief Klasse die een verkeerslicht in de verkeerssimulatie voorstelt - Gecorrigeerde versie
+ * @brief Klasse die een verkeerslicht in de verkeerssimulatie voorstelt
  *
  * Een Verkeerslicht regelt het verkeer op een specifieke positie op een baan.
  * Het kan verschillende kleuren hebben (groen, oranje, rood) en schakelt

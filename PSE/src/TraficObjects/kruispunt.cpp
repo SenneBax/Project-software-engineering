@@ -1,6 +1,6 @@
 /**
  * @file kruispunt.cpp
- * @brief Implementatie van de kruispunt klasse - Gecorrigeerde versie met DBC
+ * @brief Implementatie van de kruispunt klasse
  */
 
 #include "kruispunt.h"

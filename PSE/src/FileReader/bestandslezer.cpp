@@ -1,6 +1,6 @@
 /**
  * @file bestandslezer.cpp
- * @brief Implementatie van de BestandsLezer klasse (Herzien met bushaltes en kruispunten)
+ * @brief Implementatie van de BestandsLezer klasse
  */
 
 #include "bestandslezer.h"

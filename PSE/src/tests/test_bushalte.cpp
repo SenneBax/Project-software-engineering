@@ -8,7 +8,7 @@
 #include "../TraficObjects/bushalte.h"
 
 /**
- * @brief Test fixture voor Bushalte tests die Design by Contract veilig afhandelt
+ * @brief Test fixture voor Bushalte tests
  */
 class BushalteTest : public ::testing::Test {
 protected:

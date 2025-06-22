@@ -13,7 +13,7 @@
 #include "../TraficObjects/bushalte.h"
 
 /**
- * @brief Extreem veilige test fixture die alle potentiële crashes vermijdt
+ * @brief test fixture voor de verkeerssituatie.
  */
 class VerkeersSituatieTest : public ::testing::Test {
 protected:

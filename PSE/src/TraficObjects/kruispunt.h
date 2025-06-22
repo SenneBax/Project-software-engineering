@@ -1,6 +1,6 @@
 /**
  * @file kruispunt.h
- * @brief Definitie van de kruispunt-klasse - Gecorrigeerde versie
+ * @brief Definitie van de kruispunt-klasse
  */
 
 #ifndef KRUISPUNT_H
@@ -13,11 +13,6 @@
 /**
  * @class Kruispunt
  * @brief Klasse die een kruispunt in de verkeerssimulatie voorstelt
- *
- * Gecorrigeerde versie die segmentatiefouten voorkomt door:
- * - Consistente DBC checks
- * - Veilige geheugenoperaties
- * - Robuste error handling
  */
 class Kruispunt {
 private:

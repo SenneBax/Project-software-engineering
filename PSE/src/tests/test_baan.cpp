@@ -8,7 +8,7 @@
 #include "../TraficObjects/baan.h"
 
 /**
- * @brief Testfixture voor Baan tests die Design by Contract veilig afhandelt
+ * @brief Testfixture voor Baan tests
  */
 class BaanTest : public ::testing::Test {
 protected:

@@ -8,7 +8,7 @@
 #include "../TraficObjects/verkeerslicht.h"
 
 /**
- * @brief Test fixture voor Verkeerslicht tests die Design by Contract veilig afhandelt
+ * @brief Test fixture voor Verkeerslicht tests
  */
 class VerkeerslichtTest : public ::testing::Test {
 protected:

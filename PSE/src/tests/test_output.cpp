@@ -14,7 +14,7 @@
 #include <functional>
 
 /**
- * @brief Superveilige testfixture die NOOIT properlyInitialized() aanroept
+ * @brief testfixture voor de output
  */
 class OutputTest : public ::testing::Test {
 protected:

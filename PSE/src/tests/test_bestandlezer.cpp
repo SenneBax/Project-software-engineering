@@ -14,7 +14,7 @@
 #include <functional>
 
 /**
- * @brief Extreem veilige test fixture voor BestandsLezer
+ * @brief test fixture voor BestandsLezer
  */
 class BestandsLezerTest : public ::testing::Test {
 protected:

@@ -9,7 +9,7 @@
 #include <memory>
 
 /**
- * @brief Testfixture voor Voertuig tests die Design by Contract veilig afhandelt
+ * @brief Testfixture voor Voertuig tests
  */
 class VoertuigTest : public ::testing::Test {
 protected:
