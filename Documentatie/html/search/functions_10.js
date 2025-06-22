@@ -41,7 +41,7 @@ var searchData=
   ['setuserdata_38',['SetUserData',['../class_ti_xml_base.html#ac6b3e0f790930d4970ec30764e937b5d',1,'TiXmlBase']]],
   ['setvalue_39',['SetValue',['../class_ti_xml_node.html#a2a38329ca5d3f28f98ce932b8299ae90',1,'TiXmlNode::SetValue()'],['../class_ti_xml_attribute.html#a2dae44178f668b3cb48101be4f2236a0',1,'TiXmlAttribute::SetValue()']]],
   ['setversnelling_40',['setVersnelling',['../class_voertuig.html#a96d00eaaf7934a1172accc3411f799b8',1,'Voertuig']]],
-  ['simulatie_41',['simulatie',['../classsimulatie.html#a26dad374bbc0b1f0e9a7a0cf8c277c8b',1,'simulatie::simulatie(VerkeersSituatie &amp;situatie, double tijdstap)'],['../classsimulatie.html#a505064c4ca51a4736e084a520935b7fd',1,'simulatie::simulatie(const simulatie &amp;)=delete'],['../classsimulatie.html#ac5e9fbe19e5972a1a6595c13f479c155',1,'simulatie::simulatie(simulatie &amp;&amp;)=delete']]],
+  ['simulatie_41',['simulatie',['../classsimulatie.html#a0e619c32780ead15ad5e86ab6f827f7f',1,'simulatie::simulatie(VerkeersSituatie &amp;situatie, double tijdstap=0.0166)'],['../classsimulatie.html#a505064c4ca51a4736e084a520935b7fd',1,'simulatie::simulatie(const simulatie &amp;)=delete'],['../classsimulatie.html#ac5e9fbe19e5972a1a6595c13f479c155',1,'simulatie::simulatie(simulatie &amp;&amp;)=delete']]],
   ['size_42',['Size',['../class_ti_xml_printer.html#ad01375ae9199bd2f48252eaddce3039d',1,'TiXmlPrinter']]],
   ['standalone_43',['Standalone',['../class_ti_xml_declaration.html#a11fc7756966a9f993e0b962495298f24',1,'TiXmlDeclaration']]],
   ['stap_44',['stap',['../classsimulatie.html#a931cbb160a138f583a6b6a47e38adddf',1,'simulatie']]]

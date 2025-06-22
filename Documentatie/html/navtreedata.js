@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "Verkeerssimulatie v2.1", "index.html", [
+  [ "Verkeerssimulatie V2.1", "index.html", [
     [ "Deprecated List", "deprecated.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
