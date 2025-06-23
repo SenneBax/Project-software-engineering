@@ -590,10 +590,6 @@ void simulatie::verzamelStatistieken() {
     }
 }
 
-// =============================================================================
-// ALLE ORIGINELE GETTER METHODES
-// =============================================================================
-
 double simulatie::getHuidigeSimulatieTijd() const {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getHuidigeSimulatieTijd");
     return huidigeSimulatieTijd;
@@ -624,10 +620,6 @@ double simulatie::getTotaleTijd() const {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getTotaleTijd");
     return totaleTijd;
 }
-
-// =============================================================================
-// SETTER METHODES
-// =============================================================================
 
 void simulatie::setAutoGenereerVoertuigen(bool waarde) {
     REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij setAutoGenereerVoertuigen");

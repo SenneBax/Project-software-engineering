@@ -34,7 +34,7 @@ public:
      * @post return waarde bevat volledige situatiebeschrijving
      * @post return waarde is niet leeg voor geldige situaties
      *
-     * Genereert een gestructureerd tekstrapport met:
+     * Genereert een tekstrapport met:
      * - Overzicht van alle banen met lengtes
      * - Lijst van voertuigen met posities en types
      * - Verkeerslichten met status en cyclustijden
@@ -44,7 +44,7 @@ public:
     std::string genereerTekstRapport(const VerkeersSituatie& situatie) const;
 
     /**
-     * @brief Genereert een grafische impressie van de verkeerssituatie (ASCII-art)
+     * @brief Genereert een grafische impressie van de verkeerssituatie
      * @param situatie De weer te geven verkeerssituatie
      * @return Een string met de grafische impressie inclusief legende
      * @pre situatie.properlyInitialized() == true
@@ -124,7 +124,7 @@ public:
     bool schrijfNaarHtml(const VerkeersSituatie& situatie, const std::string& bestandsnaam) const;
 
     /**
-     * @brief Haal de laatste foutmelding op
+     * @brief Haalt de laatste foutmelding op
      * @return String met beschrijving van de laatste fout, lege string als geen fout
      * @pre properlyInitialized() == true
      * @post return waarde is beschrijving van meest recente fout

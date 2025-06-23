@@ -19,13 +19,10 @@
 #include "../TraficObjects/voertuiggenerator.h"
 
 /**
- * @brief Hulpfunctie om container grootte naar int te converteren voor veiligere vergelijkingen in tests
+ * @brief Hulpfunctie om container grootte naar int te converteren voor vergelijkingen in tests
  * @tparam Container Type van container om elementen in te tellen
  * @param c De container om elementen in te tellen
  * @return Aantal elementen als int
- *
- * Deze template functie biedt een veilige manier om size_t naar int te converteren
- * voor gebruik in EXPECT_EQ vergelijkingen in Google Test.
  */
 template<typename Container>
 int count(const Container& c) {
@@ -38,7 +35,7 @@ int count(const Container& c) {
  * @return Bestandsnaam van het aangemaakte tijdelijke bestand
  *
  * Maakt een tijdelijk XML bestand met de gegeven inhoud dat gebruikt kan worden
- * voor het testen van bestand lees functionaliteit.
+ * voor het testen van de filereader.
  */
 inline std::string createTempXmlFile(const std::string& content) {
     std::string filename = "test_temp.xml";
@@ -69,8 +66,6 @@ inline bool fileExists(const std::string& filename) {
  * @param extension Bestandsextensie (standaard: ".txt")
  * @return Bestandsnaam van het aangemaakte tijdelijke bestand
  *
- * Algemene functie voor het maken van tijdelijke bestanden met elke inhoud
- * en bestandsextensie voor testdoeleinden.
  */
 inline std::string createTempFile(const std::string& content, const std::string& extension = ".txt") {
     std::string filename = "test_temp" + extension;
@@ -102,13 +97,6 @@ inline std::string readFile(const std::string& filename) {
 /**
  * @brief Maakt een uitgebreide test verkeerssituatie met meerdere componenten
  * @return Complete VerkeersSituatie object voor testen
- *
- * Deze functie maakt een realistische verkeerssituatie met wegen, voertuigen,
- * verkeerslichten, bushaltes, kruispunten en voertuiggeneratoren voor
- * uitgebreide tests van het verkeerssimulatie systeem.
- *
- * @note Deze functie zorgt ervoor dat alle aangemaakte objecten correct geïnitialiseerd zijn
- * en alle pointers veilig beheerd worden om segmentation faults te voorkomen.
  */
 inline VerkeersSituatie createTestSituatie() {
     VerkeersSituatie situatie;
@@ -207,10 +195,6 @@ inline VerkeersSituatie createTestSituatie() {
  * @brief Maakt een minimale geldige verkeerssituatie voor basis tests
  * @return Simpele VerkeersSituatie met één weg en één voertuig
  *
- * Deze functie maakt de meest basale geldige verkeerssituatie die gebruikt
- * kan worden voor tests die geen complexe scenario's vereisen. Het is veiliger
- * dan createTestSituatie() voor tests die gevoelig kunnen zijn voor complexe
- * object interacties.
  */
 inline VerkeersSituatie createMinimalTestSituatie() {
     VerkeersSituatie situatie;

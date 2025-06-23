@@ -82,7 +82,7 @@ protected:
     }
 
     /**
-     * @brief Ultra-veilig XML lezen
+     * @brief  XML lezen
      */
     bool ultraSafeReadXml(const std::string& filename, VerkeersSituatie* situatie) {
         return ultraSafeOperation([&]() -> bool {

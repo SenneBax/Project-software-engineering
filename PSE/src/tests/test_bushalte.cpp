@@ -17,7 +17,7 @@ protected:
     }
 
     void TearDown() override {
-        // Minimale opruiming
+        // Minimale teardown
     }
 
     /**
@@ -29,7 +29,7 @@ protected:
      */
     Bushalte* safeCreateBushalte(const std::string& baan, double positie, int wachttijd) {
         try {
-            // Alleen aanmaken met parameters die REQUIRE checks zouden moeten doorstaan
+
             if (!baan.empty() && positie >= 0.0 && wachttijd >= 0) {
                 return new Bushalte(baan, positie, wachttijd);
             }
@@ -60,7 +60,7 @@ protected:
  * @brief Test basis bushalte constructor en getters met geldige parameters
  */
 TEST_F(BushalteTest, ValidConstructorAndGetters) {
-    // Test met parameters die alle REQUIRE checks zouden moeten doorstaan
+
     Bushalte* halte1 = safeCreateBushalte("Teststraat", 150.0, 20);
 
     if (halte1) {
@@ -100,7 +100,7 @@ TEST_F(BushalteTest, ValidConstructorAndGetters) {
  * @brief Test bushalte parameter validatie logica
  */
 TEST_F(BushalteTest, ParameterValidationLogic) {
-    // Test de logica die in REQUIRE statements zou zitten
+
     auto isValidBaan = [](const std::string& baan) -> bool {
         return !baan.empty();
     };

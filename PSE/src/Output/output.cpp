@@ -1,6 +1,6 @@
 /**
  * @file output.cpp
- * @brief Implementatie van de output klasse - Verbeterde versie met verkeerslichten in lijn
+ * @brief Implementatie van de output klasse
  */
 
 #include "output.h"
@@ -28,7 +28,7 @@ bool output::properlyInitialized() const
 }
 
 /**
- * @brief Genereert een tekstuele weergave van de verkeerssituatie
+ * @brief Genereert een genereerTekstRapport van de verkeerssituatie
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de tekstuele weergave
  * @pre situatie.properlyInitialized() == true
@@ -94,7 +94,7 @@ std::string output::genereerTekstRapport(const VerkeersSituatie& situatie) const
 }
 
 /**
- * @brief Genereert een verbeterde grafische impressie van de verkeerssituatie (ASCII kunst)
+ * @brief Genereert een genereerGrafischeImpressie van de verkeerssituatie 
  * @param situatie De weer te geven verkeerssituatie
  * @return Een string met de grafische impressie
  * @pre situatie.properlyInitialized() == true
@@ -208,7 +208,7 @@ std::string output::genereerGrafischeImpressie(const VerkeersSituatie& situatie)
 }
 
 /**
- * @brief Toon een verbeterde grafische impressie op stdout met voertuigdetails
+ * @brief Maakt een grafische impressie met details
  * @param situatie De weer te geven verkeerssituatie
  * @pre situatie.properlyInitialized() == true
  */
@@ -299,7 +299,7 @@ void output::maakGrafischeImpressie(const VerkeersSituatie& situatie) const {
                               << std::endl;
                 }
             } catch (...) {
-                // Functie mogelijk niet beschikbaar, geen crash
+
             }
         }
     }

@@ -169,22 +169,22 @@ public:
     simulatie(VerkeersSituatie& situatie, double tijdstap = 0.0166);
 
     /**
-     * @brief Copy constructor - niet toegestaan omdat simulatie een referentie bevat
+     * @brief Copy constructor
      */
     simulatie(const simulatie&) = delete;
 
     /**
-     * @brief Assignment operator - niet toegestaan omdat simulatie een referentie bevat
+     * @brief Assignment operator
      */
     simulatie& operator=(const simulatie&) = delete;
 
     /**
-     * @brief Move constructor - niet toegestaan omdat simulatie een referentie bevat
+     * @brief Move constructor
      */
     simulatie(simulatie&&) = delete;
 
     /**
-     * @brief Move assignment operator - niet toegestaan omdat simulatie een referentie bevat
+     * @brief Move assignment operator
      */
     simulatie& operator=(simulatie&&) = delete;
 

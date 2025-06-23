@@ -21,7 +21,7 @@ VerkeersSituatie::VerkeersSituatie()
  */
 VerkeersSituatie::~VerkeersSituatie()
 {
-    // Resources worden automatisch opgeruimd door unique_ptrs
+
 }
 
 bool VerkeersSituatie::properlyInitialized() const

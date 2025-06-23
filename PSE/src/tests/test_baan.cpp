@@ -17,7 +17,7 @@ protected:
     }
 
     void TearDown() override {
-        // Minimale opruiming
+        // Minimale teardown
     }
 
     /**
@@ -28,7 +28,6 @@ protected:
      */
     Baan* safeCreateBaan(const std::string& naam, int lengte) {
         try {
-            // Maak alleen aan met parameters die REQUIRE checks zouden moeten passeren
             if (!naam.empty() && lengte > 0) {
                 return new Baan(naam, lengte);
             }
@@ -39,7 +38,7 @@ protected:
     }
 
     /**
-     * @brief Veilige test van getters zonder crash risico
+     * @brief test van getters
      */
     bool safeTestGetters(Baan* baan, const std::string& expectedNaam, int expectedLengte) {
         if (!baan) return false;
