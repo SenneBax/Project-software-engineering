@@ -123,7 +123,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a012752792a1c56baee237e93a9803e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genereert een tekstuele weergave van de verkeerssituatie.  <br /></td></tr>
 <tr class="separator:a012752792a1c56baee237e93a9803e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fb3ab05f9a49026253fe394da1f2aae" id="r_a8fb3ab05f9a49026253fe394da1f2aae"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fb3ab05f9a49026253fe394da1f2aae">genereerGrafischeImpressie</a> (const <a class="el" href="class_verkeers_situatie.html">VerkeersSituatie</a> &amp;situatie) const</td></tr>
-<tr class="memdesc:a8fb3ab05f9a49026253fe394da1f2aae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genereert een grafische impressie van de verkeerssituatie (ASCII-art)  <br /></td></tr>
+<tr class="memdesc:a8fb3ab05f9a49026253fe394da1f2aae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genereert een grafische impressie van de verkeerssituatie.  <br /></td></tr>
 <tr class="separator:a8fb3ab05f9a49026253fe394da1f2aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97494feb3cbf94d9f5a46581625b4b1a" id="r_a97494feb3cbf94d9f5a46581625b4b1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97494feb3cbf94d9f5a46581625b4b1a">maakGrafischeImpressie</a> (const <a class="el" href="class_verkeers_situatie.html">VerkeersSituatie</a> &amp;situatie) const</td></tr>
 <tr class="memdesc:a97494feb3cbf94d9f5a46581625b4b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toon een verbeterde grafische impressie op stdout met voertuigdetails.  <br /></td></tr>
@@ -138,7 +138,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a25de904bdde3e475de55f19ef7fd122d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schrijf de verkeerssituatie naar een HTML bestand.  <br /></td></tr>
 <tr class="separator:a25de904bdde3e475de55f19ef7fd122d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8180ae98792aa2cc1b17eaa787bd4dcb" id="r_a8180ae98792aa2cc1b17eaa787bd4dcb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb">getLastFoutmelding</a> () const</td></tr>
-<tr class="memdesc:a8180ae98792aa2cc1b17eaa787bd4dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Haal de laatste foutmelding op.  <br /></td></tr>
+<tr class="memdesc:a8180ae98792aa2cc1b17eaa787bd4dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Haalt de laatste foutmelding op.  <br /></td></tr>
 <tr class="separator:a8180ae98792aa2cc1b17eaa787bd4dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef9d4da240131154f5c56241df533413" id="r_aef9d4da240131154f5c56241df533413"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef9d4da240131154f5c56241df533413">properlyInitialized</a> () const</td></tr>
 <tr class="memdesc:aef9d4da240131154f5c56241df533413"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controleer of het output object correct is geïnitialiseerd.  <br /></td></tr>
@@ -173,7 +173,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section pre"><dt>Precondition</dt><dd>Geen specifieke precondities </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="#aef9d4da240131154f5c56241df533413" title="Controleer of het output object correct is geïnitialiseerd.">properlyInitialized()</a> == true </dd>
 <dd>
-<a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haal de laatste foutmelding op.">getLastFoutmelding()</a> == ""</dd></dl>
+<a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haalt de laatste foutmelding op.">getLastFoutmelding()</a> == ""</dd></dl>
 <p>Initialiseert een output object in een geldige toestand.</p>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="#aef9d4da240131154f5c56241df533413" title="Controleer of het output object correct is geïnitialiseerd.">properlyInitialized()</a> == true </dd></dl>
 
@@ -195,8 +195,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Genereert een grafische impressie van de verkeerssituatie (ASCII-art) </p>
-<p>Genereert een verbeterde grafische impressie van de verkeerssituatie (ASCII kunst)</p>
+<p>Genereert een grafische impressie van de verkeerssituatie. </p>
+<p>Genereert een genereerGrafischeImpressie van de verkeerssituatie.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">situatie</td><td>De weer te geven verkeerssituatie </td></tr>
@@ -244,6 +244,7 @@ banen worden geschaald naar maximaal 80 karakters breedte</dd></dl>
 </div><div class="memdoc">
 
 <p>Genereert een tekstuele weergave van de verkeerssituatie. </p>
+<p>Genereert een genereerTekstRapport van de verkeerssituatie.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">situatie</td><td>De weer te geven verkeerssituatie </td></tr>
@@ -255,7 +256,7 @@ banen worden geschaald naar maximaal 80 karakters breedte</dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>return waarde bevat volledige situatiebeschrijving </dd>
 <dd>
 return waarde is niet leeg voor geldige situaties</dd></dl>
-<p>Genereert een gestructureerd tekstrapport met:</p><ul>
+<p>Genereert een tekstrapport met:</p><ul>
 <li>Overzicht van alle banen met lengtes</li>
 <li>Lijst van voertuigen met posities en types</li>
 <li>Verkeerslichten met status en cyclustijden</li>
@@ -288,7 +289,8 @@ return waarde is niet leeg voor geldige situaties</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Haal de laatste foutmelding op. </p>
+<p>Haalt de laatste foutmelding op. </p>
+<p>Haal de laatste foutmelding op.</p>
 <dl class="section return"><dt>Returns</dt><dd>String met beschrijving van de laatste fout, lege string als geen fout </dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="#aef9d4da240131154f5c56241df533413" title="Controleer of het output object correct is geïnitialiseerd.">properlyInitialized()</a> == true </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd>return waarde is beschrijving van meest recente fout</dd></dl>
@@ -314,6 +316,7 @@ return waarde is niet leeg voor geldige situaties</dd></dl>
 </div><div class="memdoc">
 
 <p>Toon een verbeterde grafische impressie op stdout met voertuigdetails. </p>
+<p>Maakt een grafische impressie met details.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">situatie</td><td>De weer te geven verkeerssituatie </td></tr>
@@ -432,7 +435,7 @@ return waarde is niet leeg voor geldige situaties</dd></dl>
 <dd>
 Bij success: return value == true </dd>
 <dd>
-Bij faal: <a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haal de laatste foutmelding op.">getLastFoutmelding()</a> bevat beschrijving van probleem </dd>
+Bij faal: <a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haalt de laatste foutmelding op.">getLastFoutmelding()</a> bevat beschrijving van probleem </dd>
 <dd>
 Bij faal: return value == false</dd></dl>
 <p>Creëert een HTML bestand met een interactieve visualisatie van de verkeerssituatie. Bevat CSS styling, tooltips en gedetailleerde informatie over alle elementen.</p>
@@ -485,7 +488,7 @@ Bij faal: return value == false</dd></dl>
 <dd>
 Bij success: return value == true </dd>
 <dd>
-Bij faal: <a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haal de laatste foutmelding op.">getLastFoutmelding()</a> bevat beschrijving van probleem </dd>
+Bij faal: <a class="el" href="#a8180ae98792aa2cc1b17eaa787bd4dcb" title="Haalt de laatste foutmelding op.">getLastFoutmelding()</a> bevat beschrijving van probleem </dd>
 <dd>
 Bij faal: return value == false</dd></dl>
 <p>Exporteert de volledige verkeerssituatie naar een XML bestand dat kan worden gebruikt om de situatie later opnieuw in te laden. Bevat alle banen, voertuigen, verkeerslichten, bushaltes en kruispunten.</p>

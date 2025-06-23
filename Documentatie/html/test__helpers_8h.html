@@ -128,7 +128,7 @@ $(function(){initNavTree('test__helpers_8h.html',''); initResizable(true); });
 Functions</h2></td></tr>
 <tr class="memitem:a412fa8162fb934030e7a9508f6c47814" id="r_a412fa8162fb934030e7a9508f6c47814"><td class="memTemplParams" colspan="2">template&lt;typename Container&gt; </td></tr>
 <tr class="memitem:a412fa8162fb934030e7a9508f6c47814"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a412fa8162fb934030e7a9508f6c47814">count</a> (const Container &amp;c)</td></tr>
-<tr class="memdesc:a412fa8162fb934030e7a9508f6c47814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hulpfunctie om container grootte naar int te converteren voor veiligere vergelijkingen in tests.  <br /></td></tr>
+<tr class="memdesc:a412fa8162fb934030e7a9508f6c47814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hulpfunctie om container grootte naar int te converteren voor vergelijkingen in tests.  <br /></td></tr>
 <tr class="separator:a412fa8162fb934030e7a9508f6c47814"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac30a4aee6564836680baa95abf2767b7" id="r_ac30a4aee6564836680baa95abf2767b7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac30a4aee6564836680baa95abf2767b7">createTempXmlFile</a> (const std::string &amp;content)</td></tr>
 <tr class="memdesc:ac30a4aee6564836680baa95abf2767b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maakt een tijdelijk XML bestand voor testdoeleinden.  <br /></td></tr>
@@ -169,7 +169,7 @@ template&lt;typename Container&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Hulpfunctie om container grootte naar int te converteren voor veiligere vergelijkingen in tests. </p>
+<p>Hulpfunctie om container grootte naar int te converteren voor vergelijkingen in tests. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Container</td><td>Type van container om elementen in te tellen </td></tr>
@@ -182,8 +182,7 @@ template&lt;typename Container&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Aantal elementen als int</dd></dl>
-<p>Deze template functie biedt een veilige manier om size_t naar int te converteren voor gebruik in EXPECT_EQ vergelijkingen in Google Test. </p>
+<dl class="section return"><dt>Returns</dt><dd>Aantal elementen als int </dd></dl>
 
 </div>
 </div>
@@ -211,8 +210,7 @@ template&lt;typename Container&gt; </div>
 </div><div class="memdoc">
 
 <p>Maakt een minimale geldige verkeerssituatie voor basis tests. </p>
-<dl class="section return"><dt>Returns</dt><dd>Simpele <a class="el" href="class_verkeers_situatie.html" title="Klasse die een verkeerssituatie voorstelt.">VerkeersSituatie</a> met één weg en één voertuig</dd></dl>
-<p>Deze functie maakt de meest basale geldige verkeerssituatie die gebruikt kan worden voor tests die geen complexe scenario's vereisen. Het is veiliger dan <a class="el" href="#a61977225a16e2d728946aec4a3c23f9b" title="Maakt een uitgebreide test verkeerssituatie met meerdere componenten.">createTestSituatie()</a> voor tests die gevoelig kunnen zijn voor complexe object interacties. </p>
+<dl class="section return"><dt>Returns</dt><dd>Simpele <a class="el" href="class_verkeers_situatie.html" title="Klasse die een verkeerssituatie voorstelt.">VerkeersSituatie</a> met één weg en één voertuig </dd></dl>
 
 </div>
 </div>
@@ -251,8 +249,7 @@ template&lt;typename Container&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Bestandsnaam van het aangemaakte tijdelijke bestand</dd></dl>
-<p>Algemene functie voor het maken van tijdelijke bestanden met elke inhoud en bestandsextensie voor testdoeleinden. </p>
+<dl class="section return"><dt>Returns</dt><dd>Bestandsnaam van het aangemaakte tijdelijke bestand </dd></dl>
 
 </div>
 </div>
@@ -287,7 +284,7 @@ template&lt;typename Container&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bestandsnaam van het aangemaakte tijdelijke bestand</dd></dl>
-<p>Maakt een tijdelijk XML bestand met de gegeven inhoud dat gebruikt kan worden voor het testen van bestand lees functionaliteit. </p>
+<p>Maakt een tijdelijk XML bestand met de gegeven inhoud dat gebruikt kan worden voor het testen van de filereader. </p>
 
 </div>
 </div>
@@ -315,9 +312,7 @@ template&lt;typename Container&gt; </div>
 </div><div class="memdoc">
 
 <p>Maakt een uitgebreide test verkeerssituatie met meerdere componenten. </p>
-<dl class="section return"><dt>Returns</dt><dd>Complete <a class="el" href="class_verkeers_situatie.html" title="Klasse die een verkeerssituatie voorstelt.">VerkeersSituatie</a> object voor testen</dd></dl>
-<p>Deze functie maakt een realistische verkeerssituatie met wegen, voertuigen, verkeerslichten, bushaltes, kruispunten en voertuiggeneratoren voor uitgebreide tests van het verkeerssimulatie systeem.</p>
-<dl class="section note"><dt>Note</dt><dd>Deze functie zorgt ervoor dat alle aangemaakte objecten correct geïnitialiseerd zijn en alle pointers veilig beheerd worden om segmentation faults te voorkomen. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Complete <a class="el" href="class_verkeers_situatie.html" title="Klasse die een verkeerssituatie voorstelt.">VerkeersSituatie</a> object voor testen </dd></dl>
 
 </div>
 </div>
