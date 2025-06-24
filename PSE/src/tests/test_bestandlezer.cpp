@@ -28,17 +28,13 @@ protected:
     }
 
     void TearDown() override {
-        // Veilige opruiming
         if (lezer_ptr) {
             try {
                 delete lezer_ptr;
             } catch (...) {
-                // Negeer opruim fouten
             }
             lezer_ptr = nullptr;
         }
-
-        // Ruim test bestanden op
         std::remove("test_temp.xml");
         std::remove("test_valid.xml");
         std::remove("test_invalid.xml");
@@ -75,7 +71,6 @@ protected:
                 return filename;
             }
         } catch (...) {
-            // Bestand aanmaken is mislukt
         }
         return "";
     }
