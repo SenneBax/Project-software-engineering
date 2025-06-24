@@ -259,12 +259,12 @@ TEST_F(VerkeersSituatieTest, SafeStressTest) {
         }
     }
 
-    
+    //als test al niet crasht is deze geslaagd
     EXPECT_TRUE(true);
 }
 
 /**
- * @brief Test edge cases veilig
+ * @brief Test edge cases
  */
 TEST_F(VerkeersSituatieTest, SafeEdgeCases) {
     if (!situatie_ptr) {

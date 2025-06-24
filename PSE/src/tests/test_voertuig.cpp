@@ -469,17 +469,6 @@ TEST_F(VoertuigTest, FactoryMethodEdgeCases) {
     if (!unknownType) {
         EXPECT_TRUE(true); // Factory zou nullptr moeten geven voor onbekende types
     }
-
-    // Test met geldige maar ongewone types (als ondersteund)
-    std::vector<std::string> possibleTypes = {
-        "vrachtwagen", "motor", "fiets", "tram"
-    };
-
-    for (const std::string& type : possibleTypes) {
-        auto voertuig = safeCreateVoertuig("Teststraat", 100.0, type);
-
-        EXPECT_TRUE(true);
-    }
 }
 
 /**

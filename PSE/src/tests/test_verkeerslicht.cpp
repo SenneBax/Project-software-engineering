@@ -86,7 +86,7 @@ TEST_F(VerkeerslichtTest, ValidConstructorAndGetters) {
         delete licht1;
     } else {
         // Als zelfs geldige parameters falen, is er een dieper probleem
-        EXPECT_TRUE(true); // Test slaagt maar documenteert het probleem
+        EXPECT_TRUE(true);
     }
 
     // Test verkeerslicht met oranje fase
