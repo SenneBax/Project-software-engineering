@@ -67,12 +67,12 @@ TEST_F(BaanTest, ValidConstructorAndGetters) {
         try {
             EXPECT_TRUE(baan1->properlyInitialized());
         } catch (...) {
-            // Als properlyInitialized faalt, wordt dat genoteerd maar test gaat door
+
         }
 
         delete baan1;
     } else {
-        // Als zelfs geldige parameters falen, is er een dieper probleem
+
         EXPECT_TRUE(true); // Test slaagt maar documenteert het probleem
     }
 
@@ -171,11 +171,11 @@ TEST_F(BaanTest, SafeObjectManagement) {
         delete independent1;
         delete independent2;
 
-        // Note: Copy constructor en assignment operator worden vermeden
+        // Copy constructor en assignment operator moeten geprobeert vermeden te worde
         // omdat ze segmentation faults kunnen veroorzaken door _initCheck pointer problemen
 
     } catch (...) {
-        // Object beheer kan falen - dat wordt gedocumenteerd
+
         EXPECT_TRUE(true);
     }
 
@@ -220,7 +220,7 @@ TEST_F(BaanTest, ValidSpecialCharacters) {
             EXPECT_TRUE(safeTestGetters(baan, testCase.first, testCase.second));
             delete baan;
         }
-        // Als aanmaak faalt, is dat nog steeds nuttige informatie
+
     }
 }
 
@@ -249,7 +249,7 @@ TEST_F(BaanTest, MultipleValidInstances) {
         EXPECT_TRUE(safeTestGetters(banen[i], expectedNaam, expectedLengte));
     }
 
-    // Ruim op
+
     for (Baan* baan : banen) {
         delete baan;
     }
@@ -357,13 +357,12 @@ TEST_F(BaanTest, IntegrationReadiness) {
             int lengte = baan->getLengte();
             bool initialized = baan->properlyInitialized();
 
-            // Verifieer dat alle benodigde interface elementen werken
+            // Verifieer dat alle benodigde interface zaken werken
             EXPECT_FALSE(naam.empty());
             EXPECT_GT(lengte, 0);
             EXPECT_TRUE(initialized);
 
         } catch (...) {
-            // Integratie problemen worden gedocumenteerd
             EXPECT_TRUE(true);
         }
 
