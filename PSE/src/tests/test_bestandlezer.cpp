@@ -50,7 +50,7 @@ protected:
     }
 
     /**
-     * @brief Ultra-veilige wrapper die ALLE uitzonderingen en fouten opvangt
+     * @brief wrapper die uitzonderingen en fouten moet opvangen
      */
     bool ultraSafeOperation(std::function<bool()> operation) {
         if (!lezer_ptr) return false;
@@ -97,7 +97,7 @@ protected:
     }
 
     /**
-     * @brief Veilige eigenschap controle
+     * @brief eigenschap controle
      */
     bool safePropertyCheck() {
         if (!lezer_ptr) return false;
@@ -110,7 +110,7 @@ protected:
     }
 
     /**
-     * @brief Veilige foutmelding ophalen
+     * @brief foutmelding ophalen
      */
     std::string safeGetError() {
         if (!lezer_ptr) return "Object niet geïnitialiseerd";
