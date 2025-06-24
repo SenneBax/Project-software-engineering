@@ -1,7 +1,6 @@
 /**
  * @file test_bestandslezer.cpp
- * @brief GEFIXTE tests voor BestandsLezer - vermijdt volledig segmentatie fouten
- * @author Gefixed om Design by Contract problemen volledig te omzeilen
+ * @brief GEFIXTE tests voor BestandsLezer
  * @date 2025
  */
 
