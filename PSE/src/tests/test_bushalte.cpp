@@ -410,11 +410,6 @@ TEST_F(BushalteTest, StateConsistency) {
 TEST_F(BushalteTest, ErrorHandlingDocumentation) {
     // Documenteer wat er zou gebeuren met ongeldige parameters
 
-    // Deze zouden REQUIRE checks laten falen als we ze zouden gebruiken:
-    // Bushalte("", 150.0, 20);     // Lege naam
-    // Bushalte("Test", -50.0, 20); // Negatieve positie
-    // Bushalte("Test", 150.0, -10); // Negatieve wachttijd
-
     // In plaats daarvan testen we de validatie logica
     EXPECT_FALSE(std::string("").empty() == false);  // Lege naam check
     EXPECT_FALSE(-50.0 >= 0.0);                       // Negatieve positie check
