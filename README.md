@@ -9,11 +9,13 @@ This project is a modular traffic simulation system written in C++. It models ro
 
 Logic has been moved from the simulation class to the appropriate object classes:
 
-    Vehicle types and parameters are now encapsulated in the Voertuig class
+    Vehicle types and parameters are for example encapsulated in the Voertuig class
 
     Traffic lights handle their own state updates
 
     Roads, intersections, and bus stops manage their own data and behavior
+
+    etc.
 
 2. Features Implementation
 
@@ -127,9 +129,9 @@ File Structure
 
 How to Use
 
-    Compile all source files:
+    Compile all source files in the project:
     
-⚠️These must in this version also include the compiled gtest files (release 1.7.0 is the original use).
+⚠️These must also include the compiled gtest files (release 1.7.0 is the original use).
     These files are available at https://github.com/google/googletest/archive/release-1.7.0.tar.gz and after configuring them you should be left with on linux 2 files named libgtest.a and libgtest_main.a. These files should then be added to the lib file in the gtest/lib directory. And the tests should run when compiled.
 
 
