@@ -1,12 +1,11 @@
-/**
- * @file main_release.cpp
- * @brief Main program for the traffic simulation (Revised with all features)
- */
-
 #include <iostream>
 #include <string>
 #include <thread>
 #include <chrono>
+#include <iomanip>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "../Situation/situatie.h"
 #include "../FileReader/bestandslezer.h"
 #include "../Simulation/simulatie.h"
@@ -14,6 +13,42 @@
 
 using namespace std;
 
+/**
+ * @brief Check for non-blocking keyboard input
+ * @return true if key was pressed, false otherwise
+ */
+
+bool kbhit() {
+    struct termios oldt, newt;
+    int ch;
+    int oldf;
+
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+    ch = getchar();
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+    if(ch != EOF) {
+        ungetc(ch, stdin);
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @brief Toon help-informatie voor gebruikerscommando's
+ * @post Help-tekst is weergegeven op stdout
+ *
+ * Toont een overzicht van alle beschikbare commando's en hun functionaliteit.
+ */
 void displayHelp() {
     cout << "Verkeerssimulatie - Help\n";
     cout << "------------------------\n";
@@ -30,9 +65,28 @@ void displayHelp() {
     cout << "  q - Afsluiten\n";
 }
 
+/**
+ * @brief Hoofdprogramma voor de verkeerssimulatie
+ * @param argc Aantal command-line argumenten
+ * @param argv Array van command-line argumenten
+ * @return 0 bij succesvolle uitvoering, 1 bij fout
+ * @pre argc == 2 (programmanaam + XML-bestandsnaam)
+ * @pre argv[1] moet een geldig pad naar een XML-bestand zijn
+ * @post Simulatie is uitgevoerd volgens gebruikersinput
+ * @post Eindstatistieken zijn weergegeven
+ *
+ * Het programma:
+ * 1. Controleert command-line argumenten
+ * 2. Laadt de verkeerssituatie uit het XML-bestand
+ * 3. Initialiseert de simulatie met 0.1s tijdstap
+ * 4. Biedt een interactieve command-line interface
+ * 5. Verwerkt gebruikerscommando's tot 'q' (quit)
+ * 6. Toont eindstatistieken
+ */
 int main(int argc, char* argv[]) {
     std::cout << "Verkeerssimulatie v2.0 - Opstart\n";
 
+    // Controleer command-line argumenten
     if (argc != 2) {
         std::cerr << "Gebruik: " << argv[0] << " <XML-bestand>\n";
         return 1;
@@ -41,11 +95,11 @@ int main(int argc, char* argv[]) {
     const string bestandsnaam = argv[1];
     std::cout << "Bestandsnaam: " << bestandsnaam << "\n";
 
-    // Create a traffic situation and a file reader
+    // Maak een verkeerssituatie en een bestandslezer
     VerkeersSituatie situatie;
     BestandsLezer lezer;
 
-    // Try to read the file
+    // Probeer het bestand te lezen
     if (!lezer.leesXmlBestand(bestandsnaam, situatie)) {
         cerr << "FOUT: " << lezer.getLastFoutmelding() << endl;
         return 1;
@@ -53,89 +107,159 @@ int main(int argc, char* argv[]) {
 
     cout << "Verkeerssituatie succesvol ingelezen.\n";
 
-    // Create a simulation with the loaded traffic situation
-    simulatie sim(situatie, 0.1); // 0.1 second timestep
+    // Maak een simulatie met de geladen verkeerssituatie
+    simulatie sim(situatie, 0.1); // 0.1 seconde tijdstap
     output uitvoer;
 
-    bool running = false;
-    bool autoGenerate = false;
+    bool running = false;      ///< Status van continue simulatie modus
+    bool autoGenerate = false; ///< Status van automatische voertuiggeneratie
 
-    // Display help at startup
+    // Toon help bij opstarten
     displayHelp();
 
-    // Main program loop
+    // Hoofdprogrammalus
     char cmd;
     do {
-        // Run continuous simulation if enabled
+        // Draai continue simulatie indien ingeschakeld
         if (running) {
             sim.stap();
 
-            // Display minimal info during continuous run
+            // Toon uitgebreide info tijdens continue run inclusief voertuigposities
             cout << "Tijd: " << sim.getHuidigeSimulatieTijd()
                  << "s, Voertuigen: " << sim.getAantalVoertuigen()
-                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\r" << flush;
+                 << ", Gem. snelheid: " << sim.getGemiddeldeSnelheid() << " m/s" << endl;
 
-            // Add a small delay to make the simulation visible
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            // Toon posities van alle voertuigen
+            const auto& voertuigen = situatie.getVoertuigen();
+            for (const auto& voertuig : voertuigen) {
+                cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                     << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                     << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+            }
+            cout << "-------------------" << endl;
 
-            // Check for user input (non-blocking)
-            if (cin.peek() != EOF) {
-                cin >> cmd;
-                if (cmd == 'c') {
+            // Voeg een kleine vertraging toe om de simulatie zichtbaar te maken
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+            // Check voor keyboard input ZONDER te wachten
+            #if defined(__unix__) || defined(__APPLE__)
+            if (kbhit()) {
+                char input = getchar();
+                if (input == 'c' || input == 'C') {
                     running = false;
-                    cout << "\nContinue modus gestopt.                                       \n";
+                    cout << "\nContinue modus gestopt.\n";
+                    // Clear any remaining input
+                    while (kbhit()) {
+                        getchar();
+                    }
                 }
             }
+            #endif
 
-            continue; // Skip the normal command input
+            continue; // Blijf in de continue loop
         }
 
-        // Prompt for command
+        // Vraag om commando
         cout << "\nVoer commando in (h voor help): ";
         cin >> cmd;
 
-        // Process command
+        // Verwerk commando
         switch (cmd) {
             case 'h': // Help
+                /**
+                 * @brief Toon help-informatie
+                 * @post Help-tekst is weergegeven
+                 */
                 displayHelp();
                 break;
 
-            case 's': // Single step
-                sim.stap();
-                cout << "Simulatiestap uitgevoerd. Nieuwe tijd: " << sim.getHuidigeSimulatieTijd() << "s\n";
-                cout << "Aantal voertuigen: " << sim.getAantalVoertuigen() << "\n";
-                cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
-                break;
-
-            case 'r': // Run 10 steps
-                cout << "Uitvoeren van 10 simulatiestappen...\n";
-                for (int i = 0; i < 10; i++) {
+            case 's': // Enkele stap
+                /**
+                 * @brief Voer één simulatiestap uit
+                 * @post Simulatie is één tijdstap vooruitgegaan
+                 * @post Statistieken zijn weergegeven
+                 */
+                {
                     sim.stap();
-                    cout << "Stap " << i+1 << " - Tijd: " << sim.getHuidigeSimulatieTijd()
-                         << "s, Voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                    cout << "Simulatiestap uitgevoerd. Nieuwe tijd: " << sim.getHuidigeSimulatieTijd() << "s\n";
+                    cout << "Aantal voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                    cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+                    // Toon ook voertuigposities na enkele stap
+                    const auto& voertuigen = situatie.getVoertuigen();
+                    cout << "Voertuigposities:\n";
+                    for (const auto& voertuig : voertuigen) {
+                        cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                             << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                             << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+                    }
                 }
-                cout << "10 stappen voltooid. Gemiddelde snelheid: "
-                     << sim.getGemiddeldeSnelheid() << " m/s\n";
                 break;
 
-            case 'c': // Continuous simulation
+            case 'r': // Draai 10 stappen
+                /**
+                 * @brief Voer 10 simulatiestappen uit
+                 * @post Simulatie is 10 tijdstappen vooruitgegaan
+                 * @post Progress van elke stap is weergegeven
+                 * @post Eindstatistieken zijn weergegeven
+                 */
+                {
+                    cout << "Uitvoeren van 10 simulatiestappen...\n";
+                    for (int i = 0; i < 10; i++) {
+                        sim.stap();
+                        cout << "Stap " << i+1 << " - Tijd: " << sim.getHuidigeSimulatieTijd()
+                             << "s, Voertuigen: " << sim.getAantalVoertuigen() << "\n";
+                    }
+                    cout << "10 stappen voltooid. Gemiddelde snelheid: "
+                         << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+                    // Toon eindposities na 10 stappen
+                    const auto& voertuigenNa10 = situatie.getVoertuigen();
+                    cout << "Voertuigposities na 10 stappen:\n";
+                    for (const auto& voertuig : voertuigenNa10) {
+                        cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                             << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                             << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+                    }
+                }
+                break;
+
+            case 'c': // Continue simulatie
+                /**
+                 * @brief Start continue simulatie modus
+                 * @post running == true
+                 * @post Simulatie draait automatisch tot gebruiker 'c' indrukt
+                 */
                 running = true;
-                cout << "Continue simulatie gestart. Druk 'c' om te stoppen.\n";
+                cout << "Continue simulatie gestart. Typ 'c' om te stoppen.\n";
                 break;
 
-            case 't': // Text report
+            case 't': // Tekstrapport
+                /**
+                 * @brief Genereer en toon tekstrapport
+                 * @post Tekstuele weergave van verkeerssituatie is getoond
+                 */
                 cout << "Tekstrapport:\n";
                 cout << "=============\n";
-                cout << output::genereerTekstRapport(situatie) << "\n";
+                cout << uitvoer.genereerTekstRapport(situatie) << "\n";
                 break;
 
-            case 'g': // Graphical impression
+            case 'g': // Grafische impressie
+                /**
+                 * @brief Genereer en toon grafische impressie (ASCII-art)
+                 * @post ASCII-art weergave van verkeerssituatie is getoond
+                 */
                 cout << "Grafische impressie:\n";
                 cout << "===================\n";
-                cout << output::genereerGrafischeImpressie(situatie) << "\n";
+                cout << uitvoer.genereerGrafischeImpressie(situatie) << "\n";
                 break;
 
-            case 'x': // Write to XML
+            case 'x': // Schrijf naar XML
+                /**
+                 * @brief Exporteer verkeerssituatie naar XML-bestand
+                 * @post XML-bestand "simulatie_uitvoer.xml" is aangemaakt
+                 * @post Succes/faal bericht is weergegeven
+                 */
                 {
                     string xmlBestand = "simulatie_uitvoer.xml";
                     if (uitvoer.schrijfNaarXml(situatie, xmlBestand)) {
@@ -146,7 +270,12 @@ int main(int argc, char* argv[]) {
                 }
                 break;
 
-            case 'w': // Write to HTML
+            case 'w': // Schrijf naar HTML
+                /**
+                 * @brief Exporteer verkeerssituatie naar HTML-bestand
+                 * @post HTML-bestand "simulatie_uitvoer.html" is aangemaakt
+                 * @post Succes/faal bericht is weergegeven
+                 */
                 {
                     string htmlBestand = "simulatie_uitvoer.html";
                     if (uitvoer.schrijfNaarHtml(situatie, htmlBestand)) {
@@ -157,27 +286,52 @@ int main(int argc, char* argv[]) {
                 }
                 break;
 
-            case 'a': // Toggle auto-generate vehicles
+            case 'a': // Schakel automatisch genereren van voertuigen in/uit
+                /**
+                 * @brief Toggle automatische voertuiggeneratie
+                 * @post autoGenerate status is omgekeerd
+                 * @post Simulatie gebruikt nieuwe autoGenerate setting
+                 * @post Status is weergegeven aan gebruiker
+                 */
                 autoGenerate = !autoGenerate;
                 sim.setAutoGenereerVoertuigen(autoGenerate);
                 cout << "Automatisch voertuigen genereren: " << (autoGenerate ? "AAN" : "UIT") << "\n";
                 break;
 
-            case 'q': // Quit
+            case 'q': // Afsluiten
+                /**
+                 * @brief Beëindig het programma
+                 * @post Afsluitbericht is weergegeven
+                 */
                 cout << "Programma wordt afgesloten.\n";
                 break;
 
             default:
+                /**
+                 * @brief Behandel onbekende commando's
+                 * @post Foutbericht en help-verwijzing zijn weergegeven
+                 */
                 cout << "Onbekend commando. Gebruik 'h' voor help.\n";
         }
     } while (cmd != 'q');
 
-    // Display final statistics
+    // Toon eindstatistieken
     cout << "\nSimulatie statistieken:\n";
     cout << "Totale simulatietijd: " << sim.getTotaleTijd() << "s\n";
     cout << "Totaal aantal voertuigen verwerkt: " << sim.getTotaalVerwijderdeVoertuigen() + sim.getAantalVoertuigen() << "\n";
     cout << "Aantal voertuigen verwijderd: " << sim.getTotaalVerwijderdeVoertuigen() << "\n";
     cout << "Gemiddelde snelheid: " << sim.getGemiddeldeSnelheid() << " m/s\n";
+
+    // Toon finale voertuigposities
+    {
+        const auto& finaleVoertuigen = situatie.getVoertuigen();
+        cout << "\nFinale voertuigposities:\n";
+        for (const auto& voertuig : finaleVoertuigen) {
+            cout << "  " << voertuig->getType() << " op " << voertuig->getBaanNaam()
+                 << " @ " << fixed << setprecision(1) << voertuig->getPositie()
+                 << "m (snelheid: " << setprecision(1) << voertuig->getSnelheid() << " m/s)" << endl;
+        }
+    }
 
     return 0;
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerkeersSituatie>
+    <BAAN>
+        <naam>Teststraat</naam>
+        <lengte>500</lengte>
+    </BAAN>
+    <VOERTUIG>
+        <baan>Teststraat</baan>
+        <positie>50</positie>
+        <type>auto</type>   //Kan als vb ook politiecombi of andere gebruiken indien nodig
+    </VOERTUIG>
+</VerkeersSituatie>

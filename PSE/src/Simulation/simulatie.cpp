@@ -1,578 +1,797 @@
 /**
  * @file simulatie.cpp
- * @brief Implementation of the simulation class (Revised for better modularity)
+ * @brief Veilige implementatie van de simulatie klasse gebaseerd op bestaande code
  */
 
-#include "../Simulation/simulatie.h"
-#include "../Situation/situatie.h"
-#include "../TraficObjects/baan.h"
-#include "../TraficObjects/voertuig.h"
-#include "../TraficObjects/verkeerslicht.h"
-#include "../TraficObjects/voertuiggenerator.h"
-#include "../TraficObjects/bushalte.h"
-#include "../TraficObjects/kruispunt.h"
-#include <algorithm>
-#include <iostream>
-#include <cmath>
-#include <random>
+#include "simulatie.h"
 #include "DesignByContract.h"
-
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <iostream>
+#include <random>
 
 /**
- * @brief Constructor
- * @param situatie Reference to the traffic situation to simulate
- * @param tijdstap The time step for the simulation in seconds
+ * @brief Constructor voor simulatie klasse
  */
 simulatie::simulatie(VerkeersSituatie& situatie, double tijdstap)
-    : verkeerssituatie(situatie), tijdstap(tijdstap), huidigeSimulatieTijd(0.0) {
-    //REQUIRE(tijdstap >= 0.0, "tijdstap mag niet negatief zijn.");
-    REQUIRE(situatie.properlyInitialized(), "situatie niet correct ingesteld.");
-    // Check if the time step is valid
-    if (tijdstap <= 0) {
-        this->tijdstap = 0.0166; // Default time step
-    }
-
-    // Initialize default values from B.6
-    vertraagAfstand = 50.0;
-    stopAfstand = 15.0;
-    vertraagFactor = 0.4;
-
+    : verkeerssituatie(situatie),
+      tijdstap(tijdstap > 0.0 ? tijdstap : 0.0166),
+      huidigeSimulatieTijd(0.0),
+      autoGenereerVoertuigen(false),
+      vertraagAfstand(250.0),
+      stopAfstand(50.0),
+      vertraagFactor(0.4),
+      aantalVoertuigen(0),
+      gemiddeldeSnelheid(0.0),
+      verwijderdeVoertuigenTeller(0),
+      totaalVerwijderdeVoertuigen(0),
+      totaleTijd(0.0)
+{
     _initCheck = this;
-    REQUIRE(properlyInitialized(), "simulatie moet eindigen in een geldige toestand.");
+    ENSURE(properlyInitialized(), "Constructor moet eindigen in een geldige toestand.");
 }
 
+/**
+ * @brief Controleer of het simulatie object correct is geïnitialiseerd
+ */
 bool simulatie::properlyInitialized() const
 {
     return _initCheck == this;
 }
 
 /**
- * @brief Perform one simulation step
+ * @brief Voer één simulatiestap uit
  */
 void simulatie::stap() {
-    REQUIRE(properlyInitialized(), "stap moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij stap");
 
-    // Process all traffic lights
-    verwerkVerkeerslichten();
+    try {
+        // Update verkeerslichten
+        verwerkVerkeerslichten();
 
-    // Process all vehicles
-    verwerkVoertuigen();
+        // Verwerk voertuigen
+        verwerkVoertuigen();
 
-    // Process all bus stops
-    verwerkBushaltes();
+        // Verwerk bushaltes
+        verwerkBushaltes();
 
-    // Process all intersections
-    verwerkKruispunten();
+        // Verwerk kruispunten
+        verwerkKruispunten();
 
-    // Update the simulation time
-    huidigeSimulatieTijd += tijdstap;
+        // Genereer nieuwe voertuigen indien nodig
+        if (autoGenereerVoertuigen) {
+            genereerNieuweVoertuigen();
+        }
 
-    // Add new vehicles periodically if the option is enabled
-    if (autoGenereerVoertuigen) {
-        genereerNieuweVoertuigen();
+        // Verhoog tijd
+        huidigeSimulatieTijd += tijdstap;
+        totaleTijd += tijdstap;
+
+        // Verzamel statistieken
+        verzamelStatistieken();
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout in simulatiestap: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Onbekende fout in simulatiestap" << std::endl;
     }
 
-    // Collect statistics
-    verzamelStatistieken();
-
-    REQUIRE(properlyInitialized(), "stap moet eindigen in een geldige toestand.");
+    ENSURE(huidigeSimulatieTijd > 0.0, "huidigeSimulatieTijd moet toenemen na een stap");
 }
 
 /**
- * @brief Process all traffic lights in the simulation
+ * @brief Verwerk alle verkeerslichten in de simulatie
  */
 void simulatie::verwerkVerkeerslichten() {
-    REQUIRE(properlyInitialized(), "verwerkVerkeerslichten moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVerkeerslichten");
 
-    // Update all traffic lights
-    for (auto& verkeerslicht : verkeerssituatie.getVerkeerslichten()) {
-        verkeerslicht.update(tijdstap);
+    try {
+        // Update alle verkeerslichten
+        for (auto& licht : verkeerssituatie.getVerkeerslichten()) {
+            try {
+                licht.update(tijdstap);
+            } catch (...) {
+                // Skip dit verkeerslicht bij fouten
+                continue;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verwerken verkeerslichten: " << e.what() << std::endl;
     }
-    REQUIRE(properlyInitialized(), "verwerkVerkeerslichten moet eindigen in een geldige toestand.");
-
 }
 
 /**
- * @brief Check if a vehicle is approaching a traffic light
- * @param voertuig The vehicle to check
- * @param verkeerslicht The traffic light to check
- * @return Response code: 0 = no effect, 1 = slow down, 2 = stop, 3 = pass through
+ * @brief Controleer verkeerslicht nadering
  */
 int simulatie::controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeerslicht& verkeerslicht) {
-    REQUIRE(properlyInitialized(), "controleerVerkeerslichtNadering moet eindigen in een geldige toestand.");
-    REQUIRE(voertuig.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
-    //REQUIRE(verkeerslicht.properlyInitialized(), "verkeerslicht moet correct ingesteld zijn.");
-    // If this is a priority vehicle (fire truck, ambulance, police), it can pass through red lights
-    if (voertuig.isPrioriteitsvoertuig()) {
-        return 3; // Pass through
-    }
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij controleerVerkeerslichtNadering");
 
-    double afstand = verkeerslicht.getPositie() - voertuig.getPositie();
+    try {
+        double positieLicht = verkeerslicht.getPositie();
+        double positieVoertuig = voertuig.getPositie();
+        double afstand = positieLicht - positieVoertuig;
 
-    // If the vehicle is very close to the light or has passed it, no effect
-    if (afstand <= 0.1) {
-        return 0;
-    }
-
-    // Check traffic light state
-    if (verkeerslicht.isRood()) {
-        if (afstand <= stopAfstand) {
-            return 2; // Stop
-        } else if (afstand <= vertraagAfstand) {
-            return 1; // Slow down
+        // Prioriteitsvoertuigen mogen door rood rijden
+        if (voertuig.isPrioriteitsvoertuig()) {
+            // Maar ze worden nog steeds geregistreerd bij slimme verkeerslichten
+            if (verkeerslicht.getIsSlim() && verkeerslicht.isRood() && afstand < stopAfstand) {
+                const_cast<Verkeerslicht&>(verkeerslicht).registerVoertuigVoorLicht();
+            }
+            return 0; // Geen reactie nodig voor prioriteitsvoertuigen
         }
-    } else if (verkeerslicht.isOranje()) {
-        // For orange light, if in stop distance, keep going. If in slow-down distance, start slowing down
-        if (afstand <= stopAfstand) {
-            return 0; // Continue
-        } else if (afstand <= vertraagAfstand) {
-            return 1; // Slow down
+
+        // Controleer of het verkeerslicht rood of oranje is
+        if ((verkeerslicht.isRood() || verkeerslicht.isOranje()) && afstand > 0) {
+            // Registreer voertuig bij slim verkeerslicht
+            if (verkeerslicht.getIsSlim() && afstand < vertraagAfstand) {
+                const_cast<Verkeerslicht&>(verkeerslicht).registerVoertuigVoorLicht();
+            }
+
+            // Als het voertuig binnen de stopafstand is, moet het stoppen
+            if (afstand < stopAfstand) {
+                return 2; // Stop
+            }
+            // Als het voertuig binnen de vertraagafstand is, moet het vertragen
+            else if (afstand < vertraagAfstand) {
+                return 1; // Vertragen
+            }
         }
+        // Verkeerslicht is groen of voertuig is er voorbij
+        else if (verkeerslicht.isGroen() && afstand > 0 && afstand < stopAfstand) {
+            return 3; // Doorrijden
+        }
+
+        return 0; // Geen effect
+    } catch (...) {
+        return 0; // Bij fout geen effect
     }
-    // For green light, no effect
-    return 0;
 }
 
 /**
- * @brief Process all vehicles in the simulation
+ * @brief Verwerk alle voertuigen in de simulatie
  */
 void simulatie::verwerkVoertuigen() {
-    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
-    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
-    std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
-    const std::map<std::string, Baan>& banen = verkeerssituatie.getBanen();
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkVoertuigen");
 
-    // Temporary vector to store vehicles that need to be removed
-    std::vector<int> teVerwijderenVoertuigen;
+    try {
+        const auto& banen = verkeerssituatie.getBanen();
+        auto& voertuigen = verkeerssituatie.getVoertuigen();
 
-    // Group vehicles by road
-    std::map<std::string, std::vector<size_t>> voertuigenPerBaan;
+        // Verwerk elke baan afzonderlijk
+        for (const auto& baanPair : banen) {
+            try {
+                const std::string& baanNaam = baanPair.first;
+                double baanLengte = baanPair.second.getLengte();
 
-    // Index vehicles by road
-    for (size_t i = 0; i < voertuigen.size(); i++) {
-        voertuigenPerBaan[voertuigen[i].getBaanNaam()].push_back(i);
-    }
+                // Verzamel alle voertuigen op deze baan
+                std::vector<Voertuig*> voertuigenOpBaan;
+                for (auto& voertuig : voertuigen) {
+                    if (voertuig && voertuig->getBaanNaam() == baanNaam) {
+                        voertuigenOpBaan.push_back(voertuig.get());
+                    }
+                }
 
-    // For each road, sort vehicles by position (descending)
-    for (auto& paar : voertuigenPerBaan) {
-        std::sort(paar.second.begin(), paar.second.end(), [&voertuigen](const size_t a, const size_t b) {
-            return voertuigen[a].getPositie() > voertuigen[b].getPositie();
-        });
-    }
+                // Sorteer voertuigen op positie (hoogste positie eerst)
+                std::sort(voertuigenOpBaan.begin(), voertuigenOpBaan.end(),
+                          [](const Voertuig* a, const Voertuig* b) {
+                              if (!a || !b) return false;
+                              try {
+                                  return a->getPositie() > b->getPositie();
+                              } catch (...) {
+                                  return false;
+                              }
+                          });
 
-    // Process each vehicle
-    for (auto& baanPaar : voertuigenPerBaan) {
-        const std::string& baanNaam = baanPaar.first;
-        const std::vector<size_t>& voertuigIndices = baanPaar.second;
+                // Verwerk elk voertuig op deze baan
+                for (size_t i = 0; i < voertuigenOpBaan.size(); i++) {
+                    try {
+                        Voertuig* voertuig = voertuigenOpBaan[i];
+                        if (!voertuig) continue;
 
-        // Check if the road exists
-        auto baanIt = banen.find(baanNaam);
-        if (baanIt == banen.end()) {
-            continue; // Skip this road if it doesn't exist
+                        // Bepaal verkeerslicht vertraagfactor
+                        double verkeersLichtVertraagFactor = 1.0;
+
+                        // Controleer verkeerslichten op deze baan
+                        for (const auto& verkeerslicht : verkeerssituatie.getVerkeerslichten()) {
+                            if (verkeerslicht.getBaan() == baanNaam) {
+                                int response = controleerVerkeerslichtNadering(*voertuig, verkeerslicht);
+                                if (response == 1) { // Vertragen
+                                    verkeersLichtVertraagFactor = vertraagFactor;
+                                } else if (response == 2) { // Stoppen
+                                    verkeersLichtVertraagFactor = 0.0;
+                                }
+                            }
+                        }
+
+                        // Bepaal of dit het eerste voertuig is
+                        bool isEersteVoertuig = (i == 0);
+
+                        // Bepaal voorliggend voertuig
+                        Voertuig* voorliggendVoertuig = nullptr;
+                        if (!isEersteVoertuig && i > 0) {
+                            voorliggendVoertuig = voertuigenOpBaan[i-1];
+                        }
+
+                        // Bereken versnelling van het voertuig
+                        voertuig->berekenVersnelling(voorliggendVoertuig, isEersteVoertuig, verkeersLichtVertraagFactor, -1.0);
+
+                        // Update positie en snelheid
+                        voertuig->updatePositieEnSnelheid(tijdstap);
+
+                        // Controleer of het voertuig het einde van de baan heeft bereikt
+                        if (voertuig->getPositie() >= baanLengte) {
+                            // Markeer voor verwijdering
+                            voertuig->setPositie(-1.0);
+                        }
+
+                    } catch (...) {
+                        // Skip dit voertuig bij fouten
+                        continue;
+                    }
+                }
+            } catch (...) {
+                // Skip deze baan bij fouten
+                continue;
+            }
         }
 
-        const Baan& baan = baanIt->second;
+        // Verwijder voertuigen die de baan hebben verlaten - VEILIG
+        try {
+            auto beginIt = std::remove_if(voertuigen.begin(), voertuigen.end(),
+                                         [](const std::unique_ptr<Voertuig>& voertuig) {
+                                             if (!voertuig) return true;
+                                             try {
+                                                 return voertuig->getPositie() < 0;
+                                             } catch (...) {
+                                                 return true; // Verwijder beschadigde voertuigen
+                                             }
+                                         });
 
-        // Process vehicles from back to front (highest position first)
-        for (size_t i = 0; i < voertuigIndices.size(); i++) {
-            const size_t voertuigIndex = voertuigIndices[i];
-            Voertuig& voertuig = voertuigen[voertuigIndex];
+            // Tel aantal verwijderde voertuigen
+            verwijderdeVoertuigenTeller = std::distance(beginIt, voertuigen.end());
+            totaalVerwijderdeVoertuigen += verwijderdeVoertuigenTeller;
 
-            // Skip vehicles waiting at bus stops
-            if (voertuig.isWaitingAtBusStop()) {
+            // Voer daadwerkelijke verwijdering uit
+            voertuigen.erase(beginIt, voertuigen.end());
+        } catch (...) {
+            std::cerr << "Fout bij verwijderen voertuigen" << std::endl;
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verwerken voertuigen: " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @brief Verwerk alle bushaltes in de simulatie
+ */
+void simulatie::verwerkBushaltes() {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkBushaltes");
+
+    try {
+        auto& bushaltes = verkeerssituatie.getBushaltes();
+        auto& voertuigen = verkeerssituatie.getVoertuigen();
+
+        // Doorloop alle bushaltes
+        for (auto& bushalte : bushaltes) {
+            try {
+                // Controleer of er een bus bij de halte wacht
+                if (bushalte.isBusGestopt()) {
+                    // Update de wachttijd
+                    if (bushalte.updateWachttijd(tijdstap)) {
+                        // Wachttijd is verstreken, markeer de bushalte als vrij
+                        bushalte.setBusLeft();
+
+                        // Zoek de bijbehorende bus en laat hem doorrijden
+                        for (auto& voertuig : voertuigen) {
+                            if (voertuig && voertuig->isBus() &&
+                                voertuig->getBaanNaam() == bushalte.getBaan() &&
+                                std::abs(voertuig->getPositie() - bushalte.getPositie()) < 10.0) {
+                                voertuig->setIsWaitingAtStop(false);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    // Controleer of er een bus de halte nadert
+                    for (auto& voertuig : voertuigen) {
+                        if (voertuig && voertuig->isBus() &&
+                            voertuig->getBaanNaam() == bushalte.getBaan()) {
+
+                            double afstand = bushalte.getPositie() - voertuig->getPositie();
+
+                            // Bus bereikt de halte
+                            if (afstand >= 0 && afstand <= 5.0) {
+                                // Stop de bus bij de halte
+                                voertuig->setIsWaitingAtStop(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (...) {
+                // Skip deze bushalte bij fouten
+                continue;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verwerken bushaltes: " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @brief Verwerk alle kruispunten in de simulatie
+ */
+void simulatie::verwerkKruispunten() {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verwerkKruispunten");
+
+    try {
+        auto& kruispunten = verkeerssituatie.getKruispunten();
+        auto& voertuigen = verkeerssituatie.getVoertuigen();
+
+        // Random number generator voor willekeurige keuze van nieuwe baan
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+
+        // Doorloop alle kruispunten
+        for (const auto& kruispunt : kruispunten) {
+            try {
+                // Doorloop alle voertuigen
+                for (auto& voertuig : voertuigen) {
+                    if (!voertuig) continue;
+
+                    try {
+                        // Zoek kruispunt voor dit voertuig
+                        for (const auto& baan : kruispunt.getBanen()) {
+                            if (voertuig->getBaanNaam() == baan.first) {
+                                // Haal baanlengte op uit de verkeerssituatie
+                                const auto& alleBanen = verkeerssituatie.getBanen();
+                                auto baanIt = alleBanen.find(baan.first);
+                                if (baanIt != alleBanen.end()) {
+                                    double baanLengte = baanIt->second.getLengte();
+
+                                    // Controleer of voertuig aan het einde van de baan is
+                                    if (voertuig->getPositie() >= baanLengte - 5.0) {
+                                        // Krijg aangesloten banen
+                                        const auto& aangeslotenBanen = kruispunt.getBanen();
+
+                                        if (!aangeslotenBanen.empty()) {
+                                            // Kies willekeurig een nieuwe baan
+                                            std::uniform_int_distribution<> dis(0, aangeslotenBanen.size() - 1);
+                                            int index = dis(gen);
+
+                                            auto it = aangeslotenBanen.begin();
+                                            std::advance(it, index);
+
+                                            // Verplaats voertuig naar nieuwe baan
+                                            voertuig->setBaanNaam(it->first);
+                                            voertuig->setPositie(0.0);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } catch (...) {
+                        // Skip dit voertuig bij fouten
+                        continue;
+                    }
+                }
+            } catch (...) {
+                // Skip dit kruispunt bij fouten
+                continue;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verwerken kruispunten: " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @brief Genereer nieuwe voertuigen vanaf voertuiggeneratoren
+ */
+void simulatie::genereerNieuweVoertuigen() {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereerNieuweVoertuigen");
+
+    if (!autoGenereerVoertuigen) {
+        return;
+    }
+
+    try {
+        const auto& generators = verkeerssituatie.getVoertuigGenerators();
+
+        if (generators.empty()) {
+            return;
+        }
+
+        // Verwerk elke generator afzonderlijk met eigen timing
+        for (size_t i = 0; i < generators.size(); ++i) {
+            try {
+                const auto& generator = generators[i];
+
+                if (!generator.properlyInitialized()) {
+                    continue;
+                }
+
+                std::string baanNaam = generator.getBaanNaam();
+                if (baanNaam.empty()) {
+                    continue;
+                }
+
+                int frequentie = generator.getFrequentie();
+                if (frequentie <= 0) {
+                    continue;
+                }
+
+                // Gebruik unieke key voor elke generator (baan + index)
+                std::string generatorKey = baanNaam + "_" + std::to_string(i);
+
+                // Initialiseer lastGenerationTime voor nieuwe generators
+                if (lastGenerationTimes.find(generatorKey) == lastGenerationTimes.end()) {
+                    lastGenerationTimes[generatorKey] = 0.0;
+                }
+
+                // Controleer of er genoeg tijd verstreken is
+                double timeSinceLastGeneration = huidigeSimulatieTijd - lastGenerationTimes[generatorKey];
+                double frequentieInSeconden = static_cast<double>(frequentie);
+
+                if (timeSinceLastGeneration >= frequentieInSeconden) {
+                    // Controleer of de baan nog bestaat
+                    const auto& banen = verkeerssituatie.getBanen();
+                    if (banen.find(baanNaam) == banen.end()) {
+                        continue;
+                    }
+
+                    std::string voertuigType = generator.getType();
+                    if (voertuigType.empty()) {
+                        voertuigType = "auto";
+                    }
+
+                    // Probeer een nieuw voertuig te genereren
+                    bool success = genereertVoertuig(baanNaam, 0.0, voertuigType);
+                    if (success) {
+                        lastGenerationTimes[generatorKey] = huidigeSimulatieTijd;
+                    }
+                }
+
+            } catch (const std::exception& e) {
+                std::cerr << "Fout bij generator " << i << ": " << e.what() << std::endl;
+                continue;
+            } catch (...) {
+                std::cerr << "Onbekende fout bij generator " << i << std::endl;
+                continue;
+            }
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout in genereerNieuweVoertuigen: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Onbekende fout in genereerNieuweVoertuigen" << std::endl;
+    }
+}
+
+/**
+ * @brief Genereer een nieuw voertuig op een specifieke baan
+ */
+bool simulatie::genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type) {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij genereertVoertuig");
+    REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
+    REQUIRE(positie >= 0.0, "positie moet groter of gelijk aan 0 zijn.");
+
+    try {
+        // Controleer of de baan bestaat
+        const auto& banen = verkeerssituatie.getBanen();
+        if (banen.find(baanNaam) == banen.end()) {
+            return false;
+        }
+
+        // Controleer of er al een voertuig op deze positie staat
+        const auto& voertuigen = verkeerssituatie.getVoertuigen();
+        for (const auto& bestaandVoertuig : voertuigen) {
+            if (!bestaandVoertuig) {
                 continue;
             }
 
-            // Determine if this is the first vehicle on the road
-            const bool isEersteVoertuig = (i == 0);
-
-            // Determine the preceding vehicle (if this is not the first vehicle)
-            Voertuig* voorgaandVoertuig = nullptr;
-            if (!isEersteVoertuig) {
-                voorgaandVoertuig = &voertuigen[voertuigIndices[i-1]];
-            }
-
-            // Check traffic lights for the first vehicle on the road only
-            if (isEersteVoertuig) {
-                // Find the next traffic light
-                Verkeerslicht* eerstvolgendeVerkeerslicht = verkeerssituatie.zoekEerstvolgendeVerkeerslicht(voertuig);
-
-                if (eerstvolgendeVerkeerslicht != nullptr) {
-                    double afstand = eerstvolgendeVerkeerslicht->getPositie() - voertuig.getPositie();
-
-                    // Only consider traffic lights that are within the slow-down distance
-                    if (afstand <= vertraagAfstand) {
-                        int actie = controleerVerkeerslichtNadering(voertuig, *eerstvolgendeVerkeerslicht);
-
-                        if (actie == 1) {
-                            // Slow down
-                            voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig, vertraagFactor,
-                                                       vertraagFactor * voertuig.getMaxSnelheid());
-                        } else if (actie == 2) {
-                            // Stop
-                            voertuig.noodStop();
-                        } else if (actie == 3) {
-                            // Pass through (priority vehicle)
-                            voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig);
-                        } else {
-                            // Regular acceleration calculation
-                            voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig);
-                        }
-                    } else {
-                        // No traffic light in range, regular acceleration
-                        voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig);
-                    }
-                } else {
-                    // No traffic light ahead, regular acceleration
-                    voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig);
+            try {
+                if (bestaandVoertuig->getBaanNaam() == baanNaam &&
+                    std::abs(bestaandVoertuig->getPositie() - positie) < 10.0) {
+                    return false; // Er staat al een voertuig te dichtbij
                 }
-            } else {
-                // Not the first vehicle, just follow the vehicle in front
-                voertuig.berekenVersnelling(voorgaandVoertuig, isEersteVoertuig);
-            }
-
-            // Update position and speed
-            voertuig.updatePositieEnSnelheid(tijdstap);
-
-            // Check if the vehicle is at the end of the road
-            if (voertuig.getPositie() >= baan.getLengte()) {
-                // Check if there is an intersection at the end of the road
-                for (auto& kruispunt : verkeerssituatie.getKruispunten()) {
-                    if (kruispunt.bevatBaan(baanNaam) &&
-                        std::abs(kruispunt.getPositieOpBaan(baanNaam) - baan.getLengte()) < 0.1) {
-                        // Vehicle reached the intersection at the end of the road
-                        if (verplaatsVoertuigNaKruispunt(voertuig, kruispunt)) {
-                            // Vehicle has been moved to a new road, no need to remove it
-                            break;
-                        }
-                    }
-                }
-
-                // If the vehicle is still at the end of the road, mark it for removal
-                if (voertuig.getPositie() >= baan.getLengte()) {
-                    teVerwijderenVoertuigen.push_back(voertuigIndex);
-                }
+            } catch (...) {
+                continue; // Skip voertuigen met problemen
             }
         }
-    }
 
-    // Remove vehicles that are no longer on a road (from high to low to keep indices valid)
-    std::sort(teVerwijderenVoertuigen.begin(), teVerwijderenVoertuigen.end(), std::greater<int>());
-    for (const int index : teVerwijderenVoertuigen) {
-        verhoogVerwijderdeVoertuigenTeller();
-        verkeerssituatie.verwijderVoertuig(index);
-    }
-}
+        // Gebruik factory methode om het juiste type voertuig te maken
+        std::unique_ptr<Voertuig> nieuwVoertuig = nullptr;
 
-/**
- * @brief Process all bus stops in the simulation
- */
-void simulatie::verwerkBushaltes() {
-    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
-    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
-    std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
-    std::vector<Bushalte>& bushaltes = verkeerssituatie.getBushaltes();
-
-    // Process each vehicle
-    for (auto& voertuig : voertuigen) {
-        // Only process buses
-        if (!voertuig.isBus()) {
-            continue;
+        try {
+            nieuwVoertuig = Voertuig::maakVoertuig(baanNaam, positie, type);
+        } catch (const std::exception& e) {
+            std::cerr << "Fout bij aanmaken voertuig: " << e.what() << std::endl;
+            return false;
+        } catch (...) {
+            std::cerr << "Onbekende fout bij aanmaken voertuig" << std::endl;
+            return false;
         }
 
-        // Skip buses that are already waiting at a stop
-        if (voertuig.isWaitingAtBusStop()) {
-            continue;
+        if (!nieuwVoertuig) {
+            return false;
         }
 
-        // Find the next bus stop for this vehicle
-        Bushalte* eerstvolgendeBushalte = verkeerssituatie.zoekEerstvolgendeHalte(voertuig);
-
-        if (eerstvolgendeBushalte != nullptr) {
-            // Check if the bus should stop at this bus stop
-            if (moetStoppenBijHalte(voertuig, *eerstvolgendeBushalte)) {
-                // Bus has arrived at the stop, mark as stopped
-                voertuig.setIsWaitingAtBusStop(true);
-                eerstvolgendeBushalte->setBusStopped();
-            }
-        }
-    }
-
-    // Process each bus stop
-    for (auto& bushalte : bushaltes) {
-        // Skip bus stops with no bus
-        if (!bushalte.isBusGestopt()) {
-            continue;
-        }
-
-        // Update waiting time
-        if (bushalte.updateWachttijd(tijdstap)) {
-            // Waiting time is over, find the bus
-            for (auto& voertuig : voertuigen) {
-                if (voertuig.isBus() && voertuig.isWaitingAtBusStop() &&
-                    voertuig.getBaanNaam() == bushalte.getBaan() &&
-                    std::abs(voertuig.getPositie() - bushalte.getPositie()) < 0.5) {
-
-                    // Bus can continue
-                    voertuig.setIsWaitingAtBusStop(false);
-                    bushalte.setBusLeft();
-                    break;
-                }
-            }
-        }
-    }
-}
-
-/**
- * @brief Process all intersections in the simulation
- */
-void simulatie::verwerkKruispunten() {
-    REQUIRE(properlyInitialized(), "verwerkVoertuigen moet eindigen in een geldige toestand.");
-    REQUIRE(verkeerssituatie.properlyInitialized(), "voertuig moet correct ingesteld zijn.");
-    std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
-
-    // Process each vehicle
-    for (auto& voertuig : voertuigen) {
-        // Skip vehicles waiting at bus stops
-        if (voertuig.isWaitingAtBusStop()) {
-            continue;
-        }
-
-        // Find the next intersection for this vehicle
-        Kruispunt* eerstvolgendeKruispunt = verkeerssituatie.zoekEerstvolgendeKruispunt(voertuig);
-
-        if (eerstvolgendeKruispunt != nullptr) {
-            // Check if the vehicle should move to the intersection
-            if (moetNaarKruispunt(voertuig, *eerstvolgendeKruispunt)) {
-                verplaatsVoertuigNaKruispunt(voertuig, *eerstvolgendeKruispunt);
-            }
-        }
-    }
-}
-
-/**
- * @brief Check if a vehicle should stop at a bus stop
- * @param voertuig Vehicle to check
- * @param halte Bus stop to check
- * @return true if the bus should stop at the bus stop, false otherwise
- */
-bool simulatie::moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& halte) const {
-    REQUIRE(properlyInitialized(), "moetStoppenBijHalte moet eindigen in een geldige toestand.");
-
-    // Only buses should stop at bus stops
-    if (!voertuig.isBus()) {
-        return false;
-    }
-
-    // Check if the bus is on the same road as the bus stop
-    if (voertuig.getBaanNaam() != halte.getBaan()) {
-        return false;
-    }
-
-    // Distance to the bus stop
-    double afstand = halte.getPositie() - voertuig.getPositie();
-
-    // If the bus is very close to the stop or has passed it
-    if (afstand <= 0.5 && afstand >= -0.5) {
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * @brief Check if a vehicle can move to an intersection
- * @param voertuig Vehicle to check
- * @param kruispunt Intersection to check
- * @return true if the vehicle should be moved to an intersection, false otherwise
- */
-bool simulatie::moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kruispunt) const {
-    REQUIRE(properlyInitialized(), "moetNaarKruispunt moet eindigen in een geldige toestand.");
-
-    // Check if the vehicle is on a road that is part of the intersection
-    if (!kruispunt.bevatBaan(voertuig.getBaanNaam())) {
-        return false;
-    }
-
-    // Get the position of the intersection on the road
-    double kruispuntPositie = kruispunt.getPositieOpBaan(voertuig.getBaanNaam());
-
-    // Distance to the intersection
-    double afstand = kruispuntPositie - voertuig.getPositie();
-
-    // If the vehicle is very close to the intersection or has passed it
-    if (afstand <= 0.5 && afstand >= -0.5) {
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * @brief Move a vehicle to a new road after an intersection
- * @param voertuig The vehicle to move
- * @param kruispunt The intersection where the vehicle is
- * @return true if the vehicle was moved, false otherwise
- */
-bool simulatie::verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt& kruispunt) {
-    REQUIRE(properlyInitialized(), "verplaatsVoertuigNaKruispunt moet eindigen in een geldige toestand.");
-    REQUIRE(voertuig.properlyInitialized(), "voertuig moet eindigen in een geldige toestand.");
-
-    // Choose a random road to continue on
-    std::string nieuweBaan = kruispunt.kiesRandomBaan(voertuig.getBaanNaam());
-
-    // If no valid road was found, remove the vehicle
-    if (nieuweBaan.empty()) {
-        return false;
-    }
-
-    // Move the vehicle to the new road at position 0
-    voertuig.setBaanNaam(nieuweBaan);
-    voertuig.setPositie(0);
-
-    ENSURE(!voertuig.getBaan().empty(), "voertuig moet na verplaatsing een geldige baan hebben.");
-    ENSURE(voertuig.getPositie() == 0, "voertuig moet na verplaatsing op positie 0 starten.");
-    return true;
-
-}
-
-/**
- * @brief Generate new vehicles in the simulation from generators
- */
-void simulatie::genereerNieuweVoertuigen() {
-    REQUIRE(properlyInitialized(), "genereerNieuweVoertuigen moet eindigen in een geldige toestand.");
-    const std::vector<VoertuigGenerator>& generators = verkeerssituatie.getVoertuigGenerators();
-
-    for (const auto& generator : generators) {
-        static std::map<std::string, double> laatsteGeneratieTijd;
-
-        // If this is the first time, initialize the last generation time
-        if (laatsteGeneratieTijd.find(generator.getBaanNaam()) == laatsteGeneratieTijd.end()) {
-            laatsteGeneratieTijd[generator.getBaanNaam()] = 0.0;
-        }
-
-        // Check if it's time to generate a new vehicle
-        if (huidigeSimulatieTijd - laatsteGeneratieTijd[generator.getBaanNaam()] >= generator.getFrequentie()) {
-            // Generate a new vehicle at position 0 of the road
-            if (genereertVoertuig(generator.getBaanNaam(), 0.0, generator.getType())) {
-                laatsteGeneratieTijd[generator.getBaanNaam()] = huidigeSimulatieTijd;
-                ENSURE(laatsteGeneratieTijd[generator.getBaanNaam()] == huidigeSimulatieTijd, "Laatste generatie tijd moet gelijk zijn met huidige stimulatie tijd.");
-            }
-        }
-    }
-}
-
-/**
- * @brief Generate a new vehicle on a road
- * @param baanNaam Road name
- * @param positie Position
- * @param type Vehicle type
- * @return true if the vehicle was generated successfully
- */
-bool simulatie::genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type) {
-    REQUIRE(properlyInitialized(), "Simutaltie moet eindigen in een geldige toestand.");
-    REQUIRE(!baanNaam.empty(), "baanNaam mag niet leeg zijn.");
-    REQUIRE(positie >= 0.0, "positie moet positief zijn.");
-    REQUIRE(!type.empty(), "Voertuigtype mag niet leeg zijn.");
-    // Check if the road exists
-    auto baanIt = verkeerssituatie.getBanen().find(baanNaam);
-    if (baanIt == verkeerssituatie.getBanen().end()) {
-        return false;
-    }
-
-    // Check if there is already a vehicle near the position
-    for (const auto& voertuig : verkeerssituatie.getVoertuigen()) {
-        if (voertuig.getBaanNaam() == baanNaam) {
-            double afstand = std::abs(voertuig.getPositie() - positie);
-
-            // If there is already a vehicle too close, don't generate a new one
-            // Use 2 * vehicle length as minimum distance
-            if (afstand < 2 * voertuig.getLengte()) {
+        // Controleer of voertuig correct geïnitialiseerd is
+        try {
+            if (!nieuwVoertuig->properlyInitialized()) {
                 return false;
             }
+        } catch (...) {
+            return false;
         }
+
+        // Voeg het voertuig toe aan de verkeerssituatie
+        try {
+            return verkeerssituatie.voegVoertuigToe(std::move(nieuwVoertuig));
+        } catch (const std::exception& e) {
+            std::cerr << "Fout bij toevoegen voertuig: " << e.what() << std::endl;
+            return false;
+        } catch (...) {
+            return false;
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout in genereertVoertuig: " << e.what() << std::endl;
+        return false;
+    } catch (...) {
+        std::cerr << "Onbekende fout in genereertVoertuig" << std::endl;
+        return false;
     }
-
-    // Create and add the new vehicle
-    Voertuig nieuwVoertuig(baanNaam, positie, type);
-    return verkeerssituatie.voegVoertuigToe(nieuwVoertuig);
 }
 
 /**
- * @brief Enable or disable automatic vehicle generation
- * @param genereer Whether to automatically generate vehicles
- */
-void simulatie::setAutoGenereerVoertuigen(bool genereer) {
-    autoGenereerVoertuigen = genereer;
-}
-
-/**
- * @brief Collect simulation statistics
+ * @brief Verzamel simulatiestatistieken
  */
 void simulatie::verzamelStatistieken() {
-    REQUIRE(properlyInitialized(), "verzamelStatistieken moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verzamelStatistieken");
 
-    const std::vector<Voertuig>& voertuigen = verkeerssituatie.getVoertuigen();
+    try {
+        // Update aantal voertuigen
+        const auto& voertuigen = verkeerssituatie.getVoertuigen();
+        aantalVoertuigen = static_cast<int>(voertuigen.size());
 
-    totaleTijd += tijdstap;
+        // Bereken gemiddelde snelheid
+        double totaleSnelheid = 0.0;
+        int geldigeTeller = 0;
 
-    // Count the number of vehicles currently in the simulation
-    aantalVoertuigen = voertuigen.size();
+        for (const auto& voertuig : voertuigen) {
+            if (!voertuig) {
+                continue;
+            }
 
-    // Calculate average speed of all vehicles
-    double totaleSnelheid = 0.0;
-    for (const Voertuig& voertuig : voertuigen) {
-        totaleSnelheid += voertuig.getSnelheid();
+            try {
+                totaleSnelheid += voertuig->getSnelheid();
+                geldigeTeller++;
+            } catch (...) {
+                continue; // Skip voertuigen met problemen
+            }
+        }
+
+        // Voorkom deling door nul
+        if (geldigeTeller > 0) {
+            gemiddeldeSnelheid = totaleSnelheid / geldigeTeller;
+        } else {
+            gemiddeldeSnelheid = 0.0;
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verzamelen statistieken: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Onbekende fout bij verzamelen statistieken" << std::endl;
     }
-
-    if (!voertuigen.empty()) {
-        gemiddeldeSnelheid = totaleSnelheid / voertuigen.size();
-    } else {
-        gemiddeldeSnelheid = 0.0;
-    }
-
-    // Increment counter for removed vehicles
-    totaalVerwijderdeVoertuigen += verwijderdeVoertuigenTeller;
-    verwijderdeVoertuigenTeller = 0;
-
-    ENSURE(gemiddeldeSnelheid >= 0.0, "gemiddelde snelheid moet positief zijn.");
 }
 
-/**
- * @brief Increment the counter for removed vehicles
- */
-void simulatie::verhoogVerwijderdeVoertuigenTeller() {
-    REQUIRE(properlyInitialized(), "verhoogVerwijderdeVoertuigenTeller moet eindigen in een geldige toestand.");
-    verwijderdeVoertuigenTeller++;
-}
-
-// Getters for simulation properties and statistics
 double simulatie::getHuidigeSimulatieTijd() const {
-    REQUIRE(properlyInitialized(), "getHuidigeSimulatieTijd moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getHuidigeSimulatieTijd");
     return huidigeSimulatieTijd;
 }
 
 double simulatie::getTijdstap() const {
-    REQUIRE(properlyInitialized(), "getTijdstap moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getTijdstap");
     return tijdstap;
 }
 
 int simulatie::getAantalVoertuigen() const {
-    REQUIRE(properlyInitialized(), "getAantalVoertuigen moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getAantalVoertuigen");
     return aantalVoertuigen;
 }
 
 double simulatie::getGemiddeldeSnelheid() const {
-    REQUIRE(properlyInitialized(), "getGemiddeldeSnelheid moet eindigen in een geldige toestand.");
-    return gemiddeldeSnelheid;
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getGemiddeldeSnelheid");
+    // Rond af tot 2 decimalen
+    return std::round(gemiddeldeSnelheid * 100.0) / 100.0;
 }
 
 int simulatie::getTotaalVerwijderdeVoertuigen() const {
-    REQUIRE(properlyInitialized(), "getTotaalVerwijderdeVoertuigen moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getTotaalVerwijderdeVoertuigen");
     return totaalVerwijderdeVoertuigen;
 }
 
 double simulatie::getTotaleTijd() const {
-    REQUIRE(properlyInitialized(), "getTotaleTijd moet eindigen in een geldige toestand.");
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij getTotaleTijd");
     return totaleTijd;
+}
+
+void simulatie::setAutoGenereerVoertuigen(bool waarde) {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij setAutoGenereerVoertuigen");
+    autoGenereerVoertuigen = waarde;
+    ENSURE(autoGenereerVoertuigen == waarde, "autoGenereerVoertuigen werd niet correct ingesteld");
+}
+
+void simulatie::verhoogVerwijderdeVoertuigenTeller() {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verhoogVerwijderdeVoertuigenTeller");
+
+    try {
+        verwijderdeVoertuigenTeller++;
+        totaalVerwijderdeVoertuigen++;
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verhogen verwijderde voertuigen teller: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Onbekende fout bij verhogen verwijderde voertuigen teller" << std::endl;
+    }
+}
+
+bool simulatie::moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kruispunt) const {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij moetNaarKruispunt");
+
+    try {
+        if (!voertuig.properlyInitialized() || !kruispunt.properlyInitialized()) {
+            return false;
+        }
+
+        std::string voertuigBaan = voertuig.getBaanNaam();
+
+        // Controleer of het voertuig op een baan van het kruispunt rijdt
+        if (!kruispunt.bevatBaan(voertuigBaan)) {
+            return false;
+        }
+
+        // Haal de kruispuntpositie op voor deze baan
+        double kruispuntPositie = kruispunt.getPositieOpBaan(voertuigBaan);
+        if (kruispuntPositie < 0) {
+            return false; // Baan niet gevonden in kruispunt
+        }
+
+        // Controleer of het voertuig het kruispunt nadert (binnen 5 meter)
+        double voertuigPositie = voertuig.getPositie();
+        double afstandTotKruispunt = std::abs(voertuigPositie - kruispuntPositie);
+
+        return afstandTotKruispunt <= 5.0;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij controleren kruispunt nadering: " << e.what() << std::endl;
+        return false;
+    } catch (...) {
+        std::cerr << "Onbekende fout bij controleren kruispunt nadering" << std::endl;
+        return false;
+    }
+}
+
+bool simulatie::verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt& kruispunt) {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij verplaatsVoertuigNaKruispunt");
+
+    try {
+        if (!voertuig.properlyInitialized() || !kruispunt.properlyInitialized()) {
+            return false;
+        }
+
+        std::string huidigeWeg = voertuig.getBaanNaam();
+
+        // Controleer of het voertuig daadwerkelijk bij een kruispunt is
+        if (!moetNaarKruispunt(voertuig, kruispunt)) {
+            return false;
+        }
+
+        // Krijg alle banen van het kruispunt
+        auto banenInKruispunt = kruispunt.getBanen();
+        if (banenInKruispunt.size() <= 1) {
+            return false; // Geen alternatieve banen beschikbaar
+        }
+
+        // Filter banen om de huidige baan uit te sluiten
+        std::vector<std::pair<std::string, double>> alternatieveBanen;
+        for (const auto& baan : banenInKruispunt) {
+            if (baan.first != huidigeWeg) {
+                // Controleer of de baan nog bestaat in de verkeerssituatie
+                const auto& alleBanen = verkeerssituatie.getBanen();
+                if (alleBanen.find(baan.first) != alleBanen.end()) {
+                    alternatieveBanen.push_back(baan);
+                }
+            }
+        }
+
+        if (alternatieveBanen.empty()) {
+            return false; // Geen geldige alternatieve banen
+        }
+
+        // Kies willekeurig een nieuwe baan
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, alternatieveBanen.size() - 1);
+        int index = dis(gen);
+
+        const auto& nieuweBaan = alternatieveBanen[index];
+
+        // Bewaar voertuig eigenschappen
+        double oudeSnelheid = voertuig.getSnelheid();
+        double oudeVersnelling = voertuig.getVersnelling();
+
+        // Verplaats voertuig naar nieuwe baan
+        voertuig.setBaanNaam(nieuweBaan.first);
+
+        // Positioneer voertuig net na het kruispunt op de nieuwe baan
+        double nieuwePositie = nieuweBaan.second + 2.0; // 2 meter na kruispunt
+        voertuig.setPositie(nieuwePositie);
+
+        // Behoud snelheid en versnelling
+        voertuig.setSnelheid(oudeSnelheid);
+        voertuig.setVersnelling(oudeVersnelling);
+
+        return true;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij verplaatsen voertuig na kruispunt: " << e.what() << std::endl;
+        return false;
+    } catch (...) {
+        std::cerr << "Onbekende fout bij verplaatsen voertuig na kruispunt" << std::endl;
+        return false;
+    }
+}
+
+bool simulatie::moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& halte) const {
+    REQUIRE(properlyInitialized(), "simulatie is niet correct geïnitialiseerd bij moetStoppenBijHalte");
+
+    try {
+        if (!voertuig.properlyInitialized() || !halte.properlyInitialized()) {
+            return false;
+        }
+
+        // Alleen bussen stoppen bij bushaltes
+        if (!voertuig.isBus()) {
+            return false;
+        }
+
+        // Controleer of voertuig op dezelfde baan is als de bushalte
+        if (voertuig.getBaanNaam() != halte.getBaan()) {
+            return false;
+        }
+
+        // Controleer of er al een bus bij de halte staat
+        if (halte.isBusGestopt()) {
+            return false; // Halte is bezet
+        }
+
+        // Controleer of de bus al aan het wachten is bij een halte
+        if (voertuig.isWaitingAtStop()) {
+            return false; // Bus staat al bij een halte
+        }
+
+        // Bereken afstand tot bushalte
+        double voertuigPositie = voertuig.getPositie();
+        double haltePositie = halte.getPositie();
+        double afstand = haltePositie - voertuigPositie;
+
+        // Bus moet de halte naderen (binnen 10 meter en nog niet voorbij)
+        if (afstand >= 0 && afstand <= 10.0) {
+            return true;
+        }
+
+        return false;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Fout bij controleren bushalte stop: " << e.what() << std::endl;
+        return false;
+    } catch (...) {
+        std::cerr << "Onbekende fout bij controleren bushalte stop" << std::endl;
+        return false;
+    }
 }

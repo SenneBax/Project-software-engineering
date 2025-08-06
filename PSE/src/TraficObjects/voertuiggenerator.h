@@ -1,5 +1,5 @@
 /**
- * @file voertuiggenerator.h
+* @file voertuiggenerator.h
  * @brief Header voor de VoertuigGenerator klasse
  */
 
@@ -15,32 +15,50 @@ class VoertuigGenerator {
 public:
     /**
      * @brief Constructor
-     * @param baan De naam van de baan waar voertuigen gegenereerd worden
-     * @param frequentie De frequentie waarmee voertuigen gegenereerd worden
-     * @param type Het type voertuigen dat gegenereerd wordt
+     * @param baan De naam van de baan
+     * @param frequentie Generatiefrequentie (voertuigen/tijdseenheid)
+     * @param type Voertuigtype (standaard "auto")
+     * @pre !baan.empty(), "Baannaam mag niet leeg zijn"
+     * @pre frequentie > 0, "Frequentie moet positief zijn"
+     * @post properlyInitialized()
+     * @post getBaanNaam() == baan
+     * @post getFrequentie() == frequentie
+     * @post getType() == type
      */
     VoertuigGenerator(const std::string& baan, int frequentie, const std::string& type = "auto");
 
     /**
-     * @brief Geeft de naam van de baan terug
-     * @return De naam van de baan
+     * @brief Geeft de baannaam terug
+     * @return Niet-lege baannaam
+     * @pre properlyInitialized()
+     * @post !return.empty()
      */
     std::string getBaanNaam() const;
 
     /**
-     * @brief Geeft de frequentie terug
-     * @return De frequentie
+     * @brief Geeft de generatiefrequentie terug
+     * @return Positieve frequentie
+     * @pre properlyInitialized()
+     * @post return > 0
      */
     int getFrequentie() const;
 
     /**
-     * @brief Geeft het type voertuigen terug
-     * @return Het type voertuigen
+     * @brief Geeft het voertuigtype terug
+     * @return Geldig voertuigtype
+     * @pre properlyInitialized()
+     * @post !return.empty()
      */
     std::string getType() const;
 
-    // Andere methoden...
-
+   /**
+     * @brief Controleer of het VerkeersSituatie object correct is geïnitialiseerd
+     * @return true als het object correct is geïnitialiseerd, false anders
+     * @post return waarde geeft aan of object in geldige toestand verkeert
+     *
+     * Design by Contract verificatie methode om object integriteit
+     * te controleren.
+     */
     bool properlyInitialized() const;
 
 

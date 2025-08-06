@@ -1,171 +1,260 @@
 /**
  * @file simulatie.h
- * @brief Definition of the simulation class (Revised for better modularity)
+ * @brief Header voor de simulatie klasse
  */
 
 #ifndef SIMULATIE_H
 #define SIMULATIE_H
 
 #include "../Situation/situatie.h"
-
+#include <map>
+#include <string>
 
 /**
  * @class simulatie
- * @brief Class for simulating a traffic situation
+ * @brief Klasse voor het simuleren van een verkeerssituatie met voertuigen, verkeerslichten en kruispunten
+ *
+ * Deze klasse implementeert een discrete-time simulatie van verkeerssituaties. De simulatie
+ * verwerkt voertuigbewegingen, verkeerslichtcycli, bushalte-interacties en kruispuntlogica.
+ * Standaardwaarden voor fysieke parameters zijn gebaseerd op sectie B.6 van de specificatie.
  */
 class simulatie {
 private:
-    VerkeersSituatie& verkeerssituatie;
-    double tijdstap;
-    double huidigeSimulatieTijd;
-    bool autoGenereerVoertuigen = false;
+    VerkeersSituatie& verkeerssituatie; ///< Referentie naar de te simuleren verkeerssituatie
+    double tijdstap;                     ///< Tijdstap voor de simulatie in seconden
+    double huidigeSimulatieTijd;         ///< Huidige simulatietijd in seconden
+    bool autoGenereerVoertuigen;         ///< Of voertuigen automatisch gegenereerd moeten worden
 
-    // Default values from section B.6
-    double vertraagAfstand;      /**< Δxs - slow-down distance */
-    double stopAfstand;          /**< Δxs0 - stop distance */
-    double vertraagFactor;       /**< s - slow-down factor */
+    std::map<std::string, double> lastGenerationTimes; ///< Laatste generatietijd per generator
 
-    // Statistics
-    int aantalVoertuigen = 0;
-    double gemiddeldeSnelheid = 0.0;
-    int verwijderdeVoertuigenTeller = 0;
-    int totaalVerwijderdeVoertuigen = 0;
-    double totaleTijd = 0.0;
+    // Standaardwaarden uit sectie B.6
+    double vertraagAfstand;      /**< Δxs - vertraagafstand in meters */
+    double stopAfstand;          /**< Δxs0 - stopafstand in meters */
+    double vertraagFactor;       /**< s - vertraagfactor (dimensieloos) */
 
-    simulatie* _initCheck;
+    // Statistieken
+    int aantalVoertuigen;           ///< Huidig aantal voertuigen in de simulatie
+    double gemiddeldeSnelheid;      ///< Gemiddelde snelheid van alle voertuigen
+    int verwijderdeVoertuigenTeller; ///< Aantal voertuigen verwijderd in laatste stap
+    int totaalVerwijderdeVoertuigen; ///< Totaal aantal verwijderde voertuigen
+    double totaleTijd;              ///< Totale gesimuleerde tijd
+
+    simulatie* _initCheck; ///< Pointer voor Design by Contract verificatie
+
     /**
-     * @brief Process all traffic lights in the simulation
+     * @brief Verwerk alle verkeerslichten in de simulatie
+     * @pre properlyInitialized() == true
+     * @post Alle verkeerslichten zijn bijgewerkt volgens hun cyclustijd
      */
     void verwerkVerkeerslichten();
 
     /**
-     * @brief Check if a vehicle is approaching a traffic light
-     * @param voertuig The vehicle to check
-     * @param verkeerslicht The traffic light to check
-     * @return Response code: 0 = no effect, 1 = slow down, 2 = stop, 3 = pass through
+     * @brief Controleer of een voertuig een verkeerslicht nadert en bepaal actie
+     * @param voertuig Het te controleren voertuig
+     * @param verkeerslicht Het te controleren verkeerslicht
+     * @return Responscode: 0 = geen effect, 1 = vertragen, 2 = stoppen, 3 = doorrijden
+     * @pre properlyInitialized() == true
+     * @pre voertuig.properlyInitialized() == true
+     * @pre verkeerslicht.properlyInitialized() == true
+     * @post Prioriteitsvoertuigen worden geregistreerd bij slimme verkeerslichten
      */
     int controleerVerkeerslichtNadering(Voertuig& voertuig, const Verkeerslicht& verkeerslicht);
 
     /**
-     * @brief Process all vehicles in the simulation
+     * @brief Verwerk alle voertuigen in de simulatie
+     * @pre properlyInitialized() == true
+     * @post Alle voertuigen hebben nieuwe posities en snelheden
+     * @post Voertuigen die de baan verlaten zijn verwijderd
+     * @post verwijderdeVoertuigenTeller is bijgewerkt
      */
     void verwerkVoertuigen();
 
     /**
-     * @brief Process all bus stops in the simulation
+     * @brief Verwerk alle bushaltes in de simulatie
+     * @pre properlyInitialized() == true
+     * @post Bussen stoppen bij bushaltes en vertrekken na wachttijd
+     * @post Bushalte bezettingsstatus is correct bijgewerkt
      */
     void verwerkBushaltes();
 
     /**
-     * @brief Process all intersections in the simulation
+     * @brief Verwerk alle kruispunten in de simulatie
+     * @pre properlyInitialized() == true
+     * @post Voertuigen bij kruispunten worden verplaatst naar nieuwe banen
      */
     void verwerkKruispunten();
 
     /**
-     * @brief Generate new vehicles in the simulation from generators
+     * @brief Genereer nieuwe voertuigen vanaf voertuiggeneratoren - VEILIGE VERSIE
+     * @pre properlyInitialized() == true
+     * @pre autoGenereerVoertuigen == true
+     * @post Nieuwe voertuigen zijn toegevoegd volgens generator frequenties
      */
     void genereerNieuweVoertuigen();
 
     /**
-     * @brief Generate a new vehicle on a road
-     * @param baanNaam Road name
-     * @param positie Position
-     * @param type Vehicle type
-     * @return true if the vehicle was generated successfully
+     * @brief Genereer een nieuw voertuig op een specifieke baan
+     * @param baanNaam Naam van de baan waarop het voertuig wordt geplaatst
+     * @param positie Startpositie op de baan in meters
+     * @param type Type voertuig ("auto", "bus", "brandweerwagen", etc.)
+     * @return true als het voertuig succesvol werd gegenereerd, false indien niet
+     * @pre properlyInitialized() == true
+     * @pre !baanNaam.empty()
+     * @pre positie >= 0.0
+     * @post Bij succes: nieuw voertuig is toegevoegd aan verkeerssituatie
      */
     bool genereertVoertuig(const std::string& baanNaam, double positie, const std::string& type = "auto");
 
     /**
-     * @brief Increment the counter for removed vehicles
+     * @brief Verhoog de teller voor verwijderde voertuigen
+     * @pre properlyInitialized() == true
+     * @post verwijderdeVoertuigenTeller is verhoogd
+     * @deprecated Deze methode wordt niet meer gebruikt
      */
     void verhoogVerwijderdeVoertuigenTeller();
 
     /**
-     * @brief Collect simulation statistics
+     * @brief Verzamel simulatiestatistieken
+     * @pre properlyInitialized() == true
+     * @post aantalVoertuigen en gemiddeldeSnelheid zijn bijgewerkt
      */
     void verzamelStatistieken();
 
     /**
-     * @brief Check if a vehicle can move to an intersection
-     * @param voertuig Vehicle to check
-     * @param kruispunt Intersection to check
-     * @return true if the vehicle should be moved to an intersection, false otherwise
+     * @brief Controleer of een voertuig naar een kruispunt moet worden verplaatst
+     * @param voertuig Te controleren voertuig
+     * @param kruispunt Te controleren kruispunt
+     * @return true als het voertuig naar een kruispunt moet worden verplaatst, false indien niet
+     * @pre properlyInitialized() == true
+     * @pre voertuig.properlyInitialized() == true
+     * @pre kruispunt.properlyInitialized() == true
      */
     bool moetNaarKruispunt(const Voertuig& voertuig, const Kruispunt& kruispunt) const;
 
     /**
-     * @brief Move a vehicle to a new road after an intersection
-     * @param voertuig The vehicle to move
-     * @param kruispunt The intersection where the vehicle is
-     * @return true if the vehicle was moved, false otherwise
+     * @brief Verplaats een voertuig naar een nieuwe baan na een kruispunt
+     * @param voertuig Het te verplaatsen voertuig
+     * @param kruispunt Het kruispunt waar het voertuig zich bevindt
+     * @return true als het voertuig werd verplaatst, false indien niet
+     * @pre properlyInitialized() == true
+     * @pre voertuig.properlyInitialized() == true
+     * @pre kruispunt.properlyInitialized() == true
+     * @post Bij succes: voertuig bevindt zich op nieuwe baan
      */
     bool verplaatsVoertuigNaKruispunt(Voertuig& voertuig, const Kruispunt& kruispunt);
 
     /**
-     * @brief Check if a vehicle should stop at a bus stop
-     * @param voertuig Vehicle to check
-     * @param halte Bus stop to check
-     * @return true if the bus should stop at the bus stop, false otherwise
+     * @brief Controleer of een voertuig bij een bushalte moet stoppen
+     * @param voertuig Te controleren voertuig
+     * @param halte Te controleren bushalte
+     * @return true als de bus bij de bushalte moet stoppen, false indien niet
+     * @pre properlyInitialized() == true
+     * @pre voertuig.properlyInitialized() == true
+     * @pre halte.properlyInitialized() == true
+     * @deprecated Deze methode wordt niet gebruikt in de huidige implementatie
      */
     bool moetStoppenBijHalte(const Voertuig& voertuig, const Bushalte& halte) const;
 
 public:
     /**
-     * @brief Constructor
-     * @param situatie Reference to the traffic situation to simulate
-     * @param tijdstap The time step for the simulation in seconds
+     * @brief Constructor voor de simulatieklasse
+     * @param situatie Referentie naar de te simuleren verkeerssituatie
+     * @param tijdstap De tijdstap voor de simulatie in seconden (standaard 0.0166s voor 60fps)
+     * @pre situatie.properlyInitialized() == true
+     * @pre tijdstap > 0.0 of tijdstap wordt automatisch ingesteld op 0.0166
+     * @post properlyInitialized() == true
+     * @post getHuidigeSimulatieTijd() == 0.0
+     * @post getTijdstap() == tijdstap (of 0.0166 als tijdstap <= 0)
      */
-    simulatie(VerkeersSituatie& situatie, double tijdstap);
+    simulatie(VerkeersSituatie& situatie, double tijdstap = 0.0166);
 
     /**
-     * @brief Perform one simulation step
+     * @brief Copy constructor
+     */
+    simulatie(const simulatie&) = delete;
+
+    /**
+     * @brief Assignment operator
+     */
+    simulatie& operator=(const simulatie&) = delete;
+
+    /**
+     * @brief Move constructor
+     */
+    simulatie(simulatie&&) = delete;
+
+    /**
+     * @brief Move assignment operator
+     */
+    simulatie& operator=(simulatie&&) = delete;
+
+    /**
+     * @brief Voer één simulatiestap uit
+     * @pre properlyInitialized() == true
+     * @post huidigeSimulatieTijd is verhoogd met tijdstap
+     * @post alle verkeerselementen zijn bijgewerkt volgens hun regels
+     * @post statistieken zijn bijgewerkt
      */
     void stap();
 
     /**
-     * @brief Enable or disable automatic vehicle generation
-     * @param genereer Whether to automatically generate vehicles
+     * @brief Schakel automatische voertuiggeneratie in of uit
+     * @param genereer Of voertuigen automatisch moeten worden gegenereerd
+     * @pre properlyInitialized() == true
+     * @post autoGenereerVoertuigen == genereer
      */
     void setAutoGenereerVoertuigen(bool genereer);
 
     /**
-     * @brief Get the current simulation time
-     * @return The current simulation time
+     * @brief Haal de huidige simulatietijd op
+     * @return De huidige simulatietijd in seconden
+     * @pre properlyInitialized() == true
      */
     [[nodiscard]] double getHuidigeSimulatieTijd() const;
 
     /**
-     * @brief Get the time step
-     * @return The time step
+     * @brief Haal de tijdstap op
+     * @return De tijdstap in seconden
+     * @pre properlyInitialized() == true
      */
     [[nodiscard]] double getTijdstap() const;
 
     /**
-     * @brief Get the number of vehicles
-     * @return The number of vehicles
+     * @brief Haal het huidige aantal voertuigen op
+     * @return Het aantal voertuigen in de simulatie
+     * @pre properlyInitialized() == true
      */
     [[nodiscard]] int getAantalVoertuigen() const;
 
     /**
-     * @brief Get the average speed
-     * @return The average speed
+     * @brief Haal de gemiddelde snelheid van alle voertuigen op
+     * @return De gemiddelde snelheid in m/s
+     * @pre properlyInitialized() == true
+     * @post result >= 0.0
      */
     [[nodiscard]] double getGemiddeldeSnelheid() const;
 
     /**
-     * @brief Get the total number of removed vehicles
-     * @return The total number of removed vehicles
+     * @brief Haal het totale aantal verwijderde voertuigen op
+     * @return Het totale aantal verwijderde voertuigen sinds start simulatie
+     * @pre properlyInitialized() == true
+     * @post result >= 0
      */
     [[nodiscard]] int getTotaalVerwijderdeVoertuigen() const;
 
     /**
-     * @brief Get the total time
-     * @return The total time
+     * @brief Haal de totale gesimuleerde tijd op
+     * @return De totale tijd sinds start van de simulatie in seconden
+     * @pre properlyInitialized() == true
+     * @post result >= 0.0
      */
     [[nodiscard]] double getTotaleTijd() const;
 
-
-     bool properlyInitialized() const;
+    /**
+     * @brief Controleer of het simulatie object correct is geïnitialiseerd
+     * @return true als het object correct is geïnitialiseerd, false anders
+     */
+    bool properlyInitialized() const;
 };
 
 #endif //SIMULATIE_H
