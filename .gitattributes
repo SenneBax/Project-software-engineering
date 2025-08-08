@@ -1,0 +1,9 @@
+# Mark documentation as documentation (for github)
+Doxygen/* linguist-documentation
+# To make sure
+html/* linguist-documentation
+
+# To mark the C++ files
+*.cpp linguist-language=C++
+*.h linguist-language=C++
+*.hpp linguist-language=C++
