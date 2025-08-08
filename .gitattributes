@@ -7,3 +7,7 @@ html/* linguist-documentation
 *.cpp linguist-language=C++
 *.h linguist-language=C++
 *.hpp linguist-language=C++
+
+# Mark generated files
+docs/html/* linguist-generated
+doxygen/html/* linguist-generated
