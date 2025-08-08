@@ -1,13 +1,26 @@
-# Mark documentation as documentation (for github)
-Doxygen/* linguist-documentation
-# To make sure
+# Mark all HTML as documentation
+*.html linguist-documentation
+*.htm linguist-documentation
+*.css linguist-documentation
+*.js linguist-documentation
+
+# Mark documentation directories
+docs/* linguist-documentation
 html/* linguist-documentation
+doxygen/* linguist-documentation
+Doxygen/* linguist-documentation
 
-# To mark the C++ files
+# Force C++ detection
 *.cpp linguist-language=C++
+*.cc linguist-language=C++
+*.cxx linguist-language=C++
+*.c++ linguist-language=C++
 *.h linguist-language=C++
+*.hh linguist-language=C++
 *.hpp linguist-language=C++
+*.hxx linguist-language=C++
 
-# Mark generated files
-docs/html/* linguist-generated
-doxygen/html/* linguist-generated
+# Mark generated files as generated (not just documentation)
+docs/**/* linguist-generated
+doxygen/**/* linguist-generated
+html/**/* linguist-generated
